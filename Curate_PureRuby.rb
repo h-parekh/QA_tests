@@ -10,16 +10,16 @@ Capybara.current_driver = :poltergeist
 
 #If you don't provide this, Capybara will pick  the selenium driver for javascript_driver by default
 Capybara.javascript_driver = :poltergeist
+#Capybara.ignore_hidden_elements = false
 
 Capybara.app_host = 'https://curatepprd.library.nd.edu/'
 
 RSpec.configure do |config|
     config.include Capybara::DSL
-
 end
 
 feature 'Browsing', :js => true do
-    scenario 'Step 1: User loads homepage' do
+    scenario 'Login to Curate' do
         visit '/'
         expect(page).to have_link 'Log In'
         #Using the same has_link assertion with options
@@ -32,26 +32,42 @@ feature 'Browsing', :js => true do
         #page.save_screenshot('curate_test_screenshot.png')
         #page.save_and_open_screenshot('curate_test_screenshot2.png')
 
-        #page.should have_selector(:link_or_button, 'Log In')
-
         click_on('Log In')
         if expect(page).to have_field 'username', type: 'text'
           print "First login, enter username and password\n"
-          fill_in('username', with: 'johndoe')
+          fill_in('username', with: 'username')
         else
           expect(page).to have_field 'password', type: 'password'
           print "Trusted device, needs only password\n"
         end
 
         print "Filling in password next\n"
-        fill_in('password', with: 'johndoe password')
+        fill_in('password', with: 'password')
 
-        print "Need some form of basic auth logic"
+        print "Logging in with username and password fields\n"
+        puts current_url
         click_on('LOGIN')
 
-        # if expect(page).to have_link 'Log Out'
-        #   print "Logged in succesfully)"
-        #   page.save_screenshot('curate_LoginPage_screenshot.png')
+        within('.mfa-text-wrapper') do
+          expect(page).to have_content 'Send'
+        end
+
+
+        print("The next click should send a push to Android (2576)\n")
+        expect(page).to have_button 'LOGIN'
+
+        puts current_url
+        click_on('LOGIN')
+        #Use below syntax if you want to wait
+        #click_on('LOGIN', wait: 60)
+
+        # if expect(page).to have_content('Incorrect NetID or password.')
+        #   print "Succesfull negative login test"
+        # elsif expect(page).to have_content 'Android (2576)'
+        #   page.save_screenshot('curate_test_screenshot.png')
+        #   print "Succesfull postive login test"
         # end
+
+
     end
 end
