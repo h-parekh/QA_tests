@@ -1,6 +1,6 @@
 require 'rubygems'
-require 'capybara/rspec'
 require 'rspec/autorun'
+require 'capybara/rspec'
 require 'capybara/dsl'
 require 'capybara/poltergeist'
 #HighLine provides a robust system for requesting data from a user
@@ -18,6 +18,7 @@ Capybara.javascript_driver = :poltergeist
 
 Capybara.app_host = 'https://curatepprd.library.nd.edu/'
 
+#Gives access to the capybara methods
 RSpec.configure do |config|
     config.include Capybara::DSL
 end
