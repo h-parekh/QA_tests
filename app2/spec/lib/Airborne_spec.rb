@@ -7,7 +7,6 @@ describe 'Step 1: Collections endpoint' do
 
     #headers comes back as a rspec hash, use expect validations using include matchers
     #https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers/include-matcher#hash-usage
-    print headers
     expect(headers).to include(:status => '200 OK')
     expect(body).not_to be_empty
   end

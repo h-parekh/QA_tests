@@ -63,7 +63,7 @@ feature 'User login', :js => true do
         end
 
 
-        print("The next click should send a push to Android (2576)\n")
+        print("The next click should send a push to Android\n")
         expect(page).to have_button 'LOGIN'
 
         puts current_url
