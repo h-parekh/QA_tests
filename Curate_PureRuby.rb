@@ -96,7 +96,7 @@ feature 'User login', :js => true do
                 p_password = ask("Enter INVALID password:  ") { |q| q.echo = "*" }
                 fill_in('password', with: p_password)
 
-                print "Logging in with username and password fields\n"
+                print "Logging in with INVALID username and password fields\n"
 
                 click_on('LOGIN')
                 if expect(page).to have_content 'Incorrect NetID or password.'
