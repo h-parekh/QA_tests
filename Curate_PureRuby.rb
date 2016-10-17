@@ -100,8 +100,20 @@ feature 'User login', :js => true do
 
                 click_on('LOGIN')
                 if expect(page).to have_content 'Incorrect NetID or password.'
-                  print "Successfully tested login with invalid creds"
+                  print "Successfully tested login with invalid creds\n"
                 end
+    end
+
+
+    scenario 'Test 3: Enter text in search box' do
+      visit '/'
+      within('.homepage-search') do
+        expect(page).to have_field 'catalog_search', type: 'search'
+        expect(page).to have_button 'keyword-search-submit'
+        fill_in('catalog_search', with: '')
+        page.save_screenshot('curate_searchBox.png')
+      end
+      print "Successfully tested search box\n"
     end
 
 end
