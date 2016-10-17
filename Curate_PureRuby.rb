@@ -23,7 +23,7 @@ RSpec.configure do |config|
     config.include Capybara::DSL
 end
 
-feature 'User login', :js => true do
+feature 'User Browsing', :js => true do
     scenario 'Test 1: Login to Curate with correct credentials' do
         visit '/'
         expect(page).to have_link 'Log In'
@@ -111,9 +111,16 @@ feature 'User login', :js => true do
         expect(page).to have_field 'catalog_search', type: 'search'
         expect(page).to have_button 'keyword-search-submit'
         fill_in('catalog_search', with: '')
-        page.save_screenshot('curate_searchBox.png')
+        click_on('keyword-search-submit')
+        #page.save_screenshot('curate_searchBox.png')
+        print "Clicked search\n"
       end
-      print "Successfully tested search box\n"
+
+      # expect(page).to have_text('Filter by:')
+      # page.save_screenshot('curate_searchBox2.png')
+      within('main') do
+        expect(page).to have_link('hierarchy_modal', count: 2)
+      end
     end
 
 end
