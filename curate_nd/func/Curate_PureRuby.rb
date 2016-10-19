@@ -5,6 +5,8 @@ require 'capybara/dsl'
 require 'capybara/poltergeist'
 #HighLine provides a robust system for requesting data from a user
 require 'highline/import'
+require 'configuration'
+require 'yaml'
 
 Capybara.run_server = false
 Capybara.current_driver = :poltergeist
@@ -16,7 +18,15 @@ Capybara.javascript_driver = :poltergeist
 #Enable this to work with hidden fields
 #Capybara.ignore_hidden_elements = false
 
-Capybara.app_host = 'https://curatepprd.library.nd.edu/'
+# settings = YAML.load_file('/Users/hparekh/git/QA_tests/curate_nd/config/config.yml')
+# puts settings.inspect
+
+p_env = ask("Enter target env, options are Staging6, Staging8, Staging9, PPRD or PROD:  ") { |q| q.echo = true }
+cnf = YAML::load_file(File.join(__dir__, 'config.yml'))
+puts cnf[p_env]
+
+
+Capybara.app_host = cnf[p_env]
 
 #Gives access to the capybara methods
 RSpec.configure do |config|
