@@ -1,11 +1,11 @@
 require 'rubygems'
-require 'rspec/autorun'
+#use rspec/autorun only when you need to absolutely run *.rb files using ruby command
+#require 'rspec/autorun'
 require 'capybara/rspec'
 require 'capybara/dsl'
 require 'capybara/poltergeist'
 #HighLine provides a robust system for requesting data from a user
 require 'highline/import'
-require 'configuration'
 require 'yaml'
 
 Capybara.run_server = false
@@ -18,12 +18,10 @@ Capybara.javascript_driver = :poltergeist
 #Enable this to work with hidden fields
 #Capybara.ignore_hidden_elements = false
 
-# settings = YAML.load_file('/Users/hparekh/git/QA_tests/curate_nd/config/config.yml')
-# puts settings.inspect
-
-p_env = ask("Enter target env, options are Staging6, Staging8, Staging9, PPRD or PROD:  ") { |q| q.echo = true }
+trigger = YAML::load_file(File.join(__dir__, 'trigger.yml'))
+p_env = trigger['target_env']
+#p_env = ask("Enter target env, options are staging6, staging8, staging9, pprd or prod:  ") { |q| q.echo = true }
 cnf = YAML::load_file(File.join(__dir__, 'config.yml'))
-puts cnf[p_env]
 
 
 Capybara.app_host = cnf[p_env]
