@@ -107,6 +107,7 @@ feature 'User Browsing', :js => true do
 
     scenario 'Test 3: Enter text in search box' do
       visit '/'
+      puts current_url
       within('.homepage-search') do
         expect(page).to have_field 'catalog_search', type: 'search'
         expect(page).to have_button 'keyword-search-submit'
@@ -119,7 +120,7 @@ feature 'User Browsing', :js => true do
       # expect(page).to have_text('Filter by:')
       # page.save_screenshot('curate_searchBox2.png')
       within('main') do
-        expect(page).to have_link('hierarchy_modal', count: 2)
+        expect(page).to have_text('Filter by:')
       end
     end
 
