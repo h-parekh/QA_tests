@@ -18,13 +18,15 @@ Capybara.javascript_driver = :poltergeist
 #Enable this to work with hidden fields
 #Capybara.ignore_hidden_elements = false
 
-trigger = YAML::load_file(File.join(__dir__, 'trigger.yml'))
-p_env = trigger['target_env']
-#p_env = ask("Enter target env, options are staging6, staging8, staging9, pprd or prod:  ") { |q| q.echo = true }
 cnf = YAML::load_file(File.join(__dir__, 'config.yml'))
+trigger = YAML::load_file(File.join(__dir__, 'trigger.yml'))
+target_env = trigger['target']
 
+if target_env.nil? || target_env.to_s == ''
+  target_env = ask("Enter target env, options are staging6, staging8, staging9, pprd or prod:  ") { |q| q.echo = true }
+end
 
-Capybara.app_host = cnf[p_env]
+Capybara.app_host = cnf[target_env]
 
 #Gives access to the capybara methods
 RSpec.configure do |config|
