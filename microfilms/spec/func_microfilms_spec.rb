@@ -42,7 +42,6 @@ feature 'User Browsing', :js => true do
         expect(page).to have_button 'search'
         fill_in('q', with: 'Roman')
         click_on('search')
-        page.save_screenshot('microfilms_searchBox.png')
         print "Clicked search\n"
       end
 
