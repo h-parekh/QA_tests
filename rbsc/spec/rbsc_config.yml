@@ -1,0 +1,3 @@
+local: jello
+pprd: https://ead-preview-pprd.library.nd.edu
+prod: https://ead-preview-prod-vm.library.nd.edu
