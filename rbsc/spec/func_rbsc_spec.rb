@@ -31,20 +31,22 @@ end
 
 Capybara.app_host = cnf[target_env]
 
+
 #Gives access to the capybara methods
 RSpec.configure do |config|
     config.include Capybara::DSL
 end
 
-
-#rescue Capybara::Poltergeist::JavascriptError
 feature 'User Browsing', :js => true do
     scenario 'Load homepage' do
+#      rescue Capybara::Poltergeist::JavascriptError
+      page.driver.browser.js_errors = false
       visit '/'
-
       puts current_url
-      within('.nav') do
-        expect(page).to have_text 'http://rarebooks.library.nd.edu/'
+
+      within('#main-menu') do
+
+        expect(page).to have_css 'li', count: 6
       end
     end
 
