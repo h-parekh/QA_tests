@@ -36,11 +36,12 @@ RSpec.configure do |config|
     config.include Capybara::DSL
 end
 
-js_errors: false
 
+#rescue Capybara::Poltergeist::JavascriptError
 feature 'User Browsing', :js => true do
     scenario 'Load homepage' do
       visit '/'
+
       puts current_url
       within('.nav') do
         expect(page).to have_text 'http://rarebooks.library.nd.edu/'
