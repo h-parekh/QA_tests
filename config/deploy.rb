@@ -2,7 +2,7 @@
 lock '3.6.1'
 
 set :application, 'QA_tests'
-set :repo_url, 'https://github.com/h-parekh/QA_tests.git'
+set :repo_url, 'https://github.com/ndlib/QA_tests.git'
 
 # Default branch is :master
 # ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
