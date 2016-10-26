@@ -28,9 +28,3 @@ feature 'Load homepage', :js => true do
     end
 end
 
-#feature 'Explore', :js => true do
-#    scenario 'TEST 1: clicking on a link to explore collection' do
-#        visit '/'
-#        expect(page).to have_link 'Explore'
-#      end
-# end
