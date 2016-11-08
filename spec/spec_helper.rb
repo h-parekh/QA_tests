@@ -29,9 +29,9 @@ if target_env.nil? || target_env.to_s == ''
   target_env = ask("Enter target env, options are pprd or prod:  ") { |q| q.echo = true }
 end
 
-Capybara.app_host = cnf[target_env]
+Capybara.app_host = cnf.fetch(target_env)
 
 #Gives access to the capybara methods
 RSpec.configure do |config|
-    config.include Capybara::DSL
+  config.include Capybara::DSL
 end
