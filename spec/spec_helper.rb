@@ -33,5 +33,5 @@ Capybara.app_host = cnf.fetch(target_env)
 
 #Gives access to the capybara methods
 RSpec.configure do |config|
-    config.include Capybara::DSL
+  config.include Capybara::DSL
 end
