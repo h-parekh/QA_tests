@@ -33,6 +33,7 @@ def set_application_host_by_example(example)
   spec_helper_path = File.dirname(__FILE__)
   spec_path = example.metadata.fetch(:absolute_file_path)
   spec_sub_directory = spec_path.sub("#{spec_helper_path}/", '').split('/').first
+  # TODO: There may be a mix of environments that we want to test; How to handle this? The current assumption is test the same environment.
   environment = ENV.fetch('ENVIRONMENT', 'prod')
   servers_by_environment = YAML::load_file(File.expand_path("./#{spec_sub_directory}/#{spec_sub_directory}_config.yml", spec_helper_path))
   Capybara.app_host = servers_by_environment.fetch(environment)
