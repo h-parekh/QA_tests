@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rbsc/rbsc_spec_helper'
 
 feature 'User Browsing', :js => true do
     scenario 'Load homepage' do
