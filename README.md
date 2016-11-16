@@ -16,7 +16,7 @@ Your local machine will need the following setup to be able to run these tests f
 7. Phantomjs 2.1.1 - for supporting capybara/poltergeist to capture screenshots
 8. Poltergeist 1.11.0 - chosen web driver for using with capybara
 9. Nokogiri 1.6.8.1 - for XML tree parsing and navigation
-10. Verify if you are able to ssh into testcontroller01 as 'app' user
+10. Verify that `ssh app@testcontroller01.library.nd.edu` works
 
 ?? Can we package these in some way ??
 
