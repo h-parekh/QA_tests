@@ -30,6 +30,9 @@ GEM
       rack (>= 1.0.0)
       rack-test (>= 0.5.4)
       xpath (~> 2.0)
+    capybara_error_intel (1.0.2)
+      capybara (~> 2)
+      rspec (>= 2.1, < 4.x)
     cliver (0.3.2)
     diff-lcs (1.2.5)
     domain_name (0.5.20161021)
@@ -97,9 +100,10 @@ DEPENDENCIES
   airborne
   capistrano
   capybara
+  capybara_error_intel
   highline
   poltergeist
   rspec
 
 BUNDLED WITH
-   1.13.1
+   1.13.4
