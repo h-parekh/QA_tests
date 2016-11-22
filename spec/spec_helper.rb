@@ -7,6 +7,7 @@ require 'capybara/poltergeist'
 #HighLine provides a robust system for requesting data from a user
 require 'highline/import'
 require 'yaml'
+require 'capybara_error_intel/dsl'
 
 Capybara.run_server = false
 Capybara.current_driver = :poltergeist
