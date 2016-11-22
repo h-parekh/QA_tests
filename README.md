@@ -39,3 +39,12 @@ Example for running the functional test against curate prod:
 cd /home/app/QA_tests/current
 ENVIRONMENT=prod rspec spec/curate/functional/func_curate_spec.rb
 ```
+
+## Running the tests on your own machine
+
+The following will run the `spec/curate/functional/func_curate_spec.rb` against the `prod` environment (as defined in [`spec/curate/curate_config.yml`](spec/curate/curate_config.yml)).
+
+```console
+cd /path/to/QA_tests
+ENVIRONMENT=prod rspec spec/curate/functional/func_curate_spec.rb
+```
