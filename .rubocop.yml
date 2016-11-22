@@ -1,3 +1,4 @@
+require: rubocop-rspec
 inherit_from: .rubocop_todo.yml
 
 AllCops:
@@ -58,6 +59,13 @@ Style/SingleLineBlockParams:
 
 Rails:
   Enabled: false
+
+RSpec/DescribeClass:
+  Exclude:
+    - spec/*/integration/*
+
+RSpec/ExampleLength:
+  Max: 15
 
 RSpec/ExpectActual:
   Enabled: false
