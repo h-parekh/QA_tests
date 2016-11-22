@@ -1,6 +1,3 @@
-require 'capybara/dsl'
-require 'capybara_error_intel/dsl'
-
 module Curate
   module Pages
     # /about
