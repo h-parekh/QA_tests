@@ -81,7 +81,6 @@ feature 'User Browsing', :js => true do
 #                 end
 #     end
 
-
     scenario 'Test 3: Enter text in search box' do
       visit '/'
       puts current_url
@@ -101,4 +100,11 @@ feature 'User Browsing', :js => true do
       end
     end
 
+  require 'curate/pages/about_page'
+  scenario 'Go to About page' do
+    visit '/'
+    click_on('About')
+    about_page = Curate::Pages::AboutPage.new
+    expect(about_page).to be_on_page
+  end
 end
