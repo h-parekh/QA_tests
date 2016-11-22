@@ -31,6 +31,9 @@ GEM
       rack (>= 1.0.0)
       rack-test (>= 0.5.4)
       xpath (~> 2.0)
+    capybara-screenshot (1.0.14)
+      capybara (>= 1.0, < 3)
+      launchy
     capybara_error_intel (1.0.2)
       capybara (~> 2)
       rspec (>= 2.1, < 4.x)
@@ -43,6 +46,8 @@ GEM
       domain_name (~> 0.5)
     i18n (0.7.0)
     json (1.8.3)
+    launchy (2.4.3)
+      addressable (~> 2.3)
     mime-types (3.1)
       mime-types-data (~> 3.2015)
     mime-types-data (3.2016.0521)
@@ -115,6 +120,7 @@ DEPENDENCIES
   airborne
   capistrano
   capybara
+  capybara-screenshot
   capybara_error_intel
   highline
   poltergeist

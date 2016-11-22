@@ -9,6 +9,7 @@ require 'capybara/poltergeist'
 require 'highline/import'
 require 'yaml'
 require 'capybara_error_intel/dsl'
+require 'capybara-screenshot/rspec'
 
 Capybara.run_server = false
 Capybara.current_driver = :poltergeist
