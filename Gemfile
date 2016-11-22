@@ -7,3 +7,4 @@ gem 'highline'
 gem 'poltergeist'
 gem 'rspec'
 gem 'capybara_error_intel'
+gem 'rubocop', require: false
