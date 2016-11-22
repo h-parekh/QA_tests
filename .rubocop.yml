@@ -1,0 +1,86 @@
+require: rubocop-rspec
+inherit_from: .rubocop_todo.yml
+
+AllCops:
+  TargetRubyVersion: 2.3
+  DisplayCopNames: true
+  Include:
+    - '**/Rakefile'
+    - '**/config.ru'
+  Exclude:
+    - 'db/**/*'
+    - 'script/**/*'
+    - 'spec/test_app_templates/**/*'
+    - 'vendor/**/*'
+
+Lint/ImplicitStringConcatenation:
+  Exclude:
+    - 'lib/generators/sufia/**/*'
+
+Metrics/LineLength:
+  Max: 180
+
+Metrics/AbcSize:
+  Max: 30
+  Exclude:
+    - 'spec/**/*_spec.rb'
+
+Metrics/MethodLength:
+  Max: 15
+
+Style/IndentationConsistency:
+  EnforcedStyle: rails
+
+Style/CollectionMethods:
+  PreferredMethods:
+    collect: 'map'
+    collect!: 'map!'
+    inject: 'reduce'
+    detect: 'find'
+    find_all: 'select'
+
+Style/WordArray:
+  Enabled: false
+
+Style/RegexpLiteral:
+  Enabled: false
+
+Style/StringLiterals:
+  Enabled: false
+
+Style/ClassAndModuleChildren:
+  Enabled: false
+
+Style/Documentation:
+  Enabled: false
+
+Style/SingleLineBlockParams:
+  Enabled: false
+
+Rails:
+  Enabled: false
+
+RSpec/DescribeClass:
+  Exclude:
+    - spec/*/integration/*
+
+RSpec/ExampleLength:
+  Max: 15
+
+RSpec/ExpectActual:
+  Enabled: false
+
+RSpec/LetSetup:
+  Enabled: false
+
+RSpec/MessageExpectation:
+  Enabled: false
+
+RSpec/MultipleExpectations:
+  Enabled: false
+
+RSpec/NestedGroups:
+  Enabled: false
+
+RSpec/LeadingSubject:
+  Enabled: false
