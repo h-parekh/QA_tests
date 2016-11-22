@@ -18,6 +18,9 @@ Capybara.current_driver = :poltergeist
 # If you don't provide this, Capybara will pick  the selenium driver for javascript_driver by default
 Capybara.javascript_driver = :poltergeist
 
+# set the save path used in capybara-screenshot
+Capybara.save_path = './tmp/screenshots'
+
 # Gives access to the capybara methods
 RSpec.configure do |config|
   config.include Capybara::DSL

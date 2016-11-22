@@ -112,7 +112,7 @@ feature 'User Browsing', js: true do
   require 'curate/pages/faq_page'
   scenario 'Go to FAQ page' do
     visit '/'
-    click_on('faqs')
+    click_on('FAQ')
     faq_page = Curate::Pages::FaqPage.new
     expect(faq_page).to be_on_page
   end
