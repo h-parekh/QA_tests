@@ -9,6 +9,7 @@ require 'capybara/poltergeist'
 require 'highline/import'
 require 'yaml'
 require 'capybara_error_intel/dsl'
+require 'capybara-screenshot/rspec'
 
 Capybara.run_server = false
 Capybara.current_driver = :poltergeist
@@ -16,6 +17,9 @@ Capybara.current_driver = :poltergeist
 
 # If you don't provide this, Capybara will pick  the selenium driver for javascript_driver by default
 Capybara.javascript_driver = :poltergeist
+
+# set the save path used in capybara-screenshot
+Capybara.save_path = './tmp/screenshots'
 
 # Gives access to the capybara methods
 RSpec.configure do |config|
