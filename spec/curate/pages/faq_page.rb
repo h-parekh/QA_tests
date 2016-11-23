@@ -6,8 +6,12 @@ module Curate
       include CapybaraErrorIntel::DSL
 
       def on_page?
-        # Fill out selectors etc.
-        true
+        self.status_code == 200 &&
+        self.has_content?('FAQ') &&
+        find_link('Getting Started').visible? &&
+        find_link('Common Questions').visible? &&
+        find_link('Governing policies').visible? &&
+        find_link('Help me choose a license').visible?
       end
     end
   end
