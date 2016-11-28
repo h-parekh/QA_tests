@@ -15,7 +15,7 @@ module Curate
       end
 
       def on_valid_url?
-        current_url == (Capybara.app_host + 'faqs')
+        current_url == File.join(Capybara.app_host, 'faqs')
       end
 
       def status_response_ok?
