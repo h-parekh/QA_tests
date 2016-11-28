@@ -23,7 +23,9 @@ module Curate
       end
 
       def valid_page_content?
-        has_content?('FAQ')
+        within('.svg-title') do
+          has_content?('FAQ')
+        end
       end
 
       def valid_page_navigation?
