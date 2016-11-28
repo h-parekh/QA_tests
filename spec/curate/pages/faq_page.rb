@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Curate
   module Pages
     # /faqs
@@ -7,35 +8,35 @@ module Curate
 
       def on_page?
         on_valid_url? &&
-        status_response_ok? &&
-        valid_page_content? &&
-        valid_page_navigation? &&
-        valid_external_page_links?
+          status_response_ok? &&
+          valid_page_content? &&
+          valid_page_navigation? &&
+          valid_external_page_links?
       end
 
       def on_valid_url?
-        self.current_url == (Capybara.app_host + 'faqs')
+        current_url == (Capybara.app_host + 'faqs')
       end
 
       def status_response_ok?
-        self.status_code == 200
+        status_code == 200
       end
 
       def valid_page_content?
-        self.has_content?('FAQ')
+        has_content?('FAQ')
       end
 
       def valid_page_navigation?
         within(".feature-navigation-wrapper") do
           find_link('Help').visible? &&
-          find_link('Getting Started').visible? &&
-          find_link('Common Questions').visible?
+            find_link('Getting Started').visible? &&
+            find_link('Common Questions').visible?
         end
       end
 
       def valid_external_page_links?
         valid_policy_page_links? &&
-        valid_help_button?
+          valid_help_button?
       end
 
       def valid_policy_page_links?
