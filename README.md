@@ -48,3 +48,19 @@ The following will run the `spec/curate/functional/func_curate_spec.rb` against 
 cd /path/to/QA_tests
 ENVIRONMENT=prod rspec spec/curate/functional/func_curate_spec.rb
 ```
+
+## Running Rubocop
+
+Rubocop is install and configured to report any offenses in code. It is recommended to run rubocop on local machine before sending in pull request. Here is basic usage
+
+```console
+cd /path/to/QA_tests
+bundle exec rubocop
+```
+
+It is possible to auto-correct certain offenses. it is experimental so use it with caution.
+
+```console
+cd /path/to/QA_tests
+rubocop -a
+```
