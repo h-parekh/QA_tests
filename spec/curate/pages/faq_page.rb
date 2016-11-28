@@ -6,10 +6,15 @@ module Curate
       include CapybaraErrorIntel::DSL
 
       def on_page?
+        on_valid_url? &&
         status_response_ok? &&
         valid_page_content? &&
         valid_page_navigation? &&
         valid_external_page_links?
+      end
+
+      def on_valid_url?
+        self.current_url == (Capybara.app_host + 'faqs')
       end
 
       def status_response_ok?
@@ -30,18 +35,20 @@ module Curate
 
       def valid_external_page_links?
         valid_policy_page_links? &&
-        valid_question_page_links?
+        valid_help_button?
       end
 
       def valid_policy_page_links?
-        # note: policies is an id tag... not sure of correct syntax on this yet... 
-        # find_link('Governing policies').visible? within(".policies")
-        true
+        # note: policies is an id tag... see http://www.rubydoc.info/github/jnicklas/capybara/Capybara%2FSession%3Awithin
+        within(:xpath, "//h2[@id='policies']") do
+          find_link('Governing policies').visible?
+        end
       end
 
-      def valid_question_page_links?
-        # find_link('Help me choose a licensexxxxxkjasofhosahfsafs').visible? within(".common-questions")
-        true
+      def valid_help_button?
+        within(".page-footer-wrapper") do
+          find_link('Help').visible?
+        end
       end
     end
   end
