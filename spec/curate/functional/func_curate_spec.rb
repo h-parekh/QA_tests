@@ -82,38 +82,38 @@ feature 'User Browsing', js: true do
   #                 end
   #     end
 
-  scenario 'Test 3: Enter text in search box' do
+  require 'curate/pages/catalog_page'
+  scenario 'Test 3: Enter text in search box from main page' do
     visit '/'
     puts current_url
     within('.homepage-search') do
       expect(page).to have_field 'catalog_search', type: 'search'
       expect(page).to have_button 'keyword-search-submit'
       fill_in('catalog_search', with: '')
-      click_on('keyword-search-submit')
-      # page.save_screenshot('curate_searchBox.png')
+      click_on('Search')
+      catalog_page = Curate::Pages::CatalogPage.new
+      expect(catalog_page).to be_on_page
       print "Clicked search\n"
-    end
-
-    # expect(page).to have_text('Filter by:')
-    # page.save_screenshot('curate_searchBox2.png')
-    within('main') do
-      expect(page).to have_text('Filter by:')
     end
   end
 
   require 'curate/pages/about_page'
-  scenario 'Go to About page' do
+  scenario 'Test 4: Go to About page' do
     visit '/'
     click_on('About')
+    puts current_url
     about_page = Curate::Pages::AboutPage.new
     expect(about_page).to be_on_page
+    print "Clicked About\n"
   end
 
   require 'curate/pages/faq_page'
-  scenario 'Go to FAQ page' do
+  scenario 'Test 5: Go to FAQ page' do
     visit '/'
     click_on('FAQ')
+    puts current_url
     faq_page = Curate::Pages::FaqPage.new
     expect(faq_page).to be_on_page
+    print "Clicked FAQ\n"
   end
 end
