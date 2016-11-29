@@ -82,38 +82,50 @@ feature 'User Browsing', js: true do
   #                 end
   #     end
 
-  scenario 'Test 3: Enter text in search box' do
+  require 'curate/pages/home_page'
+  scenario 'Test 3: Test homepage' do
     visit '/'
-    puts current_url
-    within('.homepage-search') do
-      expect(page).to have_field 'catalog_search', type: 'search'
-      expect(page).to have_button 'keyword-search-submit'
-      fill_in('catalog_search', with: '')
-      click_on('keyword-search-submit')
-      # page.save_screenshot('curate_searchBox.png')
-      print "Clicked search\n"
-    end
-
-    # expect(page).to have_text('Filter by:')
-    # page.save_screenshot('curate_searchBox2.png')
-    within('main') do
-      expect(page).to have_text('Filter by:')
-    end
+    print "Testing #{current_url}\n"
+    home_page = Curate::Pages::HomePage.new
+    expect(home_page).to be_on_page
+    print "Accessed home page\n"
   end
 
   require 'curate/pages/about_page'
-  scenario 'Go to About page' do
+  scenario 'Test 4: Go to About page' do
     visit '/'
     click_on('About')
+    print "Testing #{current_url}\n"
     about_page = Curate::Pages::AboutPage.new
     expect(about_page).to be_on_page
+    print "Clicked About\n"
   end
 
   require 'curate/pages/faq_page'
-  scenario 'Go to FAQ page' do
+  scenario 'Test 5: Go to FAQ page' do
     visit '/'
     click_on('FAQ')
+    print "Testing #{current_url}\n"
     faq_page = Curate::Pages::FaqPage.new
     expect(faq_page).to be_on_page
+    print "Clicked FAQ\n"
+  end
+
+  require 'curate/pages/catalog_page'
+  scenario 'Test 6: Go to catalog search page' do
+    visit '/'
+    click_on('Search')
+    print "Testing #{current_url}\n"
+    catalog_page = Curate::Pages::CatalogPage.new('')
+    expect(catalog_page).to be_on_page
+    print "Clicked empty search\n"
+
+    search_term = 'Article'
+    fill_in('catalog_search', with: search_term)
+    click_on('Search')
+    print "Testing #{current_url}\n"
+    catalog_page = Curate::Pages::CatalogPage.new(search_term)
+    expect(catalog_page).to be_on_page
+    print "Clicked search for #{search_term}\n"
   end
 end
