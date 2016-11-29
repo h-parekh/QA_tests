@@ -20,6 +20,29 @@ Your local machine will need the following setup to be able to run these tests f
 
 ?? Can we package these in some way ??
 
+## Installation Phantomjs and Phantomenv install
+PhantomJS is a headless WebKit scriptable with a JavaScript API. It has fast and native support for various web standards: DOM handling, CSS selector, JSON, Canvas, and SVG.
+Install phantomjs
+``` console
+brew install phantomjs
+```
+# phantomenv
+
+rbenv, but for PhantomJS.
+
+To install the latest stable release:
+
+```console
+git clone -b v0.0.10 https://github.com/boxen/phantomenv.git ~/.phantomenv
+```
+Then add the following to your shell config at the end:
+
+```console
+export PATH="$HOME/.phantomenv/bin:$PATH"
+eval "$(phantomenv init -)"
+```
+To setup through Boxen uses https://github.com/boxen/puppet-phantomjs to set up phantom JS which is a wrapper around https://github.com/boxen/phantomenv
+
 ## Deploying master branch from local to remote testcontroller01
 ``` console
 cd git/QA_tests
