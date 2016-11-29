@@ -1,6 +1,11 @@
 # frozen_string_literal: true
 require 'curate/curate_spec_helper'
 
+Logging.logger.root.appenders = Logging.appenders.stdout
+Logging.logger.root.level = :info
+
+log = Logging.logger['curate']
+
 feature 'User Browsing', js: true do
   #     scenario 'Test 1: Login to Curate with correct credentials' do
   #         visit '/'
@@ -93,7 +98,9 @@ feature 'User Browsing', js: true do
 
   require 'curate/pages/about_page'
   scenario 'Test 4: Go to About page' do
+    log.info RSpec.current_example.description
     visit '/'
+    log.info current_url
     click_on('About')
     print "Testing #{current_url}\n"
     about_page = Curate::Pages::AboutPage.new
