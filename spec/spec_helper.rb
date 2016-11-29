@@ -10,6 +10,8 @@ require 'highline/import'
 require 'yaml'
 require 'capybara_error_intel/dsl'
 require 'capybara-screenshot/rspec'
+require 'logging'
+require 'rspec/logging_helper'
 
 Capybara.run_server = false
 Capybara.current_driver = :poltergeist
@@ -24,7 +26,8 @@ Capybara.save_path = './tmp/screenshots'
 # Gives access to the capybara methods
 RSpec.configure do |config|
   config.include Capybara::DSL
-
+  config.include RSpec::LoggingHelper
+  config.capture_log_messages
   # Ensuring that things run in a random order; This is a prefered mechanism
   # as it helps identify temporal couplings
   config.order = :random
