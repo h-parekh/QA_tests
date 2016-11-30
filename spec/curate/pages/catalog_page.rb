@@ -22,6 +22,10 @@ module Curate
           current_url.include?(@search_term)
       end
 
+      def on_base_url?
+        current_url == File.join(Capybara.app_host, 'catalog')
+      end
+
       def status_response_ok?
         status_code == 200
       end
