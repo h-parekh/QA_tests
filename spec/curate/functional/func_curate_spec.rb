@@ -119,14 +119,16 @@ feature 'User Browsing', js: true do
   end
 
   require 'curate/pages/catalog_page'
-  scenario 'Test 6: Go to catalog search page' do
+  scenario 'Test 6a: Go to catalog search page with empty search term' do
     visit '/'
     click_on('Search')
     print "Testing #{current_url}\n"
     catalog_page = Curate::Pages::CatalogPage.new('')
     expect(catalog_page).to be_on_page
     print "Clicked empty search\n"
+  end
 
+  scenario 'Test 6b: Go to catalog search page with term "Article"' do
     visit '/'
     search_term = "Article"
     fill_in('catalog_search', with: search_term)
@@ -141,7 +143,7 @@ feature 'User Browsing', js: true do
   end
 
   require 'curate/pages/category_search_page'
-  scenario 'Test 7: Category search link from home page' do
+  scenario 'Test 7a: Category search for Theses' do
     visit '/'
     title = 'Theses & Dissertations'
     click_on(title)
@@ -152,7 +154,9 @@ feature 'User Browsing', js: true do
     click_on('Clear all')
     expect(category_page).to be_on_base_url
     print "Clicked on clear all\n"
+  end
 
+  scenario 'Test 7b: Category search for Articles' do
     visit '/'
     title = 'Articles & Publications'
     click_on(title)
@@ -163,7 +167,9 @@ feature 'User Browsing', js: true do
     click_on('Clear all')
     expect(category_page).to be_on_base_url
     print "Clicked on clear all\n"
+  end
 
+  scenario 'Test 7c: Category search for Datasets' do
     visit '/'
     title = 'Datasets & Related Materials'
     click_on(title)
