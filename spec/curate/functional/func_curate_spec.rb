@@ -89,8 +89,9 @@ feature 'User Browsing', js: true do
 
   require 'curate/pages/home_page'
   scenario 'Test 3: Test homepage' do
+    log.info RSpec.current_example.description
     visit '/'
-    print "Testing #{current_url}\n"
+    log.info current_url
     home_page = Curate::Pages::HomePage.new
     expect(home_page).to be_on_page
     print "Accessed home page\n"
@@ -100,9 +101,8 @@ feature 'User Browsing', js: true do
   scenario 'Test 4: Go to About page' do
     log.info RSpec.current_example.description
     visit '/'
-    log.info current_url
     click_on('About')
-    print "Testing #{current_url}\n"
+    log.info current_url
     about_page = Curate::Pages::AboutPage.new
     expect(about_page).to be_on_page
     print "Clicked About\n"
@@ -110,9 +110,10 @@ feature 'User Browsing', js: true do
 
   require 'curate/pages/faq_page'
   scenario 'Test 5: Go to FAQ page' do
+    log.info RSpec.current_example.description
     visit '/'
     click_on('FAQ')
-    print "Testing #{current_url}\n"
+    log.info current_url
     faq_page = Curate::Pages::FaqPage.new
     expect(faq_page).to be_on_page
     print "Clicked FAQ\n"
@@ -120,10 +121,11 @@ feature 'User Browsing', js: true do
 
   require 'curate/pages/catalog_page'
   scenario 'Test 6a: Go to catalog search page with empty search term' do
+    log.info RSpec.current_example.description
     visit '/'
     click_on('Search')
-    print "Testing #{current_url}\n"
-    catalog_page = Curate::Pages::CatalogPage.new('')
+    log.info current_url
+    catalog_page = Curate::Pages::CatalogPage.new({})
     expect(catalog_page).to be_on_page
     print "Clicked empty search\n"
   end
@@ -133,8 +135,8 @@ feature 'User Browsing', js: true do
     search_term = "Article"
     fill_in('catalog_search', with: search_term)
     click_on('Search')
-    print "Testing #{current_url}\n"
-    catalog_page = Curate::Pages::CatalogPage.new(search_term)
+    log.info current_url
+    catalog_page = Curate::Pages::CatalogPage.new(search_term: search_term)
     expect(catalog_page).to be_on_page
     print "Clicked search for #{search_term}\n"
     click_on('Clear all')
@@ -144,11 +146,12 @@ feature 'User Browsing', js: true do
 
   require 'curate/pages/category_search_page'
   scenario 'Test 7a: Category search for Theses' do
+    log.info RSpec.current_example.description
     visit '/'
     title = 'Theses & Dissertations'
     click_on(title)
-    print "Testing #{current_url}\n"
-    category_page = Curate::Pages::CategorySearchPage.new(:thesis)
+    log.info current_url
+    category_page = Curate::Pages::CatalogPage.new(category: :thesis)
     expect(category_page).to be_on_page
     print "Clicked '#{title}' Link\n"
     click_on('Clear all')
@@ -157,11 +160,12 @@ feature 'User Browsing', js: true do
   end
 
   scenario 'Test 7b: Category search for Articles' do
+    log.info RSpec.current_example.description
     visit '/'
     title = 'Articles & Publications'
     click_on(title)
-    print "Testing #{current_url}\n"
-    category_page = Curate::Pages::CategorySearchPage.new(:article)
+    log.info current_url
+    category_page = Curate::Pages::CatalogPage.new(category: :article)
     expect(category_page).to be_on_page
     print "Clicked '#{title}' Link\n"
     click_on('Clear all')
@@ -170,11 +174,12 @@ feature 'User Browsing', js: true do
   end
 
   scenario 'Test 7c: Category search for Datasets' do
+    log.info RSpec.current_example.description
     visit '/'
     title = 'Datasets & Related Materials'
     click_on(title)
-    print "Testing #{current_url}\n"
-    category_page = Curate::Pages::CategorySearchPage.new(:dataset)
+    log.info current_url
+    category_page = Curate::Pages::CatalogPage.new(category: :dataset)
     expect(category_page).to be_on_page
     print "Clicked '#{title}' Link\n"
     click_on('Clear all')
