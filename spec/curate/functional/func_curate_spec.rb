@@ -144,8 +144,7 @@ feature 'User Browsing', js: true do
     print "Clicked on clear all\n"
   end
 
-  require 'curate/pages/category_search_page'
-  scenario 'Test 7a: Category search for Theses' do
+  scenario 'Test 6c: Category search for Theses' do
     log.info RSpec.current_example.description
     visit '/'
     title = 'Theses & Dissertations'
@@ -159,7 +158,7 @@ feature 'User Browsing', js: true do
     print "Clicked on clear all\n"
   end
 
-  scenario 'Test 7b: Category search for Articles' do
+  scenario 'Test 6d: Category search for Articles' do
     log.info RSpec.current_example.description
     visit '/'
     title = 'Articles & Publications'
@@ -173,7 +172,7 @@ feature 'User Browsing', js: true do
     print "Clicked on clear all\n"
   end
 
-  scenario 'Test 7c: Category search for Datasets' do
+  scenario 'Test 6e: Category search for Datasets' do
     log.info RSpec.current_example.description
     visit '/'
     title = 'Datasets & Related Materials'
