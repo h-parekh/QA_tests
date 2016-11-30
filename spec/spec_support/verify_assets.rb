@@ -1,18 +1,16 @@
-require File.expand_path('../../spec_helper', __FILE__)
-
 module VerifyAsset
   module_function
-  def network_traffic(url)
-    session = Capybara::Session.new(:poltergeist)
-    session.visit url
-    session.driver.network_traffic.each do |request|
+
+  def verify_network_traffic
+    failed_resources = []
+    page.driver.network_traffic.each do |request|
       request.response_parts.uniq(&:url).each do |response|
-        if (400..599).include?response.status
-          puts "\n Error: Responce URL #{response.url}: \n Status #{response.status}"
-        else
-          puts "\n Info: Responce URL #{response.url}: \n Status #{response.status}"
+        if (400..599).cover? response.status
+          resource_hash = { url: response.url, status_code: response.status }
+          failed_resources << resource_hash
         end
       end
+      return failed_resources
     end
   end
 end
