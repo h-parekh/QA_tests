@@ -127,13 +127,53 @@ feature 'User Browsing', js: true do
     expect(catalog_page).to be_on_page
     print "Clicked empty search\n"
 
-    search_term = 'Article'
+    visit '/'
+    search_term = "Article"
     fill_in('catalog_search', with: search_term)
     click_on('Search')
     print "Testing #{current_url}\n"
     catalog_page = Curate::Pages::CatalogPage.new(search_term)
     expect(catalog_page).to be_on_page
     print "Clicked search for #{search_term}\n"
+    click_on('Clear all')
+    expect(catalog_page).to be_on_base_url
+    print "Clicked on clear all\n"
+  end
+
+  require 'curate/pages/category_search_page'
+  scenario 'Test 7: Category search link from home page' do
+    visit '/'
+    title = 'Theses & Dissertations'
+    click_on(title)
+    print "Testing #{current_url}\n"
+    category_page = Curate::Pages::CategorySearchPage.new(:thesis)
+    expect(category_page).to be_on_page
+    print "Clicked '#{title}' Link\n"
+    click_on('Clear all')
+    expect(category_page).to be_on_base_url
+    print "Clicked on clear all\n"
+
+    visit '/'
+    title = 'Articles & Publications'
+    click_on(title)
+    print "Testing #{current_url}\n"
+    category_page = Curate::Pages::CategorySearchPage.new(:article)
+    expect(category_page).to be_on_page
+    print "Clicked '#{title}' Link\n"
+    click_on('Clear all')
+    expect(category_page).to be_on_base_url
+    print "Clicked on clear all\n"
+
+    visit '/'
+    title = 'Datasets & Related Materials'
+    click_on(title)
+    print "Testing #{current_url}\n"
+    category_page = Curate::Pages::CategorySearchPage.new(:dataset)
+    expect(category_page).to be_on_page
+    print "Clicked '#{title}' Link\n"
+    click_on('Clear all')
+    expect(category_page).to be_on_base_url
+    print "Clicked on clear all\n"
   end
 
   require 'curate/pages/contribute_page'
