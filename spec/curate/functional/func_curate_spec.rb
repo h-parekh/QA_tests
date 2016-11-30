@@ -130,12 +130,12 @@ feature 'User Browsing', js: true do
   end
 end
 feature 'Requesting Help', js: true do
-  require 'curate/pages/help_page'
+  require 'curate/pages/modal_help_page'
   scenario 'Test 1: Go to help page' do
     visit '/'
     click_on('Help')
     print "Testing #{current_url}\n"
-    help_page = Curate::Pages::HelpPage.new
+    help_page = Curate::Pages::ModalHelpPage.new
     expect(help_page).to be_on_page
     fill_in('help_request_name', with: 'some name')
     click_on('Submit')
