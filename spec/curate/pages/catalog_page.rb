@@ -6,7 +6,7 @@ module Curate
       include Capybara::DSL
       include CapybaraErrorIntel::DSL
 
-      def initialize(search_term='')
+      def initialize(search_term = '')
         @search_term = search_term
       end
 
@@ -19,7 +19,7 @@ module Curate
 
       def on_valid_url?
         current_url.start_with?(File.join(Capybara.app_host, 'catalog')) &&
-        current_url.include?(@search_term)
+          current_url.include?(@search_term)
       end
 
       def status_response_ok?
@@ -37,9 +37,9 @@ module Curate
         within('.search-constraint-notice') do
           has_content?('Search criteria:')
         end &&
-        within('.filter-value') do
-          has_content?(@search_term)
-        end
+          within('.filter-value') do
+            has_content?(@search_term)
+          end
       end
     end
   end
