@@ -195,7 +195,19 @@ feature 'User Browsing', js: true do
     expect(contribute_page).to be_on_page
     print "Clicked Contribute Your Work\n"
   end
+
+  require 'curate/pages/departments_page'
+  scenario 'Test 8: Materials by Department link' do
+    log.info RSpec.current_example.description
+    visit '/'
+    click_on('Materials by Department')
+    log.info current_url
+    dept_page = Curate::Pages::DepartmentsPage.new
+    expect(dept_page).to be_on_page
+    print "Clicked 'Materials by Department' Link\n"
+  end
 end
+
 feature 'Requesting Help', js: true do
   require 'curate/pages/modal_help_page'
   scenario 'Test 1: Go to help page' do
