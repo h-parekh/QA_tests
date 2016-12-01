@@ -24,9 +24,9 @@ module Curate
         dataset: "Dataset"
       }.freeze
 
-      def initialize(options)
-        @search_term = options[:search_term]
-        @category = options[:category]
+      def initialize(search_term: nil, category: nil)
+        @search_term = search_term
+        @category = category
       end
 
       def on_page?
