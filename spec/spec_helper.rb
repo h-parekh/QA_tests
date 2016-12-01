@@ -12,7 +12,7 @@ require 'capybara_error_intel/dsl'
 require 'capybara-screenshot/rspec'
 require 'logging'
 require 'rspec/logging_helper'
-require 'spec_support/verify_assets'
+require 'spec_support/verify_network'
 
 Capybara.run_server = false
 Capybara.current_driver = :poltergeist
@@ -38,11 +38,10 @@ RSpec.configure do |config|
     application_host_by_example(ex)
   end
 
-  config.after(:example) do |ex|
-    VerifyAsset.verify_network_traffic(page)
+  config.after(:example) do |_ex|
+    VerifyNetwork.verify_network_traffic(page, self)
   end
 end
-
 
 def application_host_by_example(example)
   spec_helper_path = File.dirname(__FILE__)
