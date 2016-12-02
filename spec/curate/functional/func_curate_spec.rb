@@ -135,4 +135,14 @@ feature 'User Browsing', js: true do
     expect(catalog_page).to be_on_page
     print "Clicked search for #{search_term}\n"
   end
+
+  require 'curate/pages/contribute_page'
+  scenario 'Test 7: Contribute Your Work' do
+    visit '/'
+    click_on('Contribute Your Work')
+    print "Testing #{current_url}\n"
+    contribute_page = Curate::Pages::ContributePage.new
+    expect(contribute_page).to be_on_page
+    print "Clicked Contribute Your Work\n"
+  end
 end
