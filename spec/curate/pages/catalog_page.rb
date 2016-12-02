@@ -65,8 +65,6 @@ module Curate
         within('h1') do
           has_content?(LOOKUP_CATEGORY_CAPTION.fetch(category))
         end
-
-        true
       end
 
       def valid_search_constraint?
