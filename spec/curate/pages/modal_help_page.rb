@@ -8,7 +8,7 @@ module Curate
 
       def on_page?
         status_response_ok? &&
-        modal_window_visible?
+          modal_window_visible?
       end
 
       def status_response_ok?
@@ -16,12 +16,11 @@ module Curate
       end
 
       def modal_window_visible?
-        find('#ajax-modal').visible?
-        has_field?('help_request_name', type: 'text')
-        has_field?('help_request_email', type: 'email')
-        has_field?('help_request_how_can_we_help_you', type: 'textarea')
+        find('#ajax-modal').visible? &&
+          has_field?('help_request_name', type: 'text') &&
+          has_field?('help_request_email', type: 'email') &&
+          has_field?('help_request_how_can_we_help_you', type: 'textarea')
       end
-
     end
   end
 end
