@@ -1,0 +1,52 @@
+# frozen_string_literal: true
+module Curate
+  module Pages
+    # /departments
+    class DepartmentsPage
+      include Capybara::DSL
+      include CapybaraErrorIntel::DSL
+
+      def on_page?
+        on_valid_url? &&
+          status_response_ok? &&
+          valid_header_links? &&
+          valid_page_content? &&
+          valid_external_page_links?
+      end
+
+      def on_valid_url?
+        current_url == File.join(Capybara.app_host, 'departments')
+      end
+
+      def status_response_ok?
+        status_code == 200
+      end
+
+      def valid_page_content?
+        within('.main-header') do
+          return false unless has_content?('Browse Materials by Department or Unit')
+        end
+        within(".page-footer-wrapper") do
+          return false unless has_link?('Help')
+        end
+      end
+
+      def valid_header_links?
+        within(".title-bar-wrapper") do
+          has_link?('About') &&
+            has_link?('FAQ')
+        end
+      end
+
+      def has_link?(text)
+        has_selector?(:link, text)
+      end
+
+      def valid_external_page_links?
+        within('.department-listing') do
+          all('ul li').count > 0
+        end
+      end
+    end
+  end
+end

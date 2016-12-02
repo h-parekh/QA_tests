@@ -23,6 +23,8 @@ Capybara.javascript_driver = :poltergeist
 
 # set the save path used in capybara-screenshot
 Capybara.save_path = './tmp/screenshots'
+# Keep only the screenshots generated from the last failing test suite
+Capybara::Screenshot.prune_strategy = :keep_last_run
 
 # Gives access to the capybara methods
 RSpec.configure do |config|
