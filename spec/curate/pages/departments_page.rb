@@ -24,17 +24,16 @@ module Curate
 
       def valid_page_content?
         within('.main-header') do
-          has_content?('Browse Materials by Department or Unit')
-        end &&
-          within(".page-footer-wrapper") do
-            has_link?('Help')
-          end
+          return false unless has_content?('Browse Materials by Department or Unit')
+        end
+        within(".page-footer-wrapper") do
+          return false unless has_link?('Help')
+        end
       end
 
       def valid_header_links?
         within(".title-bar-wrapper") do
           has_link?('About') &&
-            has_link?('Log In') &&
             has_link?('FAQ')
         end
       end

@@ -57,33 +57,36 @@ module Curate
 
       def valid_page_content?
         within('.sidebar') do
-          has_content?('Filter by:')
-        end &&
-          # Note: this should be found in the H2 row of main, but I couldn't get the right scope test.
-          # However, simply finding it on the page should be adequate.
-          if category.nil?
-            true
-          else
-            has_content?(LOOKUP_CATEGORY_CAPTION.fetch(category))
-          end
+          return false unless has_content?('Filter by:')
+        end
+
+        return true if category.nil?
+
+        within('h1') do
+          has_content?(LOOKUP_CATEGORY_CAPTION.fetch(category))
+        end
+
+        true
       end
 
       def valid_search_constraint?
         return true if search_term.nil? && category.nil?
 
         within('.search-constraint-notice') do
-          has_content?('Search criteria:')
-        end &&
-          within('.filter-value') do
-            has_content?(filter_value)
-          end &&
-          if category.nil?
-            true
-          else
-            within('.filter-name') do
-              has_content?('Type of Work:')
-            end
-          end
+          return false unless has_content?('Search criteria:')
+        end
+
+        within('.filter-value') do
+          return false unless has_content?(filter_value)
+        end
+
+        return true if category.nil?
+
+        within('.filter-name') do
+          return false unless has_content?('Type of Work:')
+        end
+
+        true
       end
 
       def filter_value
