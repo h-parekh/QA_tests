@@ -12,6 +12,7 @@ require 'capybara_error_intel/dsl'
 require 'capybara-screenshot/rspec'
 require 'logging'
 require 'rspec/logging_helper'
+require 'spec_support/verify_network'
 
 Capybara.run_server = false
 Capybara.current_driver = :poltergeist
@@ -35,6 +36,10 @@ RSpec.configure do |config|
 
   config.before(:example) do |ex|
     application_host_by_example(ex)
+  end
+
+  config.after(:example) do |_ex|
+    VerifyNetwork.verify_network_traffic(page, self)
   end
 end
 
