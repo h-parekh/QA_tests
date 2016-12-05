@@ -100,4 +100,15 @@ feature 'Requesting Help', js: true do
     click_on('Submit')
     expect(page).to have_selector('#ajax-modal', visible: true)
   end
+
+  scenario 'Test: Facet Navigation' do
+    visit '/'
+    click_on('Search')
+    print "Testing #{current_url}\n"
+    expect(find('#ajax-modal').visible?).to be_falsey
+    click_on('Department or Unit')
+    #expect(page).to have_selector('#ajax-modal', visible: false)
+    find(:css, "#ajax-modal").should be_visible
+    print "Clicked  Department or Unit \n"
+  end
 end
