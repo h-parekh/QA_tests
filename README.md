@@ -18,15 +18,13 @@ Your local machine will need the following setup to be able to run these tests f
 9. Nokogiri 1.6.8.1 - for XML tree parsing and navigation
 10. Verify that `ssh app@testcontroller01.library.nd.edu` works
 
-?? Can we package these in some way ??
-
 ## Installation Phantomjs and Phantomenv install
 PhantomJS is a headless WebKit scriptable with a JavaScript API. It has fast and native support for various web standards: DOM handling, CSS selector, JSON, Canvas, and SVG.
 Install phantomjs
 ``` console
 brew install phantomjs
 ```
-# phantomenv
+## phantomenv
 
 rbenv, but for PhantomJS.
 
@@ -55,12 +53,12 @@ cap production deploy
 ssh into testcontroller01.library.nd.edu as 'app' user and run below commands:
 ``` console
 cd /home/app/QA_tests/current
-ENVIRONMENT=prod rspec spec/<app_name>/<type_of_test>/r_spec.rb
+ENVIRONMENT=prod bundle exec rspec spec/<app_name>/<type_of_test>/r_spec.rb
 ```
 Example for running the functional test against curate prod:
 ``` console
 cd /home/app/QA_tests/current
-ENVIRONMENT=prod rspec spec/curate/functional/func_curate_spec.rb
+ENVIRONMENT=prod bundle exec rspec spec/curate/functional/func_curate_spec.rb
 ```
 
 ## Running the tests on your own machine
