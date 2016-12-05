@@ -29,6 +29,7 @@ module Curate
         within(".page-footer-wrapper") do
           return false unless has_link?('Help')
         end
+        true
       end
 
       def valid_header_links?
@@ -45,6 +46,23 @@ module Curate
       def valid_external_page_links?
         within('.department-listing') do
           all('ul li').count > 0
+        end
+      end
+
+      def select_random_departmental_link
+        within('.department-listing') do
+          node = find('.facet-hierarchy')
+          node_list = node.all('li')
+          count_links = node_list.count
+          random = rand(count_links)
+          link = node_list[random]
+          # count of items in random link
+          link_count = link.all('.count').first.text
+          # link name
+          link_text = link.all('a').first.text
+          # link to next page
+          link_url = link.all('a').first['href']
+          return { count: link_count, caption: link_text, link: link_url }
         end
       end
     end

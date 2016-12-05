@@ -11,3 +11,4 @@ gem 'rubocop', require: false
 gem 'rubocop-rspec'
 gem 'capybara-screenshot'
 gem 'logging'
+gem 'byebug'
