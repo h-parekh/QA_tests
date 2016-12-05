@@ -6,7 +6,7 @@ module Curate
       include Capybara::DSL
       include CapybaraErrorIntel::DSL
 
-      attr_reader :search_term, :category
+      attr_reader :search_term, :category, :count, :caption, :link
 
       LOOKUP_CATEGORY_URL = {
         thesis: "/catalog?f_inclusive%5Bhuman_readable_type_sim%5D%5B%5D=Doctoral+Dissertation&f_inclusive%5Bhuman_readable_type_sim%5D%5B%5D=Master%27s+Thesis",
@@ -23,17 +23,27 @@ module Curate
         article: "Article",
         dataset: "Dataset"
       }.freeze
+      LOOKUP_CATEGORY_FILTER = {
+        thesis: "Type of Work:",
+        article: "Type of Work:",
+        dataset: "Type of Work:",
+        department: "Department or Unit:"
+      }.freeze
 
-      def initialize(search_term: nil, category: nil)
+      def initialize(search_term: nil, category: nil, caption: nil, count: nil, link: nil)
         @search_term = search_term
         @category = category
+        @caption = caption
+        @count = count
+        @link = link
       end
 
       def on_page?
         on_valid_url? &&
           status_response_ok? &&
           valid_page_content? &&
-          valid_search_constraint?
+          valid_search_constraint? &&
+          valid_content_count?
       end
 
       def on_valid_url?
@@ -42,8 +52,10 @@ module Curate
         elsif category.nil?
           current_url.start_with?(File.join(Capybara.app_host, 'catalog')) &&
             current_url.include?(search_term)
-        else
+        elsif caption.nil?
           current_url == File.join(Capybara.app_host, LOOKUP_CATEGORY_URL.fetch(category))
+        else # use caption link
+          current_url == link
         end
       end
 
@@ -59,37 +71,49 @@ module Curate
         within('.sidebar') do
           return false unless has_content?('Filter by:')
         end
-
         return true if category.nil?
-
         within('h1') do
-          has_content?(LOOKUP_CATEGORY_CAPTION.fetch(category))
+          has_content?(category_caption)
         end
+      end
+
+      def category_caption
+        return caption unless caption.nil?
+        return LOOKUP_CATEGORY_CAPTION.fetch(category)
       end
 
       def valid_search_constraint?
         return true if search_term.nil? && category.nil?
-
         within('.search-constraint-notice') do
           return false unless has_content?('Search criteria:')
         end
-
         within('.filter-value') do
           return false unless has_content?(filter_value)
         end
-
         return true if category.nil?
-
         within('.filter-name') do
-          return false unless has_content?('Type of Work:')
+          return false unless has_content?( LOOKUP_CATEGORY_FILTER.fetch(category))
         end
-
         true
       end
 
       def filter_value
+        return caption unless caption.nil?
         return LOOKUP_CATEGORY_VALUE.fetch(category) unless category.nil?
         search_term
+      end
+
+      def valid_content_count?
+        return true if count.nil?
+        count == find_page_count
+      end
+
+      def find_page_count
+        within('.page_links') do
+          node = find('.page_entries')
+          node_list = node.all('strong')
+          return node_list[2].text
+        end
       end
     end
   end
