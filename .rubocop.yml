@@ -20,6 +20,9 @@ Lint/ImplicitStringConcatenation:
 Metrics/LineLength:
   Max: 180
 
+Metrics/ClassLength:
+  Max: 120
+
 Metrics/AbcSize:
   Max: 30
   Exclude:
