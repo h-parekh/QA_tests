@@ -62,7 +62,7 @@ module Curate
           link_text = link.all('a').first.text
           # link to next page
           link_url = link.all('a').first['href']
-          link_info = { count: link_count, caption: link_text, link: link_url }
+          return { count: link_count, caption: link_text, link: link_url }
         end
       end
     end
