@@ -79,20 +79,26 @@ module Curate
 
       def category_caption
         return caption unless caption.nil?
-        return LOOKUP_CATEGORY_CAPTION.fetch(category)
+        LOOKUP_CATEGORY_CAPTION.fetch(category)
       end
 
       def valid_search_constraint?
         return true if search_term.nil? && category.nil?
+        valid_search_content? &&
+          valid_filter_value? &&
+          valid_filter_name?
+      end
+
+      def valid_search_content?
         within('.search-constraint-notice') do
           return false unless has_content?('Search criteria:')
         end
+        true
+      end
+
+      def valid_filter_value?
         within('.filter-value') do
           return false unless has_content?(filter_value)
-        end
-        return true if category.nil?
-        within('.filter-name') do
-          return false unless has_content?( LOOKUP_CATEGORY_FILTER.fetch(category))
         end
         true
       end
@@ -101,6 +107,14 @@ module Curate
         return caption unless caption.nil?
         return LOOKUP_CATEGORY_VALUE.fetch(category) unless category.nil?
         search_term
+      end
+
+      def valid_filter_name?
+        return true if category.nil?
+        within('.filter-name') do
+          return false unless has_content?(LOOKUP_CATEGORY_FILTER.fetch(category))
+        end
+        true
       end
 
       def valid_content_count?
