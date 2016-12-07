@@ -68,7 +68,6 @@ module Curate
     end
 
     class DepartmentalLink
-
       attr_reader :count, :caption, :link
 
       def initialize(count:, caption:, link:)
@@ -77,6 +76,5 @@ module Curate
         @link = link
       end
     end
-
   end
 end
