@@ -24,7 +24,7 @@ Install phantomjs
 ``` console
 brew install phantomjs
 ```
-## phantomenv
+### phantomenv
 
 rbenv, but for PhantomJS.
 
@@ -48,6 +48,22 @@ git branch master
 cap production deploy
 ```
 ?? We may want to consider setting up Capistrano to deploy non-master branches
+
+## Writing New Tests
+
+### Chatter on the Terminal
+
+When you are writing new tests, you will notice a lot of chatter in the terminal. There are three possible things being reported:
+
+1) Logging for the tests we wrote
+2) Deprecation warning
+3) Other developers adding output for logging their code
+
+When writing the tests, we need to fix the deprecation warnings. In order to fix them, we need to know they exist.
+
+As such, you should run the specs so that our tests are not writing log information to STDOUT.
+
+(TODO: Provide scripts to run tests)
 
 ## Running the tests on remote
 ssh into testcontroller01.library.nd.edu as 'app' user and run below commands:
