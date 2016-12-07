@@ -44,7 +44,8 @@ To setup through Boxen uses https://github.com/boxen/puppet-phantomjs to set up 
 ## Deploying master branch from local to remote testcontroller01
 ``` console
 cd git/QA_tests
-git branch master
+git checkout master
+git pull
 cap production deploy
 ```
 ?? We may want to consider setting up Capistrano to deploy non-master branches
