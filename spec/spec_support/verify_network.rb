@@ -12,6 +12,7 @@ module VerifyNetwork
       array.each do |obj|
         text += "\n\tStatus: #{obj.fetch(:status)}\tURL: #{obj.fetch(:url)}"
       end
+      text
     end
     @@log.info "Verify Network traffic"
     failed_resources = []
