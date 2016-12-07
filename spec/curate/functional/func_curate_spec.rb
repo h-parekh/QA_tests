@@ -1,10 +1,14 @@
 # frozen_string_literal: true
 require 'curate/curate_spec_helper'
 
-Logging.logger.root.appenders = Logging.appenders.stdout
-Logging.logger.root.level = :info
+#Logging.logger.root.appenders = Logging.appenders.stdout
+#Logging.logger.root.level = :info
 
 log = Logging.logger['curate']
+Logging.appenders.stdout(layout: Logging.layouts.pattern(format_as: :json))
+
+log.add_appenders('stdout')
+log.level = :info
 
 feature 'User Browsing', js: true do
   #     scenario 'Test 1: Login to Curate with correct credentials' do
