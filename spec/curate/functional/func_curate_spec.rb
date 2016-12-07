@@ -1,9 +1,6 @@
 # frozen_string_literal: true
 require 'curate/curate_spec_helper'
 
-#Logging.logger.root.appenders = Logging.appenders.stdout
-#Logging.logger.root.level = :info
-
 log = Logging.logger['curate']
 Logging.appenders.stdout(layout: Logging.layouts.pattern(format_as: :json))
 
@@ -92,17 +89,17 @@ feature 'User Browsing', js: true do
   #     end
 
   require 'curate/pages/home_page'
-  scenario 'Test 3: Test homepage' do
+  scenario 'Test start: Load Homepage' do
     log.info RSpec.current_example.description
     visit '/'
     log.info current_url
     home_page = Curate::Pages::HomePage.new
     expect(home_page).to be_on_page
-    print "Accessed home page\n"
+    log.info "Test complete: Load Homepage"
   end
 
   require 'curate/pages/about_page'
-  scenario 'Test 4: Go to About page' do
+  scenario 'Test start: Go to About page' do
     log.info RSpec.current_example.description
     visit '/'
     click_on('About')
@@ -113,7 +110,7 @@ feature 'User Browsing', js: true do
   end
 
   require 'curate/pages/faq_page'
-  scenario 'Test 5: Go to FAQ page' do
+  scenario 'Test: Go to FAQ page' do
     log.info RSpec.current_example.description
     visit '/'
     click_on('FAQ')
