@@ -1,7 +1,4 @@
 # frozen_string_literal: true
-require 'airborne'
-require 'rspec'
-
 describe 'Step 1: Collections endpoint' do
   it 'returns a response' do
     get 'https://honeycombpprd-vm.library.nd.edu/v1/collections'
