@@ -106,7 +106,7 @@ feature 'User Browsing', js: true do
     log.info current_url
     about_page = Curate::Pages::AboutPage.new
     expect(about_page).to be_on_page
-    print "Clicked About\n"
+    log.info "Test complete: Go to About page"
   end
 
   require 'curate/pages/faq_page'
