@@ -13,8 +13,26 @@ require 'capybara-screenshot/rspec'
 require 'logging'
 require 'rspec/logging_helper'
 require 'spec_support/verify_network'
+require 'spec_support/inject_current_url_logging'
 
 Capybara.run_server = false
+
+class PoltergeistLog
+  def initialize
+    @log = Logging.logger['poltergeist']
+    Logging.appenders.stdout(layout: Logging.layouts.pattern(format_as: :json))
+    @log.add_appenders('stdout')
+    @log.level = :fatal
+  end
+
+  def puts(*args)
+    @log.info(*args)
+  end
+end
+
+Capybara.register_driver :poltergeist do |app|
+  Capybara::Poltergeist::Driver.new(app, debug: true, logger: PoltergeistLog.new)
+end
 Capybara.current_driver = :poltergeist
 # Capybara.default_max_wait_time = 10 #This sets wait time globally
 
@@ -30,6 +48,7 @@ Capybara::Screenshot.prune_strategy = :keep_last_run
 RSpec.configure do |config|
   config.include Capybara::DSL
   config.include RSpec::LoggingHelper
+  config.include InjectCurrentUrlLogging
   config.capture_log_messages
   # Ensuring that things run in a random order; This is a prefered mechanism
   # as it helps identify temporal couplings
