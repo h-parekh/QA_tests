@@ -8,7 +8,6 @@ log.add_appenders('stdout')
 log.level = :info
 
 feature 'User Browsing', js: true do
-  require 'curate/pages/home_page'
   scenario 'Test start: Load Homepage' do
     log.info RSpec.current_example.description
     visit '/'
@@ -18,7 +17,6 @@ feature 'User Browsing', js: true do
     log.info "Test complete: Load Homepage"
   end
 
-  require 'curate/pages/about_page'
   scenario 'Test start: Go to About page' do
     log.info RSpec.current_example.description
     visit '/'
@@ -29,7 +27,6 @@ feature 'User Browsing', js: true do
     log.info "Test complete: Go to About page"
   end
 
-  require 'curate/pages/faq_page'
   scenario 'Test start: Go to FAQ page' do
     log.info RSpec.current_example.description
     visit '/'
@@ -40,7 +37,6 @@ feature 'User Browsing', js: true do
     log.info 'Test complete: Go to FAQ page'
   end
 
-  require 'curate/pages/catalog_page'
   scenario 'Test 6a: Go to catalog search page with empty search term' do
     log.info RSpec.current_example.description
     visit '/'
@@ -107,7 +103,6 @@ feature 'User Browsing', js: true do
     print "Clicked on clear all\n"
   end
 
-  require 'curate/pages/contribute_page'
   scenario 'Test 7: Contribute Your Work' do
     visit '/'
     click_on('Contribute Your Work')
@@ -117,7 +112,6 @@ feature 'User Browsing', js: true do
     print "Clicked Contribute Your Work\n"
   end
 
-  require 'curate/pages/departments_page'
   scenario 'Test 8: Materials by Department link' do
     log.info RSpec.current_example.description
     visit '/'
@@ -136,7 +130,6 @@ feature 'User Browsing', js: true do
 end
 
 feature 'Requesting Help', js: true do
-  require 'curate/pages/modal_help_page'
   scenario 'Test 1: Go to help page' do
     visit '/'
     click_on('Help')
