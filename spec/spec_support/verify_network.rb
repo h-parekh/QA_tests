@@ -14,7 +14,7 @@ module VerifyNetwork
       end
       text
     end
-    @@log.info "Verify Network traffic"
+    Logging.logger['curate'].info "Verify Network traffic"
     failed_resources = []
     page.driver.network_traffic.each do |request|
       request.response_parts.uniq(&:url).each do |response|

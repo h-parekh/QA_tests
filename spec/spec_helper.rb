@@ -12,27 +12,12 @@ require 'capybara_error_intel/dsl'
 require 'capybara-screenshot/rspec'
 require 'logging'
 require 'rspec/logging_helper'
+require 'spec_support/current_example'
 require 'spec_support/verify_network'
 require 'spec_support/inject_current_url_logging'
 
 Capybara.run_server = false
 
-class PoltergeistLog
-  def initialize
-    @log = Logging.logger['poltergeist']
-    Logging.appenders.stdout(layout: Logging.layouts.pattern(format_as: :json))
-    @log.add_appenders('stdout')
-    @log.level = :fatal
-  end
-
-  def puts(*args)
-    @log.info(*args)
-  end
-end
-
-Capybara.register_driver :poltergeist do |app|
-  Capybara::Poltergeist::Driver.new(app, debug: true, logger: PoltergeistLog.new)
-end
 Capybara.current_driver = :poltergeist
 # Capybara.default_max_wait_time = 10 #This sets wait time globally
 
@@ -55,21 +40,8 @@ RSpec.configure do |config|
   config.order = :random
   Kernel.srand config.seed
 
-  config.before(:example) do |ex|
-    application_host_by_example(ex)
+  config.around(:example) do |example|
+    @current_example = CurrentExample.new(example: example, config: ENV)
+    @current_example.run { example.run }
   end
-
-  config.after(:example) do |_ex|
-    VerifyNetwork.verify_network_traffic(page, self)
-  end
-end
-
-def application_host_by_example(example)
-  spec_helper_path = File.dirname(__FILE__)
-  spec_path = example.metadata.fetch(:absolute_file_path)
-  spec_sub_directory = spec_path.sub("#{spec_helper_path}/", '').split('/').first
-  # TODO: There may be a mix of environments that we want to test; How to handle this? The current assumption is test the same environment.
-  environment = ENV.fetch('ENVIRONMENT', 'prod')
-  servers_by_environment = YAML.load_file(File.expand_path("./#{spec_sub_directory}/#{spec_sub_directory}_config.yml", spec_helper_path))
-  Capybara.app_host = servers_by_environment.fetch(environment)
 end
