@@ -11,7 +11,6 @@ feature 'User Browsing', js: true do
   scenario 'Test start: Load Homepage' do
     log.info RSpec.current_example.description
     visit '/'
-    log.info current_url
     home_page = Curate::Pages::HomePage.new
     expect(home_page).to be_on_page
     log.info "Test complete: Load Homepage"
@@ -21,7 +20,6 @@ feature 'User Browsing', js: true do
     log.info RSpec.current_example.description
     visit '/'
     click_on('About')
-    log.info current_url
     about_page = Curate::Pages::AboutPage.new
     expect(about_page).to be_on_page
     log.info "Test complete: Go to About page"
@@ -31,7 +29,6 @@ feature 'User Browsing', js: true do
     log.info RSpec.current_example.description
     visit '/'
     click_on('FAQ')
-    log.info current_url
     faq_page = Curate::Pages::FaqPage.new
     expect(faq_page).to be_on_page
     log.info 'Test complete: Go to FAQ page'
@@ -41,7 +38,6 @@ feature 'User Browsing', js: true do
     log.info RSpec.current_example.description
     visit '/'
     click_on('Search')
-    log.info current_url
     catalog_page = Curate::Pages::CatalogPage.new({})
     expect(catalog_page).to be_on_page
     print "Clicked empty search\n"
@@ -52,7 +48,6 @@ feature 'User Browsing', js: true do
     search_term = "Article"
     fill_in('catalog_search', with: search_term)
     click_on('Search')
-    log.info current_url
     catalog_page = Curate::Pages::CatalogPage.new(search_term: search_term)
     expect(catalog_page).to be_on_page
     print "Clicked search for #{search_term}\n"
@@ -66,7 +61,6 @@ feature 'User Browsing', js: true do
     visit '/'
     title = 'Theses & Dissertations'
     click_on(title)
-    log.info current_url
     category_page = Curate::Pages::CatalogPage.new(category: :thesis)
     expect(category_page).to be_on_page
     print "Clicked '#{title}' Link\n"
@@ -80,7 +74,6 @@ feature 'User Browsing', js: true do
     visit '/'
     title = 'Articles & Publications'
     click_on(title)
-    log.info current_url
     category_page = Curate::Pages::CatalogPage.new(category: :article)
     expect(category_page).to be_on_page
     print "Clicked '#{title}' Link\n"
@@ -94,7 +87,6 @@ feature 'User Browsing', js: true do
     visit '/'
     title = 'Datasets & Related Materials'
     click_on(title)
-    log.info current_url
     category_page = Curate::Pages::CatalogPage.new(category: :dataset)
     expect(category_page).to be_on_page
     print "Clicked '#{title}' Link\n"
@@ -116,14 +108,12 @@ feature 'User Browsing', js: true do
     log.info RSpec.current_example.description
     visit '/'
     click_on('Materials by Department')
-    log.info current_url
     dept_page = Curate::Pages::DepartmentsPage.new
     expect(dept_page).to be_on_page
     print "Clicked 'Materials by Department' Link\n"
     departmental_link = dept_page.select_random_departmental_link
     dept_search_page = Curate::Pages::CatalogPage.new(category: :department, departmental_link: departmental_link)
     visit departmental_link.link
-    log.info current_url
     expect(dept_search_page).to be_on_page
     print "Clicked department search for #{departmental_link.caption}\n"
   end
