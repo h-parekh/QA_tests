@@ -1,10 +1,11 @@
 # frozen_string_literal: true
 require 'curate/curate_spec_helper'
 
-Logging.logger.root.appenders = Logging.appenders.stdout
-Logging.logger.root.level = :info
-
 log = Logging.logger['curate']
+Logging.appenders.stdout(layout: Logging.layouts.pattern(format_as: :json))
+
+log.add_appenders('stdout')
+log.level = :info
 
 feature 'User Browsing', js: true do
   #     scenario 'Test 1: Login to Curate with correct credentials' do
@@ -88,35 +89,35 @@ feature 'User Browsing', js: true do
   #     end
 
   require 'curate/pages/home_page'
-  scenario 'Test 3: Test homepage' do
+  scenario 'Test start: Load Homepage' do
     log.info RSpec.current_example.description
     visit '/'
     log.info current_url
     home_page = Curate::Pages::HomePage.new
     expect(home_page).to be_on_page
-    print "Accessed home page\n"
+    log.info "Test complete: Load Homepage"
   end
 
   require 'curate/pages/about_page'
-  scenario 'Test 4: Go to About page' do
+  scenario 'Test start: Go to About page' do
     log.info RSpec.current_example.description
     visit '/'
     click_on('About')
     log.info current_url
     about_page = Curate::Pages::AboutPage.new
     expect(about_page).to be_on_page
-    print "Clicked About\n"
+    log.info "Test complete: Go to About page"
   end
 
   require 'curate/pages/faq_page'
-  scenario 'Test 5: Go to FAQ page' do
+  scenario 'Test start: Go to FAQ page' do
     log.info RSpec.current_example.description
     visit '/'
     click_on('FAQ')
     log.info current_url
     faq_page = Curate::Pages::FaqPage.new
     expect(faq_page).to be_on_page
-    print "Clicked FAQ\n"
+    log.info 'Test complete: Go to FAQ page'
   end
 
   require 'curate/pages/catalog_page'
