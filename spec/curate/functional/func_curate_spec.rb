@@ -147,15 +147,92 @@ feature 'Requesting Help', js: true do
     click_on('Submit')
     expect(page).to have_selector('#ajax-modal', visible: true)
   end
+end
 
-  scenario 'Test: Facet Navigation' do
+feature 'Facet Navigation', js: true do
+  scenario 'Department or Unit' do
     visit '/'
     click_on('Search')
     print "Testing #{current_url}\n"
-    expect(find('#ajax-modal').visible?).to be_falsey
+    expect(page).not_to have_selector("#ajax-modal")
     click_on('Department or Unit')
-    #expect(page).to have_selector('#ajax-modal', visible: false)
-    find(:css, "#ajax-modal").should be_visible
+    expect(page).to have_selector('#ajax-modal', visible: true)
+    expect(page).to have_content('Department or Unit')
     print "Clicked  Department or Unit \n"
+    within('#ajax-modal') do
+      find('.close').click
+    end
+    expect(page).not_to have_selector("#ajax-modal")
+  end
+
+  scenario 'Collection' do
+    visit '/'
+    click_on('Search')
+    print "Testing #{current_url}\n"
+    expect(page).not_to have_selector("#ajax-modal")
+    click_on('Collection')
+    expect(page).to have_selector('#ajax-modal', visible: true)
+    expect(page).to have_content('Collection')
+    print "Clicked  Department or Unit \n"
+    within('#ajax-modal') do
+      find('.close').click
+    end
+    expect(page).not_to have_selector("#ajax-modal")
+  end
+
+  scenario 'Type of Work' do
+    visit '/'
+    click_on('Search')
+    expect(page).not_to have_css('#collapse_Type_of_Work.in.collapse')
+    find("a[data-target='#collapse_Type_of_Work']").click
+    expect(page).to have_css('#collapse_Type_of_Work.in.collapse')
+  end
+
+  scenario 'Type of Work' do
+    visit '/'
+    click_on('Search')
+    expect(page).not_to have_css('#collapse_Type_of_Work.in.collapse')
+    find("a[data-target='#collapse_Type_of_Work']").click
+    expect(page).to have_css('#collapse_Type_of_Work.in.collapse')
+  end
+
+  scenario 'Creator' do
+    visit '/'
+    click_on('Search')
+    expect(page).not_to have_css('#collapse_Creator.in.collapse')
+    find("a[data-target='#collapse_Creator']").click
+    expect(page).to have_css('#collapse_Creator.in.collapse')
+  end
+
+  scenario 'Subject' do
+    visit '/'
+    click_on('Search')
+    expect(page).not_to have_css('#collapse_Subject.in.collapse')
+    find("a[data-target='#collapse_Subject']").click
+    expect(page).to have_css('#collapse_Subject.in.collapse')
+  end
+
+  scenario 'Language' do
+    visit '/'
+    click_on('Search')
+    expect(page).not_to have_css('#collapse_Language.in.collapse')
+    find("a[data-target='#collapse_Language']").click
+    expect(page).to have_css('#collapse_Language.in.collapse')
+  end
+
+  scenario 'Publisher' do
+    visit '/'
+    click_on('Search')
+    expect(page).not_to have_css('#collapse_Publisher.in.collapse')
+    find("a[data-target='#collapse_Publisher']").click
+    expect(page).to have_css('#collapse_Publisher.in.collapse')
+  end
+
+  scenario 'Academic Status' do
+    visit '/'
+    click_on('Search')
+    expect(page).not_to have_css('#collapse_Academic_Status.in.collapse')
+    find("a[data-target='#collapse_Academic_Status']").click
+    expect(page).to have_css('#collapse_Academic_Status.in.collapse')
   end
 end
