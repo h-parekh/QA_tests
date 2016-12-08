@@ -110,14 +110,14 @@ feature 'User Browsing', js: true do
   end
 
   require 'curate/pages/faq_page'
-  scenario 'Test: Go to FAQ page' do
+  scenario 'Test start: Go to FAQ page' do
     log.info RSpec.current_example.description
     visit '/'
     click_on('FAQ')
     log.info current_url
     faq_page = Curate::Pages::FaqPage.new
     expect(faq_page).to be_on_page
-    print "Clicked FAQ\n"
+    log.info 'Test complete: Go to FAQ page'
   end
 
   require 'curate/pages/catalog_page'
