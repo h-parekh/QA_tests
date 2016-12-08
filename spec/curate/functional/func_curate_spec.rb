@@ -205,12 +205,12 @@ feature 'User Browsing', js: true do
     dept_page = Curate::Pages::DepartmentsPage.new
     expect(dept_page).to be_on_page
     print "Clicked 'Materials by Department' Link\n"
-    link_info = dept_page.select_random_departmental_link
-    dept_search_page = Curate::Pages::CatalogPage.new(category: :department, caption: link_info[:caption], count: link_info[:count], link: link_info[:link])
-    visit link_info[:link]
+    departmental_link = dept_page.select_random_departmental_link
+    dept_search_page = Curate::Pages::CatalogPage.new(category: :department, departmental_link: departmental_link)
+    visit departmental_link.link
     log.info current_url
     expect(dept_search_page).to be_on_page
-    print "Clicked department search for #{link_info[:caption]}\n"
+    print "Clicked department search for #{departmental_link.caption}\n"
   end
 end
 

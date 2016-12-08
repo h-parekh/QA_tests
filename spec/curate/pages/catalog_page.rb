@@ -1,4 +1,6 @@
 # frozen_string_literal: true
+require 'active_support/core_ext/module/delegation'
+
 module Curate
   module Pages
     # /catalog
@@ -6,7 +8,7 @@ module Curate
       include Capybara::DSL
       include CapybaraErrorIntel::DSL
 
-      attr_reader :search_term, :category, :count, :caption, :link
+      attr_reader :search_term, :category, :departmental_link
 
       LOOKUP_CATEGORY_URL = {
         thesis: "/catalog?f_inclusive%5Bhuman_readable_type_sim%5D%5B%5D=Doctoral+Dissertation&f_inclusive%5Bhuman_readable_type_sim%5D%5B%5D=Master%27s+Thesis",
@@ -30,13 +32,13 @@ module Curate
         department: "Department or Unit:"
       }.freeze
 
-      def initialize(search_term: nil, category: nil, caption: nil, count: nil, link: nil)
+      def initialize(search_term: nil, category: nil, departmental_link: nil)
         @search_term = search_term
         @category = category
-        @caption = caption
-        @count = count
-        @link = link
+        @departmental_link = departmental_link
       end
+
+      delegate :count, :link, :caption, to: :departmental_link, allow_nil: true
 
       def on_page?
         on_valid_url? &&
