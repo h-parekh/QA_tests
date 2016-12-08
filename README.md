@@ -52,6 +52,33 @@ cap production deploy
 
 ## Writing New Tests
 
+### Logging
+
+Many of the events are already logged to the appropriate location (e.g. when you click a link, visit a page, submit a form).
+[See ExampleLogging for examples](./spec/spec_support/example_logging.rb).
+
+You can add custom logging within a spec by calling the `current_logger` method. You can write log messages with the following methods on `current_logger`:
+
+* debug
+* info
+* warn
+* error
+* fatal
+
+#### Example
+
+```ruby
+it 'will log a single line' do
+  current_logger.debug(context: "hello", message: "something custom")
+end
+
+it 'will accept a block, wrapping the calling of the block with a starting the context and ending the context log message' do
+  current_logger.debug(context: "remote_request", url: "https://google.com") do
+    make_remote_request
+  end
+end
+```
+
 ### Chatter on the Terminal
 
 When you are writing new tests, you will notice a lot of chatter in the terminal. There are three possible things being reported:
