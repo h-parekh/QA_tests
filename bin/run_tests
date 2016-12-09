@@ -1,5 +1,7 @@
 #!/usr/bin/env ruby -wU
 
+require File.expand_path('../../spec/spec_support/example_logging', __FILE__)
+
 #*******************************************************************************
 #
 # CONFIGURATION OPTIONS
@@ -8,8 +10,8 @@
 
 CONFIG_KEYS = [:ENVIRONMENT, :LOG_LEVEL].freeze
 
-ENVIRONMENT = ENV.fetch('ENVIRONMENT', 'prod')
-LOG_LEVEL = ENV.fetch('LOG_LEVEL', 'info')
+ENVIRONMENT = ENV.fetch('ENVIRONMENT', ExampleLogging::DEFAULT_ENVIRONMENT)
+LOG_LEVEL = ENV.fetch('LOG_LEVEL', ExampleLogging::DEFAULT_LOG_LEVEL)
 
 #*******************************************************************************
 #

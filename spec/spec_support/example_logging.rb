@@ -6,6 +6,9 @@ require 'active_support/core_ext/module/delegation'
 # It is intended to be included in the RSpec example context so as to expose
 # the @current_logger instance variable
 module ExampleLogging
+  DEFAULT_ENVIRONMENT = 'prod'
+  DEFAULT_LOG_LEVEL = 'info'
+
   # Given that we want to send logs to different locations based on application,
   # we need to initialize different loggers. We also don't want to keep adding
   # appenders, so this is a means of instantiating all of those loggers before
@@ -20,7 +23,7 @@ module ExampleLogging
     entries.each do |entry|
       logger = Logging.logger[entry.split('/').last]
       logger.add_appenders('stdout')
-      logger.level = config.fetch('LOG_LEVEL', :info).to_sym
+      logger.level = config.fetch('LOG_LEVEL', DEFAULT_LOG_LEVEL).to_sym
     end
   end
 
@@ -59,8 +62,6 @@ module ExampleLogging
   # Responsible for wrapping the testing process within a predicatable logging environment.
   # The wrapper behaves like the underlying logger.
   class ExampleWrapperWithLogging
-    DEFAULT_ENVIRONMENT = 'prod'
-
     # This repository tests multiple applications. Each named application is a subdirectory of './spec/'
     # @example 'curate'
     # @return [String]
