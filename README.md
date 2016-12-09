@@ -52,6 +52,33 @@ cap production deploy
 
 ## Writing New Tests
 
+### Logging
+
+Many of the events are already logged to the appropriate location (e.g. when you click a link, visit a page, submit a form).
+[See ExampleLogging for examples](./spec/spec_support/example_logging.rb).
+
+You can add custom logging within a spec by calling the `current_logger` method. You can write log messages with the following methods on `current_logger`:
+
+* debug
+* info
+* warn
+* error
+* fatal
+
+#### Example
+
+```ruby
+it 'will log a single line' do
+  current_logger.debug(context: "hello", message: "something custom")
+end
+
+it 'will accept a block, wrapping the calling of the block with a starting the context and ending the context log message' do
+  current_logger.debug(context: "remote_request", url: "https://google.com") do
+    make_remote_request
+  end
+end
+```
+
 ### Chatter on the Terminal
 
 When you are writing new tests, you will notice a lot of chatter in the terminal. There are three possible things being reported:
@@ -64,27 +91,33 @@ When writing the tests, we need to fix the deprecation warnings. In order to fix
 
 As such, you should run the specs so that our tests are not writing log information to STDOUT.
 
-(TODO: Provide scripts to run tests)
+## Running Tests
 
-## Running the tests on remote
-ssh into testcontroller01.library.nd.edu as 'app' user and run below commands:
-``` console
-cd /home/app/QA_tests/current
-ENVIRONMENT=prod bundle exec rspec spec/<app_name>/<type_of_test>/r_spec.rb
+To run the tests use the `./bin/run_tests` command. For more information on available parameters `./bin/run_tests -h`.
+
+### Examples
+
+#### Testing on the remote
+
+This will run all of the tests.
+```console
+$ ssh app@testcontroller01.library.nd.edu
+$ cd /home/app/QA_tests/current
+$ ./bin/run_tests
 ```
-Example for running the functional test against curate prod:
+
+This will run the `func_curate_spec.rb` specific functional test of Curate.
 ``` console
-cd /home/app/QA_tests/current
-ENVIRONMENT=prod bundle exec rspec spec/curate/functional/func_curate_spec.rb
+$ ssh app@testcontroller01.library.nd.edu
+$ cd /home/app/QA_tests/current
+$ ./bin/run_tests spec/curate/functional/func_curate_spec.rb
 ```
 
-## Running the tests on your own machine
-
-The following will run the `spec/curate/functional/func_curate_spec.rb` against the `prod` environment (as defined in [`spec/curate/curate_config.yml`](spec/curate/curate_config.yml)).
+#### Testing on your local machine
 
 ```console
-cd /path/to/QA_tests
-ENVIRONMENT=prod rspec spec/curate/functional/func_curate_spec.rb
+$ cd /path/to/QA_tests
+$ ./bin/run_tests spec/curate/functional/func_curate_spec.rb
 ```
 
 ## Running Rubocop
