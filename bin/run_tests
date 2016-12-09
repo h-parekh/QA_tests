@@ -38,6 +38,7 @@ if ARGV.grep(/-h/i).size == 1
     $stdout.puts "\t#{key}='#{Object.const_get(key)}'"
   end
   $stdout.puts ""
+  $stdout.puts "Available LOG_LEVEL: #{ExampleLogging::AVAILABLE_LOG_LEVELS.join(', ')}"
   $stdout.puts "You can override the configuration option by adding the corresponding"
   $stdout.puts "ENV variable."
   $stdout.puts ""
