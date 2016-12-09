@@ -1,0 +1,50 @@
+#!/usr/bin/env ruby -wU
+
+require File.expand_path('../../spec/spec_support/example_logging', __FILE__)
+
+#*******************************************************************************
+#
+# CONFIGURATION OPTIONS
+#
+#*******************************************************************************
+
+CONFIG_KEYS = [:ENVIRONMENT, :LOG_LEVEL].freeze
+
+ENVIRONMENT = ENV.fetch('ENVIRONMENT', ExampleLogging::DEFAULT_ENVIRONMENT)
+LOG_LEVEL = ENV.fetch('LOG_LEVEL', ExampleLogging::DEFAULT_LOG_LEVEL)
+
+#*******************************************************************************
+#
+# HELP OPTIONS
+#
+#*******************************************************************************
+
+if ARGV.grep(/-h/i).size == 1
+  $stdout.puts "This script is responsible for running the tests of the QA_test repository."
+  $stdout.puts ""
+  $stdout.puts "$ ./bin/#{File.basename(__FILE__)} [path/to/spec]"
+  $stdout.puts ""
+  $stdout.puts "To run all of the tests:"
+  $stdout.puts "  $ ./bin/run_tests"
+  $stdout.puts ""
+  $stdout.puts "To run some of the tests:"
+  $stdout.puts "  $ ./bin/run_tests path/to/spec.rb"
+  $stdout.puts ""
+  $stdout.puts "You may also pass any options of the options of rspec to this script"
+  $stdout.puts ""
+  $stdout.puts "Current Configuration:"
+  $stdout.puts ""
+  CONFIG_KEYS.each do |key|
+    $stdout.puts "\t#{key}='#{Object.const_get(key)}'"
+  end
+  $stdout.puts ""
+  $stdout.puts "Available LOG_LEVEL: #{ExampleLogging::AVAILABLE_LOG_LEVELS.join(', ')}"
+  $stdout.puts "You can override the configuration option by adding the corresponding"
+  $stdout.puts "ENV variable."
+  $stdout.puts ""
+  $stdout.puts "Example:"
+  $stdout.puts "$ ENVIRONMENT=local ./bin/#{File.basename(__FILE__)}"
+  exit(0)
+end
+
+exec("ENVIRONMENT=#{ENVIRONMENT} LOG_LEVEL=#{LOG_LEVEL} bundle exec rspec #{ARGV.join(" ")}")
