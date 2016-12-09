@@ -91,8 +91,6 @@ When writing the tests, we need to fix the deprecation warnings. In order to fix
 
 As such, you should run the specs so that our tests are not writing log information to STDOUT.
 
-(TODO: Provide scripts to run tests)
-
 ## Running Tests
 
 To run the tests use the `./bin/run_tests` command. For more information on available parameters `./bin/run_tests -h`.
