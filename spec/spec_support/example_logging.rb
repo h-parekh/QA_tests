@@ -8,7 +8,7 @@ require 'active_support/core_ext/module/delegation'
 module ExampleLogging
   DEFAULT_ENVIRONMENT = 'prod'
   DEFAULT_LOG_LEVEL = 'info'
-  AVAILABLE_LOG_LEVELS = %w(debug info warning error fatal)
+  AVAILABLE_LOG_LEVELS = %w(debug info warn error fatal)
 
   # Given that we want to send logs to different locations based on application,
   # we need to initialize different loggers. We also don't want to keep adding
