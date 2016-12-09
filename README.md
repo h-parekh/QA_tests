@@ -93,25 +93,33 @@ As such, you should run the specs so that our tests are not writing log informat
 
 (TODO: Provide scripts to run tests)
 
-## Running the tests on remote
-ssh into testcontroller01.library.nd.edu as 'app' user and run below commands:
-``` console
-cd /home/app/QA_tests/current
-ENVIRONMENT=prod bundle exec rspec spec/<app_name>/<type_of_test>/r_spec.rb
-```
-Example for running the functional test against curate prod:
-``` console
-cd /home/app/QA_tests/current
-ENVIRONMENT=prod bundle exec rspec spec/curate/functional/func_curate_spec.rb
+## Running Tests
+
+To run the tests use the `./bin/run_tests` command. For more information on available parameters `./bin/run_tests -h`.
+
+### Examples
+
+#### Testing on the remote
+
+This will run all of the tests.
+```console
+$ ssh app@testcontroller01.library.nd.edu
+$ cd /home/app/QA_tests/current
+$ ./bin/run_tests
 ```
 
-## Running the tests on your own machine
+This will run the `func_curate_spec.rb` specific functional test of Curate.
+``` console
+$ ssh app@testcontroller01.library.nd.edu
+$ cd /home/app/QA_tests/current
+$ ./bin/run_tests spec/curate/functional/func_curate_spec.rb
+```
 
-The following will run the `spec/curate/functional/func_curate_spec.rb` against the `prod` environment (as defined in [`spec/curate/curate_config.yml`](spec/curate/curate_config.yml)).
+#### Testing on your local machine
 
 ```console
-cd /path/to/QA_tests
-ENVIRONMENT=prod rspec spec/curate/functional/func_curate_spec.rb
+$ cd /path/to/QA_tests
+$ ./bin/run_tests spec/curate/functional/func_curate_spec.rb
 ```
 
 ## Running Rubocop
