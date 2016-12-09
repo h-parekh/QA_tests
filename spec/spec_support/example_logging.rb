@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-require 'active_support/core_ext/module/delegation'
 
 # This module provides mechanisms for consolidating logging
 #
