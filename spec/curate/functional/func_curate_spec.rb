@@ -2,7 +2,7 @@
 require 'curate/curate_spec_helper'
 
 feature 'User Browsing', js: true do
-  scenario 'Test start: Load Homepage' do
+  scenario 'Load Homepage' do
     visit '/'
     home_page = Curate::Pages::HomePage.new
     expect(home_page).to be_on_page
@@ -106,12 +106,10 @@ feature 'Facet Navigation', js: true do
   scenario 'Department or Unit' do
     visit '/'
     click_on('Search')
-    print "Testing #{current_url}\n"
     expect(page).not_to have_selector("#ajax-modal")
     click_on('Department or Unit')
     expect(page).to have_selector('#ajax-modal', visible: true)
     expect(page).to have_content('Department or Unit')
-    print "Clicked  Department or Unit \n"
     within('#ajax-modal') do
       find('.close').click
     end
@@ -121,12 +119,10 @@ feature 'Facet Navigation', js: true do
   scenario 'Collection' do
     visit '/'
     click_on('Search')
-    print "Testing #{current_url}\n"
     expect(page).not_to have_selector("#ajax-modal")
     click_on('Collection')
     expect(page).to have_selector('#ajax-modal', visible: true)
     expect(page).to have_content('Collection')
-    print "Clicked  Department or Unit \n"
     within('#ajax-modal') do
       find('.close').click
     end
@@ -137,30 +133,15 @@ feature 'Facet Navigation', js: true do
     visit '/'
     click_on('Search')
     facet_listing = ['Type_of_Work', 'Creator', 'Subject', 'Language', 'Publisher', 'Related_Resource(s)', 'Academic_Status'].freeze
-    within('ul.facets') do
-      facet_listing.each do |facet_name|
-        print "Testing #{facet_name}\n"
-        next unless has_content?(facet_name)
-        expect(page).not_to have_css("#collapse_#{facet_name}.in.collapse")
+    facet_listing.each do |facet_name|
+      facet_title = facet_name.gsub('_',' ')
+      current_logger.info(context: "Processing Facet: #{facet_name}")
+      within('ul.facets') do
+        current_logger.debug(context: "Facet #{facet_name} unavailable")unless has_content?(facet_title)
+        expect(page).not_to have_css("#collapse_#{facet_name}.in")
         find("a[data-target=\"#collapse_#{facet_name}\"]").click
-        expect(page).to have_css("#collapse_#{facet_name}.in.collapse")
+        expect(page).to have_css("#collapse_#{facet_name}.in")
       end
     end
-  end
-
-  scenario 'Publisher' do
-    visit '/'
-    click_on('Search')
-    expect(page).not_to have_css('#collapse_Publisher.in.collapse')
-    find("a[data-target='#collapse_Publisher']").click
-    expect(page).to have_css('#collapse_Publisher.in.collapse')
-  end
-
-  scenario 'Academic Status' do
-    visit '/'
-    click_on('Search')
-    expect(page).not_to have_css('#collapse_Academic_Status.in.collapse')
-    find("a[data-target='#collapse_Academic_Status']").click
-    expect(page).to have_css('#collapse_Academic_Status.in.collapse')
   end
 end
