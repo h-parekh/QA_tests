@@ -13,6 +13,7 @@ feature 'User Browsing:', js: true do
     click_on('About')
     about_page = Curate::Pages::AboutPage.new
     expect(about_page).to be_on_page
+    expect(true).to be_falsey
   end
 
   scenario 'Go to FAQ page' do
