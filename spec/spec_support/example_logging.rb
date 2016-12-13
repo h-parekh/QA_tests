@@ -173,13 +173,12 @@ module ExampleLogging
       def log(severity:, context:, **kwargs)
         message = ""
         kwargs.each { |key, value| message += %(#{key}: #{value.inspect}\t) }
-        message = message.strip
         if block_given?
-          @current_logger.public_send(severity, %(test_type: #{test_type}\t context: "BEGIN #{context}\t#{message}))
+          @current_logger.public_send(severity, %(test_type: #{test_type}\t context: "BEGIN #{context}\t#{message}).strip)
           yield
-          @current_logger.public_send(severity, %(test_type: #{test_type}\t context: "END #{context}\t#{message}))
+          @current_logger.public_send(severity, %(test_type: #{test_type}\t context: "END #{context}\t#{message}).strip)
         else
-          @current_logger.public_send(severity, %(test_type: #{test_type}\t context: "#{context}"\t#{message}))
+          @current_logger.public_send(severity, %(test_type: #{test_type}\t context: "#{context}"\t#{message}).strip)
         end
       end
 
