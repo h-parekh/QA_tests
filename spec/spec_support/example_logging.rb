@@ -22,8 +22,10 @@ module ExampleLogging
     Logging.appenders.stdout(layout: layout)
     entries = Dir.glob(File.expand_path('../../*', __FILE__))
     entries.each do |entry|
-      logger = Logging.logger[entry.split('/').last]
-      logger.add_appenders('stdout')
+      application_name_under_test = entry.split('/').last
+      logger = Logging.logger[application_name_under_test]
+      log_filename = File.expand_path("../../logs/#{application_name_under_test}.log", __FILE__)
+      logger.add_appenders('stdout', Logging.appenders.file(log_filename, layout: layout))
       logger.level = config.fetch('LOG_LEVEL', DEFAULT_LOG_LEVEL).to_sym
     end
   end
@@ -121,12 +123,36 @@ module ExampleLogging
     # @param driver [#network_traffic]
     # @return [ExampleLogging::ExampleWrapper]
     def stop(driver:)
-      info(context: "verifying_all_network_traffic") do
-        verify_network_traffic(driver: driver)
-      end
-      info(context: "END example", example: example.full_description, location: example.location)
+      conditionally_report_unsuccessful_scenario
+      report_network_traffic(driver: driver)
+      report_end_of_example
       self
     end
+
+    private
+
+      def conditionally_report_unsuccessful_scenario
+        return true if successful_scenario?
+        # Leverage RSpec's logic to zero in on the location of failure from the exception backtrace
+        location_of_failure = RSpec.configuration.backtrace_formatter.format_backtrace(example.exception.backtrace).first
+        error(context: "FAILED example", location_of_failure: location_of_failure, message: example.exception.message)
+      end
+
+      def successful_scenario?
+        example.exception.nil?
+      end
+
+      def report_network_traffic(driver:)
+        info(context: "verifying_all_network_traffic") do
+          verify_network_traffic(driver: driver)
+        end
+      end
+
+      def report_end_of_example
+        info(context: "END example", example: example.full_description, location: example.location)
+      end
+
+    public
 
     # Log a "debug" level event
     # @param context [#to_s] The context of what is being logged
