@@ -1,35 +1,35 @@
 # frozen_string_literal: true
 require 'curate/curate_spec_helper'
 
-feature 'User Browsing', js: true do
-  scenario 'Test start: Load Homepage' do
+feature 'User Browsing:', js: true do
+  scenario 'Load Homepage' do
     visit '/'
     home_page = Curate::Pages::HomePage.new
     expect(home_page).to be_on_page
   end
 
-  scenario 'Test start: Go to About page' do
+  scenario 'Go to About page' do
     visit '/'
     click_on('About')
     about_page = Curate::Pages::AboutPage.new
     expect(about_page).to be_on_page
   end
 
-  scenario 'Test start: Go to FAQ page' do
+  scenario 'Go to FAQ page' do
     visit '/'
     click_on('FAQ')
     faq_page = Curate::Pages::FaqPage.new
     expect(faq_page).to be_on_page
   end
 
-  scenario 'Test 6a: Go to catalog search page with empty search term' do
+  scenario 'Go to catalog search page with empty search term' do
     visit '/'
     click_on('Search')
     catalog_page = Curate::Pages::CatalogPage.new({})
     expect(catalog_page).to be_on_page
   end
 
-  scenario 'Test 6b: Go to catalog search page with term "Article"' do
+  scenario 'Go to catalog search page with term "Article"' do
     visit '/'
     search_term = "Article"
     fill_in('catalog_search', with: search_term)
@@ -40,7 +40,7 @@ feature 'User Browsing', js: true do
     expect(catalog_page).to be_on_base_url
   end
 
-  scenario 'Test 6c: Category search for Theses' do
+  scenario 'Category search for Theses' do
     visit '/'
     title = 'Theses & Dissertations'
     click_on(title)
@@ -50,7 +50,7 @@ feature 'User Browsing', js: true do
     expect(category_page).to be_on_base_url
   end
 
-  scenario 'Test 6d: Category search for Articles' do
+  scenario 'Category search for Articles' do
     visit '/'
     title = 'Articles & Publications'
     click_on(title)
@@ -60,7 +60,7 @@ feature 'User Browsing', js: true do
     expect(category_page).to be_on_base_url
   end
 
-  scenario 'Test 6e: Category search for Datasets' do
+  scenario 'Category search for Datasets' do
     visit '/'
     title = 'Datasets & Related Materials'
     click_on(title)
@@ -70,14 +70,14 @@ feature 'User Browsing', js: true do
     expect(category_page).to be_on_base_url
   end
 
-  scenario 'Test 7: Contribute Your Work' do
+  scenario 'Contribute Your Work' do
     visit '/'
     click_on('Contribute Your Work')
     contribute_page = Curate::Pages::ContributePage.new
     expect(contribute_page).to be_on_page
   end
 
-  scenario 'Test 8: Materials by Department link' do
+  scenario 'Materials by Department link' do
     visit '/'
     click_on('Materials by Department')
     dept_page = Curate::Pages::DepartmentsPage.new
@@ -90,7 +90,7 @@ feature 'User Browsing', js: true do
 end
 
 feature 'Requesting Help', js: true do
-  scenario 'Test 1: Go to help page' do
+  scenario 'Go to help page' do
     visit '/'
     click_on('Help')
     help_page = Curate::Pages::ModalHelpPage.new
