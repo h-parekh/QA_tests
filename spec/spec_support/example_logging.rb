@@ -18,7 +18,8 @@ module ExampleLogging
   def self.instantiate_all_loggers!(config: ENV)
     raise "You already called instantiate_all_loggers!" if @called
     @called = true
-    Logging.appenders.stdout(layout: Logging.layouts.pattern(format_as: :json))
+    layout = Logging.layouts.pattern(format_as: :json, date_pattern: "%Y-%m-%d %H:%M:%S.%L")
+    Logging.appenders.stdout(layout: layout)
     entries = Dir.glob(File.expand_path('../../*', __FILE__))
     entries.each do |entry|
       logger = Logging.logger[entry.split('/').last]
