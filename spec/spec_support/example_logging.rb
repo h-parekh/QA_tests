@@ -21,10 +21,11 @@ module ExampleLogging
     layout = Logging.layouts.pattern(format_as: :json, date_pattern: "%Y-%m-%d %H:%M:%S.%L")
     Logging.appenders.stdout(layout: layout)
     entries = Dir.glob(File.expand_path('../../*', __FILE__))
+    require 'byebug'; byebug
     entries.each do |entry|
       application_name_under_test = entry.split('/').last
       logger = Logging.logger[application_name_under_test]
-      log_filename = File.expand_path("../../logs/#{application_name_under_test}.log", __FILE__)
+      log_filename = File.expand_path("../../../logs/#{application_name_under_test}.log", __FILE__)
       logger.add_appenders('stdout', Logging.appenders.file(log_filename, layout: layout))
       logger.level = config.fetch('LOG_LEVEL', DEFAULT_LOG_LEVEL).to_sym
     end
