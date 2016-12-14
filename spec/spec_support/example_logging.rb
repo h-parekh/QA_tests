@@ -21,7 +21,6 @@ module ExampleLogging
     layout = Logging.layouts.pattern(format_as: :json, date_pattern: "%Y-%m-%d %H:%M:%S.%L")
     Logging.appenders.stdout(layout: layout)
     entries = Dir.glob(File.expand_path('../../*', __FILE__))
-    require 'byebug'; byebug
     entries.each do |entry|
       application_name_under_test = entry.split('/').last
       logger = Logging.logger[application_name_under_test]
