@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 require 'curate/curate_spec_helper'
 
-feature 'User Browsing:', js: true do
+feature 'User Browsing', js: true do
   scenario 'Load Homepage' do
     visit '/'
     home_page = Curate::Pages::HomePage.new
@@ -99,5 +99,49 @@ feature 'Requesting Help', js: true do
     fill_in('help_request_name', with: 'some name')
     click_on('Submit')
     expect(page).to have_selector('#ajax-modal', visible: true)
+  end
+end
+
+feature 'Facet Navigation', js: true do
+  scenario 'Department or Unit' do
+    visit '/'
+    click_on('Search')
+    expect(page).not_to have_selector("#ajax-modal")
+    click_on('Department or Unit')
+    expect(page).to have_selector('#ajax-modal', visible: true)
+    expect(page).to have_content('Department or Unit')
+    within('#ajax-modal') do
+      find('.close').click
+    end
+    expect(page).not_to have_selector("#ajax-modal")
+  end
+
+  scenario 'Collection' do
+    visit '/'
+    click_on('Search')
+    expect(page).not_to have_selector("#ajax-modal")
+    click_on('Collection')
+    expect(page).to have_selector('#ajax-modal', visible: true)
+    expect(page).to have_content('Collection')
+    within('#ajax-modal') do
+      find('.close').click
+    end
+    expect(page).not_to have_selector("#ajax-modal")
+  end
+
+  scenario 'Other facets' do
+    visit '/'
+    click_on('Search')
+    facet_listing = ['Type_of_Work', 'Creator', 'Subject', 'Language', 'Publisher', 'Related_Resource(s)', 'Academic_Status'].freeze
+    facet_listing.each do |facet_name|
+      facet_title = facet_name.gsub('_',' ')
+      current_logger.info(context: "Processing Facet: #{facet_name}")
+      within('ul.facets') do
+        current_logger.debug(context: "Facet #{facet_name} unavailable")unless has_content?(facet_title)
+        expect(page).not_to have_css("#collapse_#{facet_name}.in")
+        find("a[data-target=\"#collapse_#{facet_name}\"]").click
+        expect(page).to have_css("#collapse_#{facet_name}.in")
+      end
+    end
   end
 end
