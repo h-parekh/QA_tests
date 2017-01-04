@@ -43,6 +43,10 @@ RSpec.configure do |config|
   config.order = :random
   Kernel.srand config.seed
 
+  config.before(:suite) do
+    RunIdentifier.set
+  end
+
   config.before(:example) do |rspec_example|
     @current_logger = ExampleLogging.start(example: rspec_example, config: ENV, test_handler: self)
   end
