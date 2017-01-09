@@ -56,3 +56,9 @@ RSpec.configure do |config|
     @current_logger.stop(driver: Capybara.current_session.driver)
   end
 end
+
+Capybara::Webkit.configure do |config|
+  config.allow_url("*.library.nd.edu")
+  config.allow_url("testlibnd-dave.s3-website-us-east-1.amazonaws.com")
+  config.allow_url("fonts.googleapis.com")
+end
