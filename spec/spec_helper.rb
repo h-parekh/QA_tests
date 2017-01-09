@@ -16,11 +16,10 @@ Dir.glob(File.expand_path('../spec_support/**/*.rb', __FILE__)).each { |filename
 
 Capybara.run_server = false
 
-Capybara.current_driver = :poltergeist
-# Capybara.default_max_wait_time = 10 #This sets wait time globally
-
-# If you don't provide this, Capybara will pick  the selenium driver for javascript_driver by default
-Capybara.javascript_driver = :poltergeist
+Capybara::Webkit.configure do |config|
+  config.allow_unknown_urls
+  config.skip_image_loading
+end
 
 # set the save path used in capybara-screenshot
 Capybara.save_path = './tmp/screenshots'
@@ -52,10 +51,4 @@ RSpec.configure do |config|
   config.after(:example) do |_|
     @current_logger.stop(driver: Capybara.current_session.driver)
   end
-end
-
-Capybara::Webkit.configure do |config|
-  config.allow_url("*libnd*.amazonaws.com")
-  config.allow_url("fonts.googleapis.com")
-  config.allow_url("*.library.nd.edu")
 end

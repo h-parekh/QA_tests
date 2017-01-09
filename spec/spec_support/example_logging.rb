@@ -101,6 +101,11 @@ module ExampleLogging
     # @return [String]
     attr_reader :test_type
 
+    # The name of the driver in which the scenario is run.
+    # @example :poltergeist
+    # @return [Symbol]
+    attr_reader :capybara_driver_name
+
     def initialize(example:, test_handler:, config: ENV)
       @example = example
       @config = config
@@ -110,6 +115,7 @@ module ExampleLogging
       initialize_example_variables!
       initialize_app_host!
       @current_logger = Logging.logger[application_name_under_test]
+      initialize_capybara_drivers!
     end
 
     # Responsible for logging the start of a test
@@ -124,14 +130,24 @@ module ExampleLogging
     # @return [ExampleLogging::ExampleWrapper]
     def stop(driver:)
       conditionally_report_unsuccessful_scenario
-      if (driver == 'poltergeist')
-        report_network_traffic(driver: driver)
-      end
+      report_network_traffic(driver: driver)
       report_end_of_example
       self
     end
 
     private
+
+      CAPYBARA_DRIVER_MAP = {
+        'dave' => :webkit
+      }.freeze
+
+      DEFAULT_CAPYBARA_DRIVER = :poltergeist
+
+      def initialize_capybara_drivers!
+        @capybara_driver_name = CAPYBARA_DRIVER_MAP.fetch(application_name_under_test, :poltergeist)
+        Capybara.current_driver = @capybara_driver_name
+        Capybara.javascript_driver = @capybara_driver_name
+      end
 
       def conditionally_report_unsuccessful_scenario
         return true if successful_scenario?
@@ -145,9 +161,14 @@ module ExampleLogging
       end
 
       def report_network_traffic(driver:)
+        return true unless driver_allows_network_traffic_verification?
         info(context: "verifying_all_network_traffic") do
           verify_network_traffic(driver: driver)
         end
+      end
+
+      def driver_allows_network_traffic_verification?
+        capybara_driver_name == :poltergeist
       end
 
       def report_end_of_example
