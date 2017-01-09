@@ -1,8 +1,5 @@
 require 'dave/dave_spec_helper'
 
-Capybara.current_driver = :webkit
-Capybara.javascript_driver = :webkit
-
 feature 'DAVE artifact viewing', js: true do
   scenario 'Load 1st example' do
     visit '/0/MSN-COL_9101-1-B/0/1/0'
