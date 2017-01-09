@@ -52,7 +52,6 @@ GEM
     domain_name (0.5.20161129)
       unf (>= 0.0.5, < 1.0.0)
     ffi (1.9.14)
-    highline (1.7.8)
     http-cookie (1.0.3)
       domain_name (~> 0.5)
     i18n (0.7.0)
@@ -148,7 +147,6 @@ DEPENDENCIES
   capybara-screenshot
   capybara-webkit
   capybara_error_intel
-  highline
   logging
   poltergeist
   rspec
