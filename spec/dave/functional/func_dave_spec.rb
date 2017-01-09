@@ -1,7 +1,7 @@
 require 'dave/dave_spec_helper'
 
-Capybara.current_driver = :selenium
-Capybara.javascript_driver = :selenium
+Capybara.current_driver = :webkit
+Capybara.javascript_driver = :webkit
 
 feature 'DAVE artifact viewing', js: true do
   scenario 'Load 1st example', js: true do
