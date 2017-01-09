@@ -102,30 +102,19 @@ feature 'Requesting Help', js: true do
 end
 
 feature 'Facet Navigation', js: true do
-  scenario 'Department or Unit' do
-    visit '/'
-    click_on('Search')
-    expect(page).not_to have_selector("#ajax-modal")
-    click_on('Department or Unit')
-    expect(page).to have_selector('#ajax-modal', visible: true)
-    expect(page).to have_content('Department or Unit')
-    within('#ajax-modal') do
-      find('.close').click
+  ['Department or Unit', 'Collection'].each do |facet_name|
+    scenario "#{facet_name} (as modal)" do
+      visit '/'
+      click_on('Search')
+      expect(page).not_to have_selector("#ajax-modal")
+      click_on(facet_name)
+      expect(page).to have_selector('#ajax-modal', visible: true)
+      expect(page).to have_content(facet_name)
+      within('#ajax-modal') do
+        find('.close').click
+      end
+      expect(page).not_to have_selector("#ajax-modal")
     end
-    expect(page).not_to have_selector("#ajax-modal")
-  end
-
-  scenario 'Collection' do
-    visit '/'
-    click_on('Search')
-    expect(page).not_to have_selector("#ajax-modal")
-    click_on('Collection')
-    expect(page).to have_selector('#ajax-modal', visible: true)
-    expect(page).to have_content('Collection')
-    within('#ajax-modal') do
-      find('.close').click
-    end
-    expect(page).not_to have_selector("#ajax-modal")
   end
 
   scenario 'Other facets' do
