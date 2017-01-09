@@ -1,7 +1,8 @@
+require 'spec_helper'
 # frozen_string_literal: true
 describe 'Step 1: Collections endpoint' do
-  it 'returns a response' do
-    get 'https://honeycombpprd-vm.library.nd.edu/v1/collections'
+  xit 'returns a response' do
+    visit 'https://honeycombpprd-vm.library.nd.edu/v1/collections'
 
     # headers comes back as a rspec hash, use expect validations using include matchers
     # https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers/include-matcher#hash-usage
@@ -9,7 +10,7 @@ describe 'Step 1: Collections endpoint' do
     expect(body).not_to be_empty
   end
 
-  it 'validates JSON schema' do
+  xit 'validates JSON schema' do
     get 'https://honeycombpprd-vm.library.nd.edu/v1/collections'
 
     expect(json_body).to match_array([:name_line_1, :name_line_2, :items, :unique_id, :showcases,
