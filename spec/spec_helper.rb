@@ -1,28 +1,25 @@
 # frozen_string_literal: true
-require 'rubygems'
 # use rspec/autorun only when you need to absolutely run *.rb files using ruby command
 # require 'rspec/autorun'
 require 'capybara/rspec'
 require 'capybara/dsl'
 require 'capybara/poltergeist'
-# HighLine provides a robust system for requesting data from a user
-require 'highline/import'
 require 'yaml'
 require 'capybara_error_intel/dsl'
 require 'capybara-screenshot/rspec'
 require 'logging'
 require 'rspec/logging_helper'
+require 'capybara-webkit'
 
 # Auto-require all files in spec support
 Dir.glob(File.expand_path('../spec_support/**/*.rb', __FILE__)).each { |filename| require filename }
 
 Capybara.run_server = false
 
-Capybara.current_driver = :poltergeist
-# Capybara.default_max_wait_time = 10 #This sets wait time globally
-
-# If you don't provide this, Capybara will pick  the selenium driver for javascript_driver by default
-Capybara.javascript_driver = :poltergeist
+Capybara::Webkit.configure do |config|
+  config.allow_unknown_urls
+  config.skip_image_loading
+end
 
 # set the save path used in capybara-screenshot
 Capybara.save_path = './tmp/screenshots'
