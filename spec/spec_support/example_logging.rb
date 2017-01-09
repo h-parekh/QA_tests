@@ -124,7 +124,9 @@ module ExampleLogging
     # @return [ExampleLogging::ExampleWrapper]
     def stop(driver:)
       conditionally_report_unsuccessful_scenario
-      report_network_traffic(driver: driver)
+      if (driver == 'poltergeist')
+        report_network_traffic(driver: driver)
+      end
       report_end_of_example
       self
     end
