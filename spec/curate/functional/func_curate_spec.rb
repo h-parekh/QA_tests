@@ -128,19 +128,15 @@ feature 'Facet Navigation', js: true do
     expect(page).not_to have_selector("#ajax-modal")
   end
 
-  scenario 'Other facets' do
+  scenario 'non-modal Facets' do
     visit '/'
     click_on('Search')
-    facet_listing = ['Type_of_Work', 'Creator', 'Subject', 'Language', 'Publisher', 'Related_Resource(s)', 'Academic_Status'].freeze
-    facet_listing.each do |facet_name|
-      facet_title = facet_name.gsub('_',' ')
+    ['Type_of_Work', 'Creator', 'Subject', 'Language', 'Publisher', 'Academic_Status'].shuffle.each do |facet_name|
+      sleep(0.3) # Included because the JS expand behavior was not always completing before the driver said it was ready
       current_logger.info(context: "Processing Facet: #{facet_name}")
-      within('ul.facets') do
-        current_logger.debug(context: "Facet #{facet_name} unavailable")unless has_content?(facet_title)
-        expect(page).not_to have_css("#collapse_#{facet_name}.in")
-        find("a[data-target=\"#collapse_#{facet_name}\"]").click
-        expect(page).to have_css("#collapse_#{facet_name}.in")
-      end
+      expect(page).not_to have_css("ul.facets #collapse_#{facet_name}.in")
+      find("ul.facets a[data-target=\"#collapse_#{facet_name}\"]").click
+      expect(page).to have_css("ul.facets #collapse_#{facet_name}.in .slide-list")
     end
   end
 end
