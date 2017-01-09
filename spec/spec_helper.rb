@@ -12,6 +12,7 @@ require 'capybara_error_intel/dsl'
 require 'capybara-screenshot/rspec'
 require 'logging'
 require 'rspec/logging_helper'
+require 'capybara-webkit'
 
 # Auto-require all files in spec support
 Dir.glob(File.expand_path('../spec_support/**/*.rb', __FILE__)).each { |filename| require filename }
