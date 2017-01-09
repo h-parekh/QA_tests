@@ -1,12 +1,9 @@
 # frozen_string_literal: true
-require 'rubygems'
 # use rspec/autorun only when you need to absolutely run *.rb files using ruby command
 # require 'rspec/autorun'
 require 'capybara/rspec'
 require 'capybara/dsl'
 require 'capybara/poltergeist'
-# HighLine provides a robust system for requesting data from a user
-require 'highline/import'
 require 'yaml'
 require 'capybara_error_intel/dsl'
 require 'capybara-screenshot/rspec'
