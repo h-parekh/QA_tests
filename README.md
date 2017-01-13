@@ -41,6 +41,24 @@ eval "$(phantomenv init -)"
 ```
 To setup through Boxen uses https://github.com/boxen/puppet-phantomjs to set up phantom JS which is a wrapper around https://github.com/boxen/phantomenv
 
+## Install/Upgrade qt5 on local:
+For sites using Reactjs we will use the webkit driver. capybara-webkit depends on a WebKit implementation from Qt, a cross-platform development toolkit.
+
+Lookup the command specific to your OS: https://github.com/thoughtbot/capybara-webkit/wiki/Installing-Qt-and-compiling-capybara-webkit#homebrew
+
+Example for macOS Sierra:
+``` console
+brew install qt5 --with-qtwebkit
+brew link --force qt5
+gem uninstall --all capybara-webkit
+gem install capybara-webkit
+which qmake; qmake --version
+# Expected output:
+# /usr/local/bin/qmake
+# QMake version 3.0
+# Using Qt version 5.x in /usr/local/Cellar/qt5/5.x/lib
+```
+
 ## Deploying master branch from local to remote testcontroller01
 ``` console
 cd git/QA_tests
