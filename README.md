@@ -53,6 +53,10 @@ brew link --force qt5
 gem uninstall --all capybara-webkit
 gem install capybara-webkit
 which qmake; qmake --version
+# Expected output:
+# /usr/local/bin/qmake
+# QMake version 3.0
+# Using Qt version 5.x in /usr/local/Cellar/qt5/5.x/lib
 ```
 
 ## Deploying master branch from local to remote testcontroller01
