@@ -1,20 +1,18 @@
+# frozen_string_literal: true
 require 'testApi/testApi_spec_helper'
-require 'airborne'
-require 'swagger'
 
-api = Swagger.load('/Users/hparekh/git/test_api/definitions/swagger.yaml')
-Airborne.configure do |config|
-  config.base_url = 'http://testcontroller02.library.nd.edu:5602' + api.basePath
-end
-
-describe 'Validate response' do
-  it 'should validate types' do
-  api.operations.each do | operation |
-    # controller_name = operation.path
-    # controller_action = operation.verb
-    puts operation.signature
-    # expect_json_types(message: :string)
-    # expect_status('200 OK')
-  end
+describe 'API tests using swagger definition' do
+  it 'calls endpoints' do
+    ApiConfig.initialize.operations.each do |operation|
+      result = RestClient::Response.new
+      case operation.verb
+      when :get
+        result = get operation.path
+      when :post
+        result = post operation.path
+      end
+      expect(result.code.to_s).to eq(operation.responses.keys[0])
+      expect_json_types(message: :string)
+    end
   end
 end
