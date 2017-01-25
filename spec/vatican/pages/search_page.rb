@@ -1,7 +1,7 @@
 module Vatican
   module Pages
 
-    class HomePage
+    class SearchPage
       include Capybara::DSL
       include CapybaraErrorIntel::DSL
 
@@ -12,7 +12,7 @@ module Vatican
       end
 
       def on_valid_url?
-        current_url == Capybara.app_host
+        current_url == File.join(Capybara.app_host, 'search?q=')
       end
 
       def status_response_ok?
@@ -21,7 +21,14 @@ module Vatican
       end
 
       def valid_page_content?
-        page.has_link?("Search The Database")
+        #within("col-sm-12") do
+        #puts(page.all('input').count)
+
+        page.has_selector?(:xpath, '//*[@id="content"]/div/div/div/div[2]/div/div[2]/div/div[1]/div/div[1]/input')
+        #within("col-sm-12") do
+
+        #  page.has_selector?("input[value='Search The Database']")
+        #end
       end
     end
   end

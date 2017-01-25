@@ -14,4 +14,12 @@ feature "User Browsing", js: true do
     instructions_page = Vatican::Pages::InstructionsPage.new
     expect(instructions_page).to be_on_page
   end
+
+  scenario 'Load Search the Database page' do
+    page.driver.browser.js_errors = false
+    visit '/'
+    click_on("Search The Database")
+    search_page = Vatican::Pages::SearchPage.new
+    expect(search_page).to be_on_page
+  end
 end
