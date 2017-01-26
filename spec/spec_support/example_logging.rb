@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+require 'forwardable'
 
 # This module provides mechanisms for consolidating logging
 #
@@ -65,10 +66,23 @@ module ExampleLogging
   # Responsible for wrapping the testing process within a predicatable logging environment.
   # The wrapper behaves like the underlying logger.
   class ExampleWrapperWithLogging
-    # This repository tests multiple applications. Each named application is a subdirectory of './spec/'
-    # @example 'curate'
-    # @return [String]
-    attr_reader :application_name_under_test
+    extend Forwardable
+
+    # @return [ExampleVariable]
+    attr_reader :example_variable
+
+    # @!attribute [r] test_type
+    #   The type of test (e.g. integration or functional) that is being run.
+    #   @example 'integration'
+    #   @return [String]
+    def_delegator :example_variable, :test_type
+
+    # @!attribute [r] application_name_under_test
+    #   This repository tests multiple applications. Each named application is a subdirectory of './spec/'
+    #   @example 'curate'
+    #   @return [String]
+    def_delegator :example_variable, :application_name_under_test
+
 
     # Used to configure the specifics of this application
     # @example ENV
@@ -95,11 +109,6 @@ module ExampleLogging
     # The context in which the tests are actually run. From here we can make assertions/expections.
     # @return [#expect]
     attr_reader :test_handler
-
-    # The type of test (e.g. integration or functional) that is being run.
-    # @example 'integration'
-    # @return [String]
-    attr_reader :test_type
 
     # The name of the driver in which the scenario is run.
     # @example :poltergeist
@@ -256,9 +265,7 @@ module ExampleLogging
       end
 
       def initialize_example_variables!
-        example_variable = ExampleVariableExtractor.call(path: @example.metadata.fetch(:absolute_file_path))
-        @application_name_under_test = example_variable.application_name_under_test
-        @test_type = example_variable.test_type
+        @example_variable = ExampleVariableExtractor.call(path: @example.metadata.fetch(:absolute_file_path))
       end
 
       def initialize_app_host!
