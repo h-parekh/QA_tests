@@ -256,10 +256,9 @@ module ExampleLogging
       end
 
       def initialize_example_variables!
-        spec_path = @example.metadata.fetch(:absolute_file_path)
-        spec_sub_directory = spec_path.sub("#{path_to_spec_directory}/", '').split('/')
-        @application_name_under_test = spec_sub_directory[0]
-        @test_type = spec_sub_directory[1]
+        example_variable = ExampleVariableExtractor.call(path: @example.metadata.fetch(:absolute_file_path))
+        @application_name_under_test = example_variable.application_name_under_test
+        @test_type = example_variable.test_type
       end
 
       def initialize_app_host!
