@@ -2,8 +2,8 @@
 require 'testApi/testApi_spec_helper'
 
 describe 'API tests using swagger definition' do
-  it 'calls endpoints' do
-    ApiConfig.initialize.operations.each do |operation|
+  ApiConfig.swagger_object.operations.each do |operation|
+    it "calls #{operation.verb} #{operation.path}" do
       result = RestClient::Response.new
       case operation.verb
       when :get
