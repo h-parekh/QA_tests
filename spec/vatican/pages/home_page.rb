@@ -21,6 +21,7 @@ module Vatican
       end
 
       def valid_page_content?
+        
         page.has_link?("Search The Database")
       end
     end

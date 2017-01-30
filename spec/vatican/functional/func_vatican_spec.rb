@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'vatican/vatican_spec_helper'
 feature "User Browsing", js: true do
   scenario 'Load Homepage' do
@@ -21,5 +22,25 @@ feature "User Browsing", js: true do
     click_on("Search The Database")
     search_page = Vatican::Pages::SearchPage.new
     expect(search_page).to be_on_page
+  end
+  scenario 'Access Navigation Menu' do
+    page.driver.browser.js_errors = false
+    visit '/'
+    click_on("Search The Database")
+    search_page = Vatican::Pages::SearchPage.new
+    expect(search_page).to be_on_page
+    #find(".material_icon").click
+    within("nav") do
+      expect(page).to have_css "a", count: 7
+    end
+  end
+  scenario 'Search By Topic' do
+    page.driver.browser.js_errors = false
+    visit '/'
+    click_on("Search The Database")
+    search_page = Vatican::Pages::SearchPage.new
+    expect(search_page).to be_on_page
+    find(:css, "i.material_icon.topic_checkbox").click
+    expect(page).to have_content "Catholic Social Teaching"
   end
 end
