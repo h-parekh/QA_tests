@@ -29,7 +29,6 @@ feature "User Browsing", js: true do
     click_on("Search The Database")
     search_page = Vatican::Pages::SearchPage.new
     expect(search_page).to be_on_page
-    #find(".material_icon").click
     within("nav") do
       expect(page).to have_css "a", count: 7
     end
@@ -40,7 +39,75 @@ feature "User Browsing", js: true do
     click_on("Search The Database")
     search_page = Vatican::Pages::SearchPage.new
     expect(search_page).to be_on_page
-    find(:css, "i.material_icon.topic_checkbox").click
+    first(:css, "i.material-icons.topic-checkbox").trigger('click')
     expect(page).to have_content "Catholic Social Teaching"
+  end
+  scenario 'Clear Selected Topic' do
+    page.driver.browser.js_errors = false
+    visit '/'
+    click_on("Search The Database")
+    search_page = Vatican::Pages::SearchPage.new
+    expect(search_page).to be_on_page
+    first(:css, "i.material-icons.topic-checkbox").trigger('click')
+    expect(page).to have_content "Catholic Social Teaching"
+    within("div.col-sm-3.left-col") do
+      find_button("Clear").trigger('click')
+    end
+    page.should have_no_content("Catholic Social Teaching")
+
+  end
+  scenario 'Search Results Divided into Columns' do
+    page.driver.browser.js_errors = false
+    visit '/'
+    click_on("Search The Database")
+    search_page = Vatican::Pages::SearchPage.new
+    expect(search_page).to be_on_page
+    node = first(:css, "input")
+    node.set("Vatican")
+    within("div.col-sm-10") do
+      find_button("search").trigger('click')
+    end
+    expect(page).to have_content("Catholic Social Teaching")
+    expect(page).to have_content("International Human Rights Law")
+
+  end
+  scenario 'Access Entire Document' do
+    page.driver.browser.js_errors = false
+    visit '/'
+    click_on("Search The Database")
+    search_page = Vatican::Pages::SearchPage.new
+    expect(search_page).to be_on_page
+    node = first(:css, "input")
+    node.set("Vatican")
+    within("div.col-sm-10") do
+      find_button("search").trigger('click')
+    end
+    expect(page).to have_content("Catholic Social Teaching")
+    expect(page).to have_content("International Human Rights Law")
+    within("div.search-list.results") do
+      first("a").trigger('click')
+      sleep(6)
+    end
+    expect(page).to have_content("Topics in Document")
+  end
+  scenario 'Sort Newest To Oldest' do
+    page.driver.browser.js_errors = false
+    visit '/'
+    click_on("Search The Database")
+    search_page = Vatican::Pages::SearchPage.new
+    expect(search_page).to be_on_page
+    node = first(:css, "input")
+    node.set("Vatican")
+    within("div.col-sm-10") do
+      find_button("search").trigger('click')
+    end
+    expect(page).to have_content("Catholic Social Teaching")
+    expect(page).to have_content("International Human Rights Law")
+    within("div.search-list.results") do
+      first("a").trigger('click')
+    end
+
+    sleep(7)
+    expect(page).to have_content("View PDF")
   end
 end
