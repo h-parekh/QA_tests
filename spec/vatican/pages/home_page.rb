@@ -16,12 +16,12 @@ module Vatican
       end
 
       def status_response_ok?
-        true
-        #status_code == 200
+
+        status_code == 200
       end
 
       def valid_page_content?
-        
+
         page.has_link?("Search The Database")
       end
     end

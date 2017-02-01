@@ -27,6 +27,7 @@ feature "User Browsing", js: true do
     page.driver.browser.js_errors = false
     visit '/'
     click_on("Search The Database")
+    sleep(3)
     search_page = Vatican::Pages::SearchPage.new
     expect(search_page).to be_on_page
     within("nav") do
@@ -45,6 +46,7 @@ feature "User Browsing", js: true do
   scenario 'Clear Selected Topic' do
     page.driver.browser.js_errors = false
     visit '/'
+    require 'byebug';byebug
     click_on("Search The Database")
     search_page = Vatican::Pages::SearchPage.new
     expect(search_page).to be_on_page
@@ -79,7 +81,7 @@ feature "User Browsing", js: true do
     expect(search_page).to be_on_page
     node = first(:css, "input")
     node.set("Vatican")
-    within("div.col-sm-10") do
+    within(first("div.col-sm-4")) do
       find_button("search").trigger('click')
     end
     expect(page).to have_content("Catholic Social Teaching")
@@ -93,21 +95,28 @@ feature "User Browsing", js: true do
   scenario 'Sort Newest To Oldest' do
     page.driver.browser.js_errors = false
     visit '/'
+    sleep(3)
     click_on("Search The Database")
     search_page = Vatican::Pages::SearchPage.new
     expect(search_page).to be_on_page
     node = first(:css, "input")
     node.set("Vatican")
-    within("div.col-sm-10") do
+    within(first("div.col-sm-4")) do
       find_button("search").trigger('click')
     end
     expect(page).to have_content("Catholic Social Teaching")
     expect(page).to have_content("International Human Rights Law")
-    within("div.search-list.results") do
-      first("a").trigger('click')
-    end
+
+    #find('select').trigger('click')
+    find('option', :text => "Date New-Old").trigger('click')
+    #if page.all('option', :text => "Date New-Old").any?  then
+    #  puts "true"
+    #end
+    #within("div.col-sm-4.right-col") do
+      #find("option").trigger('click')
+    #end
 
     sleep(7)
-    expect(page).to have_content("View PDF")
+    expect(page).to have_content("Catholic Social Teaching")
   end
 end
