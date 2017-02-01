@@ -106,16 +106,7 @@ feature "User Browsing", js: true do
     end
     expect(page).to have_content("Catholic Social Teaching")
     expect(page).to have_content("International Human Rights Law")
-
-    #find('select').trigger('click')
     find('option', :text => "Date New-Old").trigger('click')
-    #if page.all('option', :text => "Date New-Old").any?  then
-    #  puts "true"
-    #end
-    #within("div.col-sm-4.right-col") do
-      #find("option").trigger('click')
-    #end
-
     sleep(7)
     expect(page).to have_content("Catholic Social Teaching")
   end
