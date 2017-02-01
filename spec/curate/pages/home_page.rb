@@ -13,8 +13,7 @@ module Curate
       end
 
       def on_valid_url?
-        true
-        #current_url == Capybara.app_host
+        current_url == Capybara.app_host
       end
 
       def status_response_ok?
