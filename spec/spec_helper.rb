@@ -45,7 +45,6 @@ RSpec.configure do |config|
 
   config.before(:suite) do
     RunIdentifier.set
-    ApiConfig.copy_remote_swagger_config
   end
 
   config.before(:example) do |rspec_example|
