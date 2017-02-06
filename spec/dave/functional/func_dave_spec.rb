@@ -1,4 +1,5 @@
 require 'dave/dave_spec_helper'
+Capybara.default_wait_time = 30
 SITE_URL = "http://testlibnd-dave.s3-website-us-east-1.amazonaws.com/0/MSN-COL_9101-1-B/0/1/0"
 feature 'DAVE artifact viewing', js: true do
   scenario 'Load 1st example' do
@@ -164,8 +165,9 @@ feature 'DAVE artifact viewing', js: true do
     end
     grid_url = SITE_URL[0..-4]+"g/" + pg.to_s
     grid_url=grid_url+"/detail"
-    sleep(120)
     expect(page.current_url).to eq(grid_url)
-    expect(first_doc).to be_detail_view
+    using_wait_time 10 do
+      expect(first_doc).to be_detail_view
+    end
   end
 end
