@@ -8,7 +8,7 @@ feature "User Browsing", js: true do
     expect(home_page).to be_on_page
   end
 
-  scenario 'How To Use Database page' do
+  scenario 'Go to "How To Use Database" page' do
     page.driver.browser.js_errors = false
     visit '/'
     click_on('How To Use the Database')
@@ -16,37 +16,38 @@ feature "User Browsing", js: true do
     expect(instructions_page).to be_on_page
   end
 
-  scenario 'Load Search the Database page' do
+  scenario 'Load "Search the Database" page' do
     page.driver.browser.js_errors = false
     visit '/'
     click_on("Search The Database")
     search_page = Vatican::Pages::SearchPage.new
     expect(search_page).to be_on_page
   end
-  scenario 'Access Navigation Menu' do
+
+  scenario 'Validate navigation menu on search page' do
     page.driver.browser.js_errors = false
     visit '/'
     click_on("Search The Database")
-    sleep(3)
     search_page = Vatican::Pages::SearchPage.new
     expect(search_page).to be_on_page
     within("nav") do
       expect(page).to have_css "a", count: 7
     end
   end
-  scenario 'Search By Topic' do
+
+  scenario 'Check a box in "Search By Topic"' do
     page.driver.browser.js_errors = false
     visit '/'
     click_on("Search The Database")
     search_page = Vatican::Pages::SearchPage.new
     expect(search_page).to be_on_page
     first(:css, "i.material-icons.topic-checkbox").trigger('click')
-    expect(page).to have_content "Catholic Social Teaching"
+    expect(page).to have_content("Catholic Social Teaching")
   end
+
   scenario 'Clear Selected Topic' do
     page.driver.browser.js_errors = false
     visit '/'
-    require 'byebug';byebug
     click_on("Search The Database")
     search_page = Vatican::Pages::SearchPage.new
     expect(search_page).to be_on_page
@@ -55,9 +56,9 @@ feature "User Browsing", js: true do
     within("div.col-sm-3.left-col") do
       find_button("Clear").trigger('click')
     end
-    page.should have_no_content("Catholic Social Teaching")
-
+    expect(page).to have_no_content("Catholic Social Teaching")
   end
+
   scenario 'Search Results Divided into Columns' do
     page.driver.browser.js_errors = false
     visit '/'
@@ -70,9 +71,10 @@ feature "User Browsing", js: true do
       find_button("search").trigger('click')
     end
     expect(page).to have_content("Catholic Social Teaching")
+    expect(page).to have_content("document(s) found")
     expect(page).to have_content("International Human Rights Law")
-
   end
+
   scenario 'Access Entire Document' do
     page.driver.browser.js_errors = false
     visit '/'
@@ -85,6 +87,7 @@ feature "User Browsing", js: true do
       find_button("search").trigger('click')
     end
     expect(page).to have_content("Catholic Social Teaching")
+    expect(page).to have_content("document(s) found")
     expect(page).to have_content("International Human Rights Law")
     within("div.search-list.results") do
       first("a").trigger('click')
@@ -92,10 +95,10 @@ feature "User Browsing", js: true do
     end
     expect(page).to have_content("Topics in Document")
   end
+
   scenario 'Sort Newest To Oldest' do
     page.driver.browser.js_errors = false
     visit '/'
-    sleep(3)
     click_on("Search The Database")
     search_page = Vatican::Pages::SearchPage.new
     expect(search_page).to be_on_page
@@ -105,8 +108,9 @@ feature "User Browsing", js: true do
       find_button("search").trigger('click')
     end
     expect(page).to have_content("Catholic Social Teaching")
+    expect(page).to have_content("document(s) found")
     expect(page).to have_content("International Human Rights Law")
-    find('option', :text => "Date New-Old").trigger('click')
+    find('option', text: "Date New-Old").trigger('click')
     sleep(7)
     expect(page).to have_content("Catholic Social Teaching")
   end
