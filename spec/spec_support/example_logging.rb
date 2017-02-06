@@ -259,7 +259,6 @@ module ExampleLogging
       def build_failed_messages_for(failed_resources)
         text = "Resource Error:"
         failed_resources.each do |obj|
-          # require 'byebug'; debugger
           text += "\n\tStatus: #{obj.fetch(:status_code)}\tURL: #{obj.fetch(:url)}"
         end
         text
