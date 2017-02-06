@@ -27,8 +27,8 @@ module Dave
       end
       def check_bottom_bar?
         within('.DigitalArtifact__bottomBar___2iYjT') do
-          find('select') &&
           url = SITE_URL[56..-2]+"1"
+          find('select') &&
           find("a[href='#{url}']")
         end
       end
@@ -45,6 +45,36 @@ module Dave
           has_content?('License')
         end
       end
+      def two_page?
+        within('.Metadata__wrapper___2D0bL') do
+          has_content?('left') &&
+          has_content?('right') &&
+          has_content?('Label') &&
+          has_content?('Description') &&
+          has_content?('License')
+        end
+      end
+      def detail_view?
+        has_no_field?('.Metadata__wrapper___2D0bL') &&
+        check_manipulation_buttons? &&
+        check_nav_buttons?
+      end
+      def check_manipulation_buttons?
+        within("ul.OpenSeaDragonControls__controls___11q-d") do
+          find("a[id='zoom-in']") &&
+          find("a[id='zoom-out']") &&
+          find("a[id='rotate-left']") &&
+          find("a[id='rotate-right']") &&
+          find("a[id='full-page']") &&
+          has_content?("find-replace")
+        end
+      end
+      def check_nav_buttons?
+        find(".OpenSeaDragonPrevNext__rightNav___sP-F6") &&
+        find(".OpenSeaDragonPrevNext__leftNav___2faHI") &&
+        find(".OpenSeaDragonToolbar__hoverSpin___DlmyN material-icons")
+      end
+
     end
   end
 end
