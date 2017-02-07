@@ -1,5 +1,6 @@
 source 'https://rubygems.org'
 gem 'capistrano'
+gem 'capistrano-bundler'
 gem 'rake'
 
 group :testcontroller do
@@ -12,7 +13,6 @@ group :testcontroller do
   gem 'capybara-screenshot'
   gem 'logging'
   gem 'byebug'
-  gem 'capistrano-bundler'
   gem 'selenium-webdriver'
   gem 'capybara-webkit'
   gem 'swagger-core'
