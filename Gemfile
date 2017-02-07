@@ -1,5 +1,6 @@
 source 'https://rubygems.org'
 gem 'capistrano'
+gem 'rake'
 
 group :testcontroller do
   gem 'capybara'
