@@ -1,6 +1,21 @@
 # frozen_string_literal: true
 require 'forwardable'
 
+require 'capybara/node/element'
+class Capybara::Node::Element
+  # As much as I would like to leverage a module mixin and `super`, I am not able to get this to work
+  # Instead I am using an alternative mechanism to `super`:
+  # * Get the trigger_method
+  # * Define a new trigger method
+  # * Bind and call the old trigger method but add additional behavior
+  trigger_method = instance_method(:trigger)
+  define_method :trigger do |method_name, *args|
+    trigger_method.bind(self).call(method_name, *args).tap do |obj|
+      ExampleLogging.current_logger.info(context: "trigger('#{method_name}')", path: @session.current_path, host: Capybara.app_host)
+    end
+  end
+end
+
 # This module provides mechanisms for consolidating logging
 #
 # It is intended to be included in the RSpec example context so as to expose
@@ -35,6 +50,21 @@ module ExampleLogging
     ExampleWrapperWithLogging.new(**kwargs).start
   end
 
+  # Expose the current logger as a class method; Note this will mean we cannot
+  # run our specs in parallel (at least without some other consideration)
+  def self.current_logger
+    @current_logger
+  end
+
+  # Allow the ExampleLogging.current_logger to be set
+  def self.current_logger=(value)
+    @current_logger = value
+  end
+
+  def self.reset_current_logger!
+    @current_logger = nil
+  end
+
   def current_logger
     @current_logger
   end
@@ -53,6 +83,10 @@ module ExampleLogging
     end
 
     def visit(*arg, &block)
+      super.tap { log_url_action(context: __method__) }
+    end
+
+    def trigger(*arg, &block)
       super.tap { log_url_action(context: __method__) }
     end
 
