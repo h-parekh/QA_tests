@@ -9,7 +9,7 @@ feature 'View DAVE Artifact', js: true do
 
   scenario 'Select Next Image' do
     visitHome()
-    visitNewPage(1) #Click the link
+    visitNewPage(1)
     expect(page.current_url).to eq(SITE_URL.split("/").first(7).join("/")+"/1")
   end
 
@@ -106,9 +106,9 @@ feature 'View DAVE Artifact', js: true do
     within(gridView) do
       find("a[href='#{detail_grid_url}']").trigger('click')
     end
-    grid_url = SITE_URL.split("/").first(6).join("/")+"/g/" + pageNumber.to_s
-    grid_url=grid_url+"/detail"
-    expect(page.current_url).to eq(grid_url)
+    gridURL = SITE_URL.split("/").first(6).join("/")+"/g/" + pageNumber.to_s
+    gridURL=gridURL+"/detail"
+    expect(page.current_url).to eq(gridURL)
     first_doc = Dave::Pages::FirstDocument.new
     using_wait_time 50 do
       expect(first_doc).to be_detail_view
@@ -122,7 +122,7 @@ def visitHome #Visit SITE_URL and check for navigation buttons
   expect(first_doc).to be_on_page
 end
 
-def generateViewURL(viewString)
+def generateViewURL(viewString) #Generates the portion of the URL after the base URL
   url = SITE_URL.split("/").last(5).first(3).join('/')+"/"+viewString
   return "/"+url
 end
