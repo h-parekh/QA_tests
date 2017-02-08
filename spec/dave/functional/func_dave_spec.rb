@@ -4,12 +4,12 @@ SITE_URL = "http://testlibnd-dave.s3-website-us-east-1.amazonaws.com/0/MSN-COL_9
 
 feature 'View DAVE Artifact', js: true do
   scenario 'Load First Document' do
-    visitHome() 
+    visitHome()
   end
 
   scenario 'Select Next Image' do
     visitHome()
-    visitNewPage(1)
+    visitNewPage(1) #Click the link
     expect(page.current_url).to eq(SITE_URL.split("/").first(7).join("/")+"/1")
   end
 
@@ -41,7 +41,8 @@ feature 'View DAVE Artifact', js: true do
     visitHome()
     last_page = getLastPage()
     pageNumber = Random.rand(1..last_page)
-    within('.Drawer__wrapper___d9kg1') do
+    node  = find('div[class^="Drawer__wrapper"]')
+    within(node) do
       all("a")[pageNumber].trigger('click')
     end
     checkImageSelection(pageNumber)
@@ -59,7 +60,8 @@ feature 'View DAVE Artifact', js: true do
   scenario 'Go to Two Image View' do
     visitHome()
     twoPageViewURL = generateViewURL("2/0")
-    within('.DigitalArtifact__bottomBar___2iYjT') do
+    bottomBar = find('div[class^="DigitalArtifact__bottomBar"]')
+    within(bottomBar) do
       find("a[href='#{twoPageViewURL}']").click
     end
     twoPageViewURL=SITE_URL.split("/").first(6).join("/")+"/2/0"
@@ -78,27 +80,30 @@ feature 'View DAVE Artifact', js: true do
   end
   scenario 'Go to Grid Image View' do
     visitHome()
-    grid_url=generateViewURL("g/0")
-    within('.DigitalArtifact__bottomBar___2iYjT') do
-      find("a[href='#{grid_url}']").click
+    gridURL=generateViewURL("g/0")
+    bottomBar = find('div[class^="DigitalArtifact__bottomBar"]')
+    within(bottomBar) do
+      find("a[href='#{gridURL}']").click
     end
-    grid_url=SITE_URL.split("/").first(6).join("/")+"/g/0"
-    expect(page.current_url).to eq(grid_url)
+    gridURL=SITE_URL.split("/").first(6).join("/")+"/g/0"
+    expect(page.current_url).to eq(gridURL)
   end
 
   scenario 'Go to Detail View' do
     visitHome()
     last_page = getLastPage()
     pageNumber = Random.rand(1..last_page)
-    grid_url = generateViewURL("g/0")
-    within('.DigitalArtifact__bottomBar___2iYjT') do
-      find("a[href='#{grid_url}']").click
+    gridURL=generateViewURL("g/0")
+    bottomBar = find('div[class^="DigitalArtifact__bottomBar"]')
+    within(bottomBar) do
+      find("a[href='#{gridURL}']").click
     end
-    grid_url=SITE_URL.split("/").first(6).join("/")+"/g/0"
-    expect(page.current_url).to eq(grid_url)
-    grid_url = generateViewURL("g/"+pageNumber.to_s)
-    detail_grid_url= grid_url+"/detail"
-    within(".GridView__gridview___3RJhp") do
+    gridURL=SITE_URL.split("/").first(6).join("/")+"/g/0"
+    expect(page.current_url).to eq(gridURL)
+    gridURL = generateViewURL("g/"+pageNumber.to_s)
+    detail_grid_url= gridURL+"/detail"
+    gridView = find('div[class^="GridView__gridview"]')
+    within(gridView) do
       find("a[href='#{detail_grid_url}']").trigger('click')
     end
     grid_url = SITE_URL.split("/").first(6).join("/")+"/g/" + pageNumber.to_s
@@ -111,7 +116,7 @@ feature 'View DAVE Artifact', js: true do
   end
 end
 
-def visitHome
+def visitHome #Visit SITE_URL and check for navigation buttons
   visit SITE_URL
   first_doc = Dave::Pages::FirstDocument.new
   expect(first_doc).to be_on_page
@@ -122,22 +127,23 @@ def generateViewURL(viewString)
   return "/"+url
 end
 
-def checkImageSelection(imageNumber)
-  url = SITE_URL[0..-2]+imageNumber.to_s
+def checkImageSelection(imageNumber) #Check that the value in the dropdown matches the current image as well as the URL
+  url = SITE_URL.split("/").first(7).join('/')+"/"+imageNumber.to_s
   expect(page.current_url).to eq(url)
   dropdownValue = find('select').value.to_i
   expect(dropdownValue).to eq(imageNumber)
 end
 
-def visitNewPage(pageNumber)
+def visitNewPage(pageNumber) #Click the link on the page pointing to the given page number.
   url = SITE_URL.split("/").last(5).first(4).join('/')
   url = "/"+url+'/'+pageNumber.to_s
-  within('.DigitalArtifact__bottomBar___2iYjT') do
+  bottomBar = find('div[class^="DigitalArtifact__bottomBar"]')
+  within(bottomBar) do
     find("a[href='#{url}']").click
   end
 end
 
-def getLastPage
+def getLastPage #Find the last page in the document from the dropdown selector
   last_page = 0
   within("select") do
     last_page = all('option')[-1].text.to_i - 1
