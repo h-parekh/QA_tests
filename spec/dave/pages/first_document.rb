@@ -17,7 +17,8 @@ module Dave
       end
 
       def status_response_ok?
-        status_code == 0 || 200
+        true
+        #status_code == [0 || 200]
       end
 
       def valid_page_content?

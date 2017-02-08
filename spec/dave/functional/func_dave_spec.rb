@@ -1,173 +1,146 @@
+# frozen_string_literal: true
 require 'dave/dave_spec_helper'
-
 SITE_URL = "http://testlibnd-dave.s3-website-us-east-1.amazonaws.com/0/MSN-COL_9101-1-B/0/1/0"
-feature 'DAVE artifact viewing', js: true do
-  scenario 'Load 1st example' do
-    visit SITE_URL
-    first_doc = Dave::Pages::FirstDocument.new
-    expect(first_doc).to be_on_page
+
+feature 'View DAVE Artifact', js: true do
+  scenario 'Load First Document' do
+    visitHome() 
   end
 
-  scenario 'Next Image' do
-    visit SITE_URL
-    first_doc = Dave::Pages::FirstDocument.new
-    expect(first_doc).to be_on_page
-    within('.DigitalArtifact__bottomBar___2iYjT') do
-      url = SITE_URL[56..-2]+"1"
-      find("a[href='#{url}']").click
-    end
-    expect(page.current_url).to eq(SITE_URL[0..-2]+"1")
+  scenario 'Select Next Image' do
+    visitHome()
+    visitNewPage(1)
+    expect(page.current_url).to eq(SITE_URL.split("/").first(7).join("/")+"/1")
   end
-  scenario 'Previous Image' do
-    visit SITE_URL
-    first_doc = Dave::Pages::FirstDocument.new
-    expect(first_doc).to be_on_page
-    within('.DigitalArtifact__bottomBar___2iYjT') do
-      url = SITE_URL[56..-2]+"1"
-      find("a[href='#{url}']").click
-    end
-    expect(page.current_url).to eq(SITE_URL[0..-2]+"1")
 
-    within('.DigitalArtifact__bottomBar___2iYjT') do
-      url = SITE_URL[56..-2]+"2"
-      find("a[href='#{url}']").click
-    end
-    expect(page.current_url).to eq(SITE_URL[0..-2]+"2")
+  scenario 'Select Previous Image' do
+    visitHome()
+    visitNewPage(1)
+    expect(page.current_url).to eq(SITE_URL.split("/").first(7).join("/")+"/1")
+    visitNewPage(2)
+    expect(page.current_url).to eq(SITE_URL.split("/").first(7).join("/")+"/2")
+    visitNewPage(1)
+    expect(page.current_url).to eq(SITE_URL.split("/").first(7).join("/")+"/1")
   end
-  scenario 'Last Image' do
-    visit SITE_URL
-    first_doc = Dave::Pages::FirstDocument.new
-    last_pg = 0
-    within("select") do
-      last_pg = all('option')[-1].text.to_i - 1
-    end
-    within('.DigitalArtifact__bottomBar___2iYjT') do
-      url = SITE_URL[56..-2]+last_pg.to_s
-      find("a[href='#{url}']").click
-    end
-    url = SITE_URL[0..-2]+last_pg.to_s
-    expect(page.current_url).to eq(url)
-    val = find('select').value.to_i
-    expect(val).to eq(last_pg)
+  scenario 'Select Last Image' do
+    visitHome()
+    last_page = getLastPage()
+    visitNewPage(last_page)
+    checkImageSelection(last_page)
   end
-  scenario 'First Image' do
-    visit SITE_URL
-    first_doc = Dave::Pages::FirstDocument.new
-    expect(first_doc).to be_on_page
-    last_pg = 0
-    within("select") do
-      last_pg = all('option')[-1].text.to_i - 1
-    end
-    within('.DigitalArtifact__bottomBar___2iYjT') do
-      url = SITE_URL[56..-2]+last_pg.to_s
-      find("a[href='#{url}']").click
-    end
-    url = SITE_URL[0..-2]+last_pg.to_s
-    expect(page.current_url).to eq(url)
-    val = find('select').value.to_i
-    expect(val).to eq(last_pg)
-    within('.DigitalArtifact__bottomBar___2iYjT') do
-      url = SITE_URL[56..-2]+"0"
-      find("a[href='#{url}']").click
-    end
-    url = SITE_URL[0..-2]+"0"
-    expect(page.current_url).to eq(url)
-    val = find('select').value
-    expect(val).to eq("0")
+
+  scenario 'Select First Image' do
+    visitHome()
+    last_page = getLastPage()
+    visitNewPage(last_page)
+    checkImageSelection(last_page)
+    visitNewPage(0)
+    checkImageSelection(0)
   end
-  scenario 'Specific Page Selection' do
-    visit SITE_URL
-    first_doc = Dave::Pages::FirstDocument.new
-    expect(first_doc).to be_on_page
-    last_pg = 0
-    within("select") do
-      last_pg = all('option')[-1].text.to_i - 1
-    end
-    pg = Random.rand(1..last_pg)
+  scenario 'Select Specific Page' do
+    visitHome()
+    last_page = getLastPage()
+    pageNumber = Random.rand(1..last_page)
     within('.Drawer__wrapper___d9kg1') do
-      all("a")[pg].trigger('click')
+      all("a")[pageNumber].trigger('click')
     end
-    url = SITE_URL[0..-2]+pg.to_s
+    checkImageSelection(pageNumber)
+  end
 
-    expect(page.current_url).to eq(url)
-  end
-  scenario 'Dropdown Selection' do
-    visit SITE_URL
-    first_doc = Dave::Pages::FirstDocument.new
-    expect(first_doc).to be_on_page
-    last_pg = 0
+  scenario 'Make a Dropdown Selection' do
+    visitHome()
+    last_page = getLastPage()
+    pageNumber = Random.rand(1..last_page)
     within("select") do
-      last_pg = all('option')[-1].text.to_i - 1
+      select (pageNumber+1).to_s
     end
-    pg = Random.rand(1..last_pg)
-    within("select") do
-      select (pg+1).to_s
-    end
-    val = find('select').value.to_i
-    expect(val).to eq(pg)
-    url = SITE_URL[0..-2]+pg.to_s
-    expect(page.current_url).to eq(url)
+    checkImageSelection(pageNumber)
   end
-  scenario 'Two Images' do
-    visit SITE_URL
-    first_doc = Dave::Pages::FirstDocument.new
-    expect(first_doc).to be_on_page
-    two_url = SITE_URL[56..-4]+"2/0"
+  scenario 'Go to Two Image View' do
+    visitHome()
+    twoPageViewURL = generateViewURL("2/0")
     within('.DigitalArtifact__bottomBar___2iYjT') do
-      find("a[href='#{two_url}']").click
+      find("a[href='#{twoPageViewURL}']").click
     end
-    two_url=SITE_URL[0..-4]+"2/0"
-    expect(page.current_url).to eq(two_url)
-    last_pg = 0
+    twoPageViewURL=SITE_URL.split("/").first(6).join("/")+"/2/0"
+    expect(page.current_url).to eq(twoPageViewURL)
+    last_page = getLastPage()
+    pageNumber = Random.rand(1..last_page-1)
     within("select") do
-      last_pg = all('option')[-1].text.to_i - 1
+      select (pageNumber+1).to_s
     end
-    pg = Random.rand(1..last_pg-1)
-    within("select") do
-      select (pg+1).to_s
-    end
-    val = find('select').value.to_i
-    expect(val).to eq(pg)
-    url = two_url[0..-2]+pg.to_s
+    dropdownValue = find('select').value.to_i
+    expect(dropdownValue).to eq(pageNumber)
+    url = twoPageViewURL.split("/").first(7).join("/")+"/"+pageNumber.to_s
     expect(page.current_url).to eq(url)
+    first_doc = Dave::Pages::FirstDocument.new
     expect(first_doc).to be_two_page
   end
-  scenario 'Grid Images' do
-    visit SITE_URL
-    first_doc = Dave::Pages::FirstDocument.new
-    expect(first_doc).to be_on_page
-    grid_url = SITE_URL[56..-4]+"g/0"
+  scenario 'Go to Grid Image View' do
+    visitHome()
+    grid_url=generateViewURL("g/0")
     within('.DigitalArtifact__bottomBar___2iYjT') do
       find("a[href='#{grid_url}']").click
     end
-    grid_url=SITE_URL[0..-4]+"g/0"
+    grid_url=SITE_URL.split("/").first(6).join("/")+"/g/0"
     expect(page.current_url).to eq(grid_url)
   end
-  scenario 'Detail View' do
-    visit SITE_URL
-    first_doc = Dave::Pages::FirstDocument.new
-    expect(first_doc).to be_on_page
-    last_pg = 0
-    within("select") do
-      last_pg = all('option')[-1].text.to_i - 1
-    end
-    pg = Random.rand(1..last_pg)
-    grid_url = SITE_URL[56..-4]+"g/0"
+
+  scenario 'Go to Detail View' do
+    visitHome()
+    last_page = getLastPage()
+    pageNumber = Random.rand(1..last_page)
+    grid_url = generateViewURL("g/0")
     within('.DigitalArtifact__bottomBar___2iYjT') do
       find("a[href='#{grid_url}']").click
     end
-    grid_url=SITE_URL[0..-4]+"g/0"
+    grid_url=SITE_URL.split("/").first(6).join("/")+"/g/0"
     expect(page.current_url).to eq(grid_url)
-    grid_url = SITE_URL[56..-4]+"g/" + pg.to_s
+    grid_url = generateViewURL("g/"+pageNumber.to_s)
     detail_grid_url= grid_url+"/detail"
     within(".GridView__gridview___3RJhp") do
       find("a[href='#{detail_grid_url}']").trigger('click')
     end
-    grid_url = SITE_URL[0..-4]+"g/" + pg.to_s
+    grid_url = SITE_URL.split("/").first(6).join("/")+"/g/" + pageNumber.to_s
     grid_url=grid_url+"/detail"
     expect(page.current_url).to eq(grid_url)
-    using_wait_time 10 do
+    first_doc = Dave::Pages::FirstDocument.new
+    using_wait_time 50 do
       expect(first_doc).to be_detail_view
     end
   end
+end
+
+def visitHome
+  visit SITE_URL
+  first_doc = Dave::Pages::FirstDocument.new
+  expect(first_doc).to be_on_page
+end
+
+def generateViewURL(viewString)
+  url = SITE_URL.split("/").last(5).first(3).join('/')+"/"+viewString
+  return "/"+url
+end
+
+def checkImageSelection(imageNumber)
+  url = SITE_URL[0..-2]+imageNumber.to_s
+  expect(page.current_url).to eq(url)
+  dropdownValue = find('select').value.to_i
+  expect(dropdownValue).to eq(imageNumber)
+end
+
+def visitNewPage(pageNumber)
+  url = SITE_URL.split("/").last(5).first(4).join('/')
+  url = "/"+url+'/'+pageNumber.to_s
+  within('.DigitalArtifact__bottomBar___2iYjT') do
+    find("a[href='#{url}']").click
+  end
+end
+
+def getLastPage
+  last_page = 0
+  within("select") do
+    last_page = all('option')[-1].text.to_i - 1
+  end
+  return last_page
 end
