@@ -49,9 +49,11 @@ RSpec.configure do |config|
 
   config.before(:example) do |rspec_example|
     @current_logger = ExampleLogging.start(example: rspec_example, config: ENV, test_handler: self)
+    ExampleLogging.current_logger = @current_logger
   end
 
   config.after(:example) do |_|
     @current_logger.stop(driver: Capybara.current_session.driver)
+    ExampleLogging.reset_current_logger!
   end
 end
