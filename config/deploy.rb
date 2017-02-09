@@ -11,3 +11,15 @@ set :keep_releases, 5
 set :deploy_via, :copy
 set :stages, ["staging", "production"]
 set :default_stage, "production"
+set :branch hp_jenkins_trigger
+
+
+desc "Run test against curate"
+task :curate_test, :roles => :curate do
+  echo "Running curate test"
+end
+
+desc "Run test against curate"
+task :testapi_test, :roles => :testApi do
+  echo "Running testapi test"
+end
