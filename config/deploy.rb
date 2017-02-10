@@ -11,15 +11,26 @@ set :keep_releases, 5
 set :deploy_via, :copy
 set :stages, ["staging", "production"]
 set :default_stage, "production"
-set :branch hp_jenkins_trigger
+set :branch, 'master'
+set :tested_applications, ['curate', 'testApi']
+set :target_env_for_test_application, ENV['TARGET']
+set :log_level_for_running_test, ENV['LOG_LEVEL']
 
-
-desc "Run test against curate"
-task :curate_test, :roles => :curate do
-  echo "Running curate test"
-end
-
-desc "Run test against curate"
-task :testapi_test, :roles => :testApi do
-  echo "Running testapi test"
+after "deploy:published", "run_test"
+# This task runs test against the test_application passed in as a ENV variable
+# from the command line. Should match the folder name under spec directory in QA_tests
+# Ensure they're listed in
+#  - :tested_applications
+#  - server roles in deploy/production.rb
+# Sample Jenkins command: TARGET=prod LOG_LEVEL=info ROLES=curate cap production deploy
+task :run_test do |task|
+  fetch(:tested_applications).each do |test_application|
+    on roles(test_application) do |role|
+      if ENV['ROLES'] =~ /[^\w]?#{test_application}[^\w]?/
+        info "Starting tests for #{test_application}"
+        info `ENVIRONMENT=#{fetch(:target_env_for_test_application)} LOG_LEVEL=#{fetch(:log_level_for_running_test)} bundle exec rspec spec/#{test_application}`
+        info "Finished cap run_task for #{test_application}"
+      end
+    end
+  end
 end
