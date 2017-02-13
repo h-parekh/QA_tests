@@ -17,6 +17,7 @@ set :target_env_for_test_application, ENV['TARGET']
 set :log_level_for_running_test, ENV['LOG_LEVEL']
 
 after "deploy:published", "run_test"
+
 # This task runs test against the test_application passed in as a ENV variable
 # from the command line. Should match the folder name under spec directory in QA_tests
 # Ensure they're listed in
