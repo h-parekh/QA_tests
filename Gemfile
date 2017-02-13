@@ -2,6 +2,7 @@ source 'https://rubygems.org'
 gem 'capistrano'
 gem 'capistrano-bundler'
 gem 'rake'
+gem 'rspec'
 
 # Gems in the testcontroller group are required to be built before test runtime
 # but not at the time of deployment via Jenkins.
@@ -10,7 +11,6 @@ gem 'rake'
 group :testcontroller do
   gem 'capybara'
   gem 'poltergeist'
-  gem 'rspec'
   gem 'capybara_error_intel'
   gem 'rubocop', require: false
   gem 'rubocop-rspec'
