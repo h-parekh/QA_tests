@@ -8,9 +8,9 @@ gem 'rake'
 # Jenkins deploy job is setup with:
 # bundle install --deployment --without testcontroller
 group :testcontroller do
+  gem 'rspec'
   gem 'capybara'
   gem 'poltergeist'
-  gem 'rspec'
   gem 'capybara_error_intel'
   gem 'rubocop', require: false
   gem 'rubocop-rspec'
