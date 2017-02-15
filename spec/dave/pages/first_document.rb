@@ -13,7 +13,8 @@ module Dave
       end
 
       def on_valid_url?
-        current_url == SITE_URL
+        site = DaveSite.new
+        current_url == site.current_url_for_view_type
       end
 
       def status_response_ok?
@@ -27,27 +28,31 @@ module Dave
         check_metadata?
       end
       def check_bottom_bar?
-        within('.DigitalArtifact__bottomBar___2iYjT') do
-          url = SITE_URL[56..-2]+"1"
+        bottomBar = find('div[class^="DigitalArtifact__bottomBar"]')
+        within(bottomBar) do
+          url = DaveSite.new.button_link_url(page: "1")
           find('select') &&
           find("a[href='#{url}']")
         end
       end
       def check_scroll_buttons?
-        within('.Drawer__wrapper___d9kg1') do
-          find('button.Drawer__clickButton___3xD_G.Drawer__left___1TOLa') &&
-          find('button.Drawer__clickButton___3xD_G.Drawer__right___bJI7C')
+        wrapper = find('div[class^="Drawer__wrapper"]')
+        within(wrapper) do
+          find('button[class*="Drawer__left"]') &&
+          find('button[class*="Drawer__right"]')
         end
       end
       def check_metadata?
-        within('.Metadata__wrapper___2D0bL') do
+        metaData = find('div[class^="Metadata__wrapper"]')
+        within(metaData) do
           has_content?('Label') &&
           has_content?('Description') &&
           has_content?('License')
         end
       end
       def two_page?
-        within('.Metadata__wrapper___2D0bL') do
+        metaData = find('div[class^="Metadata__wrapper"]')
+        within(metaData) do
           has_content?('left') &&
           has_content?('right') &&
           has_content?('Label') &&
@@ -56,12 +61,14 @@ module Dave
         end
       end
       def detail_view?
-        has_no_field?('.Metadata__wrapper___2D0bL') &&
+        metaData = find('div[class^="Metadata__wrapper"]')
+        has_no_field?(metaData) &&
         check_manipulation_buttons? &&
         check_nav_buttons?
       end
       def check_manipulation_buttons?
-        within("ul.OpenSeaDragonControls__controls___11q-d") do
+        mButtons = find('ul[class^="OpenSeaDragonControls__controls"]')
+        within(mButtons) do
           find("a[id='zoom-in']") &&
           find("a[id='zoom-out']") &&
           find("a[id='rotate-left']") &&
@@ -71,9 +78,9 @@ module Dave
         end
       end
       def check_nav_buttons?
-        find(".OpenSeaDragonPrevNext__rightNav___sP-F6") &&
-        find(".OpenSeaDragonPrevNext__leftNav___2faHI") &&
-        find(".OpenSeaDragonToolbar__hoverSpin___DlmyN material-icons")
+        find("div[class^='OpenSeaDragonPrevNext__rightNav']") &&
+        find("div[class^='OpenSeaDragonPrevNext__leftNav']") &&
+        find("div[class^='OpenSeaDragonToolbar__hoverSpin']")
       end
 
     end
