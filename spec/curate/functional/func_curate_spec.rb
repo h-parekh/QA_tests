@@ -1,6 +1,17 @@
 # frozen_string_literal: true
 require 'curate/curate_spec_helper'
 
+# Usage: Tag filtering will be used to control which scenarios we want to run. It can be a simple name
+# or a name:value pair. With simple names, it sets value as true if used with a scenario and ignores
+# the tag when not used with a scenario.
+#
+# All are custom tags and here are some we should use:
+# :smoke_test - Tag with scenarios that check application and dependent system availability
+# :read_only - Tag with scenarios that will not make add/update to the underlying data (aside from login counts)
+# :nonprod_only - Tag with scenarios that should not be run in production
+# :regression_test - Tag with scenarios that covers an important regression test
+# :authentication_required - Tag when the scenario requires logging into CAS
+
 feature 'User Browsing', js: true do
   scenario 'Load Homepage', :read_only do
     visit '/'

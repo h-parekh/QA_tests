@@ -97,6 +97,43 @@ it 'will accept a block, wrapping the calling of the block with a starting the c
 end
 ```
 
+### Tagging
+
+Usage: Tag filtering will be used to control which scenarios we want to run. It can be a simple name
+or a name:value pair. With simple names, it sets value as true if used with a scenario and ignores
+the tag when not used with a scenario.
+
+All are custom tags and here are some we should use:
+* :smoke_test - Tag with scenarios that check application and dependent system availability
+* :read_only - Tag with scenarios that will not make add/update to the underlying data (aside from login counts)
+* :nonprod_only - Tag with scenarios that should not be run in production
+* :regression_test - Tag with scenarios that covers an important regression test
+* :authentication_required - Tag when the scenario requires logging into CAS
+
+#### Example
+```ruby
+  scenario 'Scenario Name', :smoke_test, :read_only do
+    # Scenario actions here
+  end
+```
+
+#### Usage
+To only run tests that are tagged with 'smoke_test' pass it along to rspec command with --tag option
+```console
+rspec spec/curate/functional/func_curate_spec.rb --tag smoke_test
+```
+
+To run multiple scenarios with different tags, pass them as separate tags to rspec command
+```console
+rspec spec/curate/functional/func_curate_spec.rb --tag smoke_test --tag read_only
+```
+
+To exclude scenarios associated with a tag:
+```console
+rspec spec/curate/functional/func_curate_spec.rb --tag ~read_only
+```
+More details here: https://www.relishapp.com/rspec/rspec-core/v/2-4/docs/command-line/tag-option
+
 ### Chatter on the Terminal
 
 When you are writing new tests, you will notice a lot of chatter in the terminal. There are three possible things being reported:
