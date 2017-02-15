@@ -2,34 +2,34 @@
 require 'curate/curate_spec_helper'
 
 feature 'User Browsing', js: true do
-  scenario 'Load Homepage' do
+  scenario 'Load Homepage', :smoke_test, :read_only do
     visit '/'
     home_page = Curate::Pages::HomePage.new
     expect(home_page).to be_on_page
   end
 
-  scenario 'Go to About page' do
+  scenario 'Go to About page', :read_only do
     visit '/'
     click_on('About')
     about_page = Curate::Pages::AboutPage.new
     expect(about_page).to be_on_page
   end
 
-  scenario 'Go to FAQ page' do
+  scenario 'Go to FAQ page', :read_only do
     visit '/'
     click_on('FAQ')
     faq_page = Curate::Pages::FaqPage.new
     expect(faq_page).to be_on_page
   end
 
-  scenario 'Go to catalog search page with empty search term' do
+  scenario 'Go to catalog search page with empty search term', :read_only do
     visit '/'
     click_on('Search')
     catalog_page = Curate::Pages::CatalogPage.new({})
     expect(catalog_page).to be_on_page
   end
 
-  scenario 'Go to catalog search page with term "Article"' do
+  scenario 'Go to catalog search page with term "Article"', :read_only do
     visit '/'
     search_term = "Article"
     fill_in('catalog_search', with: search_term)
@@ -40,7 +40,7 @@ feature 'User Browsing', js: true do
     expect(catalog_page).to be_on_base_url
   end
 
-  scenario 'Category search for Theses' do
+  scenario 'Category search for Theses', :read_only do
     visit '/'
     title = 'Theses & Dissertations'
     click_on(title)
@@ -50,7 +50,7 @@ feature 'User Browsing', js: true do
     expect(category_page).to be_on_base_url
   end
 
-  scenario 'Category search for Articles' do
+  scenario 'Category search for Articles', :read_only do
     visit '/'
     title = 'Articles & Publications'
     click_on(title)
@@ -60,7 +60,7 @@ feature 'User Browsing', js: true do
     expect(category_page).to be_on_base_url
   end
 
-  scenario 'Category search for Datasets' do
+  scenario 'Category search for Datasets', :read_only do
     visit '/'
     title = 'Datasets & Related Materials'
     click_on(title)
@@ -70,14 +70,14 @@ feature 'User Browsing', js: true do
     expect(category_page).to be_on_base_url
   end
 
-  scenario 'Contribute Your Work' do
+  scenario 'Contribute Your Work', :read_only do
     visit '/'
     click_on('Contribute Your Work')
     contribute_page = Curate::Pages::ContributePage.new
     expect(contribute_page).to be_on_page
   end
 
-  scenario 'Materials by Department link' do
+  scenario 'Materials by Department link', :read_only do
     visit '/'
     click_on('Materials by Department')
     dept_page = Curate::Pages::DepartmentsPage.new
@@ -90,7 +90,7 @@ feature 'User Browsing', js: true do
 end
 
 feature 'Requesting Help', js: true do
-  scenario 'Go to help page' do
+  scenario 'Go to help page', :read_only do
     visit '/'
     click_on('Help')
     help_page = Curate::Pages::ModalHelpPage.new
@@ -102,7 +102,7 @@ feature 'Requesting Help', js: true do
 end
 
 feature 'Facet Navigation', js: true do
-  scenario "modal facets" do
+  scenario "modal facets", :read_only do
     visit '/'
     click_on('Search')
     ['Department or Unit', 'Collection'].shuffle.each do |facet_name|
@@ -118,7 +118,7 @@ feature 'Facet Navigation', js: true do
     end
   end
 
-  scenario 'non-modal Facets' do
+  scenario 'non-modal Facets', :read_only do
     visit '/'
     click_on('Search')
     ['Type_of_Work', 'Creator', 'Subject', 'Language', 'Publisher', 'Academic_Status'].shuffle.each do |facet_name|
