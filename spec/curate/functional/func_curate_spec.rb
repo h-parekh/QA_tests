@@ -113,7 +113,7 @@ feature 'Facet Navigation', js: true do
       within('#ajax-modal') do
         find('.close').click
       end
-      expect(page).not_to have_selector("#ajax-modal")
+      expect(page).not_to have_selector("#ajax-modal", visible: true)
     end
   end
 
