@@ -2,7 +2,7 @@
 require 'curate/curate_spec_helper'
 
 feature 'User Browsing', js: true do
-  scenario 'Load Homepage', :smoke_test, :read_only do
+  scenario 'Load Homepage', :read_only do
     visit '/'
     home_page = Curate::Pages::HomePage.new
     expect(home_page).to be_on_page
@@ -29,7 +29,7 @@ feature 'User Browsing', js: true do
     expect(catalog_page).to be_on_page
   end
 
-  scenario 'Go to catalog search page with term "Article"', :read_only do
+  scenario 'Go to catalog search page with term "Article"', :smoke_test, :read_only do
     visit '/'
     search_term = "Article"
     fill_in('catalog_search', with: search_term)
@@ -70,7 +70,7 @@ feature 'User Browsing', js: true do
     expect(category_page).to be_on_base_url
   end
 
-  scenario 'Contribute Your Work', :read_only do
+  scenario 'Contribute Your Work', :smoke_test, :read_only do
     visit '/'
     click_on('Contribute Your Work')
     contribute_page = Curate::Pages::ContributePage.new
