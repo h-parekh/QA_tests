@@ -104,6 +104,7 @@ end
 feature 'Facet Navigation', js: true do
   ['Department or Unit', 'Collection'].each do |facet_name|
     scenario "#{facet_name} (as modal)" do
+      puts facet_name
       visit '/'
       click_on('Search')
       expect(page).not_to have_selector("#ajax-modal")
@@ -113,7 +114,7 @@ feature 'Facet Navigation', js: true do
       within('#ajax-modal') do
         find('.close').click
       end
-      expect(page).not_to have_selector("#ajax-modal")
+      expect(page).not_to have_selector("#ajax-modal", visible: true)
     end
   end
 
