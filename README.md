@@ -99,7 +99,7 @@ end
 
 ### Tagging
 
-Usage: Tag filtering will be used to control which scenarios we want to run. It can be a simple name
+Usage: We use tag filtering to control which scenarios we run. It can be a simple name
 or a name:value pair. With simple names, it sets value as true if used with a scenario and ignores
 the tag when not used with a scenario.
 
