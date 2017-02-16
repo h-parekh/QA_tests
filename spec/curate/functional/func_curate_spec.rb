@@ -103,9 +103,9 @@ end
 
 feature 'Facet Navigation', js: true do
   scenario "modal facets" do
-      visit '/'
-      click_on('Search')
-      ['Department or Unit', 'Collection'].shuffle.each do |facet_name|
+    visit '/'
+    click_on('Search')
+    ['Department or Unit', 'Collection'].shuffle.each do |facet_name|
       current_logger.info(context: "Processing Facet: #{facet_name}")
       expect(page).not_to have_selector("#ajax-modal")
       click_on(facet_name)
