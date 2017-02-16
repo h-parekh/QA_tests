@@ -100,15 +100,15 @@ end
 ### Tagging
 
 Usage: We use tag filtering to control which scenarios we run. It can be a simple name
-or a name:value pair. With simple names, it sets value as true if used with a scenario and ignores
-the tag when not used with a scenario.
+or a name:value pair. Tagging a scenario with a simple name is the equivalent to a "simple_name:true" name:value pair.
 
-All are custom tags and here are some we should use:
-* :smoke_test - Tag with scenarios that check application and dependent system availability
-* :read_only - Tag with scenarios that will not make add/update to the underlying data (aside from login counts)
-* :nonprod_only - Tag with scenarios that should not be run in production
-* :regression_test - Tag with scenarios that covers an important regression test
-* :authentication_required - Tag when the scenario requires logging into CAS
+We can define any new tags by appending it to a scenario. No additional config is needed.
+Here are some we should use consistently across all tests:
+* :smoke_test - checks application and dependent system availability
+* :read_only - will not make add/update to the underlying data (aside from login counts)
+* :nonprod_only - should not be run in production
+* :regression_test - covers an important regression test
+* :authentication_required - requires logging into CAS
 
 #### Example
 ```ruby
@@ -123,7 +123,8 @@ To only run tests that are tagged with 'smoke_test' pass it along to rspec comma
 rspec spec/curate/functional/func_curate_spec.rb --tag smoke_test
 ```
 
-To run multiple scenarios with different tags, pass them as separate tags to rspec command
+To run multiple scenarios with different tags, pass them as separate tags to rspec command.
+Rspec will run a union of the tags, i.e. all scenarios tagged with either of the tags will be run.
 ```console
 rspec spec/curate/functional/func_curate_spec.rb --tag smoke_test --tag read_only
 ```
