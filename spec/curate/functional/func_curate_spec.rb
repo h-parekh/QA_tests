@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 require 'curate/curate_spec_helper'
 
-# Tags usage: refer to README: https://github.com/ndlib/QA_tests/tree/master#tagging
-
 feature 'User Browsing', js: true do
   scenario 'Load Homepage', :read_only do
     visit '/'
