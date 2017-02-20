@@ -1,7 +1,40 @@
 # frozen_string_literal: true
 require 'curate/curate_spec_helper'
 
+class Login
+  include Capybara::DSL
+  include CapybaraErrorIntel::DSL
+  @attr_reader userName
+  @attr_reader passWord
+  @attr_reader passCode
+
+  def initialize
+    userNumber = Random.rand(1..5)
+    current_user = 0
+    CSV.foreach("/Volumes/Infrastructure-2/vars/QA/TestCredentials.csv") do |row|
+      if current_user == userNumber do
+        #elements = row.split(',')
+        userName = row[0]
+        passWord = row[1]
+        passCode = row[2]
+      end
+      current_user = current_user+1
+  end
+
+  def completeLogin
+    visit '/'
+    click_on('Log In')
+    fill_in('username', with: userName)
+    fill_in('password', with: passWord)
+    click_on('submit')
+    sleep(3)
+    fill_in('passcode', with: passCode)
+    click_on('submit')
+  end
+end
+
 feature 'User Browsing', js: true do
+  let(:user) {Login.new}
   scenario 'Load Homepage' do
     visit '/'
     home_page = Curate::Pages::HomePage.new
