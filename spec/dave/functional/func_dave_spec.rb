@@ -2,22 +2,32 @@
 require 'dave/dave_spec_helper'
 
 class DaveSite
+  # This class manages the various parts of the Dave Site url for the test
+  # cases. It initializes the url for a given document id and handles all
+  # changes in the url resulting from site navigation.
   include Capybara::DSL
   include CapybaraErrorIntel::DSL
+  DEFAULT_DOCUMENT_SLUG = 'MSN-COL_9101'
+  DEFUALT_SITE_URL = "http://testlibnd-dave.s3-website-us-east-1.amazonaws.com"
   attr_accessor :document_slug
-  attr_accessor :site_url
-  attr_accessor :doc_source
-  attr_accessor :sequence
+  attr_reader :site_url
+  # Any document may have multiple sources the site can pull from
+  # this attribute specifies which source the user is currently viewing.
+  attr_accessor :document_source
+  # Each document may have different sequences which may contain different
+  # parts of the document such as a sequence of only the images in the document
+  # this attribute determines which sequence the user is viewing.
+  attr_accessor :document_sequence
 
-  def initialize(document_slug: 'MSN-COL_9101-1-B', site_url: "http://testlibnd-dave.s3-website-us-east-1.amazonaws.com", doc_source: "/0/", sequence: "/0/") # Initializes the document being viewed
+  def initialize(document_slug: DEFAULT_DOCUMENT_SLUG, site_url: DEFUALT_SITE_URL, document_source: 0, document_sequence: 0)
     @document_slug = document_slug
     @site_url = site_url
-    @doc_source = doc_source
-    @sequence = sequence
+    @document_source = document_source
+    @document_sequence = document_sequence
   end
 
   def current_url_for_document
-    File.join(site_url, doc_source, document_slug, sequence)
+    File.join(site_url, document_source.to_s, document_slug, document_sequence.to_s)
   end
 
   VIEW_TYPES = {
@@ -30,9 +40,10 @@ class DaveSite
     File.join(current_url_for_document, view_type, page.to_s)
   end
 
-  def button_link_url(view_type: :one_page, page: 0) # Generates relative links used for buttons
+  # Generates relative links used for buttons
+  def button_link_url(view_type: :one_page, page: 0)
     view_type = VIEW_TYPES.fetch(view_type)
-    File.join(doc_source, document_slug, sequence,view_type,'/',page.to_s)
+    File.join(document_source.to_s, document_slug, document_sequence.to_s,view_type,page.to_s)
   end
 
   def visit_from_current_document(page: 0)
@@ -156,24 +167,32 @@ end
 def bottom_Document_NavBar
   find('div[class^="DigitalArtifact__bottomBar"]')
 end
-def visitHome # Visit SITE_URL and check for navigation buttons
+
+# Visit SITE_URL and check for navigation buttons
+def visitHome
   visit site.current_url_for_view_type()
+  puts site.current_url_for_view_type()
   first_doc = Dave::Pages::FirstDocument.new
   expect(first_doc).to be_on_page
 end
-def visitNewPage(page: 0) # Click the link on the page pointing to the given page number.
+
+# Click the link on the page pointing to the given page number.
+def visitNewPage(page: 0)
   url = site.button_link_url(page: page)
   within(bottom_Document_NavBar) do
     find("a[href='#{url}']").click
   end
 end
-def checkImageSelection(imageNumber: 0) # Check that the value in the dropdown matches the current image as well as the URL
+
+# Check that the value in the dropdown matches the current image as well as the URL
+def checkImageSelection(imageNumber: 0)
   expect(page.current_url).to eq(site.current_url_for_view_type(page: imageNumber))
   dropdownValue = find('select').value.to_i
   expect(dropdownValue).to eq(imageNumber)
 end
 
-def getLastPage #Find the last page in the document from the dropdown selector
+#Find the last page in the document from the dropdown selector
+def getLastPage
   last_page = 0
   within("select") do
     last_page = all('option')[-1].text.to_i - 1

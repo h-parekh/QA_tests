@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 require 'curate/curate_spec_helper'
 
+class Login
+  @attr_accessor 
 feature 'User Browsing', js: true do
   scenario 'Load Homepage' do
     visit '/'
