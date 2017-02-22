@@ -1,24 +1,24 @@
 # frozen_string_literal: true
 require 'curate/curate_spec_helper'
-
+require 'csv'
 class Login
   include Capybara::DSL
   include CapybaraErrorIntel::DSL
-  @attr_reader userName
-  @attr_reader passWord
-  @attr_reader passCode
+  attr_reader :userName
+  attr_reader :passWord
+  attr_reader :passCode
 
   def initialize
     userNumber = Random.rand(1..5)
     current_user = 0
     CSV.foreach("/Volumes/Infrastructure-2/vars/QA/TestCredentials.csv") do |row|
-      if current_user == userNumber do
-        #elements = row.split(',')
-        userName = row[0]
-        passWord = row[1]
-        passCode = row[2]
+      if current_user == userNumber
+        @userName = row[0]
+        @passWord = row[1]
+        @passCode = row[2]
       end
       current_user = current_user+1
+    end
   end
 
   def completeLogin
@@ -26,16 +26,21 @@ class Login
     click_on('Log In')
     fill_in('username', with: userName)
     fill_in('password', with: passWord)
-    click_on('submit')
+
+    #click_on('submit')
+    find('[name=submit]').click
     sleep(3)
     fill_in('passcode', with: passCode)
-    click_on('submit')
+    find('[name=submit]').click
+    sleep(3)
   end
 end
 
 feature 'User Browsing', js: true do
-  let(:user) {Login.new}
+  #let(:user) {Login.new}
   scenario 'Load Homepage' do
+    user = Login.new
+    puts user.userName
     visit '/'
     home_page = Curate::Pages::HomePage.new
     expect(home_page).to be_on_page
@@ -162,4 +167,183 @@ feature 'Facet Navigation', js: true do
       expect(page).to have_css("ul.facets #collapse_#{facet_name}.in .slide-list")
     end
   end
+end
+feature 'Logged In User Browsing', js: true do
+  let(:user) {Login.new}
+  scenario "Log in" do
+    user.completeLogin
+    home_page = Curate::Pages::HomePage.new
+    expect(home_page).to be_on_logged_in_page
+  end
+  scenario "Manage My Works" do
+    user.completeLogin
+    home_page = Curate::Pages::HomePage.new
+    expect(home_page).to be_on_logged_in_page
+    find("div.btn-group.my-actions").click
+    checkMyWorksDropdown()
+    click_on("My Works")
+    sleep(3)
+    within('div.applied-constraints') do
+      expect(page).to have_content("Work")
+    end
+    expect(find("#works_mine")).to be_checked
+  end
+  scenario "Manage My Groups" do
+    user.completeLogin
+    home_page = Curate::Pages::HomePage.new
+    expect(home_page).to be_on_logged_in_page
+    find("div.btn-group.my-actions").click
+    checkMyWorksDropdown()
+    click_on("My Groups")
+    sleep(3)
+    expect(page).to have_content("My Groups")
+    expect(page).to have_selector(:link_or_button, "Create Group")
+  end
+  scenario "Manage My Collections" do
+    user.completeLogin
+    home_page = Curate::Pages::HomePage.new
+    expect(home_page).to be_on_logged_in_page
+    find("div.btn-group.my-actions").click
+    checkMyWorksDropdown()
+    click_on("My Collections")
+    sleep(3)
+    within('div.applied-constraints') do
+      expect(page).to have_content("Work")
+    end
+    expect(find("#works_mine")).to be_checked
+  end
+  scenario "Manage My Profile" do
+    user.completeLogin
+    home_page = Curate::Pages::HomePage.new
+    expect(home_page).to be_on_logged_in_page
+    find("div.btn-group.my-actions").click
+    checkMyWorksDropdown()
+    click_on("My Profile")
+    sleep(3)
+    expect(page).to have_selector(:link_or_button, "Add a Section to my Profile")
+    expect(page).to have_selector(:link_or_button, "Update Personal Information")
+  end
+  scenario "Manage My Delegates" do
+    user.completeLogin
+    home_page = Curate::Pages::HomePage.new
+    expect(home_page).to be_on_logged_in_page
+    find("div.btn-group.my-actions").click
+    checkMyWorksDropdown()
+    click_on("My Delegates")
+    sleep(3)
+    expect(page).to have_content("Manage Your Delegates")
+    expect(page).to have_content("Grant Delegate Access")
+    expect(page).to have_content("Authorized Delegates")
+    #within('div.proxy-rights.row.with-headroom') do
+      #find('#user')
+    #end
+  end
+  scenario "Deposit New Article" do
+    user.completeLogin
+    home_page = Curate::Pages::HomePage.new
+    expect(home_page).to be_on_logged_in_page
+    find("div.btn-group.add-content").click
+    checkDepositDropdown()
+    click_on("New Article")
+    sleep(3)
+    expect(page).to have_content("Describe Your Article")
+    findInputFields()
+  end
+  scenario "Deposit New Dataset" do
+    user.completeLogin
+    home_page = Curate::Pages::HomePage.new
+    expect(home_page).to be_on_logged_in_page
+    find("div.btn-group.add-content").click
+    checkDepositDropdown()
+    click_on("New Dataset")
+    sleep(3)
+    expect(page).to have_content("Describe Your Dataset")
+    findInputFields(item: "dataset")
+  end
+  scenario "Deposit New Document" do
+    user.completeLogin
+    home_page = Curate::Pages::HomePage.new
+    expect(home_page).to be_on_logged_in_page
+    find("div.btn-group.add-content").click
+    checkDepositDropdown()
+    click_on("New Document")
+    sleep(3)
+    expect(page).to have_content("Describe Your Document")
+    findInputFields(item: "document")
+    expect(page).to have_field("document[type]")
+  end
+
+  scenario "Deposit New Image" do
+    user.completeLogin
+    home_page = Curate::Pages::HomePage.new
+    expect(home_page).to be_on_logged_in_page
+    find("div.btn-group.add-content").click
+    checkDepositDropdown()
+    click_on("New Image")
+    sleep(3)
+    expect(page).to have_content("Describe Your Image")
+    expect(page).to have_field("image[title]")
+    expect(page).to have_field("image[rights]")
+    expect(page).to have_field("image[date_created]")
+    expect(page).to have_css("div.control-group.text.optional.image_description")
+  end
+
+  scenario "Visit More Options" do
+    user.completeLogin
+    home_page = Curate::Pages::HomePage.new
+    expect(home_page).to be_on_logged_in_page
+    find("div.btn-group.add-content").click
+    checkDepositDropdown()
+    click_on("More Options")
+    sleep(3)
+    options_page = Curate::Pages::OptionsPage.new
+    expect(options_page).to be_on_page
+  end
+
+  scenario "Deposit New Audio" do
+    user.completeLogin
+    home_page = Curate::Pages::HomePage.new
+    expect(home_page).to be_on_logged_in_page
+    find("div.btn-group.add-content").click
+    checkDepositDropdown()
+    click_on("More Options")
+    sleep(3)
+    options_page = Curate::Pages::OptionsPage.new
+    expect(options_page).to be_on_page
+    find('.add-button.btn.btn-primary.add_new_audio').click
+    sleep(2)
+    expect(page).to have_content("Describe Your Audio")
+    findInputFields(item: 'audio')
+    expect(page).to have_css("div.control-group.text.optional.audio_description")
+  end
+end
+
+def checkMyWorksDropdown
+  find("div.btn-group.my-actions.open")
+  expect(page).to have_content("My Works")
+  expect(page).to have_content("My Collections")
+  expect(page).to have_content("My Groups")
+  expect(page).to have_content("My Profile")
+  expect(page).to have_content("My Delegates")
+  expect(page).to have_content("Log Out")
+end
+
+def checkDepositDropdown
+  find("div.btn-group.add-content.open")
+  expect(page).to have_content("New Article")
+  expect(page).to have_content("New Dataset")
+  expect(page).to have_content("New Document")
+  expect(page).to have_content("New Image")
+  expect(page).to have_content("More Options")
+end
+
+def findInputFields(item: 'article')
+  expect(page).to have_field("#{item}[title]")
+  if item == 'dataset'
+    expect(page).to have_css("div.control-group.text.required.#{item}_description")
+  elsif item == 'document' || item == 'audio' # don't look for abstract with documents
+  else
+    expect(page).to have_css("div.control-group.text.required.#{item}_abstract")
+  end
+  expect(page).to have_field("#{item}[rights]")
 end

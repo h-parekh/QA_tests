@@ -12,6 +12,11 @@ module Curate
           valid_page_content?
       end
 
+      def on_logged_in_page?
+        on_valid_url? &&
+        status_response_ok? &&
+        valid_logged_in_page_content?
+      end
       def on_valid_url?
         current_url == Capybara.app_host
       end
@@ -25,6 +30,11 @@ module Curate
           has_field?('catalog_search', type: 'search') &&
             find_button('keyword-search-submit').visible?
         end
+      end
+      def valid_logged_in_page_content?
+        valid_page_content? &&
+        find("div.btn-group.add-content") &&
+        find("div.btn-group.my-actions")
       end
     end
   end

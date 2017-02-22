@@ -206,7 +206,7 @@ module ExampleLogging
       def report_network_traffic(driver:)
         return true unless driver_allows_network_traffic_verification?
         info(context: "verifying_all_network_traffic") do
-          verify_network_traffic(driver: driver)
+          #verify_network_traffic(driver: driver)
         end
       end
 
