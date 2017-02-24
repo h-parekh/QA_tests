@@ -1,0 +1,3 @@
+--color
+--require ./spec/spec_support/json_output_formatter.rb
+--format JsonOutputFormatter
