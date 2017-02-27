@@ -11,7 +11,7 @@ module RunIdentifier
   end
 
   def self.remove_oldest(dir: 'tmp/screenshots')
-    oldest = Dir.glob('*').select {|f| File.directory? f}.first
+    oldest = Dir.glob('*').select {|f| File.directory? f}.sort_by{|f| File.ctime(f)}.first
     FileUtils.rm_rf(oldest)
   end
 
