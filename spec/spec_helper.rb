@@ -23,11 +23,8 @@ Capybara::Webkit.configure do |config|
   config.skip_image_loading
 end
 
-# set the save path used in capybara-screenshot
-Capybara.save_path = './tmp/screenshots'
 # Keep only the screenshots generated from the last failing test suite
 Capybara::Screenshot.prune_strategy = :keep_last_run
-
 ExampleLogging.instantiate_all_loggers!(config: ENV)
 
 # Gives access to the capybara methods
@@ -45,6 +42,8 @@ RSpec.configure do |config|
   config.before(:suite) do
     RunIdentifier.set
     CloudwatchEventHandler.set_aws_config
+    new_save_path = RunIdentifier.setup
+    Capybara.save_path = new_save_path
   end
 
   config.before(:example) do |rspec_example|
