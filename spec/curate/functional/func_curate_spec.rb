@@ -11,7 +11,7 @@ class Login
   def initialize
     userNumber = Random.rand(1..5)
     current_user = 0
-    CSV.foreach("/Volumes/Infrastructure-2/vars/QA/TestCredentials.csv") do |row|
+    CSV.foreach("/Volumes/Infrastructure/vars/QA/TestCredentials.csv") do |row|
       if current_user == userNumber
         @userName = row[0]
         @passWord = row[1]
@@ -26,18 +26,20 @@ class Login
     click_on('Log In')
     fill_in('username', with: userName)
     fill_in('password', with: passWord)
-
-    #click_on('submit')
     find('[name=submit]').click
     sleep(3)
     fill_in('passcode', with: passCode)
     find('[name=submit]').click
-    sleep(3)
+    sleep(5)
+  end
+  def checkLoginPage
+    page.has_content?("Login to Curate")
+    find('#password')
+    find('button[name="submit"]', :text => 'LOGIN')
   end
 end
 
 feature 'User Browsing', js: true do
-  #let(:user) {Login.new}
   scenario 'Load Homepage' do
     user = Login.new
     puts user.userName
@@ -125,6 +127,38 @@ feature 'User Browsing', js: true do
     visit departmental_link.link
     expect(dept_search_page).to be_on_page
   end
+  scenario "Download an Article" do
+    visit '/'
+    home_page = Curate::Pages::HomePage.new
+    expect(home_page).to be_on_page
+    search_term = "Article"
+    fill_in('catalog_search', with: search_term)
+    click_on('Search')
+    catalog_page = Curate::Pages::CatalogPage.new(search_term: search_term)
+    expect(catalog_page).to be_on_page
+    link= first('a[id^="src_copy_link"]')
+    article_title = link.text
+    link.click
+    expect(page).to have_content(article_title)
+    within("div.actions") do #find the View details and downloads button
+      find("a.action.btn", :text => "Download")
+      find("a.btn", :text => "View Details")
+    end
+    #Make sure that the Abstract and Attributes sections have text
+    within("article.abstract.descriptive-text") do
+      find('p')
+    end
+    within("table.table.table-striped.finding_aid.attributes") do
+      first('p')
+    end
+    download_button=find("a.action.btn", :text => "Download")
+    link = download_button['href'].split('/').last(2)
+    download_button.click
+    page.driver.browser.switch_to_window(page.driver.browser.window_handles.last)
+    expect(page.current_url).to eq(File.join(Capybara.app_host, link))
+    expect(status_code).to eq(200 || 201 || 202 || 203 || 206)
+
+  end
 end
 
 feature 'Requesting Help', js: true do
@@ -188,7 +222,7 @@ feature 'Logged In User Browsing', js: true do
     end
     expect(find("#works_mine")).to be_checked
   end
-  scenario "Manage My Groups" do
+  scenario "Visit Manage My Groups page" do
     user.completeLogin
     home_page = Curate::Pages::HomePage.new
     expect(home_page).to be_on_logged_in_page
@@ -199,7 +233,7 @@ feature 'Logged In User Browsing', js: true do
     expect(page).to have_content("My Groups")
     expect(page).to have_selector(:link_or_button, "Create Group")
   end
-  scenario "Manage My Collections" do
+  scenario "Visit Manage My Collections page" do
     user.completeLogin
     home_page = Curate::Pages::HomePage.new
     expect(home_page).to be_on_logged_in_page
@@ -208,11 +242,11 @@ feature 'Logged In User Browsing', js: true do
     click_on("My Collections")
     sleep(3)
     within('div.applied-constraints') do
-      expect(page).to have_content("Work")
+      expect(page).to have_content("Collection")
     end
     expect(find("#works_mine")).to be_checked
   end
-  scenario "Manage My Profile" do
+  scenario "Visit Manage My Profile page" do
     user.completeLogin
     home_page = Curate::Pages::HomePage.new
     expect(home_page).to be_on_logged_in_page
@@ -223,7 +257,7 @@ feature 'Logged In User Browsing', js: true do
     expect(page).to have_selector(:link_or_button, "Add a Section to my Profile")
     expect(page).to have_selector(:link_or_button, "Update Personal Information")
   end
-  scenario "Manage My Delegates" do
+  scenario "Visit Manage My Delegates page" do
     user.completeLogin
     home_page = Curate::Pages::HomePage.new
     expect(home_page).to be_on_logged_in_page
@@ -234,11 +268,8 @@ feature 'Logged In User Browsing', js: true do
     expect(page).to have_content("Manage Your Delegates")
     expect(page).to have_content("Grant Delegate Access")
     expect(page).to have_content("Authorized Delegates")
-    #within('div.proxy-rights.row.with-headroom') do
-      #find('#user')
-    #end
   end
-  scenario "Deposit New Article" do
+  scenario "Visit Deposit New Article page" do
     user.completeLogin
     home_page = Curate::Pages::HomePage.new
     expect(home_page).to be_on_logged_in_page
@@ -249,7 +280,7 @@ feature 'Logged In User Browsing', js: true do
     expect(page).to have_content("Describe Your Article")
     findInputFields()
   end
-  scenario "Deposit New Dataset" do
+  scenario "Visit Deposit New Dataset page" do
     user.completeLogin
     home_page = Curate::Pages::HomePage.new
     expect(home_page).to be_on_logged_in_page
@@ -260,7 +291,7 @@ feature 'Logged In User Browsing', js: true do
     expect(page).to have_content("Describe Your Dataset")
     findInputFields(item: "dataset")
   end
-  scenario "Deposit New Document" do
+  scenario "Visit Deposit New Document page" do
     user.completeLogin
     home_page = Curate::Pages::HomePage.new
     expect(home_page).to be_on_logged_in_page
@@ -273,7 +304,7 @@ feature 'Logged In User Browsing', js: true do
     expect(page).to have_field("document[type]")
   end
 
-  scenario "Deposit New Image" do
+  scenario "Visit Deposit New Image page" do
     user.completeLogin
     home_page = Curate::Pages::HomePage.new
     expect(home_page).to be_on_logged_in_page
@@ -288,7 +319,7 @@ feature 'Logged In User Browsing', js: true do
     expect(page).to have_css("div.control-group.text.optional.image_description")
   end
 
-  scenario "Visit More Options" do
+  scenario "Visit More Options page" do
     user.completeLogin
     home_page = Curate::Pages::HomePage.new
     expect(home_page).to be_on_logged_in_page
@@ -300,7 +331,7 @@ feature 'Logged In User Browsing', js: true do
     expect(options_page).to be_on_page
   end
 
-  scenario "Deposit New Audio" do
+  scenario "Visit Deposit New Audio page" do
     user.completeLogin
     home_page = Curate::Pages::HomePage.new
     expect(home_page).to be_on_logged_in_page
@@ -315,6 +346,32 @@ feature 'Logged In User Browsing', js: true do
     expect(page).to have_content("Describe Your Audio")
     findInputFields(item: 'audio')
     expect(page).to have_css("div.control-group.text.optional.audio_description")
+  end
+
+  scenario "Visit Deposit New Senior Thesis page" do
+    user.completeLogin
+    home_page = Curate::Pages::HomePage.new
+    expect(home_page).to be_on_logged_in_page
+    find("div.btn-group.add-content").click
+    checkDepositDropdown()
+    click_on("More Options")
+    sleep(3)
+    options_page = Curate::Pages::OptionsPage.new
+    expect(options_page).to be_on_page
+    find('.add-button.btn.btn-primary.add_new_senior_thesis').click
+    sleep(2)
+    expect(page).to have_content("Describe Your Senior Thesis")
+    findInputFields(item: 'senior_thesis')
+    expect(page).to have_field("senior_thesis[creator][]")
+  end
+  scenario "Log out" do
+    user.completeLogin
+    home_page = Curate::Pages::HomePage.new
+    expect(home_page).to be_on_logged_in_page
+    find("div.btn-group.my-actions").click
+    checkMyWorksDropdown()
+    click_on("Log Out")
+    user.checkLoginPage
   end
 end
 
@@ -339,7 +396,7 @@ end
 
 def findInputFields(item: 'article')
   expect(page).to have_field("#{item}[title]")
-  if item == 'dataset'
+  if item == 'dataset' || item == 'senior_thesis'
     expect(page).to have_css("div.control-group.text.required.#{item}_description")
   elsif item == 'document' || item == 'audio' # don't look for abstract with documents
   else
