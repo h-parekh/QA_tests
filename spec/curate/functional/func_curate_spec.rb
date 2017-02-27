@@ -119,7 +119,7 @@ feature 'Requesting Help', js: true do
     expect(help_page).to be_on_page
     fill_in('help_request_name', with: 'some name')
     click_on('Submit')
-    expect(page).to have_selector('#ajax-moda', visible: true)
+    expect(page).to have_selector('#ajax-modal', visible: true)
   end
 end
 
