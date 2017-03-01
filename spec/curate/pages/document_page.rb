@@ -1,0 +1,34 @@
+module Curate
+  module Pages
+    # /
+    class DocumentPage
+      include Capybara::DSL
+      include CapybaraErrorIntel::DSL
+
+      def on_page?
+          on_valid_url? &&
+          status_response_ok? &&
+          valid_page_content? &&
+          hasInputFields?
+      end
+
+      def on_valid_url?
+        current_url = File.join(Capybara.app_host, 'concern/document/new')
+      end
+
+      def status_response_ok?
+        status_code == 200
+      end
+
+      def valid_page_content?
+        has_content?("Describe Your Document")
+      end
+
+      def hasInputFields?
+        has_field?("document[title]")
+        has_field?("document[rights]")
+        has_field?("document[type]")
+      end
+    end
+  end
+end
