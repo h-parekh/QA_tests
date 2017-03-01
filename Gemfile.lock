@@ -155,6 +155,7 @@ DEPENDENCIES
   capybara_error_intel
   logging
   poltergeist
+  rake
   rspec
   rubocop
   rubocop-rspec

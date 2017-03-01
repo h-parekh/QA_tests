@@ -102,10 +102,11 @@ feature 'Requesting Help', js: true do
 end
 
 feature 'Facet Navigation', js: true do
-  ['Department or Unit', 'Collection'].each do |facet_name|
-    scenario "#{facet_name} (as modal)" do
-      visit '/'
-      click_on('Search')
+  scenario "modal facets" do
+    visit '/'
+    click_on('Search')
+    ['Department or Unit', 'Collection'].shuffle.each do |facet_name|
+      current_logger.info(context: "Processing Facet: #{facet_name}")
       expect(page).not_to have_selector("#ajax-modal")
       click_on(facet_name)
       expect(page).to have_selector('#ajax-modal', visible: true)
@@ -113,7 +114,7 @@ feature 'Facet Navigation', js: true do
       within('#ajax-modal') do
         find('.close').click
       end
-      expect(page).not_to have_selector("#ajax-modal")
+      expect(page).not_to have_selector("#ajax-modal", visible: true)
     end
   end
 
