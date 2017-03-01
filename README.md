@@ -97,6 +97,44 @@ it 'will accept a block, wrapping the calling of the block with a starting the c
 end
 ```
 
+### Tagging
+
+Usage: We use tag filtering to control which scenarios we run. It can be a simple name
+or a name:value pair. Tagging a scenario with a simple name is the equivalent to a "simple_name:true" name:value pair.
+
+We can define any new tags by appending it to a scenario. No additional config is needed.
+Here are some we should use consistently across all tests:
+* :smoke_test - checks application and dependent system availability
+* :read_only - will not make add/update to the underlying data (aside from login counts)
+* :nonprod_only - should not be run in production
+* :regression_test - covers an important regression test
+* :authentication_required - requires logging into CAS
+
+#### Example
+```ruby
+  scenario 'Scenario Name', :smoke_test, :read_only do
+    # Scenario actions here
+  end
+```
+
+#### Usage
+To only run tests that are tagged with 'smoke_test' pass it along to rspec command with --tag option
+```console
+rspec spec/curate/functional/func_curate_spec.rb --tag smoke_test
+```
+
+To run multiple scenarios with different tags, pass them as separate tags to rspec command.
+Rspec will run a union of the tags, i.e. all scenarios tagged with either of the tags will be run.
+```console
+rspec spec/curate/functional/func_curate_spec.rb --tag smoke_test --tag read_only
+```
+
+To exclude scenarios associated with a tag:
+```console
+rspec spec/curate/functional/func_curate_spec.rb --tag ~read_only
+```
+More details here: https://www.relishapp.com/rspec/rspec-core/v/2-4/docs/command-line/tag-option
+
 ### Chatter on the Terminal
 
 When you are writing new tests, you will notice a lot of chatter in the terminal. There are three possible things being reported:
