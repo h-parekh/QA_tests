@@ -2,7 +2,6 @@ require 'csv'
 module Curate
 
   module Pages
-    # /
     class LoginPage
       include Capybara::DSL
       include CapybaraErrorIntel::DSL
@@ -32,7 +31,7 @@ module Curate
         sleep(3)
         fill_in('passcode', with: passCode)
         find('[name=submit]').click
-        sleep(5)
+        sleep(6)
       end
 
       def checkLoginPage

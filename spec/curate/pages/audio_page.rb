@@ -1,6 +1,5 @@
 module Curate
   module Pages
-    # /
     class AudioPage
       include Capybara::DSL
       include CapybaraErrorIntel::DSL
@@ -13,7 +12,7 @@ module Curate
       end
 
       def on_valid_url?
-        current_url = File.join(Capybara.app_host, 'concern/audio/new')
+        current_url == File.join(Capybara.app_host, 'concern/audios/new')
       end
 
       def status_response_ok?

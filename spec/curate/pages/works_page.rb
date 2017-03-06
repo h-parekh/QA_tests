@@ -1,7 +1,6 @@
 module Curate
   module Pages
-    # /
-    class WorksPage
+    class MyWorksPage
       include Capybara::DSL
       include CapybaraErrorIntel::DSL
 
@@ -12,7 +11,7 @@ module Curate
       end
 
       def on_valid_url?
-        current_url.include? 'Work'
+        current_url == File.join(Capybara.app_host, 'catalog?f%5Bgeneric_type_sim%5D%5B%5D=Work&works=mine')
       end
 
       def status_response_ok?

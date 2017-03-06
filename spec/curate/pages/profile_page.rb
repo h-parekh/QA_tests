@@ -1,7 +1,6 @@
 module Curate
   module Pages
-    # /
-    class ProfilePage
+    class MyProfilePage
       include Capybara::DSL
       include CapybaraErrorIntel::DSL
 

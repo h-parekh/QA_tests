@@ -1,7 +1,6 @@
 module Curate
   module Pages
-    # /
-    class GroupsPage
+    class MyGroupsPage
       include Capybara::DSL
       include CapybaraErrorIntel::DSL
 

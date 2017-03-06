@@ -1,8 +1,7 @@
 # frozen_string_literal: true
 module Curate
   module Pages
-    # /
-    class OptionsPage
+    class StartDepositPage
       include Capybara::DSL
       include CapybaraErrorIntel::DSL
 
@@ -12,7 +11,7 @@ module Curate
           valid_page_content?
       end
       def on_valid_url?
-        current_url == Capybara.app_host + 'deposit'
+        current_url == File.join(Capybara.app_host,'deposit')
       end
 
       def status_response_ok?

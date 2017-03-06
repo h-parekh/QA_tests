@@ -1,6 +1,5 @@
 module Curate
   module Pages
-    # /
     class DocumentPage
       include Capybara::DSL
       include CapybaraErrorIntel::DSL
@@ -13,7 +12,7 @@ module Curate
       end
 
       def on_valid_url?
-        current_url = File.join(Capybara.app_host, 'concern/document/new')
+        current_url == File.join(Capybara.app_host, 'concern/documents/new')
       end
 
       def status_response_ok?

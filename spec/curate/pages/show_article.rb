@@ -1,6 +1,5 @@
 module Curate
   module Pages
-    # /
     class ShowArticlePage
       include Capybara::DSL
       include CapybaraErrorIntel::DSL

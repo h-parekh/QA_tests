@@ -1,7 +1,6 @@
 module Curate
   module Pages
-    # /
-    class DelegatesPage
+    class MyDelegatesPage
       include Capybara::DSL
       include CapybaraErrorIntel::DSL
 

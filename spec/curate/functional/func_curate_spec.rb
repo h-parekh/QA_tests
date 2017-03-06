@@ -102,11 +102,12 @@ feature 'User Browsing', js: true do
     article_link.click
     expect(show_article).to be_on_page
     download_button=find("a.action.btn", :text => "Download")
-    article_link = download_button['href'].split('/').last(2)
+    article_link = download_button['href']
     download_button.click
-    page.driver.browser.switch_to_window(page.driver.browser.window_handles.last)
-    expect(page.current_url).to eq(File.join(Capybara.app_host, article_link))
-    expect(status_code).to eq(200 || 201 || 206)
+    last_opened_window = page.driver.browser.window_handles.last
+    page.driver.browser.switch_to_window(last_opened_window)
+    expect(page.current_url).to eq(article_link)
+    expect(status_code.to_s).to match(/^20[0,1,6]$/)
   end
 end
 
@@ -156,154 +157,140 @@ feature 'Logged In User Browsing', js: true do
   let(:user) {Curate::Pages::LoginPage.new}
   scenario "Log in" do
     user.completeLogin
-    home_page = Curate::Pages::HomePage.new
-    expect(home_page).to be_on_logged_in_page
+    logged_in_home_page = Curate::Pages::LoggedInHomePage.new
+    expect(logged_in_home_page).to be_on_page
   end
 
   scenario "Manage My Works" do
     user.completeLogin
-    home_page = Curate::Pages::HomePage.new
-    expect(home_page).to be_on_logged_in_page
+    logged_in_home_page = Curate::Pages::LoggedInHomePage.new
+    expect(logged_in_home_page).to be_on_page
     find("div.btn-group.my-actions").click
     click_on("My Works")
-    sleep(3)
-    works_page = Curate::Pages::WorksPage.new
+    works_page = Curate::Pages::MyWorksPage.new
     expect(works_page).to be_on_page
   end
 
   scenario "Visit Manage My Groups page" do
     user.completeLogin
-    home_page = Curate::Pages::HomePage.new
-    expect(home_page).to be_on_logged_in_page
+    logged_in_home_page = Curate::Pages::LoggedInHomePage.new
+    expect(logged_in_home_page).to be_on_page
     find("div.btn-group.my-actions").click
     click_on("My Groups")
-    sleep(3)
-    groups_page = Curate::Pages::GroupsPage.new
+    groups_page = Curate::Pages::MyGroupsPage.new
     expect(groups_page).to be_on_page
   end
 
   scenario "Visit Manage My Collections page" do
     user.completeLogin
-    home_page = Curate::Pages::HomePage.new
-    expect(home_page).to be_on_logged_in_page
+    logged_in_home_page = Curate::Pages::LoggedInHomePage.new
+    expect(logged_in_home_page).to be_on_page
     find("div.btn-group.my-actions").click
     click_on("My Collections")
-    sleep(3)
-    collections_page = Curate::Pages::CollectionsPage.new
+    collections_page = Curate::Pages::MyCollectionsPage.new
     expect(collections_page).to be_on_page
   end
 
   scenario "Visit Manage My Profile page" do
     user.completeLogin
-    home_page = Curate::Pages::HomePage.new
-    expect(home_page).to be_on_logged_in_page
+    logged_in_home_page = Curate::Pages::LoggedInHomePage.new
+    expect(logged_in_home_page).to be_on_page
     find("div.btn-group.my-actions").click
     click_on("My Profile")
-    sleep(3)
-    profile_page = Curate::Pages::ProfilePage.new
+    profile_page = Curate::Pages::MyProfilePage.new
     expect(profile_page).to be_on_page
   end
 
   scenario "Visit Manage My Delegates page" do
     user.completeLogin
-    home_page = Curate::Pages::HomePage.new
-    expect(home_page).to be_on_logged_in_page
+    logged_in_home_page = Curate::Pages::LoggedInHomePage.new
+    expect(logged_in_home_page).to be_on_page
     find("div.btn-group.my-actions").click
     click_on("My Delegates")
-    sleep(3)
-    delegates_page = Curate::Pages::DelegatesPage.new
+    delegates_page = Curate::Pages::MyDelegatesPage.new
     expect(delegates_page).to be_on_page
   end
 
   scenario "Visit Deposit New Article page" do
     user.completeLogin
-    home_page = Curate::Pages::HomePage.new
-    expect(home_page).to be_on_logged_in_page
+    logged_in_home_page= Curate::Pages::LoggedInHomePage.new
+    expect(logged_in_home_page).to be_on_page
     find("div.btn-group.add-content").click
     click_on("New Article")
-    sleep(3)
     article_page = Curate::Pages::ArticlePage.new
     expect(article_page).to be_on_page
   end
 
   scenario "Visit Deposit New Dataset page" do
     user.completeLogin
-    home_page = Curate::Pages::HomePage.new
-    expect(home_page).to be_on_logged_in_page
+    logged_in_home_page = Curate::Pages::LoggedInHomePage.new
+    expect(logged_in_home_page).to be_on_page
     find("div.btn-group.add-content").click
     click_on("New Dataset")
-    sleep(3)
     dataset_page = Curate::Pages::DatasetPage.new
     expect(dataset_page).to be_on_page
   end
 
   scenario "Visit Deposit New Document page" do
     user.completeLogin
-    home_page = Curate::Pages::HomePage.new
-    expect(home_page).to be_on_logged_in_page
+    logged_in_home_page = Curate::Pages::LoggedInHomePage.new
+    expect(logged_in_home_page).to be_on_page
     find("div.btn-group.add-content").click
     click_on("New Document")
-    sleep(3)
     document_page = Curate::Pages::DocumentPage.new
     expect(document_page).to be_on_page
   end
 
   scenario "Visit Deposit New Image page" do
     user.completeLogin
-    home_page = Curate::Pages::HomePage.new
-    expect(home_page).to be_on_logged_in_page
+    logged_in_home_page = Curate::Pages::LoggedInHomePage.new
+    expect(logged_in_home_page).to be_on_page
     find("div.btn-group.add-content").click
     click_on("New Image")
-    sleep(3)
     image_page = Curate::Pages::ImagePage.new
     expect(image_page).to be_on_page
   end
 
   scenario "Visit More Options page" do
     user.completeLogin
-    home_page = Curate::Pages::HomePage.new
-    expect(home_page).to be_on_logged_in_page
+    logged_in_home_page = Curate::Pages::LoggedInHomePage.new
+    expect(logged_in_home_page).to be_on_page
     find("div.btn-group.add-content").click
     click_on("More Options")
-    sleep(3)
-    options_page = Curate::Pages::OptionsPage.new
+    options_page = Curate::Pages::StartDepositPage.new
     expect(options_page).to be_on_page
   end
 
   scenario "Visit Deposit New Audio page" do
     user.completeLogin
-    home_page = Curate::Pages::HomePage.new
-    expect(home_page).to be_on_logged_in_page
+    logged_in_home_page = Curate::Pages::LoggedInHomePage.new
+    expect(logged_in_home_page).to be_on_page
     find("div.btn-group.add-content").click
     click_on("More Options")
-    sleep(3)
-    options_page = Curate::Pages::OptionsPage.new
+    options_page = Curate::Pages::StartDepositPage.new
     expect(options_page).to be_on_page
     find('.add-button.btn.btn-primary.add_new_audio').click
-    sleep(2)
     audio_page = Curate::Pages::AudioPage.new
     expect(audio_page).to be_on_page
   end
 
   scenario "Visit Deposit New Senior Thesis page" do
     user.completeLogin
-    home_page = Curate::Pages::HomePage.new
-    expect(home_page).to be_on_logged_in_page
+    logged_in_home_page = Curate::Pages::LoggedInHomePage.new
+    expect(logged_in_home_page).to be_on_page
     find("div.btn-group.add-content").click
     click_on("More Options")
-    sleep(3)
-    options_page = Curate::Pages::OptionsPage.new
+    options_page = Curate::Pages::StartDepositPage.new
     expect(options_page).to be_on_page
     find('.add-button.btn.btn-primary.add_new_senior_thesis').click
-    sleep(2)
     thesis_page = Curate::Pages::ThesisPage.new
     expect(thesis_page).to be_on_page
   end
 
   scenario "Log out" do
     user.completeLogin
-    home_page = Curate::Pages::HomePage.new
-    expect(home_page).to be_on_logged_in_page
+    logged_in_home_page = Curate::Pages::LoggedInHomePage.new
+    expect(logged_in_home_page).to be_on_page
     find("div.btn-group.my-actions").click
     click_on("Log Out")
     user.checkLoginPage
