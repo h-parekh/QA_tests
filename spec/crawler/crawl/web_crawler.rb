@@ -25,9 +25,11 @@ File.foreach(ENV["HOME"]+"/crawl_sites.txt") do |url|
       uri = URI.parse(link)
       begin
         response = Net::HTTP.get_response(uri)
-        puts "#{link} #{response.code}"
-        if response.code == 404
-          puts "Bad link #{link} on #{url}"
+        #puts "#{link} #{response.code}"
+        if response.code == "404"
+
+          #puts "Bad link #{link} on #{url}"
+        end
       rescue SystemCallError
         puts "Connection failed on: #{link}"
         next
