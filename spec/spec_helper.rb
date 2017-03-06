@@ -45,6 +45,7 @@ RSpec.configure do |config|
 
   config.before(:suite) do
     RunIdentifier.set
+    CloudwatchEventHandler.set_aws_config
   end
 
   config.before(:example) do |rspec_example|
