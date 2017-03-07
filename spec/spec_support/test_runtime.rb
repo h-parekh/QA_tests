@@ -2,7 +2,7 @@
 
 module RunIdentifier
   def self.set
-    @run_identifier = DateTime.now.strftime("%m%d%Y_%H%M%S.%L")
+    @run_identifier = DateTime.now.strftime("%Y-%m-%dT%H:%M:%S.%L-05:00")
   end
 
   def self.get
