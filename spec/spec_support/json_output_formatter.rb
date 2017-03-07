@@ -10,5 +10,10 @@ class JsonOutputFormatter < RSpec::Core::Formatters::JsonFormatter
   def stop(notification)
     super
     @output_hash[:runID] ||= "#{RunIdentifier.get}"
+    report_json_result
+  end
+
+  def report_json_result
+    CloudwatchEventHandler.report_json_result(output_hash: @output_hash)
   end
 end
