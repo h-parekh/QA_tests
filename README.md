@@ -59,6 +59,25 @@ which qmake; qmake --version
 # Using Qt version 5.x in /usr/local/Cellar/qt5/5.x/lib
 ```
 
+## Setting up shared drive
+These tests will need to access a shared drive that has test data
+
+1. From the Finder, hit Command+K
+2. Enter the path smb://library.corpfs.nd.edu/DCNS/ and click ‘Connect’
+3. Enter your login credentials and click “OK”
+4. The drive is now mounted, but continue on to map for system reboot persistence
+5. Now enter into System Preferences, from the Apple menu
+6. Click on 'Users & Groups'
+7. Click on “Login Items”
+8. Click on the + button to add another login item
+9. Locate the network drive /DCNS/Library/Departmental/Infrastructure/vars/QA
+10. Click “Add” and exit
+11. Create a new directory and setup a soft link
+``` console
+mkdir ~/test_data
+ln -s /Volumes/DCNS/Library/Departmental/Infrastructure/vars/QA ~/test_data
+```
+
 ## Deploying master branch from local to remote testcontroller01
 ``` console
 cd git/QA_tests
