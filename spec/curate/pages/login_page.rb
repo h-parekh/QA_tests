@@ -28,9 +28,11 @@ module Curate
         fill_in('username', with: userName)
         fill_in('password', with: passWord)
         find('[name=submit]').click
+        # wait for first step of login to complete
         sleep(3)
         fill_in('passcode', with: passCode)
         find('[name=submit]').click
+        # wait for second step of login to complete
         sleep(6)
       end
 
