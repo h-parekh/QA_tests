@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 require 'forwardable'
+require 'example_logging_constants'
 
 require 'capybara/node/element'
 class Capybara::Node::Element
@@ -21,10 +22,6 @@ end
 # It is intended to be included in the RSpec example context so as to expose
 # the @current_logger instance variable
 module ExampleLogging
-  DEFAULT_ENVIRONMENT = 'prod'
-  DEFAULT_LOG_LEVEL = 'info'
-  AVAILABLE_LOG_LEVELS = %w(debug info warn error fatal).freeze
-
   # Given that we want to send logs to different locations based on application,
   # we need to initialize different loggers. We also don't want to keep adding
   # appenders, so this is a means of instantiating all of those loggers before

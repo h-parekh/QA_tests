@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby -wU
 # frozen_string_literal: true
 
-require File.expand_path('../../spec/spec_support/example_logging', __FILE__)
+require File.expand_path('../../spec/spec_support/example_logging_constants', __FILE__)
 
 # *****************************************************************************
 #
