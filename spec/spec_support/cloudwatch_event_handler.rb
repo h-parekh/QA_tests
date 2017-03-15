@@ -3,6 +3,7 @@ require 'aws-sdk'
 
 module CloudwatchEventHandler
   def self.set_aws_config
+    return true if ENV.fetch('SKIP_CLOUDWATCH', false)
     target_aws_account = 'testlibnd'
     user_home_dir = File.expand_path('~')
     aws_env_config_file = YAML.load_file(File.join("#{user_home_dir}", 'test_data/QA/aws_config.yaml'))
@@ -11,6 +12,7 @@ module CloudwatchEventHandler
   end
 
   def self.report_json_result(output_hash:)
+    return true if ENV.fetch('SKIP_CLOUDWATCH', false)
     client = Aws::CloudWatchEvents::Client.new
     rspec_result_event = {entries:[{"source": "testcontroller01","detail_type": "rspec_result","detail": output_hash.to_json}]}
     client.put_events(rspec_result_event)

@@ -9,10 +9,11 @@ require File.expand_path('../../spec/spec_support/example_logging_constants', __
 #
 # *****************************************************************************
 
-CONFIG_KEYS = [:ENVIRONMENT, :LOG_LEVEL].freeze
+CONFIG_KEYS = [:ENVIRONMENT, :LOG_LEVEL, :SKIP_CLOUDWATCH].freeze
 
 ENVIRONMENT = ENV.fetch('ENVIRONMENT', ExampleLogging::DEFAULT_ENVIRONMENT)
 LOG_LEVEL = ENV.fetch('LOG_LEVEL', ExampleLogging::DEFAULT_LOG_LEVEL)
+SKIP_CLOUDWATCH = ENV.fetch('SKIP_CLOUDWATCH', nil)
 
 # *****************************************************************************
 #
@@ -45,7 +46,16 @@ if ARGV.grep(/-h/i).size == 1
   $stdout.puts ""
   $stdout.puts "Example:"
   $stdout.puts "$ ENVIRONMENT=local ./bin/#{File.basename(__FILE__)}"
+  $stdout.puts ""
+  $stdout.puts "SKIP_CLOUDWATCH: By default we notify CloudWatch of test events. In some cases,"
+  $stdout.puts "this is not desired (e.g. local development). So you can set SKIP_CLOUDWATCH=true."
+  $stdout.puts "ENV variable to not notify CloudWatch."
+  $stdout.puts ""
+  $stdout.puts "Example:"
+  $stdout.puts "$ SKIP_CLOUDWATCH=true ./bin/#{File.basename(__FILE__)}"
   exit(0)
 end
 
-exec("ENVIRONMENT=#{ENVIRONMENT} LOG_LEVEL=#{LOG_LEVEL} bundle exec rspec #{ARGV.join(' ')}")
+# Keep only the environment variables that have been set to a "truthy" value
+env_variables_to_inject = CONFIG_KEYS.select { |key| Object.const_get(key) }.map { |key| "#{key}=#{Object.const_get(key)}" }.join(" ")
+exec("#{env_variables_to_inject} bundle exec rspec #{ARGV.join(' ')}")
