@@ -11,12 +11,11 @@ Your local machine will need the following setup to be able to run these tests f
 2. Bundler for managing Ruby libraries
 3. Rbenv for managing versions of Ruby
 4. Ruby 2.3.1
-5. Airborne 0.2.7 - for testing API endpoints
-6. Capybara 2.10.1 - for testing web applications
-7. Phantomjs 2.1.1 - for supporting capybara/poltergeist to capture screenshots
-8. Poltergeist 1.11.0 - chosen web driver for using with capybara
-9. Nokogiri 1.6.8.1 - for XML tree parsing and navigation
-10. Verify that `ssh app@testcontroller01.library.nd.edu` works
+5. Capybara 2.10.1 - for testing web applications
+6. Phantomjs 2.1.1 - for supporting capybara/poltergeist to capture screenshots
+7. Poltergeist 1.11.0 - chosen web driver for using with capybara
+8. Nokogiri 1.6.8.1 - for XML tree parsing and navigation
+9. Verify that `ssh app@testcontroller01.library.nd.edu` works
 
 ## Installation Phantomjs and Phantomenv install
 PhantomJS is a headless WebKit scriptable with a JavaScript API. It has fast and native support for various web standards: DOM handling, CSS selector, JSON, Canvas, and SVG.
