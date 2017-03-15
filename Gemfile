@@ -21,4 +21,5 @@ group :testcontroller do
   gem 'capybara-webkit'
   gem 'swagger-core'
   gem 'airborne'
+  gem 'aws-sdk'
 end

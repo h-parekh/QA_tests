@@ -7,8 +7,13 @@ class JsonOutputFormatter < RSpec::Core::Formatters::JsonFormatter
   # https://github.com/rspec/rspec-core/blob/master/lib/rspec/core/formatters/json_formatter.rb
   RSpec::Core::Formatters.register self
 
-  def stop(notification)
+  def close(notification)
     super
     @output_hash[:runID] ||= "#{RunIdentifier.get}"
+    report_json_result
+  end
+
+  def report_json_result
+    CloudwatchEventHandler.report_json_result(output_hash: @output_hash)
   end
 end
