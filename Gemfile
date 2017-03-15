@@ -9,6 +9,7 @@ gem 'rake'
 # bundle install --deployment --without testcontroller
 group :testcontroller do
   gem 'rspec'
+  gem 'activesupport'
   gem 'capybara'
   gem 'poltergeist'
   gem 'capybara_error_intel'
