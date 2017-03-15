@@ -10,7 +10,6 @@ require 'capybara-screenshot/rspec'
 require 'logging'
 require 'rspec/logging_helper'
 require 'capybara-webkit'
-require 'airborne'
 require 'swagger'
 require 'open-uri'
 

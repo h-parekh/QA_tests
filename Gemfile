@@ -20,6 +20,5 @@ group :testcontroller do
   gem 'selenium-webdriver'
   gem 'capybara-webkit'
   gem 'swagger-core'
-  gem 'airborne'
   gem 'aws-sdk'
 end
