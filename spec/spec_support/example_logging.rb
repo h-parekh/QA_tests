@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 require 'forwardable'
-require 'example_logging_constants'
+require 'spec_support/example_logging_constants'
 
 require 'capybara/node/element'
 class Capybara::Node::Element
