@@ -14,6 +14,7 @@ CONFIG_KEYS = [:ENVIRONMENT, :LOG_LEVEL, :SKIP_CLOUDWATCH].freeze
 ENVIRONMENT = ENV.fetch('ENVIRONMENT', ExampleLogging::DEFAULT_ENVIRONMENT)
 LOG_LEVEL = ENV.fetch('LOG_LEVEL', ExampleLogging::DEFAULT_LOG_LEVEL)
 SKIP_CLOUDWATCH = ENV.fetch('SKIP_CLOUDWATCH', nil)
+SKIP_VERIFY_NETWORK_TRAFFIC = ENV.fetch('SKIP_VERIFY_NETWORK_TRAFFIC', nil)
 
 # *****************************************************************************
 #
@@ -53,6 +54,13 @@ if ARGV.grep(/-h/i).size == 1
   $stdout.puts ""
   $stdout.puts "Example:"
   $stdout.puts "$ SKIP_CLOUDWATCH=true ./bin/#{File.basename(__FILE__)}"
+  $stdout.puts ""
+  $stdout.puts "SKIP_VERIFY_NETWORK_TRAFFIC: By default we verify network traffic of all scenarios. In some cases,"
+  $stdout.puts "this is not desired (e.g. testing beta sites). So you can set SKIP_VERIFY_NETWORK_TRAFFIC=true."
+  $stdout.puts "ENV variable to not verify network traffic."
+  $stdout.puts ""
+  $stdout.puts "Example:"
+  $stdout.puts "$ SKIP_VERIFY_NETWORK_TRAFFIC=true ./bin/#{File.basename(__FILE__)}"
   exit(0)
 end
 
