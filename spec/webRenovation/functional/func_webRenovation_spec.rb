@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-require 'webrenovation/webrenovation_spec_helper'
+require 'webRenovation/webRenovation_spec_helper'
 
 feature 'User Browsing', js: true do
   scenario 'Load Homepage', :read_only, :smoke_test do
