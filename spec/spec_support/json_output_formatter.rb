@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 require 'rspec/core/formatters/json_formatter'
+require 'rspec/core/formatters/console_codes'
 
 # This class injects custom variables by calling the same method of parent class JsonFormatter
 class JsonOutputFormatter < RSpec::Core::Formatters::JsonFormatter
