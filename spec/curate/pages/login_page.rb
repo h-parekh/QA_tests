@@ -1,4 +1,5 @@
 require 'csv'
+
 module Curate
 
   module Pages
@@ -34,6 +35,7 @@ module Curate
         find('[name=submit]').click
         # wait for second step of login to complete
         sleep(6)
+        userName
       end
 
       def checkLoginPage

@@ -156,13 +156,16 @@ end
 feature 'Logged In User Browsing', js: true do
   let(:login_page) {Curate::Pages::LoginPage.new}
   scenario "Log in" do
-    login_page.completeLogin
+    userName = login_page.completeLogin
+    current_logger.info(context: "Logging in user: #{userName}")
     logged_in_home_page = Curate::Pages::LoggedInHomePage.new
     expect(logged_in_home_page).to be_on_page
+
   end
 
   scenario "Manage My Works" do
-    login_page.completeLogin
+    userName = login_page.completeLogin
+    current_logger.info(context: "Logging in user: #{userName}")
     logged_in_home_page = Curate::Pages::LoggedInHomePage.new
     expect(logged_in_home_page).to be_on_page
     find("div.btn-group.my-actions").click
@@ -172,7 +175,8 @@ feature 'Logged In User Browsing', js: true do
   end
 
   scenario "Visit Manage My Groups page" do
-    login_page.completeLogin
+    userName = login_page.completeLogin
+    current_logger.info(context: "Logging in user: #{userName}")
     logged_in_home_page = Curate::Pages::LoggedInHomePage.new
     expect(logged_in_home_page).to be_on_page
     find("div.btn-group.my-actions").click
@@ -182,7 +186,8 @@ feature 'Logged In User Browsing', js: true do
   end
 
   scenario "Visit Manage My Collections page" do
-    login_page.completeLogin
+    userName = login_page.completeLogin
+    current_logger.info(context: "Logging in user: #{userName}")
     logged_in_home_page = Curate::Pages::LoggedInHomePage.new
     expect(logged_in_home_page).to be_on_page
     find("div.btn-group.my-actions").click
@@ -192,7 +197,8 @@ feature 'Logged In User Browsing', js: true do
   end
 
   scenario "Visit Manage My Profile page" do
-    login_page.completeLogin
+    userName = login_page.completeLogin
+    current_logger.info(context: "Logging in user: #{userName}")
     logged_in_home_page = Curate::Pages::LoggedInHomePage.new
     expect(logged_in_home_page).to be_on_page
     find("div.btn-group.my-actions").click
@@ -202,7 +208,8 @@ feature 'Logged In User Browsing', js: true do
   end
 
   scenario "Visit Manage My Delegates page" do
-    login_page.completeLogin
+    userName = login_page.completeLogin
+    current_logger.info(context: "Logging in user: #{userName}")
     logged_in_home_page = Curate::Pages::LoggedInHomePage.new
     expect(logged_in_home_page).to be_on_page
     find("div.btn-group.my-actions").click
@@ -212,7 +219,8 @@ feature 'Logged In User Browsing', js: true do
   end
 
   scenario "Visit Deposit New Article page" do
-    login_page.completeLogin
+    userName = login_page.completeLogin
+    current_logger.info(context: "Logging in user: #{userName}")
     logged_in_home_page= Curate::Pages::LoggedInHomePage.new
     expect(logged_in_home_page).to be_on_page
     find("div.btn-group.add-content").click
@@ -222,7 +230,8 @@ feature 'Logged In User Browsing', js: true do
   end
 
   scenario "Visit Deposit New Dataset page" do
-    login_page.completeLogin
+    userName = login_page.completeLogin
+    current_logger.info(context: "Logging in user: #{userName}")
     logged_in_home_page = Curate::Pages::LoggedInHomePage.new
     expect(logged_in_home_page).to be_on_page
     find("div.btn-group.add-content").click
@@ -232,7 +241,8 @@ feature 'Logged In User Browsing', js: true do
   end
 
   scenario "Visit Deposit New Document page" do
-    login_page.completeLogin
+    userName = login_page.completeLogin
+    current_logger.info(context: "Logging in user: #{userName}")
     logged_in_home_page = Curate::Pages::LoggedInHomePage.new
     expect(logged_in_home_page).to be_on_page
     find("div.btn-group.add-content").click
@@ -242,7 +252,8 @@ feature 'Logged In User Browsing', js: true do
   end
 
   scenario "Visit Deposit New Image page" do
-    login_page.completeLogin
+    userName = login_page.completeLogin
+    current_logger.info(context: "Logging in user: #{userName}")
     logged_in_home_page = Curate::Pages::LoggedInHomePage.new
     expect(logged_in_home_page).to be_on_page
     find("div.btn-group.add-content").click
@@ -252,7 +263,8 @@ feature 'Logged In User Browsing', js: true do
   end
 
   scenario "Visit More Options page" do
-    login_page.completeLogin
+    userName = login_page.completeLogin
+    current_logger.info(context: "Logging in user: #{userName}")
     logged_in_home_page = Curate::Pages::LoggedInHomePage.new
     expect(logged_in_home_page).to be_on_page
     find("div.btn-group.add-content").click
@@ -262,7 +274,8 @@ feature 'Logged In User Browsing', js: true do
   end
 
   scenario "Visit Deposit New Audio page" do
-    login_page.completeLogin
+    userName = login_page.completeLogin
+    current_logger.info(context: "Logging in user: #{userName}")
     logged_in_home_page = Curate::Pages::LoggedInHomePage.new
     expect(logged_in_home_page).to be_on_page
     find("div.btn-group.add-content").click
@@ -275,7 +288,8 @@ feature 'Logged In User Browsing', js: true do
   end
 
   scenario "Visit Deposit New Senior Thesis page" do
-    login_page.completeLogin
+    userName = login_page.completeLogin
+    current_logger.info(context: "Logging in user: #{userName}")
     logged_in_home_page = Curate::Pages::LoggedInHomePage.new
     expect(logged_in_home_page).to be_on_page
     find("div.btn-group.add-content").click
@@ -288,7 +302,8 @@ feature 'Logged In User Browsing', js: true do
   end
 
   scenario "Log out" do
-    login_page.completeLogin
+    userName = login_page.completeLogin
+    current_logger.info(context: "Logging in user: #{userName}")
     logged_in_home_page = Curate::Pages::LoggedInHomePage.new
     expect(logged_in_home_page).to be_on_page
     find("div.btn-group.my-actions").click
