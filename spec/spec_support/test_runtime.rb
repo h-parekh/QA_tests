@@ -2,7 +2,6 @@
 require 'fileutils'
 
 module RunIdentifier
-  attr_accessor :n_runs
 
   def self.set
     @run_identifier = DateTime.now.strftime("%Y-%m-%dT%H:%M:%S.%L-05:00")
@@ -27,8 +26,10 @@ module RunIdentifier
     current_working_directory = Dir.pwd
     Dir.chdir(screenshots_root)
     screenshots_directories = Dir.glob('*').select {|f| File.directory? f} # Returns a list of all screenshots directories in screenshots_root
-    if screenshots_directories.length == n_runs
+    num_directories = screenshots_directories.length
+    while num_directories >= runs do # Removes all but the newest runs screenshot directories
       self.remove_oldest_directory()
+      num_directories=num_directories-1
     end
 
     FileUtils.mkdir self.get
