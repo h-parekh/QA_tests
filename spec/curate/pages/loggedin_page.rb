@@ -35,6 +35,14 @@ module Curate
         has_content?("More Options")
         find("div.btn-group.add-content").click
       end
+
+      def openActionsDrawer
+        find("div.btn-group.my-actions").click
+      end
+
+      def openAddContentDrawer
+        find("div.btn-group.add-content").click
+      end
     end
   end
 end
