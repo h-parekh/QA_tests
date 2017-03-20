@@ -1,5 +1,5 @@
 require 'csv'
-
+require 'curate/curate_spec_helper'
 module Curate
 
   module Pages
@@ -9,8 +9,10 @@ module Curate
       attr_reader :userName
       attr_reader :passWord
       attr_reader :passCode
+      attr_reader :current_logger
 
-      def initialize
+      def initialize(logger)
+        @current_logger = logger
         userNumber = Random.rand(1..5)
         current_user = 0
         CSV.foreach(ENV['HOME']+"/test_data/QA/TestCredentials.csv") do |row|
@@ -35,7 +37,7 @@ module Curate
         find('[name=submit]').click
         # wait for second step of login to complete
         sleep(6)
-        userName
+        current_logger.info(context: "Logging in user: #{userName}")
       end
 
       def checkLoginPage

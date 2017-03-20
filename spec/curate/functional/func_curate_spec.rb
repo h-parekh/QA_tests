@@ -154,10 +154,9 @@ feature 'Facet Navigation', js: true do
 end
 
 feature 'Logged In User Browsing', js: true do
-  let(:login_page) {Curate::Pages::LoginPage.new}
+  let(:login_page) {Curate::Pages::LoginPage.new(current_logger)}
   scenario "Log in" do
-    userName = login_page.completeLogin
-    current_logger.info(context: "Logging in user: #{userName}")
+    login_page.completeLogin
     logged_in_home_page = Curate::Pages::LoggedInHomePage.new
     expect(logged_in_home_page).to be_on_page
 
