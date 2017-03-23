@@ -3,26 +3,26 @@
 # It leverages methods exposed by the gem 'swagger-rb'
 #   https://github.com/swagger-rb/swagger-rb
 class SwaggerHandler
-    def self.operations(for_file_path:, config: ENV)
-      @registry ||= {}
-      example_variable = ExampleVariableExtractor.call(path: for_file_path)
-      @registry[example_variable] ||= new(example_variable: example_variable, config: config)
-      @registry[example_variable].operations
-    end
+  def self.operations(for_file_path:, config: ENV)
+    @registry ||= {}
+    example_variable = ExampleVariableExtractor.call(path: for_file_path)
+    @registry[example_variable] ||= new(example_variable: example_variable, config: config)
+    @registry[example_variable].operations
+  end
 
-    def initialize(example_variable:, config:)
-      @example_variable = example_variable
-      @config = config
-    end
+  def initialize(example_variable:, config:)
+    @example_variable = example_variable
+    @config = config
+  end
 
-    def operations(&block)
-      @swagger || download_and_load_definition!
-      @operations ||= @swagger.operations.map { |operation| SwaggerOperationDecorator.new(@swagger, operation) }
-    end
+  def operations(&block)
+    @swagger || download_and_load_definition!
+    @operations ||= @swagger.operations.map { |operation| SwaggerOperationDecorator.new(@swagger, operation) }
+  end
 
-    private
+  private
 
-    def   read_repo_config
+    def read_repo_config
       repo_config_file = YAML.load_file(File.expand_path("../../#{example_variable.application_name_under_test}/#{example_variable.application_name_under_test}_repo_config.yml", __FILE__))
       @project_user_name = repo_config_file.fetch('repo_url').split('/')[3]
       @project_repository_name = repo_config_file.fetch('repo_url').split('/')[4]
@@ -67,4 +67,4 @@ class SwaggerHandler
         @operation.responses
       end
     end
-  end
+end
