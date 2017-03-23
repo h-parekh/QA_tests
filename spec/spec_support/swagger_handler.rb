@@ -31,9 +31,17 @@
     end
 
     def download_and_load_definition!
-      url_to_swagger_def = File.join('https://raw.githubusercontent.com/', project_user_name, project_repository_name, 'master', 'definitions', 'swagger.yaml')
-      swagger_yaml = open(url_to_swagger_def).read
+      url_to_swagger_def = File.join('https://raw.githubusercontent.com/', project_user_name, project_repository_name, 'master', 'definitions', 'swagger.yml')
+      read_git_access_token
+      swagger_yaml = open(url_to_swagger_def, "Authorization" => "token #{@access_token_value}").read
       @swagger = Swagger.build(swagger_yaml, format: :yaml)
+    end
+
+# This is a temporary implementation until I conosildate all configs using Figaro
+    def read_git_access_token
+      user_home_dir = File.expand_path('~')
+      git_access_config_file = YAML.load_file(File.join("#{user_home_dir}", 'test_data/QA/git_access.yaml'))
+      @access_token_value = git_access_config_file.fetch("access_token")
     end
 
     attr_reader :example_variable, :config
