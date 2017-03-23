@@ -22,19 +22,19 @@
 
     private
 
-    def project_user_name
-      'ndlib'
-    end
-
-    def project_repository_name
-      'test_api'
+    def read_repo_config
+      repo_config_file = YAML.load_file(File.expand_path("../../#{example_variable.application_name_under_test}/#{example_variable.application_name_under_test}_repo_config.yml", __FILE__))
+      @project_user_name = repo_config_file.fetch('repo_url').split('/')[3]
+      @project_repository_name = repo_config_file.fetch('repo_url').split('/')[4]
     end
 
     def download_and_load_definition!
-      url_to_swagger_def = File.join('https://raw.githubusercontent.com/', project_user_name, project_repository_name, 'master', 'definitions', 'swagger.yml')
+      read_repo_config
       read_git_access_token
+      url_to_swagger_def = File.join('https://raw.githubusercontent.com/', @project_user_name, @project_repository_name, 'master', 'definitions', 'swagger.yml')
       swagger_yaml = open(url_to_swagger_def, "Authorization" => "token #{@access_token_value}").read
       @swagger = Swagger.build(swagger_yaml, format: :yaml)
+      require 'byebug'; debugger
     end
 
 # This is a temporary implementation until I conosildate all configs using Figaro
