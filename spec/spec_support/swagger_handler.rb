@@ -13,6 +13,8 @@ class SwaggerHandler
   def initialize(example_variable:, config:)
     @example_variable = example_variable
     @config = config
+    read_repo_config
+    read_git_access_token
   end
 
   def operations(&block)
@@ -29,8 +31,6 @@ class SwaggerHandler
     end
 
     def download_and_load_definition!
-      read_repo_config
-      read_git_access_token
       url_to_swagger_def = File.join('https://raw.githubusercontent.com/', @project_user_name, @project_repository_name, 'master', 'definitions', 'swagger.yml')
       swagger_yaml = open(url_to_swagger_def, "Authorization" => "token #{@access_token_value}").read
       @swagger = Swagger.build(swagger_yaml, format: :yaml)
