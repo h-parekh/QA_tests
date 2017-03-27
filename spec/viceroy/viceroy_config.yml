@@ -1,0 +1,3 @@
+dev: http://viceroy-dev.us-east-1.elasticbeanstalk.com
+pprd: jello
+prod: jello
