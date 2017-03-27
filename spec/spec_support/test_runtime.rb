@@ -16,12 +16,7 @@ module RunIdentifier
     FileUtils.rm_rf(oldest_directory)
   end
 
-<<<<<<< HEAD
-  def self.setup(runs: 5)
-=======
   def self.get_screenshots_save_path(runs: 5)
-    n_runs = runs
->>>>>>> Improved readability of test_runtime.rb
     screenshots_root = 'tmp/screenshots/'
     current_working_directory = Dir.pwd
     Dir.chdir(screenshots_root)
