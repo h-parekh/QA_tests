@@ -153,13 +153,156 @@ feature 'Facet Navigation', js: true do
   end
 end
 
-feature 'Logged In User Browsing', js: true do
+feature 'Logged In User (Account details NOT updated) Browsing', js: true do
   let(:login_page) {Curate::Pages::LoginPage.new(current_logger)}
   scenario "Log in" do
     login_page.completeLogin
     logged_in_home_page = Curate::Pages::LoggedInHomePage.new
     expect(logged_in_home_page).to be_on_page
+  end
 
+  scenario "Manage My Works" do
+    login_page.completeLogin
+    logged_in_home_page = Curate::Pages::LoggedInHomePage.new
+    expect(logged_in_home_page).to be_on_page
+    logged_in_home_page.openActionsDrawer
+    click_on("My Works")
+    works_page = Curate::Pages::MyWorksPage.new
+    expect(works_page).to be_on_page
+  end
+
+  scenario "Visit Manage My Groups page" do
+    login_page.completeLogin
+    logged_in_home_page = Curate::Pages::LoggedInHomePage.new
+    expect(logged_in_home_page).to be_on_page
+    logged_in_home_page.openActionsDrawer
+    click_on("My Groups")
+    groups_page = Curate::Pages::MyGroupsPage.new
+    expect(groups_page).to be_on_page
+  end
+
+  scenario "Visit Manage My Collections page" do
+    login_page.completeLogin
+    logged_in_home_page = Curate::Pages::LoggedInHomePage.new
+    expect(logged_in_home_page).to be_on_page
+    logged_in_home_page.openActionsDrawer
+    click_on("My Collections")
+    collections_page = Curate::Pages::MyCollectionsPage.new
+    expect(collections_page).to be_on_page
+  end
+
+  scenario "Visit Manage My Profile page" do
+    login_page.completeLogin
+    logged_in_home_page = Curate::Pages::LoggedInHomePage.new
+    expect(logged_in_home_page).to be_on_page
+    logged_in_home_page.openActionsDrawer
+    click_on("My Profile")
+    profile_page = Curate::Pages::MyProfilePage.new
+    expect(profile_page).to be_on_page
+  end
+
+  scenario "Visit Manage My Delegates page" do
+    login_page.completeLogin
+    logged_in_home_page = Curate::Pages::LoggedInHomePage.new
+    expect(logged_in_home_page).to be_on_page
+    logged_in_home_page.openActionsDrawer
+    click_on("My Delegates")
+    delegates_page = Curate::Pages::MyDelegatesPage.new
+    expect(delegates_page).to be_on_page
+  end
+
+  scenario "Visit Deposit New Article page" do
+    login_page.completeLogin
+    logged_in_home_page= Curate::Pages::LoggedInHomePage.new
+    expect(logged_in_home_page).to be_on_page
+    logged_in_home_page.openAddContentDrawer
+    click_on("New Article")
+    article_page = Curate::Pages::ArticlePage.new
+    expect(article_page).to be_on_page
+  end
+
+  scenario "Visit Deposit New Dataset page" do
+    login_page.completeLogin
+    logged_in_home_page = Curate::Pages::LoggedInHomePage.new
+    expect(logged_in_home_page).to be_on_page
+    logged_in_home_page.openAddContentDrawer
+    click_on("New Dataset")
+    dataset_page = Curate::Pages::DatasetPage.new
+    expect(dataset_page).to be_on_page
+  end
+
+  scenario "Visit Deposit New Document page" do
+    login_page.completeLogin
+    logged_in_home_page = Curate::Pages::LoggedInHomePage.new
+    expect(logged_in_home_page).to be_on_page
+    logged_in_home_page.openAddContentDrawer
+    click_on("New Document")
+    document_page = Curate::Pages::DocumentPage.new
+    expect(document_page).to be_on_page
+  end
+
+  scenario "Visit Deposit New Image page" do
+    login_page.completeLogin
+    logged_in_home_page = Curate::Pages::LoggedInHomePage.new
+    expect(logged_in_home_page).to be_on_page
+    logged_in_home_page.openAddContentDrawer
+    click_on("New Image")
+    image_page = Curate::Pages::ImagePage.new
+    expect(image_page).to be_on_page
+  end
+
+  scenario "Visit More Options page" do
+    login_page.completeLogin
+    logged_in_home_page = Curate::Pages::LoggedInHomePage.new
+    expect(logged_in_home_page).to be_on_page
+    logged_in_home_page.openAddContentDrawer
+    click_on("More Options")
+    options_page = Curate::Pages::StartDepositPage.new
+    expect(options_page).to be_on_page
+  end
+
+  scenario "Visit Deposit New Audio page" do
+    login_page.completeLogin
+    logged_in_home_page = Curate::Pages::LoggedInHomePage.new
+    expect(logged_in_home_page).to be_on_page
+    logged_in_home_page.openAddContentDrawer
+    click_on("More Options")
+    options_page = Curate::Pages::StartDepositPage.new
+    expect(options_page).to be_on_page
+    find('.add-button.btn.btn-primary.add_new_audio').click
+    audio_page = Curate::Pages::AudioPage.new
+    expect(audio_page).to be_on_page
+  end
+
+  scenario "Visit Deposit New Senior Thesis page" do
+    login_page.completeLogin
+    logged_in_home_page = Curate::Pages::LoggedInHomePage.new
+    expect(logged_in_home_page).to be_on_page
+    logged_in_home_page.openAddContentDrawer
+    click_on("More Options")
+    options_page = Curate::Pages::StartDepositPage.new
+    expect(options_page).to be_on_page
+    find('.add-button.btn.btn-primary.add_new_senior_thesis').click
+    thesis_page = Curate::Pages::ThesisPage.new
+    expect(thesis_page).to be_on_page
+  end
+
+  scenario "Log out" do
+    login_page.completeLogin
+    logged_in_home_page = Curate::Pages::LoggedInHomePage.new
+    expect(logged_in_home_page).to be_on_page
+    logged_in_home_page.openActionsDrawer
+    click_on("Log Out")
+    login_page.checkLoginPage
+  end
+end
+
+feature 'Logged In User (Account details updated) Browsing', js: true do
+  let(:login_page) {Curate::Pages::LoginPage.new(current_logger)}
+  scenario "Log in" do
+    login_page.completeLogin
+    logged_in_home_page = Curate::Pages::LoggedInHomePage.new
+    expect(logged_in_home_page).to be_on_page
   end
 
   scenario "Manage My Works" do
