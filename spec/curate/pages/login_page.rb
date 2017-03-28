@@ -14,16 +14,14 @@ module Curate
       def initialize(logger, account_details_updated_flag)
         @account_details_updated_flag = account_details_updated_flag[:account_details_updated?].to_s
         @current_logger = logger
-        userNumber = Random.rand(1..5)
-        current_user = 0
-        CSV.foreach(ENV['HOME']+"/test_data/QA/TestCredentials.csv") do |row|
-          if current_user == userNumber
-            @userName = row[0]
-            @passWord = row[1]
-            @passCode = row[2]
-          end
-          current_user = current_user+1
-        end
+        credentials = CSV.read(ENV['HOME']+"/test_data/QA/TestCredentials.csv")
+        # Filtering out items that satisfy the value of account_details_updated_flag
+        flagged_credentials = credentials.select{|entry| entry[3] == account_details_updated_flag[:account_details_updated?].to_s}
+        #randomly selecting a value from the remaining entries
+        credentials_to_use = flagged_credentials.sample
+        @userName = credentials_to_use[0]
+        @passWord = credentials_to_use[1]
+        @passCode = credentials_to_use[2]
       end
 
       def completeLogin
