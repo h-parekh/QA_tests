@@ -1,7 +1,6 @@
 require 'csv'
 require 'curate/curate_spec_helper'
 module Curate
-
   module Pages
     class LoginPage
       include Capybara::DSL
@@ -10,8 +9,10 @@ module Curate
       attr_reader :passWord
       attr_reader :passCode
       attr_reader :current_logger
+      attr_reader :account_details_updated_flag
 
-      def initialize(logger)
+      def initialize(logger, account_details_updated_flag)
+        @account_details_updated_flag = account_details_updated_flag[:account_details_updated?].to_s
         @current_logger = logger
         userNumber = Random.rand(1..5)
         current_user = 0

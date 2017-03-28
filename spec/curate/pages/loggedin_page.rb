@@ -1,6 +1,11 @@
+# frozen_string_literal: true
 module Curate
   module Pages
     class LoggedInHomePage < HomePage
+      def initialize(login_page={})
+        @login_page = login_page
+      end
+
       def on_page?
         super &&
         valid_logged_in_page_content? &&
@@ -20,8 +25,10 @@ module Curate
         has_content?("My Collections")
         has_content?("My Groups")
         has_content?("My Profile")
-        has_content?("My Delegates")
         has_content?("Log Out")
+        if @login_page.account_details_updated_flag == "true"
+          has_content?("My Delegates")
+        end
         find("div.btn-group.my-actions").click
       end
 
