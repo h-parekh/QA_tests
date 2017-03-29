@@ -177,8 +177,8 @@ feature 'Logged In User (Account details NOT updated) Browsing', js: true do
     expect(logged_in_home_page).to be_on_page
     logged_in_home_page.openActionsDrawer
     click_on("My Groups")
-    groups_page = Curate::Pages::MyGroupsPage.new
-    expect(groups_page).to be_on_page
+    account_details_page = Curate::Pages::AccountDetailsPage.new
+    expect(account_details_page).to be_on_page
   end
 
   scenario "Visit Manage My Collections page" do
@@ -187,8 +187,8 @@ feature 'Logged In User (Account details NOT updated) Browsing', js: true do
     expect(logged_in_home_page).to be_on_page
     logged_in_home_page.openActionsDrawer
     click_on("My Collections")
-    collections_page = Curate::Pages::MyCollectionsPage.new
-    expect(collections_page).to be_on_page
+    account_details_page = Curate::Pages::AccountDetailsPage.new
+    expect(account_details_page).to be_on_page
   end
 
   scenario "Visit Manage My Profile page" do
@@ -197,8 +197,8 @@ feature 'Logged In User (Account details NOT updated) Browsing', js: true do
     expect(logged_in_home_page).to be_on_page
     logged_in_home_page.openActionsDrawer
     click_on("My Profile")
-    profile_page = Curate::Pages::MyProfilePage.new
-    expect(profile_page).to be_on_page
+    account_details_page = Curate::Pages::AccountDetailsPage.new
+    expect(account_details_page).to be_on_page
   end
 
   scenario "Visit Deposit New Article page" do
@@ -207,8 +207,8 @@ feature 'Logged In User (Account details NOT updated) Browsing', js: true do
     expect(logged_in_home_page).to be_on_page
     logged_in_home_page.openAddContentDrawer
     click_on("New Article")
-    article_page = Curate::Pages::ArticlePage.new
-    expect(article_page).to be_on_page
+    account_details_page = Curate::Pages::AccountDetailsPage.new
+    expect(account_details_page).to be_on_page
   end
 
   scenario "Visit Deposit New Dataset page" do
@@ -217,8 +217,8 @@ feature 'Logged In User (Account details NOT updated) Browsing', js: true do
     expect(logged_in_home_page).to be_on_page
     logged_in_home_page.openAddContentDrawer
     click_on("New Dataset")
-    dataset_page = Curate::Pages::DatasetPage.new
-    expect(dataset_page).to be_on_page
+    account_details_page = Curate::Pages::AccountDetailsPage.new
+    expect(account_details_page).to be_on_page
   end
 
   scenario "Visit Deposit New Document page" do
@@ -227,8 +227,8 @@ feature 'Logged In User (Account details NOT updated) Browsing', js: true do
     expect(logged_in_home_page).to be_on_page
     logged_in_home_page.openAddContentDrawer
     click_on("New Document")
-    document_page = Curate::Pages::DocumentPage.new
-    expect(document_page).to be_on_page
+    account_details_page = Curate::Pages::AccountDetailsPage.new
+    expect(account_details_page).to be_on_page
   end
 
   scenario "Visit Deposit New Image page" do
@@ -237,8 +237,8 @@ feature 'Logged In User (Account details NOT updated) Browsing', js: true do
     expect(logged_in_home_page).to be_on_page
     logged_in_home_page.openAddContentDrawer
     click_on("New Image")
-    image_page = Curate::Pages::ImagePage.new
-    expect(image_page).to be_on_page
+    account_details_page = Curate::Pages::AccountDetailsPage.new
+    expect(account_details_page).to be_on_page
   end
 
   scenario "Visit More Options page" do
@@ -247,8 +247,8 @@ feature 'Logged In User (Account details NOT updated) Browsing', js: true do
     expect(logged_in_home_page).to be_on_page
     logged_in_home_page.openAddContentDrawer
     click_on("More Options")
-    options_page = Curate::Pages::StartDepositPage.new
-    expect(options_page).to be_on_page
+    account_details_page = Curate::Pages::AccountDetailsPage.new
+    expect(account_details_page).to be_on_page
   end
 
   scenario "Visit Deposit New Audio page" do
@@ -257,11 +257,8 @@ feature 'Logged In User (Account details NOT updated) Browsing', js: true do
     expect(logged_in_home_page).to be_on_page
     logged_in_home_page.openAddContentDrawer
     click_on("More Options")
-    options_page = Curate::Pages::StartDepositPage.new
-    expect(options_page).to be_on_page
-    find('.add-button.btn.btn-primary.add_new_audio').click
-    audio_page = Curate::Pages::AudioPage.new
-    expect(audio_page).to be_on_page
+    account_details_page = Curate::Pages::AccountDetailsPage.new
+    expect(account_details_page).to be_on_page
   end
 
   scenario "Visit Deposit New Senior Thesis page" do
@@ -270,11 +267,8 @@ feature 'Logged In User (Account details NOT updated) Browsing', js: true do
     expect(logged_in_home_page).to be_on_page
     logged_in_home_page.openAddContentDrawer
     click_on("More Options")
-    options_page = Curate::Pages::StartDepositPage.new
-    expect(options_page).to be_on_page
-    find('.add-button.btn.btn-primary.add_new_senior_thesis').click
-    thesis_page = Curate::Pages::ThesisPage.new
-    expect(thesis_page).to be_on_page
+    account_details_page = Curate::Pages::AccountDetailsPage.new
+    expect(account_details_page).to be_on_page
   end
 
   scenario "Log out" do
