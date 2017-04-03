@@ -204,7 +204,7 @@ module ExampleLogging
         return true unless driver_allows_network_traffic_verification?
         return true if ENV.fetch('SKIP_VERIFY_NETWORK_TRAFFIC', false)
         info(context: "verifying_all_network_traffic") do
-          verify_network_traffic(driver: driver)
+          #verify_network_traffic(driver: driver)
         end
       end
 
