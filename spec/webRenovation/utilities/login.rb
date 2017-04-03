@@ -27,14 +27,16 @@ module WebRenovation
       def completeLogin
         visit '/'
         find('.login').click
+        fill_in('username', with: username)
+        fill_in('password', with: password)
+        find('[name=submit]').click
+        # wait for first step of login to complete
         sleep(3)
-        fill_in(id: 'username', with: username)
-        fill_in(id: 'password', with: password)
-        click_button("Login")
-        # wait for login to complete
-        current_logger.info(context: "Logging in user: #{username}")
+        fill_in('passcode', with: passcode)
+        find('[name=submit]').click
+        # wait for second step of login to complete
         sleep(6)
-        print page.body
+        current_logger.info(context: "Logging in user: #{username}")
       end
     end
   end
