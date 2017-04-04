@@ -1,2 +1,2 @@
-pprd: jello
+dev: http://monarch-dev-publish.s3-website-us-east-1.amazonaws.com
 prod: https://beta.library.nd.edu/

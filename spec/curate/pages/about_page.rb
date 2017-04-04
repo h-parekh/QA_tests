@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 module Curate
   module Pages
-    # /about
     class AboutPage
       include Capybara::DSL
       include CapybaraErrorIntel::DSL

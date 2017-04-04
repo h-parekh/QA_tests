@@ -62,7 +62,7 @@ which qmake; qmake --version
 These tests will need to access a shared drive that has test data
 
 1. From the Finder, hit Command+K
-2. Enter the path smb://library.corpfs.nd.edu/DCNS/ and click ‘Connect’
+2. Enter the path cifs://library.corpfs.nd.edu/DCNS/ and click ‘Connect’
 3. Enter your login credentials and click “OK”
 4. The drive is now mounted, but continue on to map for system reboot persistence
 5. Now enter into System Preferences, from the Apple menu
