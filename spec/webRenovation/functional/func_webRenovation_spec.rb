@@ -9,3 +9,14 @@ feature 'User Browsing', js: true do
     expect(home_page).to be_on_page
   end
 end
+
+feature 'Logged In User Browsing', js: true do
+  let(:login) { WebRenovation::Utilities::Login.new(current_logger) }
+
+  scenario 'Log In' do
+    page.driver.browser.js_errors = false
+    login.completeLogin
+    homepage = WebRenovation::Pages::HomePage.new(login.username)
+    expect(homepage).to be_on_page
+  end
+end
