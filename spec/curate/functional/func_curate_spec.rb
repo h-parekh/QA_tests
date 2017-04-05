@@ -154,7 +154,7 @@ feature 'Facet Navigation', js: true do
 end
 
 feature 'Logged In User (Account details NOT updated) Browsing', js: true do
-  let(:login_page) {Curate::Pages::LoginPage.new(current_logger, account_details_updated: false)}
+  let(:login_page) { Curate::Pages::LoginPage.new(current_logger, account_details_updated: false) }
   scenario "Log in" do
     login_page.completeLogin
     logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
@@ -203,7 +203,7 @@ feature 'Logged In User (Account details NOT updated) Browsing', js: true do
 
   scenario "Visit Deposit New Article page" do
     login_page.completeLogin
-    logged_in_home_page= Curate::Pages::LoggedInHomePage.new(login_page)
+    logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
     expect(logged_in_home_page).to be_on_page
     logged_in_home_page.openAddContentDrawer
     click_on("New Article")
@@ -282,7 +282,7 @@ feature 'Logged In User (Account details NOT updated) Browsing', js: true do
 end
 
 feature 'Logged In User (Account details updated) Browsing', js: true do
-  let(:login_page) {Curate::Pages::LoginPage.new(current_logger, account_details_updated: true)}
+  let(:login_page) { Curate::Pages::LoginPage.new(current_logger, account_details_updated: true) }
   scenario "Log in" do
     login_page.completeLogin
     logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
@@ -341,7 +341,7 @@ feature 'Logged In User (Account details updated) Browsing', js: true do
 
   scenario "Visit Deposit New Article page" do
     login_page.completeLogin
-    logged_in_home_page= Curate::Pages::LoggedInHomePage.new(login_page)
+    logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
     expect(logged_in_home_page).to be_on_page
     logged_in_home_page.openAddContentDrawer
     click_on("New Article")

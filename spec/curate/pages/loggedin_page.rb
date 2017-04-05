@@ -2,20 +2,20 @@
 module Curate
   module Pages
     class LoggedInHomePage < HomePage
-      def initialize(login_page={})
+      def initialize(login_page = {})
         @login_page = login_page
       end
 
       def on_page?
         super &&
-        valid_logged_in_page_content? &&
-        manageDropdown? &&
-        depositDropdown?
+          valid_logged_in_page_content? &&
+          manageDropdown? &&
+          depositDropdown?
       end
 
       def valid_logged_in_page_content?
         find("div.btn-group.add-content") &&
-        find("div.btn-group.my-actions")
+          find("div.btn-group.my-actions")
       end
 
       def manageDropdown?
