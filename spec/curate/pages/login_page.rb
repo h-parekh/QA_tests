@@ -1,7 +1,7 @@
+# frozen_string_literal: true
 require 'csv'
 require 'curate/curate_spec_helper'
 module Curate
-
   module Pages
     class LoginPage
       include Capybara::DSL
@@ -10,18 +10,31 @@ module Curate
       attr_reader :passWord
       attr_reader :passCode
       attr_reader :current_logger
+      attr_reader :account_details_updated_flag
 
-      def initialize(logger)
+      def initialize(logger, account_details_updated: false)
+        @account_details_updated = account_details_updated
         @current_logger = logger
-        userNumber = Random.rand(1..5)
-        current_user = 0
-        CSV.foreach(ENV['HOME']+"/test_data/QA/TestCredentials.csv") do |row|
-          if current_user == userNumber
-            @userName = row[0]
-            @passWord = row[1]
-            @passCode = row[2]
-          end
-          current_user = current_user+1
+        credentials = CSV.read(ENV['HOME']+"/test_data/QA/TestCredentials.csv")
+        # Filtering out items that satisfy the value of @account_details_updated
+        flagged_credentials = credentials.select{ |entry| cast_to_boolean(entry[3]) == @account_details_updated }
+        # randomly selecting a value from the remaining entries
+        credentials_to_use = flagged_credentials.sample
+        @userName = credentials_to_use[0]
+        @passWord = credentials_to_use[1]
+        @passCode = credentials_to_use[2]
+      end
+
+      def account_details_updated?
+        @account_details_updated
+      end
+
+      def cast_to_boolean(value)
+        case value
+        when /^[TY]/i, '1'
+          true
+        else
+          false
         end
       end
 
