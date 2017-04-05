@@ -21,11 +21,16 @@ module RunIdentifier
     current_working_directory = Dir.pwd
     Dir.chdir(screenshots_root)
     screenshots_directories = Dir.glob('*').select {|f| File.directory? f} # Returns a list of all screenshots directories in screenshots_root
-    num_directories = screenshots_directories.length
-    while num_directories >= runs do # Removes all but the newest runs screenshot directories
-      self.remove_oldest_directory()
-      num_directories=num_directories-1
-    end
+    screenshots_directories.each_with_index{|dir, index|
+      if index>=runs
+        FileUtils.rm_rf(dir)
+      end
+    }
+    #num_directories = screenshots_directories.length
+    #while num_directories >= runs do # Removes all but the newest runs screenshot directories
+      #self.remove_oldest_directory()
+      #num_directories=num_directories-1
+  #  end
 
     FileUtils.mkdir self.get
     Dir.chdir(current_working_directory) # Return to current directory so screenshots are in the right place
