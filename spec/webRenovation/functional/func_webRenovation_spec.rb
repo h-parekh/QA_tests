@@ -19,4 +19,13 @@ feature 'Logged In User Browsing', js: true do
     homepage = WebRenovation::Pages::HomePage.new(login.username)
     expect(homepage).to be_on_page
   end
+
+  scenario 'View Checked Out Items' do
+    page.driver.browser.js_errors = false
+    login.completeLogin
+    homepage = WebRenovation::Pages::HomePage.new(login.username)
+    find('.login').click
+    accountPage = WebRenovation::Pages::AccountPage.new
+    expect(accountPage).to be_on_page
+  end
 end
