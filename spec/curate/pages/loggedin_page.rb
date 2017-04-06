@@ -26,10 +26,14 @@ module Curate
         has_content?("My Groups")
         has_content?("My Profile")
         has_content?("Log Out")
-        if @login_page.account_details_updated_flag == "true"
+        if account_details_updated?
           has_content?("My Delegates")
         end
         find("div.btn-group.my-actions").click
+      end
+
+      def account_details_updated?
+        @login_page.account_details_updated
       end
 
       def depositDropdown?

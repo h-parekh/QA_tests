@@ -10,7 +10,7 @@ module Curate
       attr_reader :passWord
       attr_reader :passCode
       attr_reader :current_logger
-      attr_reader :account_details_updated_flag
+      attr_reader :account_details_updated
 
       def initialize(logger, account_details_updated: false)
         @account_details_updated = account_details_updated
@@ -25,7 +25,7 @@ module Curate
         @passCode = credentials_to_use[2]
       end
 
-      def account_details_updated?
+      def account_details_updated
         @account_details_updated
       end
 
