@@ -177,8 +177,10 @@ module ExampleLogging
 
     private
 
+      # Enforce a driver to specific applications here
+      # Example: 'dave' => :poltergeist
       CAPYBARA_DRIVER_MAP = {
-        'dave' => :webkit
+
       }.freeze
 
       DEFAULT_CAPYBARA_DRIVER = :poltergeist
