@@ -1,11 +1,34 @@
 # frozen_string_literal: true
+require 'fileutils'
 
 module RunIdentifier
+
   def self.set
     @run_identifier = DateTime.now.strftime("%Y-%m-%dT%H:%M:%S.%L-05:00")
   end
 
   def self.get
     @run_identifier
+  end
+
+  def self.remove_oldest_directory(dir: 'tmp/screenshots')
+    oldest_directory = Dir.glob('*').select {|f| File.directory? f}.sort_by{|f| File.ctime(f)}.first
+    FileUtils.rm_rf(oldest_directory)
+  end
+
+  def self.get_screenshots_save_path(runs: 5)
+    screenshots_root = 'tmp/screenshots/'
+    current_working_directory = Dir.pwd
+    Dir.chdir(screenshots_root)
+    screenshots_directories = Dir.glob('*').select {|f| File.directory? f} # Returns a list of all screenshots directories in screenshots_root
+    screenshots_directories.each_with_index{|dir, index|
+      if index>=runs
+        FileUtils.rm_rf(dir)
+      end
+    }
+
+    FileUtils.mkdir self.get
+    Dir.chdir(current_working_directory) # Return to current directory so screenshots are in the right place
+    File.join(screenshots_root,self.get)
   end
 end
