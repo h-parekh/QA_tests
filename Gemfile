@@ -19,7 +19,6 @@ group :testcontroller do
   gem 'logging'
   gem 'byebug'
   gem 'selenium-webdriver'
-  gem 'capybara-webkit'
   gem 'swagger-core'
   gem 'aws-sdk'
 end

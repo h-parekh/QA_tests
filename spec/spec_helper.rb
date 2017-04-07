@@ -9,7 +9,6 @@ require 'capybara_error_intel/dsl'
 require 'capybara-screenshot/rspec'
 require 'logging'
 require 'rspec/logging_helper'
-require 'capybara-webkit'
 require 'swagger'
 require 'open-uri'
 
@@ -17,11 +16,6 @@ require 'open-uri'
 Dir.glob(File.expand_path('../spec_support/**/*.rb', __FILE__)).each { |filename| require filename }
 
 Capybara.run_server = false
-
-Capybara::Webkit.configure do |config|
-  config.allow_unknown_urls
-  config.skip_image_loading
-end
 
 # Keep only the screenshots generated from the last failing test suite
 Capybara::Screenshot.prune_strategy = :keep_last_run
