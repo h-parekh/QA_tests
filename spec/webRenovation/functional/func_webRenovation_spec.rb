@@ -15,6 +15,7 @@ feature 'Logged In User Browsing', js: true do
 
   scenario 'Log In' do
     page.driver.browser.js_errors = false
+    visit '/'
     login.completeLogin
     homepage = WebRenovation::Pages::HomePage.new(login.username)
     expect(homepage).to be_on_page
@@ -22,6 +23,7 @@ feature 'Logged In User Browsing', js: true do
 
   scenario 'View Checked Out Items' do
     page.driver.browser.js_errors = false
+    visit '/'
     login.completeLogin
     homepage = WebRenovation::Pages::HomePage.new(login.username)
     find('.login').click

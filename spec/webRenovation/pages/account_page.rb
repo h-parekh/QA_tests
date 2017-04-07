@@ -9,7 +9,8 @@ module WebRenovation
       def on_page?
         super && on_valid_url?
 
-        find_button("Renew").visible?
+        page.assert_selector("button", text: "Renew", minimum: 1)
+        page.assert_selector("p", text: "Due Date", minimum: 1)
         find_button("View in ILL").visible?
       end
 

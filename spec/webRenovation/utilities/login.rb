@@ -25,9 +25,7 @@ module WebRenovation
       end
 
       def completeLogin
-        visit '/'
         find('.login').click
-        sleep(1)
         fill_in('username', with: username)
         fill_in('password', with: password)
         find('[name=submit]').click
