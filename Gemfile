@@ -21,4 +21,5 @@ group :testcontroller do
   gem 'selenium-webdriver'
   gem 'swagger-core'
   gem 'aws-sdk'
+  gem 'airborne'
 end
