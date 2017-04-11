@@ -30,4 +30,15 @@ feature 'Logged In User Browsing', js: true do
     accountPage = WebRenovation::Pages::AccountPage.new
     expect(accountPage).to be_on_page
   end
+
+  scenario 'View Courses' do
+    page.driver.browser.js_errors = false
+    visit '/'
+    login.completeLogin
+    homepage = WebRenovation::Pages::HomePage.new(login.username)
+    find('.login').click
+    find_button('My Courses').click
+    coursesPage = WebRenovation::Pages::CoursesPage.new
+    expect(coursesPage).to be_on_page
+  end
 end
