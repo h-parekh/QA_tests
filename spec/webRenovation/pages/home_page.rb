@@ -8,10 +8,14 @@ module WebRenovation
 
       def on_page?
         super && on_valid_url?
+
+        within('#wrapper') do
+          find_link('University of Notre Dame').visible?
+        end
       end
 
       def on_valid_url?
-        current_url == Capybara.app_host
+        current_url == Capybara.app_host || current_url == (Capybara.app_host + "/")
       end
 
     end

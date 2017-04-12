@@ -25,7 +25,6 @@ module WebRenovation
       end
 
       def completeLogin
-        visit '/'
         find('.login').click
         fill_in('username', with: username)
         fill_in('password', with: password)

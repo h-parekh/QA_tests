@@ -21,10 +21,6 @@ module WebRenovation
       end
 
       def valid_page_content?
-        within('#wrapper') do
-          find_link('University of Notre Dame').visible?
-        end
-
         within('#banner') do
           find_link('Hesburgh Libraries').visible?
         end
