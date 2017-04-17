@@ -23,9 +23,10 @@ module RunIdentifier
     screenshots_directories = Dir.glob('*').select { |f| File.directory? f } # Returns a list of all screenshots directories in screenshots_root
     screenshots_directories.each_with_index { |dir, index|
       if index>=runs
-        FileUtils.rm_rf(dir)
+        FileUtils.rm_rf(screenshots_directories.first)
       end
     }
+
     # Using value of @run_identifier as directory name
     FileUtils.mkdir self.get
     Dir.chdir(current_working_directory) # Return to current directory so screenshots are in the right place
