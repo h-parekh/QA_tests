@@ -10,11 +10,6 @@ module RunIdentifier
     @run_identifier
   end
 
-  def self.remove_oldest_directory(dir: 'tmp/screenshots')
-    oldest_directory = Dir.glob('*').select { |f| File.directory? f }.sort_by { |f| File.ctime(f) }.first
-    FileUtils.rm_rf(oldest_directory)
-  end
-
   # * Create tmp/screenshots dir if not present
   # * Remove directories older than value specified in argument
   # * returns a relative path of the directory to which current test should save screenshots
