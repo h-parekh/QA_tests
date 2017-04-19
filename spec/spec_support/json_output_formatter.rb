@@ -9,8 +9,8 @@ class JsonOutputFormatter < RSpec::Core::Formatters::JsonFormatter
   RSpec::Core::Formatters.register self
 
   def close(notification)
-    super
     @output_hash[:runID] ||= "#{RunIdentifier.get}"
+    output.write JSON.pretty_generate(@output_hash)
     report_json_result
   end
 
