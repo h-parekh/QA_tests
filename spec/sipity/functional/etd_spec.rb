@@ -29,7 +29,7 @@ feature 'User Browsing', js: true do
     expect(dashboard).to be_on_page
   end
 
-  scenario 'Start and ETD Submission', js: true do
+  scenario 'Start an ETD Submission', js: true do
     returnSignIn
     find_link("Start an ETD Submission").click
     submission_page = Sipity::Pages::ETDSubmissionPage.new
