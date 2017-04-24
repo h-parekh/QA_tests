@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-module Curate
+module Sipity
   module Pages
     class Dashboard
       include Capybara::DSL

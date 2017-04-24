@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'csv'
-module Curate
+module Sipity
   module Pages
     class CASLoginPage
       include Capybara::DSL

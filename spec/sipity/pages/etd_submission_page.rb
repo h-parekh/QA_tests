@@ -1,4 +1,4 @@
-module Curate
+module Sipity
   module Pages
     class ETDSubmissionPage
       include Capybara::DSL

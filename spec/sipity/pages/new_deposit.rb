@@ -1,4 +1,4 @@
-module Curate
+module Sipity
   module Pages
     class NewDepositPage
       include Capybara::DSL
