@@ -7,21 +7,21 @@ module Sipity
       include Capybara::DSL
       include CapybaraErrorIntel::DSL
 
-      def initialize(logger, account_details_updated: false)
-        @account_details_updated = account_details_updated
+      def initialize(logger, terms_of_service_accepted: false)
+        @terms_of_service_accepted = terms_of_service_accepted
         @current_logger = logger
-        credentials = CSV.read(ENV['HOME']+"/test_data/QA/TestCredentials.csv")
-        # Filtering out items that satisfy the value of @account_details_updated
-        flagged_credentials = credentials.select{ |entry| cast_to_boolean(entry[3]) == @account_details_updated }
+        credentials = CSV.read(ENV['HOME'] + "/test_data/QA/TestCredentials.csv")
+        # Filtering out items that satisfy the value of @terms_of_service_accepted
+        flagged_credentials = credentials.select { |entry| cast_to_boolean(entry[4]) == @terms_of_service_accepted }
         # randomly selecting a value from the remaining entries
         credentials_to_use = flagged_credentials.sample
-        @userName = credentials_to_use[0]
-        @passWord = credentials_to_use[1]
-        @passCode = credentials_to_use[2]
+        @user_name = credentials_to_use[0]
+        @pass_word = credentials_to_use[1]
+        @pass_code = credentials_to_use[2]
       end
 
-      def account_details_updated
-        @account_details_updated
+      def terms_of_service_accepted
+        @terms_of_service_accepted
       end
 
       def cast_to_boolean(value)
@@ -54,16 +54,16 @@ module Sipity
         find('button[name="submit"]', :text => 'LOGIN')
       end
 
-      def completeLogin
-        fill_in('username', with: @userName)
-        fill_in('password', with: @passWord)
+      def complete_login
+        fill_in('username', with: @user_name)
+        fill_in('password', with: @pass_word)
         find('[name=submit]').click
         # wait for first step of login to complete
         sleep(6)
-        fill_in('passcode', with: @passCode)
+        fill_in('passcode', with: @pass_code)
         find('[name=submit]').click
         # wait for second step of login to complete
-        @current_logger.info(context: "Logging in user: #{@userName}")
+        @current_logger.info(context: "Logging in user: #{@user_name}")
       end
     end
   end

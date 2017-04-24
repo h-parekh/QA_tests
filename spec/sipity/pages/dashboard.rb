@@ -6,13 +6,13 @@ module Sipity
       include CapybaraErrorIntel::DSL
 
       def on_page?
-          #on_valid_url? &&
+        on_valid_url? &&
           status_response_ok? &&
           valid_page_content?
       end
 
       def on_valid_url?
-        current_url == Capybara.app_host+'dashboard'
+        current_url == Capybara.app_host + 'dashboard'
       end
 
       def status_response_ok?
