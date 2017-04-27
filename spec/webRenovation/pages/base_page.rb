@@ -35,7 +35,7 @@ module WebRenovation
           find_link('Ask Us').visible?
 
         within('#footer-info') do
-          find_link(:href => '/page/hours/', :class =>'hours')
+          find_link(href: '/page/hours/', :class =>'hours')
         end
       end
     end
