@@ -11,8 +11,7 @@ module WebRenovation
           has_nd_branding? &&
           has_valid_searchbox? &&
           has_service_boxes? &&
-          has_news? &&
-          has_events? &&
+          has_news_and_events? &&
           has_hours?
       end
 
@@ -42,15 +41,10 @@ module WebRenovation
         end
       end
 
-      def has_news?
+      def has_news_and_events?
         within('.row.news') do
           find('h3', text: 'News') &&
             all('.news-card', between: 1..3)
-        end
-      end
-
-      def has_events?
-        within('.row.news') do
           find('h3', text: 'Events') &&
             all('.event-card', between: 1..3)
         end
