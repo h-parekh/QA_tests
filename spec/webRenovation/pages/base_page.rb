@@ -33,6 +33,10 @@ module WebRenovation
           find('.login').visible? &&
           find_link('Search').visible? &&
           find_link('Ask Us').visible?
+
+        within('#footer-info') do
+          find_link(href: '/page/hours/', :class =>'hours')
+        end
       end
     end
   end
