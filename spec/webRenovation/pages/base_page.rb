@@ -1,15 +1,8 @@
-# frozen_string_literal: true
 module WebRenovation
   module Pages
-    # /
     class BasePage
       include Capybara::DSL
       include CapybaraErrorIntel::DSL
-      attr_reader :username
-
-      def initialize(username="")
-        @username = username
-      end
 
       def on_page?
         status_response_ok? &&
@@ -23,6 +16,13 @@ module WebRenovation
       def valid_page_content?
         within('#banner') do
           find_link('Hesburgh Libraries').visible?
+        end
+
+        if page.current_path != "/" && page.current_path != ""
+          within('.header-hours') do
+            hoursLink = page.find_link(href: '/page/hours/')
+            hoursLink.text.should_not == ""
+          end
         end
 
         find_link('Home').visible? &&

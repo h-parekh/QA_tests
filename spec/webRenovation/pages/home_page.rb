@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 module WebRenovation
   module Pages
     # /
@@ -8,6 +7,7 @@ module WebRenovation
 
       def on_page?
         super &&
+          on_valid_url? &&
           has_nd_branding? &&
           has_valid_searchbox? &&
           has_service_boxes? &&
