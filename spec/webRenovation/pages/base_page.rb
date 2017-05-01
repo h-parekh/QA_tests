@@ -6,11 +6,20 @@ module WebRenovation
 
       def on_page?
         status_response_ok? &&
-          valid_page_content?
+          valid_page_content? &&
+          valid_navigation? &&
+          has_hours?
       end
 
       def status_response_ok?
         status_code == 200
+      end
+
+      def has_hours?
+        within('.header-hours') do
+          hoursLink = page.find_link(href: '/page/hours/')
+          hoursLink.text.should_not == ""
+        end
       end
 
       def valid_page_content?
@@ -18,13 +27,12 @@ module WebRenovation
           find_link('Hesburgh Libraries').visible?
         end
 
-        if page.current_path != "/" && page.current_path != ""
-          within('.header-hours') do
-            hoursLink = page.find_link(href: '/page/hours/')
-            hoursLink.text.should_not == ""
-          end
+        within('#footer-info') do
+          find_link(href: '/page/hours/', :class =>'hours')
         end
+      end
 
+      def valid_navigation?
         find_link('Home').visible? &&
           find_link('Research').visible? &&
           find_link('Services').visible? &&
@@ -33,10 +41,6 @@ module WebRenovation
           find('.login').visible? &&
           find_link('Search').visible? &&
           find_link('Ask Us').visible?
-
-        within('#footer-info') do
-          find_link(href: '/page/hours/', :class =>'hours')
-        end
       end
     end
   end
