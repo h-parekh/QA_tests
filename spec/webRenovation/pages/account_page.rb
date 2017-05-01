@@ -11,9 +11,9 @@ module WebRenovation
 
         find_button("My Courses")
 
-        page.assert_selector("button", text: "Renew", minimum: 1)
-        page.assert_selector("p", text: "Due Date", minimum: 1)
-        find_button("View in ILL").visible?
+        page.assert_selector("button", text: "RENEW", minimum: 1)
+        page.assert_selector("button", text: "VIEW IN ILL", minimum: 1)
+        page.assert_selector("div", text: "Due Date", minimum: 1)
       end
 
       def on_valid_url?
