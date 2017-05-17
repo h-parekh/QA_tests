@@ -4,7 +4,6 @@ require 'microfilms/microfilms_spec_helper'
 feature 'User Browsing', js: true do
   scenario 'Test 1: Loads Home Page' do
     visit '/'
-    puts current_url
 
     expect(page).to have_content 'About Searching'
 
@@ -26,6 +25,32 @@ feature 'User Browsing', js: true do
       expect(page).to have_link 'Commentary Volume'
       expect(page).to have_link 'Type of Text'
     end
+  end
 
+  scenario 'Test 2: Ask a Librarian' do
+    visit '/'
+    within ('#nav.sf-menu li.darker') do
+      expect(page).to have_link 'Ask a Librarian'
+      click_on('Ask a Librarian')
+    end
+  end
+
+  scenario 'Test 3: See List of Cities in A-Z Order' do
+    visit '/'
+    within('.facets') do
+      expect(page).to have_link 'City'
+      click_on('City')
+      expect(page).to have_link 'more »'
+      click_on('more »')
+    end
+    expect(page).to have_selector('#ajax-modal', visible: true)
+    within('#ajax-modal') do
+      expect(page).to have_link 'A-Z Sort'
+      expect(page).to have_no_link 'Numerical Sort'
+      click_on('A-Z Sort')
+      sleep(2)
+      expect(page).to have_no_link 'A-Z Sort'
+      expect(page).to have_link 'Numerical Sort'
+    end
   end
 end
