@@ -35,9 +35,8 @@ module Curate
         within("article.abstract.descriptive-text") do
           find('p')
         end
-        within("tbody") do
+        within("table.table.table-striped") do
           first('p')
-        end
         end
       end
     end
