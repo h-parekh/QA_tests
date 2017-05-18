@@ -34,8 +34,8 @@ module Curate
         within("article.abstract.descriptive-text") do
           find('p')
         end
-        within("table.table.table-striped.finding_aid.attributes") do
-          first('p')
+        within("div.work-attributes.span9") do
+	         has_css?('p', minimum: 2)
         end
       end
     end
