@@ -35,8 +35,9 @@ module Curate
         within("article.abstract.descriptive-text") do
           find('p')
         end
-        within("div.work-attributes.span9") do
-	         has_css?('p', minimum: 2)
+        within("tbody") do
+          first('p')
+        end
         end
       end
     end
