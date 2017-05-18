@@ -1,2 +1,4 @@
 tmp/*
 logs/*.log
+vendor/*
+.bundle/*
