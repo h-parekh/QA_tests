@@ -4,14 +4,11 @@ require 'microfilms/microfilms_spec_helper'
 feature 'User Browsing', js: true do
   scenario 'Test 1: Loads Home Page' do
     visit '/'
-
     expect(page).to have_content 'About Searching'
-
     within('.search') do
       expect(page).to have_field 'q', type: 'text'
       expect(page).to have_button 'search'
     end
-
     within('.facets') do
       expect(page).to have_link 'Format'
       expect(page).to have_link 'Library'
@@ -30,7 +27,6 @@ feature 'User Browsing', js: true do
   scenario 'Test 2: Ask a Librarian' do
     visit '/'
     within ('#nav.sf-menu li.darker') do
-      expect(page).to have_link 'Ask a Librarian'
       click_on('Ask a Librarian')
     end
   end
@@ -38,7 +34,6 @@ feature 'User Browsing', js: true do
   scenario 'Test 3: See List of Cities in A-Z Order' do
     visit '/'
     within('.facets') do
-      expect(page).to have_link 'City'
       click_on('City')
       expect(page).to have_link 'more »'
       click_on('more »')
