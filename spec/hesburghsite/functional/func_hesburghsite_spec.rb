@@ -97,4 +97,31 @@ feature 'User Browsing', js: true do
       expect(page).to have_link('Document Gallery')
     end
   end
+  scenario 'Test 5: Visit the Media Gallery page' do
+    page.driver.browser.js_errors = false
+    visit '/'
+    click_on('Media Gallery')
+    within('.signup') do
+      expect(page).to have_link('Keep in Touch')
+    end
+    within('.top-bar') do
+      expect(page).to have_link('Home')
+      expect(page).to have_link('Story Index')
+      expect(page).to have_link('Media Gallery')
+      expect(page).to have_link('Speeches')
+      expect(page).to have_link('Further Research')
+      expect(page).to have_link('About')
+    end
+    within('article.media') do
+      expect(page).to have_css('video', count: 3)
+      expect(page).to have_css('audio')
+    end
+  end
+  scenario 'Test 6: Click on Speeches link' do
+    visit '/'
+    new_window = window_opened_by {click_on('Speeches')}
+    within_window new_window do
+      expect(current_url).to eq('http://archives.nd.edu/Hesburgh/speeches.htm')
+    end
+  end
 end
