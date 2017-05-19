@@ -71,4 +71,30 @@ feature 'User Browsing', js: true do
         end
     end
   end
+  scenario 'Test 4: Click specific story on Story Index page' do
+    page.driver.browser.js_errors = false
+    visit '/'
+    click_on('Story Index')
+    click_on('Birth and Family')
+    within('.signup') do
+      expect(page).to have_link('Keep in Touch')
+    end
+    within('.top-bar') do
+      expect(page).to have_link('Home')
+      expect(page).to have_link('Story Index')
+      expect(page).to have_link('Media Gallery')
+      expect(page).to have_link('Speeches')
+      expect(page).to have_link('Further Research')
+      expect(page).to have_link('About')
+    end
+    within('.large-12.columns') do
+      expect(page).to have_css('img')
+      expect(page).to have_css('p')
+    end
+    within('.gallery') do
+      expect(page).to have_link('Hesburgh Oral History')
+      expect(page).to have_link('Photo Gallery')
+      expect(page).to have_link('Document Gallery')
+    end
+  end
 end
