@@ -176,6 +176,24 @@ $ cd /path/to/QA_tests
 $ ./bin/run_tests spec/curate/functional/func_curate_spec.rb
 ```
 
+Available toggles:
+
+SKIP_CLOUDWATCH: By default we notify CloudWatch of test events. In some cases,
+this is not desired (e.g. local development).
+So you can set SKIP_CLOUDWATCH=true ENV variable to not notify CloudWatch.
+
+```console
+SKIP_CLOUDWATCH=true ./bin/run_tests spec/curate/functional/func_curate_spec.rb
+```
+
+SKIP_VERIFY_NETWORK_TRAFFIC: By default we verify network traffic of all
+scenarios. In some cases, this is not desired (e.g. testing beta sites).
+So you can set SKIP_VERIFY_NETWORK_TRAFFIC=true ENV variable to not
+verify network traffic.
+```console
+SKIP_VERIFY_NETWORK_TRAFFIC=true ./bin/run_tests spec/curate/functional/func_curate_spec.rb
+```
+
 ## Running Rubocop
 
 Rubocop is install and configured to report any offenses in code. It is recommended to run rubocop on local machine before sending in pull request. Here is basic usage
