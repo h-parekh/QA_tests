@@ -124,4 +124,42 @@ feature 'User Browsing', js: true do
       expect(current_url).to eq('http://archives.nd.edu/Hesburgh/speeches.htm')
     end
   end
+  scenario 'Test 7: Visit the Further Research page' do
+    visit '/'
+    new_window = window_opened_by {click_on('Further Research')}
+    within_window new_window do
+      within_window new_window do
+        expect(current_url).to eq('http://archives.nd.edu/Hesburgh/index.htm')
+      end
+    end
+  end
+  scenario 'Test 8: Visit the About page' do
+    page.driver.browser.js_errors = false
+    visit '/'
+    click_on('About')
+    within('.signup') do
+      expect(page).to have_link('Keep in Touch')
+    end
+    within('.top-bar') do
+      expect(page).to have_link('Home')
+      expect(page).to have_link('Story Index')
+      expect(page).to have_link('Media Gallery')
+      expect(page).to have_link('Speeches')
+      expect(page).to have_link('Further Research')
+      expect(page).to have_link('About')
+    end
+    expect(page).to have_content('About Father Hesburgh')
+    expect(page).to have_content('Leilani Briel')
+  end
+  scenario 'Test 9: Click on Keep in Touch tab' do
+    visit '/'
+    click_on('Keep in Touch')
+    expect(page).to have_selector('#mailinglist', visible: true)
+    within('#mc_embed_signup_scroll') do
+      expect(page).to have_css('label', count: 3)
+      #five inputs should show ensuring the 3 text boxes show
+      expect(page).to have_selector('input', count: 5)
+      expect(page).to have_selector('.button', visible: true)
+    end
+  end
 end
