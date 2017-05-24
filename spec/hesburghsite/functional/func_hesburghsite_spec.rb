@@ -36,7 +36,7 @@ feature 'User Browsing', js: true do
     end
     within('.large-12.columns.contents') do
       expect(page).to have_css('h2 a', count: 5) #should be 10 but not all header links made yet
-      expect(page).to have_css('a img', count: 10) 
+      expect(page).to have_css('a img', count: 10)
       expect(page).to have_css('li a', count: 25) #should be 57 but not all list links made yet
     end
   end
@@ -157,8 +157,10 @@ feature 'User Browsing', js: true do
     expect(page).to have_selector('#mailinglist', visible: true)
     within('#mc_embed_signup_scroll') do
       expect(page).to have_css('label', count: 3)
-      #five inputs should show ensuring the 3 text boxes show
-      expect(page).to have_selector('input', count: 5)
+  
+      expect(page).to have_css('input', id: 'mce-EMAIL')
+      expect(page).to have_css('input', id: 'mce-FNAME')
+      expect(page).to have_css('input', id: 'mce-LNAME')
       expect(page).to have_selector('.button', visible: true)
     end
   end
