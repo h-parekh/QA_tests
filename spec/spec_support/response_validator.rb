@@ -30,8 +30,6 @@ class ResponseValidator
 
     # Making sure all the properties listed in Swagger definition
     # are present in the result body
-    schema_properties.each do |expected_value|
-      result_keys.include? expected_value
-    end
+    (schema_properties & result_keys).sort == schema_properties.sort
   end
 end
