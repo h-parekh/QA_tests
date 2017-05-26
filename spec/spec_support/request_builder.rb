@@ -1,6 +1,6 @@
 # frozen_string_literal: true
-#This class provides a mechanism for adding header fields in a request
-#like authorization headers.
+# This class provides a mechanism for adding header fields in a request
+# like authorization headers.
 
 class RequestBuilder
   def initialize(operation)
@@ -13,7 +13,7 @@ class RequestBuilder
     schema = @current_operation.responses.values[0].schema.root
     if schema.keys.include?('securityDefinitions')
       # Get the type, name, and in fields of the security
-      schema_security=schema.securityDefinitions.values[0]
+      schema_security = schema.securityDefinitions.values[0]
       # Gets the name of the security to use for authorization
       name = schema_security.name
       user_home_dir = File.expand_path('~')
