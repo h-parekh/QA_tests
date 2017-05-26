@@ -19,7 +19,7 @@ group :testcontroller do
   gem 'logging'
   gem 'byebug'
   gem 'selenium-webdriver'
-  gem 'swagger-core'
+  gem 'swagger-parser'
   gem 'aws-sdk'
   gem 'airborne'
 end
