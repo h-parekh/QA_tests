@@ -28,6 +28,8 @@ RSpec.configure do |config|
   config.include RSpec::LoggingHelper
   config.include ExampleLogging
   config.include ExampleLogging::CapybaraInjection
+  config.include SleepInjector
+
   config.capture_log_messages
   # Ensuring that things run in a random order; This is a prefered mechanism
   # as it helps identify temporal couplings
