@@ -131,7 +131,6 @@ feature 'Facet Navigation', js: true do
       current_logger.info(context: "Processing Facet: #{facet_name}")
       expect(page).not_to have_selector("#ajax-modal", visible: true)
       click_on(facet_name)
-      sleep(3)
       expect(page).to have_selector('#ajax-modal', visible: true)
       expect(page).to have_content(facet_name)
       within('#ajax-modal') do
@@ -145,7 +144,6 @@ feature 'Facet Navigation', js: true do
     visit '/'
     click_on('Search')
     ['Type_of_Work', 'Creator', 'Subject', 'Language', 'Publisher', 'Academic_Status'].shuffle.each do |facet_name|
-      sleep(0.3) # Included because the JS expand behavior was not always completing before the driver said it was ready
       current_logger.info(context: "Processing Facet: #{facet_name}")
       expect(page).not_to have_css("ul.facets #collapse_#{facet_name}.in")
       find("ul.facets a[data-target=\"#collapse_#{facet_name}\"]").click
