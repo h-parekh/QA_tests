@@ -12,6 +12,10 @@ module Curate
       attr_reader :current_logger
       attr_reader :account_details_updated
 
+      def inspect
+        "#<#{self.class} @userName=#{userName.inspect}>"
+      end
+
       def initialize(logger, account_details_updated: false)
         @account_details_updated = account_details_updated
         @current_logger = logger
@@ -41,16 +45,20 @@ module Curate
       def completeLogin
         visit '/'
         click_on('Log In')
+        page.has_selector?("input[name=username]")
+        page.has_selector?("input[name=password]")
+        page.has_selector?('.form-signin [name=submit]')
         fill_in('username', with: userName)
         fill_in('password', with: passWord)
-        find('[name=submit]').click
+        find('.form-signin [name=submit]').click
         # wait for first step of login to complete
-        sleep(3)
+        page.has_selector?("input[name=passcode]")
         fill_in('passcode', with: passCode)
-        find('[name=submit]').click
         # wait for second step of login to complete
-        sleep(6)
+        page.has_selector?('.form-signin [name=submit]')
+        find('.form-signin [name=submit]').trigger('click')
         current_logger.info(context: "Logging in user: #{userName}")
+        sleep(10)
       end
 
       def checkLoginPage

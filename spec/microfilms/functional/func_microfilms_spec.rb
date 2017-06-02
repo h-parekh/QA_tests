@@ -43,7 +43,6 @@ feature 'User Browsing', js: true do
       expect(page).to have_link 'A-Z Sort'
       expect(page).to have_no_link 'Numerical Sort'
       click_on('A-Z Sort')
-      sleep(2)
       expect(page).to have_no_link 'A-Z Sort'
       expect(page).to have_link 'Numerical Sort'
     end

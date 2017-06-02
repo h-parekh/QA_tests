@@ -12,7 +12,6 @@ feature 'User Browsing', js: true do
     home_page = Dec::Pages::HomePage.new
     expect(home_page).to be_on_page
     home_page.click_collections_page
-    sleep(5)
     collections_page = Dec::Pages::CollectionsPage.new
     expect(collections_page).to be_on_page
   end
@@ -21,9 +20,8 @@ feature 'User Browsing', js: true do
     visit '/'
     home_page = Dec::Pages::HomePage.new
     home_page.click_collections_page
-    sleep(5)
     collections_page = Dec::Pages::CollectionsPage.new
     expect(collections_page).to be_on_page
-    collections_page.click_forward_arrow 
+    collections_page.click_forward_arrow
   end
  end

@@ -30,12 +30,13 @@ module WebRenovation
         fill_in('password', with: password)
         find('[name=submit]').click
         # wait for first step of login to complete
-        sleep(3)
+        page.has_selector?("input[name=passcode]")
         fill_in('passcode', with: passcode)
-        find('[name=submit]').click
         # wait for second step of login to complete
-        sleep(6)
+        page.has_selector?("input[name=submit]")
+        find('[name=submit]').click
         current_logger.info(context: "Logging in user: #{username}")
+        sleep(10)
       end
     end
   end
