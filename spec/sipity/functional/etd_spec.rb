@@ -75,7 +75,6 @@ def sign_in
   end
   expect(casLogin).to be_on_page
   casLogin.complete_login
-  sleep(6)
 end
 
 def returning_user_sign_in

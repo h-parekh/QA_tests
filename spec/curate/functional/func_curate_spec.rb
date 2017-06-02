@@ -288,7 +288,7 @@ feature 'Logged In User (Account details updated) Browsing', js: true do
     expect(logged_in_home_page).to be_on_page
   end
 
-  scenario "Manage My Works" do
+  scenario "Manage My Works", js: true do
     login_page.completeLogin
     logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
     expect(logged_in_home_page).to be_on_page

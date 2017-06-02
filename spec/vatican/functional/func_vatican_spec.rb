@@ -91,7 +91,6 @@ feature "User Browsing", js: true do
     expect(page).to have_content("International Human Rights Law")
     within("div.search-list.results") do
       first("a").trigger('click')
-      sleep(6)
     end
     expect(page).to have_content("Topics in Document")
   end
@@ -111,7 +110,6 @@ feature "User Browsing", js: true do
     expect(page).to have_content("document(s) found")
     expect(page).to have_content("International Human Rights Law")
     find('option', text: "Date New-Old").trigger('click')
-    sleep(7)
     expect(page).to have_content("Catholic Social Teaching")
   end
 end

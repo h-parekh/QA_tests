@@ -20,7 +20,6 @@ module Vatican
       end
 
       def valid_page_content?
-        sleep(3)
         has_field?("SEARCH THE DATABASE")
       end
     end

@@ -59,11 +59,13 @@ module Sipity
         fill_in('password', with: @pass_word)
         find('[name=submit]').click
         # wait for first step of login to complete
-        sleep(6)
+        page.has_selector?("input[name=passcode]")
         fill_in('passcode', with: @pass_code)
-        find('[name=submit]').click
         # wait for second step of login to complete
+        page.has_selector?("input[name=submit]")
+        find('[name=submit]').click
         @current_logger.info(context: "Logging in user: #{@user_name}")
+        sleep(10)
       end
     end
   end
