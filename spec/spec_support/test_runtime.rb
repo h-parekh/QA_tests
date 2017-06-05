@@ -2,6 +2,8 @@
 require 'fileutils'
 
 module RunIdentifier
+  # * Provides getter and setter methods to
+  # create a unique ID for identifying the test run
   def self.set
     @run_identifier = DateTime.now.strftime("%Y-%m-%dT%H:%M:%S.%L-05:00")
   end
