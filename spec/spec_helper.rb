@@ -38,7 +38,7 @@ RSpec.configure do |config|
   config.before(:suite) do
     RunIdentifier.set
     CloudwatchEventHandler.set_aws_config
-    new_save_path = RunIdentifier.get_screenshots_save_path
+    new_save_path = ScreenshotsManager.get_screenshots_save_path
     Capybara.save_path = new_save_path
   end
 

@@ -9,7 +9,9 @@ module RunIdentifier
   def self.get
     @run_identifier
   end
+end
 
+module ScreenshotsManager
   # * Create tmp/screenshots dir if not present
   # * Remove directories older than value specified in argument
   # * returns a relative path of the directory to which current test should save screenshots
@@ -28,8 +30,8 @@ module RunIdentifier
     }
 
     # Using value of @run_identifier as directory name
-    FileUtils.mkdir self.get
+    FileUtils.mkdir RunIdentifier.get
     Dir.chdir(current_working_directory) # Return to current directory so screenshots are in the right place
-    File.join(screenshots_root, self.get)
+    File.join(screenshots_root, RunIdentifier.get)
   end
 end
