@@ -114,7 +114,6 @@ module ExampleLogging
     #   @return [String]
     def_delegator :example_variable, :application_name_under_test
 
-
     # Used to configure the specifics of this application
     # @example ENV
     # @return [Hash]

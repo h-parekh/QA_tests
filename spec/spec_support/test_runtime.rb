@@ -26,7 +26,7 @@ module ScreenshotsManager
     Dir.chdir(screenshots_root)
     screenshots_directories = Dir.glob('*').select { |f| File.directory? f } # Returns a list of all screenshots directories in screenshots_root
     screenshots_directories.reverse.each_with_index { |dir, index|
-      if index>=runs
+      if index >= runs
         FileUtils.rm_rf(dir)
       end
     }
@@ -39,6 +39,8 @@ module ScreenshotsManager
 end
 
 module InitializeExample
+  # * Checks if value of ENVIRONMENT is a URL or key
+  # * Sets Capybara.app_host to a URL
   def self.initialize_app_host(example:, config:)
     @example = example
     @config = config
