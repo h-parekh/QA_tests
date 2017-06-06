@@ -37,3 +37,30 @@ module ScreenshotsManager
     File.join(screenshots_root, RunIdentifier.get)
   end
 end
+
+module InitializeExample
+  def self.initialize_app_host(example:, config:)
+    @example = example
+    @config = config
+    initialize_example_variables!
+    if valid_url?(@example_variable.environment_under_test)
+      Capybara.app_host = @example_variable.environment_under_test
+    else
+      servers_by_environment = YAML.load_file(
+        File.expand_path("./#{@example_variable.application_name_under_test}/#{@example_variable.application_name_under_test}_config.yml", @example_variable.path_to_spec_directory)
+      )
+      Capybara.app_host = servers_by_environment.fetch(@example_variable.environment_under_test)
+    end
+  end
+
+  def self.initialize_example_variables!
+    @example_variable = ExampleVariableExtractor.call(path: @example.metadata.fetch(:absolute_file_path), config: @config)
+  end
+
+  def self.valid_url?(url)
+    uri = URI.parse(url)
+    uri.is_a?(URI::HTTP) && !uri.host.nil?
+  rescue URI::InvalidURIError
+    false
+  end
+end

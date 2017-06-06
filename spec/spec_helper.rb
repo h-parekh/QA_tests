@@ -45,6 +45,7 @@ RSpec.configure do |config|
   config.before(:example) do |rspec_example|
     @current_logger = ExampleLogging.start(example: rspec_example, config: ENV, test_handler: self)
     ExampleLogging.current_logger = @current_logger
+    InitializeExample.initialize_app_host(example: rspec_example, config: ENV)
   end
 
   config.after(:example) do |_|
