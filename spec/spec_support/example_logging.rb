@@ -153,7 +153,6 @@ module ExampleLogging
       @environment_under_test = config.fetch('ENVIRONMENT', DEFAULT_ENVIRONMENT)
       @path_to_spec_directory = File.expand_path('../../', __FILE__)
       initialize_example_variables!
-      initialize_app_host!
       @current_logger = Logging.logger[application_name_under_test]
       initialize_capybara_drivers!
     end
@@ -299,14 +298,7 @@ module ExampleLogging
       end
 
       def initialize_example_variables!
-        @example_variable = ExampleVariableExtractor.call(path: @example.metadata.fetch(:absolute_file_path))
-      end
-
-      def initialize_app_host!
-        servers_by_environment = YAML.load_file(
-          File.expand_path("./#{application_name_under_test}/#{application_name_under_test}_config.yml", path_to_spec_directory)
-        )
-        Capybara.app_host = servers_by_environment.fetch(environment_under_test)
+        @example_variable = ExampleVariableExtractor.call(path: @example.metadata.fetch(:absolute_file_path), config: config)
       end
   end
   private_constant :ExampleWrapperWithLogging
