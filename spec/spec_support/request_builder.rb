@@ -9,7 +9,7 @@ class RequestBuilder
 
   # Identifies if the API has security or not then sends request accordingly
   def send_security_vs_none
-    if @current_operation.verb.to_s != "options"
+    if meaningful_method_name?
       # Get schema of the response
       schema = @current_operation.responses.values[0].schema.root
       if schema.keys.include?('securityDefinitions')
@@ -27,5 +27,9 @@ class RequestBuilder
         RestClient.public_send(@current_operation.verb, @current_operation.url)
       end
     end
+  end
+
+  def meaningful_method_name?
+    @current_operation.verb.to_s != "options"
   end
 end
