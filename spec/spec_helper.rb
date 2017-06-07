@@ -38,13 +38,14 @@ RSpec.configure do |config|
   config.before(:suite) do
     RunIdentifier.set
     CloudwatchEventHandler.set_aws_config
-    new_save_path = RunIdentifier.get_screenshots_save_path
+    new_save_path = ScreenshotsManager.get_screenshots_save_path
     Capybara.save_path = new_save_path
   end
 
   config.before(:example) do |rspec_example|
     @current_logger = ExampleLogging.start(example: rspec_example, config: ENV, test_handler: self)
     ExampleLogging.current_logger = @current_logger
+    InitializeExample.initialize_app_host(example: rspec_example, config: ENV)
   end
 
   config.after(:example) do |_|
