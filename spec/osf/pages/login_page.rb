@@ -44,29 +44,29 @@ module OSF
       end
 
       def completeLogin
-        require 'byebug'; debugger
         visit '/'
         click_on('Sign In')
-        within('#fm1') do
-          click_on('#alternative-institution')
-        end
-        click_on('#institution-form-select')
-        click_on('option' ,text: 'University of Notre Dame')
-        find('input[name=submit]').click
-        page.has_selector?("input[name=username]")
-        page.has_selector?("input[name=password]")
+        page.has_selector?('#alternative-institution')
+        find('#alternative-institution').click
+        find('#institution-form-select').click
+        page.has_field?('option' ,text: 'University of Notre Dame')
+        page.select('University of Notre Dame')
+        find('input[name=submit]').trigger(:click)
+        page.has_selector?('#username [name=username]')
+        page.has_selector?("#password [name=password]")
         page.has_selector?('.form-signin [name=submit]')
         fill_in('username', with: userName)
         fill_in('password', with: passWord)
-        find('.form-signin [name=submit]').click
-        # wait for first step of login to complete
+        sleep(2)
+        # wait for fill_in
+        find('.form-signin [name=submit]').trigger('click')
         page.has_selector?("input[name=passcode]")
         fill_in('passcode', with: passCode)
-        # wait for second step of login to complete
+        sleep(2)
+        # wait for fill_in
         page.has_selector?('.form-signin [name=submit]')
         find('.form-signin [name=submit]').trigger('click')
         current_logger.info(context: "Logging in user: #{userName}")
-        sleep(10)
       end
 
       def checkLoginPage

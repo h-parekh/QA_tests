@@ -5,6 +5,6 @@ feature 'Institutional Login', js: true do
   let(:login_page) { OSF::Pages::LoginPage.new(current_logger, account_details_updated: false) }
   scenario 'Sign in by institution (Notre Dame)' do
     login_page.completeLogin
-    expect(page).to have_link('.dropdown-toggle.nav-user-dropdown')
+    expect(page).to have_selector('.dropdown-toggle.nav-user-dropdown')
   end
 end
