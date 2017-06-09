@@ -163,18 +163,10 @@ module ExampleLogging
     end
 
     # Responsible for consistent logging of the end steps of a test
-    # @param driver [#network_traffic]
     # @return [ExampleLogging::ExampleWrapper]
     def stop
-      report_end_of_example
-      self
+      info(context: "END example", example: example.full_description, location: example.location)
     end
-
-    private
-
-      def report_end_of_example
-        info(context: "END example", example: example.full_description, location: example.location)
-      end
 
     public
 
