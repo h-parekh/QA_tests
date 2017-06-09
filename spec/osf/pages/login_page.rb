@@ -21,13 +21,14 @@ module OSF
         @account_details_updated = account_details_updated
         @current_logger = logger
         credentials = CSV.read(ENV['HOME']+"/test_data/QA/TestCredentials.csv")
-        credentials = credentials[1, credentials.length-1]
+        # To remove the header (first element in the array) while maintaining array type
+        # so sample method is still available
+        credentials.shift
         # randomly selecting a value from the remaining entries
         credentials_to_use = credentials.sample
         @userName = credentials_to_use[0]
         @passWord = credentials_to_use[1]
         @passCode = credentials_to_use[2]
-
       end
 
       def account_details_updated
