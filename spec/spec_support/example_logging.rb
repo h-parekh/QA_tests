@@ -166,24 +166,11 @@ module ExampleLogging
     # @param driver [#network_traffic]
     # @return [ExampleLogging::ExampleWrapper]
     def stop(driver:)
-      report_network_traffic(driver: driver)
       report_end_of_example
       self
     end
 
     private
-      def report_network_traffic(driver:)
-        return true unless driver_allows_network_traffic_verification?
-        return true if ENV.fetch('SKIP_VERIFY_NETWORK_TRAFFIC', false)
-        info(context: "verifying_all_network_traffic") do
-          verify_network_traffic(driver: driver)
-        end
-      end
-
-      def driver_allows_network_traffic_verification?
-        capybara_driver_name == :poltergeist
-      end
-
       def report_end_of_example
         info(context: "END example", example: example.full_description, location: example.location)
       end
@@ -242,30 +229,6 @@ module ExampleLogging
         else
           @current_logger.public_send(severity, %(test_type: #{test_type}\t runID: #{RunIdentifier.get}\t context: "#{context}"\t#{message}).strip)
         end
-      end
-
-      def verify_network_traffic(driver:)
-        failed_resources = []
-        driver.network_traffic.each do |request|
-          request.response_parts.uniq(&:url).each do |response|
-            if (400..599).cover? response.status
-              resource_hash = { url: response.url, status_code: response.status }
-              failed_resources << resource_hash
-              error(context: "verifying_network_traffic", url: response.url, status_code: response.status)
-            else
-              debug(context: "verifying_network_traffic", url: response.url, status_code: response.status)
-            end
-          end
-          test_handler.expect(failed_resources).to test_handler.be_empty, build_failed_messages_for(failed_resources)
-        end
-      end
-
-      def build_failed_messages_for(failed_resources)
-        text = "Resource Error:"
-        failed_resources.each do |obj|
-          text += "\n\tStatus: #{obj.fetch(:status_code)}\tURL: #{obj.fetch(:url)}"
-        end
-        text
       end
 
       def initialize_example_variables!

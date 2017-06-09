@@ -88,10 +88,50 @@ module ErrorReporter
     return true if successful_scenario?
     # Leverage RSpec's logic to zero in on the location of failure from the exception backtrace
     location_of_failure = RSpec.configuration.backtrace_formatter.format_backtrace(example.exception.backtrace).first
-    error(context: "FAILED example", location_of_failure: location_of_failure, message: @example.exception.message)
+    ExampleLogging.current_logger.error(context: "FAILED example", location_of_failure: location_of_failure, message: @example.exception.message)
   end
 
   def self.successful_scenario?
     @example.exception.nil?
+  end
+end
+
+module VerifyNetworkTraffic
+  def self.report_network_traffic(driver:, test_handler:)
+    @driver = driver
+    @test_handler = test_handler
+    return true unless driver_allows_network_traffic_verification?
+    return true if ENV.fetch('SKIP_VERIFY_NETWORK_TRAFFIC', false)
+      ExampleLogging.current_logger.info(context: "verifying_all_network_traffic") do
+      verify_network_traffic(driver: driver)
+    end
+  end
+
+  def self.driver_allows_network_traffic_verification?
+    Capybara.current_driver == :poltergeist
+  end
+
+  def self.verify_network_traffic(driver:)
+    failed_resources = []
+    driver.network_traffic.each do |request|
+      request.response_parts.uniq(&:url).each do |response|
+        if (400..599).cover? response.status
+          resource_hash = { url: response.url, status_code: response.status }
+          failed_resources << resource_hash
+          ExampleLogging.current_logger.error(context: "verifying_network_traffic", url: response.url, status_code: response.status)
+        else
+          ExampleLogging.current_logger.debug(context: "verifying_network_traffic", url: response.url, status_code: response.status)
+        end
+      end
+      @test_handler.expect(failed_resources).to @test_handler.be_empty, build_failed_messages_for(failed_resources)
+    end
+  end
+
+  def self.build_failed_messages_for(failed_resources)
+    text = "Resource Error:"
+    failed_resources.each do |obj|
+      text += "\n\tStatus: #{obj.fetch(:status_code)}\tURL: #{obj.fetch(:url)}"
+    end
+    text
   end
 end

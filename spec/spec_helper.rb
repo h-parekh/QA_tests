@@ -51,6 +51,7 @@ RSpec.configure do |config|
 
   config.after(:example) do |rspec_example|
     ErrorReporter.conditionally_report_unsuccessful_scenario(example: rspec_example)
+    VerifyNetworkTraffic.report_network_traffic(driver: Capybara.current_session.driver, test_handler: self)
     @current_logger.stop(driver: Capybara.current_session.driver)
     ExampleLogging.reset_current_logger!
   end
