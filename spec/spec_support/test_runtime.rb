@@ -97,12 +97,15 @@ module ErrorReporter
 end
 
 module VerifyNetworkTraffic
+  # leverages network_traffic method of poltergeist driver to verify
+  # that all the network calls for static assets and 3rd party support
+  # are working on the site
   def self.report_network_traffic(driver:, test_handler:)
     @driver = driver
     @test_handler = test_handler
     return true unless driver_allows_network_traffic_verification?
     return true if ENV.fetch('SKIP_VERIFY_NETWORK_TRAFFIC', false)
-      ExampleLogging.current_logger.info(context: "verifying_all_network_traffic") do
+    ExampleLogging.current_logger.info(context: "verifying_all_network_traffic") do
       verify_network_traffic(driver: driver)
     end
   end
