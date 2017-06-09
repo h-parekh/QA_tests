@@ -42,3 +42,16 @@ module Capybara::Node::Matchers
     end
   end
 end
+
+module Capybara::Node::Actions
+  def fill_in(locator, options={})
+    locator, options = nil, locator if locator.is_a? Hash
+    raise "Must pass a hash containing 'with'" if not options.is_a?(Hash) or not options.has_key?(:with)
+    with = options.delete(:with)
+    fill_options = options.delete(:fill_options)
+    options[:with] = options.delete(:currently_with) if options.has_key?(:currently_with)
+    find(:fillable_field, locator, options).set(with, fill_options)
+    sleep(2)
+    # solves the issue of nonworking click statements after fill_in statements
+  end
+end
