@@ -52,5 +52,6 @@ module Capybara::Node::Actions
     options[:with] = options.delete(:currently_with) if options.has_key?(:currently_with)
     find(:fillable_field, locator, options).set(with, fill_options)
     sleep(2)
+    # solves the issue of nonworking click statements after fill_in statements
   end
 end
