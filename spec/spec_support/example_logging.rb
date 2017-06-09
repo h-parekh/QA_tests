@@ -153,7 +153,6 @@ module ExampleLogging
       @path_to_spec_directory = File.expand_path('../../', __FILE__)
       initialize_example_variables!
       @current_logger = Logging.logger[application_name_under_test]
-      initialize_capybara_drivers!
     end
 
     # Responsible for logging the start of a test
@@ -173,21 +172,6 @@ module ExampleLogging
     end
 
     private
-
-      # Enforce a driver to specific applications here
-      # Example: 'dave' => :poltergeist
-      CAPYBARA_DRIVER_MAP = {
-
-      }.freeze
-
-      DEFAULT_CAPYBARA_DRIVER = :poltergeist
-
-      def initialize_capybara_drivers!
-        @capybara_driver_name = CAPYBARA_DRIVER_MAP.fetch(application_name_under_test, :poltergeist)
-        Capybara.current_driver = @capybara_driver_name
-        Capybara.javascript_driver = @capybara_driver_name
-      end
-
       def report_network_traffic(driver:)
         return true unless driver_allows_network_traffic_verification?
         return true if ENV.fetch('SKIP_VERIFY_NETWORK_TRAFFIC', false)

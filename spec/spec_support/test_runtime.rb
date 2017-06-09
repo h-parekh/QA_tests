@@ -41,6 +41,7 @@ end
 module InitializeExample
   # * Checks if value of ENVIRONMENT is a URL or key
   # * Sets Capybara.app_host to a URL
+  # * Sets Capybara driver name
   def self.initialize_app_host(example:, config:)
     @example = example
     @config = config
@@ -64,6 +65,20 @@ module InitializeExample
     uri.is_a?(URI::HTTP) && !uri.host.nil?
   rescue URI::InvalidURIError
     false
+  end
+
+  # Enforce a driver to specific applications here
+  # Example: 'dave' => :poltergeist
+  CAPYBARA_DRIVER_MAP = {
+
+  }.freeze
+
+  DEFAULT_CAPYBARA_DRIVER = :poltergeist
+
+  def self.initialize_capybara_drivers!
+    @capybara_driver_name = CAPYBARA_DRIVER_MAP.fetch(@example_variable.application_name_under_test, :poltergeist)
+    Capybara.current_driver = @capybara_driver_name
+    Capybara.javascript_driver = @capybara_driver_name
   end
 end
 
