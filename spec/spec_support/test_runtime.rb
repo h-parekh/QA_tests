@@ -66,3 +66,17 @@ module InitializeExample
     false
   end
 end
+
+module ErrorReporter
+  def self.conditionally_report_unsuccessful_scenario(example:)
+    @example = example
+    return true if successful_scenario?
+    # Leverage RSpec's logic to zero in on the location of failure from the exception backtrace
+    location_of_failure = RSpec.configuration.backtrace_formatter.format_backtrace(example.exception.backtrace).first
+    error(context: "FAILED example", location_of_failure: location_of_failure, message: @example.exception.message)
+  end
+
+  def self.successful_scenario?
+    @example.exception.nil?
+  end
+end

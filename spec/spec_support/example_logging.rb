@@ -167,7 +167,6 @@ module ExampleLogging
     # @param driver [#network_traffic]
     # @return [ExampleLogging::ExampleWrapper]
     def stop(driver:)
-      conditionally_report_unsuccessful_scenario
       report_network_traffic(driver: driver)
       report_end_of_example
       self
@@ -187,17 +186,6 @@ module ExampleLogging
         @capybara_driver_name = CAPYBARA_DRIVER_MAP.fetch(application_name_under_test, :poltergeist)
         Capybara.current_driver = @capybara_driver_name
         Capybara.javascript_driver = @capybara_driver_name
-      end
-
-      def conditionally_report_unsuccessful_scenario
-        return true if successful_scenario?
-        # Leverage RSpec's logic to zero in on the location of failure from the exception backtrace
-        location_of_failure = RSpec.configuration.backtrace_formatter.format_backtrace(example.exception.backtrace).first
-        error(context: "FAILED example", location_of_failure: location_of_failure, message: example.exception.message)
-      end
-
-      def successful_scenario?
-        example.exception.nil?
       end
 
       def report_network_traffic(driver:)

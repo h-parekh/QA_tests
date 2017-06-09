@@ -48,7 +48,8 @@ RSpec.configure do |config|
     InitializeExample.initialize_app_host(example: rspec_example, config: ENV)
   end
 
-  config.after(:example) do |_|
+  config.after(:example) do |rspec_example|
+    ErrorReporter.conditionally_report_unsuccessful_scenario(example: rspec_example)
     @current_logger.stop(driver: Capybara.current_session.driver)
     ExampleLogging.reset_current_logger!
   end
