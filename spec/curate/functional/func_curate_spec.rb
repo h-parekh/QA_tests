@@ -158,7 +158,6 @@ feature 'Logged In User (Account details NOT updated) Browsing', js: true do
     visit '/'
     click_on('Log In')
     login_page.completeLogin
-    expect(page).not_to have_selector('.form-signin [name=submit]')
     logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
     expect(logged_in_home_page).to be_on_page
   end
@@ -167,7 +166,6 @@ feature 'Logged In User (Account details NOT updated) Browsing', js: true do
     visit '/'
     click_on('Log In')
     login_page.completeLogin
-    expect(page).not_to have_selector('.form-signin [name=submit]')
     logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
     expect(logged_in_home_page).to be_on_page
     logged_in_home_page.openActionsDrawer
@@ -180,7 +178,6 @@ feature 'Logged In User (Account details NOT updated) Browsing', js: true do
     visit '/'
     click_on('Log In')
     login_page.completeLogin
-    expect(page).not_to have_selector('.form-signin [name=submit]')
     logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
     expect(logged_in_home_page).to be_on_page
     logged_in_home_page.openActionsDrawer
@@ -193,7 +190,6 @@ feature 'Logged In User (Account details NOT updated) Browsing', js: true do
     visit '/'
     click_on('Log In')
     login_page.completeLogin
-    expect(page).not_to have_selector('.form-signin [name=submit]')
     logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
     expect(logged_in_home_page).to be_on_page
     logged_in_home_page.openActionsDrawer
@@ -206,7 +202,6 @@ feature 'Logged In User (Account details NOT updated) Browsing', js: true do
     visit '/'
     click_on('Log In')
     login_page.completeLogin
-    expect(page).not_to have_selector('.form-signin [name=submit]')
     logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
     expect(logged_in_home_page).to be_on_page
     logged_in_home_page.openActionsDrawer
@@ -219,7 +214,6 @@ feature 'Logged In User (Account details NOT updated) Browsing', js: true do
     visit '/'
     click_on('Log In')
     login_page.completeLogin
-    expect(page).not_to have_selector('.form-signin [name=submit]')
     logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
     expect(logged_in_home_page).to be_on_page
     logged_in_home_page.openAddContentDrawer
@@ -232,7 +226,6 @@ feature 'Logged In User (Account details NOT updated) Browsing', js: true do
     visit '/'
     click_on('Log In')
     login_page.completeLogin
-    expect(page).not_to have_selector('.form-signin [name=submit]')
     logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
     expect(logged_in_home_page).to be_on_page
     logged_in_home_page.openAddContentDrawer
@@ -245,7 +238,6 @@ feature 'Logged In User (Account details NOT updated) Browsing', js: true do
     visit '/'
     click_on('Log In')
     login_page.completeLogin
-    expect(page).not_to have_selector('.form-signin [name=submit]')
     logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
     expect(logged_in_home_page).to be_on_page
     logged_in_home_page.openAddContentDrawer
@@ -258,7 +250,6 @@ feature 'Logged In User (Account details NOT updated) Browsing', js: true do
     visit '/'
     click_on('Log In')
     login_page.completeLogin
-    expect(page).not_to have_selector('.form-signin [name=submit]')
     logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
     expect(logged_in_home_page).to be_on_page
     logged_in_home_page.openAddContentDrawer
@@ -271,7 +262,6 @@ feature 'Logged In User (Account details NOT updated) Browsing', js: true do
     visit '/'
     click_on('Log In')
     login_page.completeLogin
-    expect(page).not_to have_selector('.form-signin [name=submit]')
     logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
     expect(logged_in_home_page).to be_on_page
     logged_in_home_page.openAddContentDrawer
@@ -284,7 +274,6 @@ feature 'Logged In User (Account details NOT updated) Browsing', js: true do
     visit '/'
     click_on('Log In')
     login_page.completeLogin
-    expect(page).not_to have_selector('.form-signin [name=submit]')
     logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
     expect(logged_in_home_page).to be_on_page
     logged_in_home_page.openAddContentDrawer
@@ -297,7 +286,6 @@ feature 'Logged In User (Account details NOT updated) Browsing', js: true do
     visit '/'
     click_on('Log In')
     login_page.completeLogin
-    expect(page).not_to have_selector('.form-signin [name=submit]')
     logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
     expect(logged_in_home_page).to be_on_page
     logged_in_home_page.openAddContentDrawer
@@ -310,7 +298,6 @@ feature 'Logged In User (Account details NOT updated) Browsing', js: true do
     visit '/'
     click_on('Log In')
     login_page.completeLogin
-    expect(page).not_to have_selector('.form-signin [name=submit]')
     logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
     expect(page).not_to have_selector('.form-signin [name=submit]')
     expect(logged_in_home_page).to be_on_page
@@ -326,7 +313,6 @@ feature 'Logged In User (Account details updated) Browsing', js: true do
     visit '/'
     click_on('Log In')
     login_page.completeLogin
-    expect(page).not_to have_selector('.form-signin [name=submit]')
     logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
     expect(logged_in_home_page).to be_on_page
   end
@@ -335,7 +321,6 @@ feature 'Logged In User (Account details updated) Browsing', js: true do
     visit '/'
     click_on('Log In')
     login_page.completeLogin
-    expect(page).not_to have_selector('.form-signin [name=submit]')
     logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
     expect(logged_in_home_page).to be_on_page
     logged_in_home_page.openActionsDrawer
@@ -348,7 +333,6 @@ feature 'Logged In User (Account details updated) Browsing', js: true do
     visit '/'
     click_on('Log In')
     login_page.completeLogin
-    expect(page).not_to have_selector('.form-signin [name=submit]')
     logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
     expect(logged_in_home_page).to be_on_page
     logged_in_home_page.openActionsDrawer
@@ -361,7 +345,6 @@ feature 'Logged In User (Account details updated) Browsing', js: true do
     visit '/'
     click_on('Log In')
     login_page.completeLogin
-    expect(page).not_to have_selector('.form-signin [name=submit]')
     logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
     expect(logged_in_home_page).to be_on_page
     logged_in_home_page.openActionsDrawer
@@ -374,7 +357,6 @@ feature 'Logged In User (Account details updated) Browsing', js: true do
     visit '/'
     click_on('Log In')
     login_page.completeLogin
-    expect(page).not_to have_selector('.form-signin [name=submit]')
     logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
     expect(logged_in_home_page).to be_on_page
     logged_in_home_page.openActionsDrawer
@@ -387,7 +369,6 @@ feature 'Logged In User (Account details updated) Browsing', js: true do
     visit '/'
     click_on('Log In')
     login_page.completeLogin
-    expect(page).not_to have_selector('.form-signin [name=submit]')
     logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
     expect(logged_in_home_page).to be_on_page
     logged_in_home_page.openActionsDrawer
@@ -400,7 +381,6 @@ feature 'Logged In User (Account details updated) Browsing', js: true do
     visit '/'
     click_on('Log In')
     login_page.completeLogin
-    expect(page).not_to have_selector('.form-signin [name=submit]')
     logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
     expect(logged_in_home_page).to be_on_page
     logged_in_home_page.openAddContentDrawer
@@ -413,7 +393,6 @@ feature 'Logged In User (Account details updated) Browsing', js: true do
     visit '/'
     click_on('Log In')
     login_page.completeLogin
-    expect(page).not_to have_selector('.form-signin [name=submit]')
     logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
     expect(logged_in_home_page).to be_on_page
     logged_in_home_page.openAddContentDrawer
@@ -426,7 +405,6 @@ feature 'Logged In User (Account details updated) Browsing', js: true do
     visit '/'
     click_on('Log In')
     login_page.completeLogin
-    expect(page).not_to have_selector('.form-signin [name=submit]')
     logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
     expect(logged_in_home_page).to be_on_page
     logged_in_home_page.openAddContentDrawer
@@ -439,7 +417,6 @@ feature 'Logged In User (Account details updated) Browsing', js: true do
     visit '/'
     click_on('Log In')
     login_page.completeLogin
-    expect(page).not_to have_selector('.form-signin [name=submit]')
     logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
     expect(logged_in_home_page).to be_on_page
     logged_in_home_page.openAddContentDrawer
@@ -452,7 +429,6 @@ feature 'Logged In User (Account details updated) Browsing', js: true do
     visit '/'
     click_on('Log In')
     login_page.completeLogin
-    expect(page).not_to have_selector('.form-signin [name=submit]')
     logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
     expect(logged_in_home_page).to be_on_page
     logged_in_home_page.openAddContentDrawer
@@ -465,7 +441,6 @@ feature 'Logged In User (Account details updated) Browsing', js: true do
     visit '/'
     click_on('Log In')
     login_page.completeLogin
-    expect(page).not_to have_selector('.form-signin [name=submit]')
     logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
     expect(logged_in_home_page).to be_on_page
     logged_in_home_page.openAddContentDrawer
@@ -481,7 +456,6 @@ feature 'Logged In User (Account details updated) Browsing', js: true do
     visit '/'
     click_on('Log In')
     login_page.completeLogin
-    expect(page).not_to have_selector('.form-signin [name=submit]')
     logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
     expect(logged_in_home_page).to be_on_page
     logged_in_home_page.openAddContentDrawer
@@ -497,7 +471,6 @@ feature 'Logged In User (Account details updated) Browsing', js: true do
     visit '/'
     click_on('Log In')
     login_page.completeLogin
-    expect(page).not_to have_selector('.form-signin [name=submit]')
     logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
     expect(logged_in_home_page).to be_on_page
     logged_in_home_page.openActionsDrawer
