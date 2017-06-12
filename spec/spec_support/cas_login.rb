@@ -61,5 +61,7 @@ class LoginPage
     page.has_selector?('.form-signin [name=submit]')
     find('.form-signin [name=submit]').trigger('click')
     current_logger.info(context: "Logging in user: #{userName}")
+    # waits for it to leave the login page
+    page.has_no_selector?('.form-signin [name=submit]')
   end
 end

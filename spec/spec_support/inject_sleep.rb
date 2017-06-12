@@ -42,3 +42,23 @@ module Capybara::Node::Matchers
     end
   end
 end
+
+module Capybara::Node::Matchers
+  def has_no_selector?(*args, &optional_filter_block)
+    assert_no_selector(*args, &optional_filter_block)
+  rescue Capybara::ExpectationNotMet, Exception => e
+    # if error
+    sleep(3)
+    begin
+      assert_no_selector(*args, &optional_filter_block)
+    rescue Capybara::ExpectationNotMet
+      # if still error
+      sleep(10)
+      begin
+        assert_no_selector(*args, &optional_filter_block)
+      rescue Capybara::ExpectationNotMet
+        return false
+      end
+    end
+  end
+end
