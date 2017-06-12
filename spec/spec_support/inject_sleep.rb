@@ -43,19 +43,6 @@ module Capybara::Node::Matchers
   end
 end
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 module Capybara::Node::Matchers
   def has_no_selector?(*args, &optional_filter_block)
     assert_no_selector(*args, &optional_filter_block)
