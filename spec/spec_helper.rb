@@ -46,10 +46,13 @@ RSpec.configure do |config|
     @current_logger = ExampleLogging.start(example: rspec_example, config: ENV, test_handler: self)
     ExampleLogging.current_logger = @current_logger
     InitializeExample.initialize_app_host(example: rspec_example, config: ENV)
+    InitializeExample.initialize_capybara_drivers!
   end
 
-  config.after(:example) do |_|
-    @current_logger.stop(driver: Capybara.current_session.driver)
+  config.after(:example) do |rspec_example|
+    ErrorReporter.conditionally_report_unsuccessful_scenario(example: rspec_example)
+    VerifyNetworkTraffic.report_network_traffic(driver: Capybara.current_session.driver, test_handler: self)
+    @current_logger.stop()
     ExampleLogging.reset_current_logger!
   end
 end

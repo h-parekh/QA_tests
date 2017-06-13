@@ -153,7 +153,6 @@ module ExampleLogging
       @path_to_spec_directory = File.expand_path('../../', __FILE__)
       initialize_example_variables!
       @current_logger = Logging.logger[application_name_under_test]
-      initialize_capybara_drivers!
     end
 
     # Responsible for logging the start of a test
@@ -164,57 +163,10 @@ module ExampleLogging
     end
 
     # Responsible for consistent logging of the end steps of a test
-    # @param driver [#network_traffic]
     # @return [ExampleLogging::ExampleWrapper]
-    def stop(driver:)
-      conditionally_report_unsuccessful_scenario
-      report_network_traffic(driver: driver)
-      report_end_of_example
-      self
+    def stop
+      info(context: "END example", example: example.full_description, location: example.location)
     end
-
-    private
-
-      # Enforce a driver to specific applications here
-      # Example: 'dave' => :poltergeist
-      CAPYBARA_DRIVER_MAP = {
-
-      }.freeze
-
-      DEFAULT_CAPYBARA_DRIVER = :poltergeist
-
-      def initialize_capybara_drivers!
-        @capybara_driver_name = CAPYBARA_DRIVER_MAP.fetch(application_name_under_test, :poltergeist)
-        Capybara.current_driver = @capybara_driver_name
-        Capybara.javascript_driver = @capybara_driver_name
-      end
-
-      def conditionally_report_unsuccessful_scenario
-        return true if successful_scenario?
-        # Leverage RSpec's logic to zero in on the location of failure from the exception backtrace
-        location_of_failure = RSpec.configuration.backtrace_formatter.format_backtrace(example.exception.backtrace).first
-        error(context: "FAILED example", location_of_failure: location_of_failure, message: example.exception.message)
-      end
-
-      def successful_scenario?
-        example.exception.nil?
-      end
-
-      def report_network_traffic(driver:)
-        return true unless driver_allows_network_traffic_verification?
-        return true if ENV.fetch('SKIP_VERIFY_NETWORK_TRAFFIC', false)
-        info(context: "verifying_all_network_traffic") do
-          verify_network_traffic(driver: driver)
-        end
-      end
-
-      def driver_allows_network_traffic_verification?
-        capybara_driver_name == :poltergeist
-      end
-
-      def report_end_of_example
-        info(context: "END example", example: example.full_description, location: example.location)
-      end
 
     public
 
@@ -270,30 +222,6 @@ module ExampleLogging
         else
           @current_logger.public_send(severity, %(test_type: #{test_type}\t runID: #{RunIdentifier.get}\t context: "#{context}"\t#{message}).strip)
         end
-      end
-
-      def verify_network_traffic(driver:)
-        failed_resources = []
-        driver.network_traffic.each do |request|
-          request.response_parts.uniq(&:url).each do |response|
-            if (400..599).cover? response.status
-              resource_hash = { url: response.url, status_code: response.status }
-              failed_resources << resource_hash
-              error(context: "verifying_network_traffic", url: response.url, status_code: response.status)
-            else
-              debug(context: "verifying_network_traffic", url: response.url, status_code: response.status)
-            end
-          end
-          test_handler.expect(failed_resources).to test_handler.be_empty, build_failed_messages_for(failed_resources)
-        end
-      end
-
-      def build_failed_messages_for(failed_resources)
-        text = "Resource Error:"
-        failed_resources.each do |obj|
-          text += "\n\tStatus: #{obj.fetch(:status_code)}\tURL: #{obj.fetch(:url)}"
-        end
-        text
       end
 
       def initialize_example_variables!
