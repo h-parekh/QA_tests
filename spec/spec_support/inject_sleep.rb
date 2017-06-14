@@ -43,6 +43,24 @@ module Capybara::Node::Matchers
   end
 end
 
+module Capybara::Node::Matchers
+  def has_no_selector?(*args, &optional_filter_block)
+    assert_no_selector(*args, &optional_filter_block)
+  rescue Capybara::ExpectationNotMet, Exception => e
+    # if error
+    sleep(3)
+    begin
+      assert_no_selector(*args, &optional_filter_block)
+    rescue Capybara::ExpectationNotMet
+      # if still error
+      sleep(10)
+      begin
+        assert_no_selector(*args, &optional_filter_block)
+      rescue Capybara::ExpectationNotMet
+        return false
+      end
+    end
+
 module Capybara::Node::Actions
   def fill_in(locator, options={})
     locator, options = nil, locator if locator.is_a? Hash
