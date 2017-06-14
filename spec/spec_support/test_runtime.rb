@@ -105,9 +105,16 @@ module VerifyNetworkTraffic
     @test_handler = test_handler
     return true unless driver_allows_network_traffic_verification?
     return true if ENV.fetch('SKIP_VERIFY_NETWORK_TRAFFIC', false)
+    return true unless test_needs_network_verification?
     ExampleLogging.current_logger.info(context: "verifying_all_network_traffic") do
       verify_network_traffic(driver: driver)
     end
+  end
+
+  def self.test_needs_network_verification?
+    input = ARGV.join.split('/')
+    #splits the test path into individual array elements
+    !input.include?('integration')
   end
 
   def self.driver_allows_network_traffic_verification?
@@ -126,9 +133,10 @@ module VerifyNetworkTraffic
           ExampleLogging.current_logger.debug(context: "verifying_network_traffic", url: response.url, status_code: response.status)
         end
       end
-      @test_handler.expect(failed_resources).to @test_handler.be_empty, build_failed_messages_for(failed_resources)
     end
+    @test_handler.expect(failed_resources).to @test_handler.be_empty, build_failed_messages_for(failed_resources)
   end
+
 
   def self.build_failed_messages_for(failed_resources)
     text = "Resource Error:"

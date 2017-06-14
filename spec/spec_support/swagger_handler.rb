@@ -5,7 +5,7 @@
 class SwaggerHandler
   def self.operations(for_file_path:, config: ENV)
     @registry ||= {}
-    example_variable = ExampleVariableExtractor.call(path: for_file_path)
+    example_variable = ExampleVariableExtractor.call(path: for_file_path, config: config)
     @registry[example_variable] ||= new(example_variable: example_variable, config: config)
     @registry[example_variable].operations
   end
