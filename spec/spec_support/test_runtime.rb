@@ -105,7 +105,7 @@ module VerifyNetworkTraffic
     @test_handler = test_handler
     return true unless driver_allows_network_traffic_verification?
     return true if ENV.fetch('SKIP_VERIFY_NETWORK_TRAFFIC', false)
-    return true if test_needs_network_verification?
+    return true unless test_needs_network_verification?
     ExampleLogging.current_logger.info(context: "verifying_all_network_traffic") do
       verify_network_traffic(driver: driver)
     end
@@ -114,7 +114,7 @@ module VerifyNetworkTraffic
   def self.test_needs_network_verification?
     input = ARGV.join.split('/')
     #splits the test path into individual array elements
-    input.include?('integration')
+    !input.include?('integration')
   end
 
   def self.driver_allows_network_traffic_verification?
@@ -122,7 +122,6 @@ module VerifyNetworkTraffic
   end
 
   def self.verify_network_traffic(driver:)
-    require 'byebug'; debugger
     failed_resources = []
     driver.network_traffic.each do |request|
       request.response_parts.uniq(&:url).each do |response|
