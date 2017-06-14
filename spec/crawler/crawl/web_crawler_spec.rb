@@ -8,7 +8,7 @@ feature 'Link Checker' do
   scenario 'Check Links' do
     File.foreach(ENV["HOME"] + "/crawl_sites.txt") do |root_url|
       root_url.strip!
-      current_logger.info(context: "Begin verifying: #{root_url}")
+      current_logger.info(context: "Begin verifying site: #{root_url}")
       encoded_url = URI.encode(root_url)
       doc = Nokogiri::HTML(open(encoded_url))
       links = doc.css('a')
@@ -37,13 +37,13 @@ feature 'Link Checker' do
           if response.code.to_i >= 400 && response.code.to_i <= 599
             current_logger.info(context: "crawler ERROR", url: href, status_code: response.code)
           else
-            current_logger.info(context: "Verified link", url: href, status_code: response.code)
+            current_logger.debug(context: "Verified link", url: href, status_code: response.code)
           end
         rescue Net::OpenTimeout
           current_logger.error(context: "Could not reach URL in specified time", url: href, timeout_in_sec: http.open_timeout)
         end
       end
-      current_logger.info(context: "Finished verifying: #{root_url}")
+      current_logger.info(context: "Finished verifying site: #{root_url}")
     end
   end
 end
