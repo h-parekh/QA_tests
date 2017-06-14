@@ -41,6 +41,7 @@ end
 module InitializeExample
   # * Checks if value of ENVIRONMENT is a URL or key
   # * Sets Capybara.app_host to a URL
+  # * Sets Capybara driver name
   def self.initialize_app_host(example:, config:)
     @example = example
     @config = config
@@ -64,5 +65,76 @@ module InitializeExample
     uri.is_a?(URI::HTTP) && !uri.host.nil?
   rescue URI::InvalidURIError
     false
+  end
+
+  # Enforce a driver to specific applications here
+  # Example: 'dave' => :poltergeist
+  CAPYBARA_DRIVER_MAP = {
+
+  }.freeze
+
+  DEFAULT_CAPYBARA_DRIVER = :poltergeist
+
+  def self.initialize_capybara_drivers!
+    @capybara_driver_name = CAPYBARA_DRIVER_MAP.fetch(@example_variable.application_name_under_test, :poltergeist)
+    Capybara.current_driver = @capybara_driver_name
+    Capybara.javascript_driver = @capybara_driver_name
+  end
+end
+
+module ErrorReporter
+  def self.conditionally_report_unsuccessful_scenario(example:)
+    @example = example
+    return true if successful_scenario?
+    # Leverage RSpec's logic to zero in on the location of failure from the exception backtrace
+    location_of_failure = RSpec.configuration.backtrace_formatter.format_backtrace(example.exception.backtrace).first
+    ExampleLogging.current_logger.error(context: "FAILED example", location_of_failure: location_of_failure, message: @example.exception.message)
+  end
+
+  def self.successful_scenario?
+    @example.exception.nil?
+  end
+end
+
+module VerifyNetworkTraffic
+  # leverages network_traffic method of poltergeist driver to verify
+  # that all the network calls for static assets and 3rd party support
+  # are working on the site
+  def self.report_network_traffic(driver:, test_handler:)
+    @driver = driver
+    @test_handler = test_handler
+    return true unless driver_allows_network_traffic_verification?
+    return true if ENV.fetch('SKIP_VERIFY_NETWORK_TRAFFIC', false)
+    ExampleLogging.current_logger.info(context: "verifying_all_network_traffic") do
+      verify_network_traffic(driver: driver)
+    end
+  end
+
+  def self.driver_allows_network_traffic_verification?
+    Capybara.current_driver == :poltergeist
+  end
+
+  def self.verify_network_traffic(driver:)
+    failed_resources = []
+    driver.network_traffic.each do |request|
+      request.response_parts.uniq(&:url).each do |response|
+        if (400..599).cover? response.status
+          resource_hash = { url: response.url, status_code: response.status }
+          failed_resources << resource_hash
+          ExampleLogging.current_logger.error(context: "verifying_network_traffic", url: response.url, status_code: response.status)
+        else
+          ExampleLogging.current_logger.debug(context: "verifying_network_traffic", url: response.url, status_code: response.status)
+        end
+      end
+      @test_handler.expect(failed_resources).to @test_handler.be_empty, build_failed_messages_for(failed_resources)
+    end
+  end
+
+  def self.build_failed_messages_for(failed_resources)
+    text = "Resource Error:"
+    failed_resources.each do |obj|
+      text += "\n\tStatus: #{obj.fetch(:status_code)}\tURL: #{obj.fetch(:url)}"
+    end
+    text
   end
 end
