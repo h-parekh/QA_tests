@@ -25,7 +25,9 @@ feature 'Link Checker' do
         uri = URI.parse(href)
         response = Net::HTTP.get_response(uri)
         if response.code.to_i >= 400 && response.code.to_i <= 599
-          current_logger.info(context: "crawler", url: href, status_code: response.code)
+          current_logger.info(context: "crawler ERROR", url: href, status_code: response.code)
+        else
+          current_logger.info(context: "Verified link", url: href, status_code: response.code)
         end
       end
       current_logger.info(context: "Finished verifying: #{root_url}")
