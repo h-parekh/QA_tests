@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 require 'crawler/crawler_spec_helper'
-require 'Nokogiri'
+require 'nokogiri'
 require "net/http"
 require "uri"
 require "set"
