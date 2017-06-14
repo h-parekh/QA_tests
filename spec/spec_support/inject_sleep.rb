@@ -60,6 +60,8 @@ module Capybara::Node::Matchers
         return false
       end
     end
+  end
+end
 
 module Capybara::Node::Actions
   def fill_in(locator, options={})
