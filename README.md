@@ -176,7 +176,22 @@ $ cd /path/to/QA_tests
 $ ./bin/run_tests spec/curate/functional/func_curate_spec.rb
 ```
 
-Available toggles:
+#### Triggering from Jenkins CI
+
+We have all specs setup to run from a Jenkins job which will trigger the requested spec from the remote machine testcontroller01
+In order to trigger a test you will need to identify values of the following parameters and append to the URL:
+* token: Check with QA Admin
+* cause: Provide some context of test trigger (Ex: AWS, remote_trigger, your_name)
+* Task: 'run_test' (Do not use anything else)
+* TestLoggerLogLevel: 'debug' 'info' 'warn' 'error' 'fatal' (Choose any one)
+* AppToTest: Folder name of the application spec you want to test (Ex: 'curate', 'osf')
+* EnvUnderTest: The environment you want to test against (Ex: 'prod', 'prep', 'https://curate.nd.edu')
+* DeployTarget 'production' (Do not use anything else)
+
+Example URL
+https://jenkins.library.nd.edu/jenkins/job/QA_tests_deploy_and_run/buildWithParameters?token=garfield&cause=remote_trigger&Task=run_test&TestLoggerLogLevel=info&AppToTest=osf&EnvUnderTest=prod&DeployTarget=production
+
+Available toggles (not supported with Jenkins CI):
 
 SKIP_CLOUDWATCH: By default we notify CloudWatch of test events. In some cases,
 this is not desired (e.g. local development).
