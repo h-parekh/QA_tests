@@ -5,7 +5,7 @@ require 'csv'
 
 class RequestBuilder
   attr_reader :current_logger
-  
+
   def initialize(logger,operation)
     @current_operation = operation
     @security_name = get_security_name
@@ -35,7 +35,8 @@ class RequestBuilder
     name = schema_security.name
   end
 
-  def method_case(*body)
+  def send_via_operation_verb(*body)
+    # determines which method verb the current opertation has and sends request accordingly
     security = check_security
     case (@current_operation.verb.to_s)
     when "get"
