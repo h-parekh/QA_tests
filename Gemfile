@@ -22,4 +22,5 @@ group :testcontroller do
   gem 'swagger-parser'
   gem 'aws-sdk'
   gem 'airborne'
+  gem 'contentful'
 end
