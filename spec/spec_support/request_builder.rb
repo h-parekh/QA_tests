@@ -27,12 +27,14 @@ class RequestBuilder
   end
 
   def get_security_name
-    # Get schema of the response
-    schema = @current_operation.responses.values[0].schema.root
-    # Get the type, name, and in fields of the security
-    schema_security = schema.securityDefinitions.values[0]
-    # Gets the name of the security to use for authorization
-    name = schema_security.name
+    if check_security
+      # Get schema of the response
+      schema = @current_operation.responses.values[0].schema.root
+      # Get the type, name, and in fields of the security
+      schema_security = schema.securityDefinitions.values[0]
+      # Gets the name of the security to use for authorization
+      name = schema_security.name
+    end
   end
 
   def send_via_operation_verb(*body)
