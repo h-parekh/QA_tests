@@ -25,11 +25,10 @@ floors = client.entries(
 
 File.open("bin/contentful_slugs.csv", "w+") do |f|
   pages.each do |entry|
-    f.puts(entry.slug)
-
+    f.puts("#{entry.slug}, https://alpha.library.nd.edu/#{entry.slug}")
   end
 
   floors.each do |entry|
-    f.puts(entry.slug)
+    f.puts("#{entry.slug}, https://alpha.library.nd.edu/#{entry.slug}")
   end
 end
