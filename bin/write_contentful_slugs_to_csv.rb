@@ -23,7 +23,7 @@ floors = client.entries(
   'fields.slug[exists]' => true,
 )
 
-File.open("bin/contentful_slugs.csv", "w+") do |f|
+File.open("tmp/contentful_slugs.csv", "w+") do |f|
   pages.each do |entry|
     f.puts("#{entry.slug}, https://alpha.library.nd.edu/#{entry.slug}")
   end
