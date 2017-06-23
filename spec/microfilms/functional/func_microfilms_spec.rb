@@ -26,7 +26,7 @@ feature 'User Browsing', js: true do
 
   scenario 'Test 2: Ask a Librarian' do
     visit '/'
-    within ('#nav.sf-menu li.darker') do
+    within('#nav.sf-menu li.darker') do
       click_on('Ask a Librarian')
     end
   end
