@@ -1,12 +1,13 @@
 # frozen_string_literal: true
 require 'viceroy/viceroy_spec_helper'
 
-describe 'Viceroy API test' do
+feature 'Viceroy API test' do
   SwaggerHandler.operations(for_file_path: __FILE__).each do |operation|
-    it "calls #{operation.verb} #{operation.path}" do
-      result = public_send(operation.verb, operation.url)
-      expect(result.code.to_s).to eq(operation.responses.keys[0])
-      expect_json_types(redirect: :string)
+    scenario "calls #{operation.verb} #{operation.path}" do
+      schema = RequestBuilder.new(current_logger, operation)
+      result = schema.send_via_operation_verb
+      current_response = ResponseValidator.new(operation, result)
+      expect(current_response).to be_valid_response
     end
   end
 end
