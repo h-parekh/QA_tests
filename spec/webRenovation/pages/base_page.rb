@@ -6,41 +6,52 @@ module WebRenovation
 
       def on_page?
         status_response_ok? &&
-          valid_page_content? &&
-          valid_navigation? &&
-          has_hours?
+          valid_header? &&
+          valid_footer? &&
+          valid_feedback_button?
       end
 
       def status_response_ok?
         status_code == 200
       end
 
-      def has_hours?
-        within('.header-hours') do
-          hoursLink = page.find_link(href: '/page/hours/')
-          hoursLink.text.should_not == ""
+      def valid_header?
+        within('#header') do
+          find_link('University of Notre Dame', href: 'http://nd.edu').visible? &&
+            find_link('Office of the Provost', href: 'http://provost.nd.edu').visible?
         end
-      end
 
-      def valid_page_content?
         within('#banner') do
-          find_link('Hesburgh Libraries').visible?
+          find_link('Hesburgh Libraries', href: '/').visible? &&
+            find_link('Log In', href: '/personal').visible?
         end
 
-        within('#footer-info') do
-          find_link(href: '/page/hours/', :class =>'hours')
+        within('.uNavigation') do
+          find_link('Home', href: '/').visible?
+          # Add assertions for Research, Services, Libraries, About  and all their drawer buttons
+          # Add assertions for search, ask us and hours
         end
       end
 
-      def valid_navigation?
-        find_link('Home').visible? &&
-          find_link('Research').visible? &&
-          find_link('Services').visible? &&
-          find_link('Libraries & Centers').visible? &&
-          find_link('About').visible? &&
-          find('.login').visible? &&
-          find_link('Search').visible? &&
-          find_link('Ask Us').visible?
+      def valid_footer?
+        within('#footer-links') do
+          find_link('Feedback', href: 'https://docs.google.com/a/nd.edu/forms/d/e/1FAIpQLSdL4MnInHvXcQke9dJQ1Idkv2O23u9dBV_9ky40WDOV77B_MA/viewform?c=0&w=1').visible? &&
+            find_link('Library Giving', href: 'http://librarygiving.nd.edu').visible? &&
+            find_link('Jobs', href: '/employment/').visible? &&
+            find_link('Hesnet', href: 'https://wiki.nd.edu/display/libintranet/Home').visible? &&
+            find_link('NDLibraries', href: 'http://twitter.com/ndlibraries').visible? &&
+            find_link('NDLibraries', href: 'https://www.facebook.com/NDLibraries/').visible?
+        end
+
+        within('#chat') do
+          find('a.chat-button')
+        end
+      end
+
+      def valid_feedback_button?
+        within('.feedback-notice-me') do
+          find_link('SUBMIT FEEDBACK', href: 'https://docs.google.com/a/nd.edu/forms/d/e/1FAIpQLSdL4MnInHvXcQke9dJQ1Idkv2O23u9dBV_9ky40WDOV77B_MA/viewform?c=0&w=1').visible?
+        end
       end
     end
   end
