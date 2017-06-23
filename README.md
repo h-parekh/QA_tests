@@ -224,3 +224,13 @@ It is possible to auto-correct certain offenses. it is experimental so use it wi
 cd /path/to/QA_tests
 rubocop -a
 ```
+
+## Running Web Rennovation Audit
+
+From the command line:
+
+```console
+rake webRennovation:accessibility_audit
+```
+
+This will run the necessary steps to generate the accessibility report. It is comprised of multiple rake tasks. Run `rake -T` to see the list of tasks. Run `rake -P` for the prerequisites that are run.
