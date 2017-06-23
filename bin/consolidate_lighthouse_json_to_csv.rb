@@ -1,4 +1,4 @@
-# Consolidate lighthouse output into a single CSV
+# Consolidate lighthouse output into a single CSV of actionable items for usability
 #
 # @see ./bin/run_lighthouse_against_urls_and_generate_csv.rb
 require 'csv'
@@ -18,8 +18,12 @@ CSV.open(PROJECT_PATH.join("tmp/accessibility#{DATE_SUFFIX}.csv"), 'w+') do |csv
     json.fetch('reportCategories').each do |report_category|
       category_name = report_category.fetch('name')
       next unless REPORT_CATEGORIES_TO_TEST.include?(category_name)
+      # A Short circuit because there won't be any meaningful failures in this category
+      # NOTE: We are storing the JSON documents locally with the full output
       next if report_category.fetch("score") >= 100
       report_category.fetch("audits").each do |audit|
+        # A Short circuit because there won't be any meaningful failures
+        # NOTE: We are storing the JSON documents locally with the full output
         next if audit.fetch('score') >= 100
         audit_id = audit.fetch('id').strip
         audit_result = audit.fetch('result')
