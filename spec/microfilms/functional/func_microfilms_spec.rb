@@ -47,4 +47,14 @@ feature 'User Browsing', js: true do
       expect(page).to have_link 'Numerical Sort'
     end
   end
+  scenario 'Test 4: See List of K Resources' do
+    visit '/'
+    within('#nav.sf-menu') do
+      find('.left').hover
+      within('#dbsaz') do
+        click_on('K')
+      end
+    end
+    expect(page).to have_css('h1', text: 'K')
+  end
 end
