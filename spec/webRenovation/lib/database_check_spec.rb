@@ -2,7 +2,7 @@
 require 'webRenovation/webRenovation_spec_helper'
 require 'google_drive'
 
-session = GoogleDrive::Session.from_config("config.json")
+session = GoogleDrive::Session.from_config(CSV.read(ENV['HOME']+"/test_data/QA/google_drive_tokens.json")
 ws = session.spreadsheet_by_key("1sUEizFQYu1fc0kunEST-JpHWWH9vMWHr0lj1ZKiIWyk").worksheets[1]
 ws_hash = {}
 for i in 2..ws.num_rows do
