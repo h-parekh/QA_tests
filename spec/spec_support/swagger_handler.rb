@@ -56,6 +56,7 @@ class SwaggerHandler
       end
 
       def path
+        return @operation.path if @swagger.basePath.nil?
         File.join(@swagger.basePath, @operation.path)
       end
 
