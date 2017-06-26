@@ -24,4 +24,5 @@ group :testcontroller do
   gem 'airborne'
   gem 'contentful'
   gem 'google_drive'
+  gem 'contentful-management'
 end
