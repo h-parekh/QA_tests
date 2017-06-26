@@ -26,7 +26,7 @@ feature 'User Browsing', js: true do
 
   scenario 'Test 2: Ask a Librarian' do
     visit '/'
-    within ('#nav.sf-menu li.darker') do
+    within('#nav.sf-menu li.darker') do
       click_on('Ask a Librarian')
     end
   end
@@ -46,5 +46,15 @@ feature 'User Browsing', js: true do
       expect(page).to have_no_link 'A-Z Sort'
       expect(page).to have_link 'Numerical Sort'
     end
+  end
+  scenario 'Test 4: See List of K Resources' do
+    visit '/'
+    within('#nav.sf-menu') do
+      find('.left').hover
+      within('#dbsaz') do
+        click_on('K')
+      end
+    end
+    expect(page).to have_css('h1', text: 'K')
   end
 end
