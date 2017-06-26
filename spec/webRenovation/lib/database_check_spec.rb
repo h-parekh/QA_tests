@@ -2,14 +2,16 @@
 require 'webRenovation/webRenovation_spec_helper'
 require 'google_drive'
 
-session = GoogleDrive::Session.from_config(CSV.read(ENV['HOME']+"/test_data/QA/google_drive_tokens.json")
-ws = session.spreadsheet_by_key("1sUEizFQYu1fc0kunEST-JpHWWH9vMWHr0lj1ZKiIWyk").worksheets[1]
-ws_hash = {}
-for i in 2..ws.num_rows do
-  ws_hash[ws[i,2]] = ws[i,1]
-end
-
 feature 'User Browsing', js: true do
+  let(:session) { GoogleDrive::Session.from_config(CSV.read(ENV['HOME']+"/test_data/QA/google_drive_tokens.json") }
+  let(:ws_hash) do
+    ws = session.spreadsheet_by_key("1sUEizFQYu1fc0kunEST-JpHWWH9vMWHr0lj1ZKiIWyk").worksheets[1]
+    ws_hash = {}
+    for i in 2..ws.num_rows do
+      ws_hash[ws[i,2]] = ws[i,1]
+    end
+    ws_hash
+  end
   scenario 'Load Homepage', :read_only, :smoke_test do
     hrefs = []
     ('a'..'z').each do |letter|
