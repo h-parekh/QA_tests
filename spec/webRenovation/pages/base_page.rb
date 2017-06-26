@@ -16,11 +16,6 @@ module WebRenovation
       end
 
       def valid_header?
-        within('#header') do
-          find_link('University of Notre Dame', href: 'http://nd.edu').visible? &&
-            find_link('Office of the Provost', href: 'http://provost.nd.edu').visible?
-        end
-
         within('#banner') do
           find_link('Hesburgh Libraries', href: '/').visible? &&
             find_link('Log In', href: '/personal').visible?

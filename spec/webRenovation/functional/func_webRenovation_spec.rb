@@ -12,7 +12,7 @@ feature 'User Browsing', js: true do
 
   scenario 'Load Pathfinder', :read_only, :smoke_test do
     page.driver.browser.js_errors = false
-    visit '/pathfinder/architecture/'
+    visit '/architecture/'
     pathfinder = WebRenovation::Pages::PathfinderPage.new
     expect(pathfinder).to be_on_page
   end

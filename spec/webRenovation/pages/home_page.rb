@@ -13,10 +13,18 @@ module WebRenovation
           has_service_boxes? &&
           has_news_and_events? &&
           has_hours?
+          valid_nd_header
       end
 
       def on_valid_url?
         current_url == Capybara.app_host || current_url == (Capybara.app_host + "/")
+      end
+
+      def valid_nd_header?
+        within('#header') do
+          find_link('University of Notre Dame', href: 'http://nd.edu').visible? &&
+            find_link('Office of the Provost', href: 'http://provost.nd.edu').visible?
+        end
       end
 
       def has_nd_branding?
