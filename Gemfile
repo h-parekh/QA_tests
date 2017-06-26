@@ -23,5 +23,6 @@ group :testcontroller do
   gem 'aws-sdk'
   gem 'airborne'
   gem 'contentful'
+  gem 'google_drive'
   gem 'contentful-management'
 end
