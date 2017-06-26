@@ -16,6 +16,23 @@ feature 'User Browsing', js: true do
     pathfinder = WebRenovation::Pages::PathfinderPage.new
     expect(pathfinder).to be_on_page
   end
+
+  scenario 'Chat with Librarian via menu' do
+      page.driver.browser.js_errors = false
+      visit '/'
+      find('a', text: 'Ask Us').trigger('click')
+      find('a', text: 'Chat with a Librarian').trigger('click')
+      chat = WebRenovation::Pages::ChatPage.new
+      expect(chat).to be_on_page
+  end
+
+  scenario 'Chat with Librarian via button' do
+      page.driver.browser.js_errors = false
+      visit 'https://alpha.library.nd.edu/'
+      click_on(' Chat with us')
+      chat = WebRenovation::Pages::ChatPage.new
+      expect(chat).to be_on_page
+  end
 end
 
 feature 'Logged In User Browsing', js: true do
