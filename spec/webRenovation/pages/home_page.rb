@@ -13,10 +13,18 @@ module WebRenovation
           has_service_boxes? &&
           has_news_and_events? &&
           has_hours?
+          valid_nd_header
       end
 
       def on_valid_url?
         current_url == Capybara.app_host || current_url == (Capybara.app_host + "/")
+      end
+
+      def valid_nd_header?
+        within('#header') do
+          find_link('University of Notre Dame', href: 'http://nd.edu').visible? &&
+            find_link('Office of the Provost', href: 'http://provost.nd.edu').visible?
+        end
       end
 
       def has_nd_branding?
@@ -33,11 +41,11 @@ module WebRenovation
       def has_service_boxes?
         within('.row.services') do
           # Reserves
-          find_link(href: 'https://reserves.library.nd.edu', title: 'Course Reserves')
+          find_link(href: 'https://reserves.library.nd.edu')
           # ILL
-          find_link(href: 'https://nd.illiad.oclc.org/illiad/IND/illiad.dll', title: 'Interlibrary Loan and Document Delivery')
+          find_link(href: '/personal')
           # Reserve Room
-          find_link(href: 'http://nd.libcal.com/#s-lc-box-2749-container-tab1', title: 'Reserve a Room')
+          find_link(href: 'http://nd.libcal.com/#s-lc-box-2749-container-tab1')
         end
       end
 
@@ -53,7 +61,7 @@ module WebRenovation
       def has_hours?
         # Hours display mid page
         within('.hours-display') do
-          !find_link(href: "/page/hours/").text.nil?
+          !find_link(href: "hours").text.nil?
         end
       end
     end
