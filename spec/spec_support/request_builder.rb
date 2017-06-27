@@ -11,12 +11,31 @@ class RequestBuilder
     @security_name = get_security_name
     @token = get_token
     @current_logger = logger
+    check_for_path_parameter!
   end
 
   # Identifies if the API has security or not then sends request accordingly
   def check_security
     schema = @current_operation.responses.values[0].schema.root
     schema.keys.include?('securityDefinitions')
+  end
+
+  def check_for_path_parameter!
+    path_parameter = @current_operation.path.match(/\{(.*)\}/)
+    if path_parameter
+      current_logger.debug(context: "Operation contains path parameter", path: @current_operation.path)
+      sampled_parameter = get_path_parameter!
+      @current_operation.path = @current_operation.path.sub(path_parameter[0], sampled_parameter[0])
+      current_logger.debug(context: "Path parameter has been updated", path: @current_operation.path)
+    else
+      current_logger.debug(context: "Operation does not contain a path parameter", path: @current_operation.path)
+    end
+  end
+
+  def get_path_parameter!
+    user_home_dir = File.expand_path('~')
+    parameter_list = CSV.read(user_home_dir+"/test_data/QA/aleph_system_ids.csv")
+    parameter_list.sample
   end
 
   def get_token
