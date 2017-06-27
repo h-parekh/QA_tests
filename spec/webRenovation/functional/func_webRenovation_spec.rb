@@ -34,7 +34,7 @@ feature 'Logged In User Browsing', js: true do
     visit '/'
     find('.log-in-out').click
     login.completeLogin
-    accountpage = WebRenovation::Pages::AccountPage.new(true)
+    accountpage = WebRenovation::Pages::AccountPage.new(loggedin: true)
     expect(accountpage).to be_on_page
   end
 
@@ -43,10 +43,10 @@ feature 'Logged In User Browsing', js: true do
     visit '/'
     find('.log-in-out').click
     login.completeLogin
-    accountPage = WebRenovation::Pages::AccountPage.new(true)
+    accountPage = WebRenovation::Pages::AccountPage.new(loggedin: true)
     expect(accountPage).to be_on_page
     find_link('My Courses').click
-    coursesPage = WebRenovation::Pages::CoursesPage.new(true)
+    coursesPage = WebRenovation::Pages::CoursesPage.new(loggedin: true)
     expect(coursesPage).to be_on_page
   end
 end
