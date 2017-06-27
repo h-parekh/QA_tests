@@ -9,7 +9,6 @@ feature 'User Browsing', js: true do
     expect(home_page).to be_on_page
   end
 
-
   scenario 'Load Pathfinder', :read_only, :smoke_test do
     page.driver.browser.js_errors = false
     visit '/architecture/'
@@ -29,17 +28,17 @@ feature 'User Browsing', js: true do
 end
 
 feature 'Logged In User Browsing', js: true do
-  let(:login) { WebRenovation::Utilities::Login.new(current_logger) }
-
+  let(:login) { LoginPage.new(current_logger) }
   scenario 'Log In' do
     page.driver.browser.js_errors = false
     visit '/'
+    find('.log-in-out').click
     login.completeLogin
-    homepage = WebRenovation::Pages::HomePage.new
-    expect(homepage).to be_on_page
+    accountpage = WebRenovation::Pages::AccountPage.new(true)
+    expect(accountpage).to be_on_page
   end
 
-  scenario 'View Checked Out Items' do
+  scenario 'View Checked Out/Pending Items' do
     page.driver.browser.js_errors = false
     visit '/'
     login.completeLogin
@@ -49,7 +48,7 @@ feature 'Logged In User Browsing', js: true do
     expect(accountPage).to be_on_page
   end
 
-  scenario 'View Courses' do
+  scenario 'View Courses/Instructs' do
     page.driver.browser.js_errors = false
     visit '/'
     login.completeLogin

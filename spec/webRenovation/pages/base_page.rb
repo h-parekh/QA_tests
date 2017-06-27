@@ -4,6 +4,10 @@ module WebRenovation
       include Capybara::DSL
       include CapybaraErrorIntel::DSL
 
+      def initialize(loggedin=false)
+        @loggedin = loggedin
+      end
+
       def on_page?
         status_response_ok? &&
           valid_header? &&
@@ -17,12 +21,25 @@ module WebRenovation
 
       def valid_header?
         within('#banner') do
-          find_link('Hesburgh Libraries', href: '/').visible? &&
-            find_link('Log In', href: '/personal').visible?
+          find_link('Hesburgh Libraries', href: '/').visible?
         end
 
         within('.uNavigation') do
           find_link('Home', href: '/').visible?
+          page.has_content?('Research')
+          page.has_content?('Services')
+          find_link('Libraries').visible?
+          page.has_content?('About')
+          within('.log-in-out') do
+            if @loggedin
+              page.has_link?('My Account', href: '/personal')
+              page.has_link?('Log Out', href: 'https://viceroy.library.nd.edu/logout?service=https://alpha.library.nd.edu/personal')
+            else
+              page.has_link?('Log In', href: '/personal')
+            end
+          end
+          find('a', id: 'header-search-button').visible?
+          find_link('Hours', href: '/hours').visible?
           # Add assertions for Research, Services, Libraries, About  and all their drawer buttons
           # Add assertions for search, ask us and hours
         end
@@ -39,7 +56,7 @@ module WebRenovation
         end
 
         within('#chat') do
-          find('a.chat-button')
+          find('a.chat-button').visible?
         end
       end
 

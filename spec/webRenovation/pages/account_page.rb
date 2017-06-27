@@ -7,18 +7,18 @@ module WebRenovation
       include CapybaraErrorIntel::DSL
 
       def on_page?
-        super && on_valid_url?
+        super && on_valid_url? && correct_content?
+      end
 
-        find_button("My Courses")
-
-        page.assert_selector("button", text: "RENEW", minimum: 1)
+      def correct_content?
+        page.has_link?('My Courses')
         page.assert_selector("button", text: "VIEW IN ILL", minimum: 1)
         page.assert_selector("div", text: "Due Date", minimum: 1)
       end
 
       def on_valid_url?
         puts current_url
-        current_url == (Capybara.app_host + "/personal")
+        current_url == (Capybara.app_host + "personal")
       end
 
     end
