@@ -29,7 +29,7 @@ end
 
 feature 'Logged In User Browsing', js: true do
   let(:login) { LoginPage.new(current_logger) }
-  scenario 'Log In' do
+  scenario 'Log In and View Checked Out/Pending Items' do
     page.driver.browser.js_errors = false
     visit '/'
     find('.log-in-out').click
@@ -38,24 +38,15 @@ feature 'Logged In User Browsing', js: true do
     expect(accountpage).to be_on_page
   end
 
-  scenario 'View Checked Out/Pending Items' do
-    page.driver.browser.js_errors = false
-    visit '/'
-    login.completeLogin
-    homepage = WebRenovation::Pages::HomePage.new
-    find('.login').click
-    accountPage = WebRenovation::Pages::AccountPage.new
-    expect(accountPage).to be_on_page
-  end
-
   scenario 'View Courses/Instructs' do
     page.driver.browser.js_errors = false
     visit '/'
+    find('.log-in-out').click
     login.completeLogin
-    homepage = WebRenovation::Pages::HomePage.new
-    find('.login').click
-    find_button('My Courses').click
-    coursesPage = WebRenovation::Pages::CoursesPage.new
+    accountPage = WebRenovation::Pages::AccountPage.new(true)
+    expect(accountPage).to be_on_page
+    find_link('My Courses').click
+    coursesPage = WebRenovation::Pages::CoursesPage.new(true)
     expect(coursesPage).to be_on_page
   end
 end
