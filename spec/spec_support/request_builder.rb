@@ -61,35 +61,35 @@ class RequestBuilder
     security = check_security
     case @current_operation.verb.to_s
     when "get"
-      current_logger.info(context: "making GET request")
+      current_logger.info(context: "making GET request", url: @current_operation.url)
       if security
         RestClient.public_send(@current_operation.verb, @current_operation.url, "#{@security_name}": "#{@token}")
       else
         RestClient.public_send(@current_operation.verb, @current_operation.url)
       end
     when "post"
-      current_logger.info(context: "making POST request")
+      current_logger.info(context: "making POST request", url: @current_operation.url)
       if security
         RestClient.public_send(@current_operation.verb, @current_operation.url, body, "#{@security_name}": "#{@token}")
       else
         RestClient.public_send(@current_operation.verb, @current_operation.url, body)
       end
     when "put" # might need  specific item when testing
-      current_logger.info(context: "naking PUT request")
+      current_logger.info(context: "naking PUT request", url: @current_operation.url)
       if security
         RestClient.public_send(@current_operation.verb, @current_operation.url, body, "#{@security_name}": "#{@token}")
       else
         RestClient.public_send(@current_operation.verb, @current_operation.url, body)
       end
     when "patch" # might need specific item when testing
-      current_logger.info(context: "making PATCH request")
+      current_logger.info(context: "making PATCH request", url: @current_operation.url)
       if security
         RestClient.public_send(@current_operation.verb, @current_operation.url, body, "#{@security_name}": "#{@token}")
       else
         RestClient.public_send(@current_operation.verb, @current_operation.url, body)
       end
     when "delete" # might need specific item when testing
-      current_logger.info(context: "making DELETE request")
+      current_logger.info(context: "making DELETE request", url: @current_operation.url)
       if security
         RestClient.public_send(@current_operation.verb, @current_operation.url, "#{@security_name}": "#{@token}")
       else
