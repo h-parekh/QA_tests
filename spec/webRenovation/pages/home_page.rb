@@ -13,7 +13,7 @@ module WebRenovation
           has_service_boxes? &&
           has_news_and_events? &&
           has_hours?
-          valid_nd_header
+          valid_nd_header?
       end
 
       def on_valid_url?

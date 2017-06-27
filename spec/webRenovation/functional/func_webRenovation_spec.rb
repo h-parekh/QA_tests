@@ -9,7 +9,6 @@ feature 'User Browsing', js: true do
     expect(home_page).to be_on_page
   end
 
-
   scenario 'Load Pathfinder', :read_only, :smoke_test do
     page.driver.browser.js_errors = false
     visit '/architecture/'
@@ -29,34 +28,25 @@ feature 'User Browsing', js: true do
 end
 
 feature 'Logged In User Browsing', js: true do
-  let(:login) { WebRenovation::Utilities::Login.new(current_logger) }
-
-  scenario 'Log In' do
+  let(:login) { LoginPage.new(current_logger) }
+  scenario 'Log In and View Checked Out/Pending Items' do
     page.driver.browser.js_errors = false
     visit '/'
+    find('.log-in-out').click
     login.completeLogin
-    homepage = WebRenovation::Pages::HomePage.new
-    expect(homepage).to be_on_page
+    accountpage = WebRenovation::Pages::AccountPage.new(loggedin: true)
+    expect(accountpage).to be_on_page
   end
 
-  scenario 'View Checked Out Items' do
+  scenario 'View Courses/Instructs' do
     page.driver.browser.js_errors = false
     visit '/'
+    find('.log-in-out').click
     login.completeLogin
-    homepage = WebRenovation::Pages::HomePage.new
-    find('.login').click
-    accountPage = WebRenovation::Pages::AccountPage.new
+    accountPage = WebRenovation::Pages::AccountPage.new(loggedin: true)
     expect(accountPage).to be_on_page
-  end
-
-  scenario 'View Courses' do
-    page.driver.browser.js_errors = false
-    visit '/'
-    login.completeLogin
-    homepage = WebRenovation::Pages::HomePage.new
-    find('.login').click
-    find_button('My Courses').click
-    coursesPage = WebRenovation::Pages::CoursesPage.new
+    find_link('My Courses').click
+    coursesPage = WebRenovation::Pages::CoursesPage.new(loggedin: true)
     expect(coursesPage).to be_on_page
   end
 end
