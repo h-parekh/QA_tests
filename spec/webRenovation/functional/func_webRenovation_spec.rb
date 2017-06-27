@@ -17,21 +17,14 @@ feature 'User Browsing', js: true do
     expect(pathfinder).to be_on_page
   end
 
-  scenario 'Chat with Librarian via menu' do
-      page.driver.browser.js_errors = false
-      visit '/'
-      find('a', text: 'Ask Us').trigger('click')
-      find('a', text: 'Chat with a Librarian').trigger('click')
-      chat = WebRenovation::Pages::ChatPage.new
-      expect(chat).to be_on_page
-  end
-
   scenario 'Chat with Librarian via button' do
-      page.driver.browser.js_errors = false
-      visit 'https://alpha.library.nd.edu/'
-      click_on(' Chat with us')
-      chat = WebRenovation::Pages::ChatPage.new
-      expect(chat).to be_on_page
+    page.driver.browser.js_errors = false
+    visit '/'
+    within('#chat.footer-chat') do
+      find('.chat-button').click
+      expect(page).to have_selector(".chat-open")
+      expect(page).to have_css('iframe')
+    end
   end
 end
 
