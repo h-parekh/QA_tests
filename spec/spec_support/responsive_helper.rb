@@ -9,11 +9,9 @@ module ResponsiveHelpers
   end
 
   def self.resize_window_default(mode)
-    require 'byebug'; debugger
     resize_window_by([1280, 800], mode)
   end
 
-  private
   def self.resize_window_by(size, mode)
     if mode == 'landscape'
       Capybara.current_window.resize_to(size[0], size[1])
