@@ -6,9 +6,9 @@ module WebRenovation
 
       def on_page?
         super &&
-          has_services? &&
-          has_guides? &&
-          has_resources? &&
+          (has_services? ||
+          has_guides? ||
+          has_resources?) &&
           has_location_hours? &&
           has_location? &&
           has_librarians?
