@@ -25,12 +25,18 @@ module Curate
         status_code == 200
       end
 
+      # Not all articles have downloads. Don't fail in a bad way if that is the case
+      def has_files?
+        begin
+          find("div.actions a.action.btn", text: "Download")
+          return true
+        rescue Capybara::ElementNotFound
+          false
+        end
+      end
+
       def valid_page_content?
         has_content?(@article_title)
-        within("div.actions") do # find the View details and downloads button
-          find("a.action.btn", text: "Download")
-          find("a.btn", text: "View Details")
-        end
         # Make sure that the Abstract and Attributes sections have text
         within("article.abstract.descriptive-text") do
           find('p')
