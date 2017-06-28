@@ -87,6 +87,7 @@ feature 'User Browsing', js: true do
     expect(page).to have_selector('.current-search')
     find_button('Search').trigger('click')
     search = WebRenovation::Pages::SearchPage.new
+    # waits for search to load fully 
     sleep(1)
     expect(search).to be_on_page
   end
