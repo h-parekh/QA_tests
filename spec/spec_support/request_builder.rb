@@ -75,7 +75,7 @@ class RequestBuilder
         RestClient.public_send(@current_operation.verb, @current_operation.url, body)
       end
     when "put" # might need  specific item when testing
-      current_logger.info(context: "naking PUT request", url: @current_operation.url)
+      current_logger.info(context: "making PUT request", url: @current_operation.url)
       if security
         RestClient.public_send(@current_operation.verb, @current_operation.url, body, "#{@security_name}": "#{@token}")
       else
