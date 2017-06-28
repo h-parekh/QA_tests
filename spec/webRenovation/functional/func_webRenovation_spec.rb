@@ -8,22 +8,45 @@ feature 'User Browsing', js: true do
     expect(home_page).to be_on_page
   end
 
-  scenario 'Find A-Z databases', :read_only, :smoke_test do
+  scenario 'Find A-Z Databases', :read_only, :smoke_test do
+    page.driver.browser.js_errors = false
     visit '/'
-    click_on('Research', exact: true)
-    click_on('Browse A-Z Databases')
-    expect(page).to have_selector(".alphabet")
-    expect(page).to have_css('h2', text:'Databases: A')
+    within('.uNavigation') do
+      find_by_id('research').trigger('click')
+      click_on('Browse A-Z Databases')
+    end
+    room_reservation = WebRenovation::Pages::AZDatabases.new
   end
 
-  scenario 'Go to Reserve a Room Page', :read_only, :smoke_test do
+  scenario 'Reserve a Room underneath Services Tab', :read_only, :smoke_test do
+    page.driver.browser.js_errors = false
     visit '/'
-    within('.row.services') do
+    within('.uNavigation') do
+      find_by_id('services').trigger('click')
+      click_on('Reserve a Room')
+    end
+    room_reservation_services_tab = WebRenovation::Pages::RoomReservationServicesTabPage.new
+    expect(room_reservation_services_tab).to be_on_page
+  end
+
+  scenario 'Reserve a Room Button', :read_only, :smoke_test do
+    page.driver.browser.js_errors = false
+    visit '/'
+    within('.services.hservices') do
       find_link(title: 'Reserve a Room').trigger('click')
     end
-    last_opened_window = page.driver.browser.window_handles.last
-    page.driver.browser.switch_to_window(last_opened_window)
-    expect(page.current_url).to eq('http://nd.libcal.com/#s-lc-box-2749-container-tab1')
+    room_reservation = WebRenovation::Pages::RoomReservationPage.new
+    expect(room_reservation).to be_on_page
+  end
+
+  scenario 'Technology Lending Button', :read_only, :smoke_test do
+    page.driver.browser.js_errors = false
+    visit '/'
+    within('.row.services') do
+      find_link(title: 'Technology Lending').trigger('click')
+    end
+    room_reservation = WebRenovation::Pages::TechnologyLendingPage.new
+    expect(technology_lending).to be_on_page
   end
 
   scenario 'Go to Library Giving Page', :read_only, :smoke_test do
@@ -31,9 +54,8 @@ feature 'User Browsing', js: true do
     within('.row.bottom-xs') do
       click_on('Library Giving')
     end
-    last_opened_window = page.driver.browser.window_handles.last
-    page.driver.browser.switch_to_window(last_opened_window)
-    expect(page.current_url).to eq('http://librarygiving.nd.edu/')
+    library_giving = WebRenovation::Pages::LibraryGivingPage.new
+    expect(library_giving).to be_on_page
   end
 
   scenario 'Go to Library Jobs Page', :read_only, :smoke_test do
@@ -41,9 +63,8 @@ feature 'User Browsing', js: true do
     within('.row.bottom-xs') do
       click_on('Jobs')
     end
-    last_opened_window = page.driver.browser.window_handles.last
-    page.driver.browser.switch_to_window(last_opened_window)
-    expect(page.current_url).to eq('https://alpha.library.nd.edu/employment/')
+    library_jobs = WebRenovation::Pages::LibraryJobsPage.new
+    expect(library_jobs).to be_on_page
   end
 
   scenario 'Load Pathfinder', :read_only, :smoke_test do
@@ -103,6 +124,7 @@ feature 'User Browsing', js: true do
     expect(search).to be_on_page
   end
 end
+
 
 feature 'Logged In User Browsing', js: true do
   let(:login) { LoginPage.new(current_logger) }
