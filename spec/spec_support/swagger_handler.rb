@@ -56,9 +56,12 @@ class SwaggerHandler
       end
 
       def path
+        return @path if @path
         return @operation.path if @swagger.basePath.nil?
         File.join(@swagger.basePath, @operation.path)
       end
+
+      attr_writer :path
 
       def verb
         @operation.verb
