@@ -11,7 +11,7 @@ class RequestBuilder
     @security_name = get_security_name
     @token = get_token
     @current_logger = logger
-    check_for_path_parameter!
+    apply_parameter_to_parameterized_path!
   end
 
   # Identifies if the API has security or not then sends request accordingly
@@ -20,7 +20,7 @@ class RequestBuilder
     schema.keys.include?('securityDefinitions')
   end
 
-  def check_for_path_parameter!
+  def apply_parameter_to_parameterized_path!
     path_parameter = @current_operation.path.match(/\{(.*)\}/)
     if path_parameter
       current_logger.debug(context: "Operation contains path parameter", path: @current_operation.path)
