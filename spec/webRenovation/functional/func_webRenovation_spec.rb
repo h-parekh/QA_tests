@@ -9,6 +9,48 @@ feature 'User Browsing', js: true do
     expect(home_page).to be_on_page
   end
 
+  scenario 'Find A-Z databases', :read_only, :smoke_test do
+    page.driver.browser.js_errors = false
+    visit '/'
+    click_on('Research', exact: true)
+    click_on('Browse A-Z Databases')
+    expect(page).to have_selector(".alphabet")
+    expect(page).to have_css('h2', text:'Databases: A')
+  end
+
+  scenario 'Go to Reserve a Room Page', :read_only, :smoke_test do
+    page.driver.browser.js_errors = false
+    visit '/'
+    within('.row.services') do
+      find_link(title: 'Reserve a Room').trigger('click')
+    end
+    last_opened_window = page.driver.browser.window_handles.last
+    page.driver.browser.switch_to_window(last_opened_window)
+    expect(page.current_url).to eq('http://nd.libcal.com/#s-lc-box-2749-container-tab1')
+  end
+
+  scenario 'Go to Library Giving Page', :read_only, :smoke_test do
+    page.driver.browser.js_errors = false
+    visit '/'
+    within('.row.bottom-xs') do
+      click_on('Library Giving')
+    end
+    last_opened_window = page.driver.browser.window_handles.last
+    page.driver.browser.switch_to_window(last_opened_window)
+    expect(page.current_url).to eq('http://librarygiving.nd.edu/')
+  end
+
+  scenario 'Go to Library Jobs Page', :read_only, :smoke_test do
+    page.driver.browser.js_errors = false
+    visit '/'
+    within('.row.bottom-xs') do
+      click_on('Jobs')
+    end
+    last_opened_window = page.driver.browser.window_handles.last
+    page.driver.browser.switch_to_window(last_opened_window)
+    expect(page.current_url).to eq('https://alpha.library.nd.edu/employment/')
+  end
+
   scenario 'Load Pathfinder', :read_only, :smoke_test do
     page.driver.browser.js_errors = false
     visit '/architecture/'
