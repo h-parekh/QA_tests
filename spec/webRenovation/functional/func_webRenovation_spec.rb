@@ -67,6 +67,18 @@ feature 'User Browsing', js: true do
       expect(page).to have_css('iframe')
     end
   end
+
+  scenario 'Go to Workshops page' do
+    page.driver.browser.js_errors = false
+    visit '/'
+    find('#services').click
+    find_link('Workshops', href: '/workshops').trigger('click')
+    workshop = WebRenovation::Pages::WorkshopPage.new
+    expect(workshop).to be_on_page
+    click_on('Library Workshop Registration Portal')
+    calendar = WebRenovation::Pages::CalendarPage.new
+    expect(calendar).to be_on_page
+  end
 end
 
 feature 'Logged In User Browsing', js: true do
@@ -76,7 +88,7 @@ feature 'Logged In User Browsing', js: true do
     visit '/'
     find('.log-in-out').click
     login.completeLogin
-    accountpage = WebRenovation::Pages::AccountPage.new(loggedin: true)
+    accountpage = WebRenovation::Pages::AccountPage.new
     expect(accountpage).to be_on_page
   end
 
@@ -85,10 +97,10 @@ feature 'Logged In User Browsing', js: true do
     visit '/'
     find('.log-in-out').click
     login.completeLogin
-    accountPage = WebRenovation::Pages::AccountPage.new(loggedin: true)
+    accountPage = WebRenovation::Pages::AccountPage.new
     expect(accountPage).to be_on_page
     find_link('My Courses').click
-    coursesPage = WebRenovation::Pages::CoursesPage.new(loggedin: true)
+    coursesPage = WebRenovation::Pages::CoursesPage.new
     expect(coursesPage).to be_on_page
   end
 end
