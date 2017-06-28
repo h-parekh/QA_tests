@@ -4,10 +4,6 @@ module WebRenovation
       include Capybara::DSL
       include CapybaraErrorIntel::DSL
 
-      def initialize(loggedin=false)
-        @loggedin = loggedin
-      end
-
       def on_page?
         status_response_ok? &&
           valid_header? &&
@@ -26,17 +22,12 @@ module WebRenovation
 
         within('.uNavigation') do
           find_link('Home', href: '/').visible?
-          page.has_content?('Research')
-          page.has_content?('Services')
-          find_link('Libraries').visible?
-          page.has_content?('About')
-          within('.log-in-out') do
-            if @loggedin
-              page.has_link?('My Account', href: '/personal')
-              page.has_link?('Log Out', href: 'https://viceroy.library.nd.edu/logout?service=https://alpha.library.nd.edu/personal')
-            else
-              page.has_link?('Log In', href: '/personal')
-            end
+          page.has_selector?('#research')
+          page.has_selector?('#services')
+          page.has_selector?('#libraries')
+          page.has_selector?('#about')
+          within('.menu-link.user') do
+            page.has_link?('My Account', href: '/personal')
           end
           find('a', id: 'header-search-button').visible?
           find_link('Hours', href: '/hours').visible?
