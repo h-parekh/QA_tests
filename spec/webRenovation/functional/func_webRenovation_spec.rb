@@ -79,6 +79,17 @@ feature 'User Browsing', js: true do
     calendar = WebRenovation::Pages::CalendarPage.new
     expect(calendar).to be_on_page
   end
+
+  scenario 'Search using OneSearch from HomePage' do
+    page.driver.browser.js_errors = false
+    visit '/'
+    find('#header-search-button').click
+    expect(page).to have_selector('.current-search')
+    find_button('Search').trigger('click')
+    search = WebRenovation::Pages::SearchPage.new
+    sleep(1)
+    expect(search).to be_on_page
+  end
 end
 
 feature 'Logged In User Browsing', js: true do
