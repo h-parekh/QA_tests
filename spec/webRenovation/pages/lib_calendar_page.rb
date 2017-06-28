@@ -21,10 +21,10 @@ module WebRenovation
       end
 
       def correct_content?
-        page.has_selector?('.btn.dropdown-toggle.btn-default.btn-sm')
-        page.has_selector?('.btn.dropdown-toggle.bs-placeholder.btn-default.btn-sm')
-        page.has_selector?('#s-lc-c-d-m')
-        page.has_selector?('#s-lc-c-search')
+        page.has_selector?('.btn.dropdown-toggle.btn-default.btn-sm') &&
+        page.has_selector?('.btn.dropdown-toggle.bs-placeholder.btn-default.btn-sm') &&
+        page.has_selector?('#s-lc-c-dp-m') &&
+        page.has_selector?('#s-lc-c-search') &&
         page.has_selector?('.input-group-btn')
       end
 

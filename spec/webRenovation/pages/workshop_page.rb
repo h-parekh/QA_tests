@@ -11,7 +11,7 @@ module WebRenovation
       end
 
       def correct_content?
-        page.has_selector?('.librarian', minimum: 1)
+        page.has_selector?('.librarian', minimum: 1) &&
         page.has_link?('Library Workshop Registration Portal')
       end
     end
