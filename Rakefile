@@ -36,6 +36,7 @@ namespace :webRennovation do
       PROJECT_PATH = Pathname.new(File.expand_path('../', __FILE__))
       PATH_FOR_JSON_REPORTS = PROJECT_PATH.join('tmp/web-rennovation-accessibility-json')
       DATE_SUFFIX = Time.now.strftime('--on-%Y-%m-%d-at-%H-%M')
+      CONTENTFUL_CSV_FILENAME = PROJECT_PATH.join("tmp/contentful_slugs.csv").to_s
     end
 
     desc "Query contentful for all slugs that are accessible on the site"
@@ -55,14 +56,24 @@ namespace :webRennovation do
       )
 
       # Only content types with a slug have are addressable
-      CSV.open(PROJECT_PATH.join("tmp/contentful_slugs-2.csv"), "w+") do |csv|
+      CSV.open(CONTENTFUL_CSV_FILENAME, "w+") do |csv|
+        csv << ['SLUG', 'URL']
         client.content_types.each do |content_type|
           next unless content_type.fields.map(&:id).include?('slug')
+          dirname = begin
+            case content_type.id
+            when /^floor$/i
+              "floor/"
+            else
+              ""
+            end
+          end
           client.entries(
             'content_type' => content_type.id,
             'fields.slug[exists]' => true
           ).each do |entry|
-            csv << [entry.slug, File.join(WEB_RENNOVATION_URL, entry.slug)]
+            slug = File.join(dirname, entry.slug)
+            csv << [slug, File.join(WEB_RENNOVATION_URL, slug)]
           end
         end
       end
@@ -72,10 +83,10 @@ namespace :webRennovation do
     task run_lighthouse_against_urls_and_generate_csv: [:config, :check_lighthouse] do
       FileUtils.mkdir_p(PATH_FOR_JSON_REPORTS) unless PATH_FOR_JSON_REPORTS.exist?
       FileUtils.rm_rf(PATH_FOR_JSON_REPORTS.join('*.json'))
-      csv = CSV.read(PROJECT_PATH.join('tmp/contentful_slugs.csv').to_s, headers: true)
+      csv = CSV.read(CONTENTFUL_CSV_FILENAME, headers: true)
       csv.each do |line|
         url = line['URL'].strip
-        slug = line['SLUG'].strip
+        slug = line['SLUG'].strip.gsub('/', '-')
         system("lighthouse #{url} --output-path=#{PATH_FOR_JSON_REPORTS.join("#{slug}-#{DATE_SUFFIX}.json --output=json")}")
       end
     end

@@ -47,6 +47,8 @@ RSpec.configure do |config|
     ExampleLogging.current_logger = @current_logger
     InitializeExample.initialize_app_host(example: rspec_example, config: ENV)
     InitializeExample.initialize_capybara_drivers!
+    # Set the window size only after capybara drivers are initialized
+    ResponsiveHelpers.resize_window_default('landscape')
   end
 
   config.after(:example) do |rspec_example|
