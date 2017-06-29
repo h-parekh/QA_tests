@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 require 'fileutils'
+require 'example_logging_constants'
 
 module RunIdentifier
   # * Provides getter and setter methods to
@@ -129,6 +130,10 @@ module VerifyNetworkTraffic
           resource_hash = { url: response.url, status_code: response.status }
           failed_resources << resource_hash
           ExampleLogging.current_logger.error(context: "verifying_network_traffic", url: response.url, status_code: response.status)
+        elsif ! ENV['ALLOW_ALL_NETWORK_HOSTS'] && response.url =~ ExampleLogging::DISALLOWED_NETWORK_TRAFFIC_REGEXP
+          resource_hash = { url: response.url, status_code: response.status }
+          failed_resources << resource_hash
+          ExampleLogging.current_logger.error(context: "verifying_network_traffic", url: response.url, status_code: response.status, disallowed_network: "true")
         else
           ExampleLogging.current_logger.debug(context: "verifying_network_traffic", url: response.url, status_code: response.status)
         end
