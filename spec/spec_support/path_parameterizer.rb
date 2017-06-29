@@ -60,7 +60,7 @@ module PathParameterizer
     private
 
     def path_to_parameter_files
-      File.join(ENV.fetch(HOME), 'test_data/QA/parameters')
+      File.join(ENV.fetch('HOME'), 'test_data/QA/parameters')
     end
 
     def build_dictionary!
