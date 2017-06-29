@@ -37,6 +37,7 @@ namespace :webRennovation do
       PATH_FOR_JSON_REPORTS = PROJECT_PATH.join('tmp/web-rennovation-accessibility-json')
       DATE_SUFFIX = Time.now.strftime('--on-%Y-%m-%d-at-%H-%M')
       CONTENTFUL_CSV_FILENAME = PROJECT_PATH.join("tmp/contentful_slugs.csv").to_s
+      FileUtils.mkdir_p(PROJECT_PATH.join('tmp'))
     end
 
     desc "Query contentful for all slugs that are accessible on the site"
