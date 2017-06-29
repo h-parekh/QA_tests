@@ -2,10 +2,9 @@
 # This class provides a mechanism for adding header fields in a request
 # like authorization headers.
 require 'csv'
-require 'path_parameterizer'
 
 class RequestBuilder
-  attr_reader :current_logger
+  attr_reader :current_logger, :context
 
   def initialize(logger, operation, context: nil)
     @current_operation = operation
@@ -25,7 +24,7 @@ class RequestBuilder
   def apply_parameter_to_parameterized_path!
     @current_operation.path = PathParameterizer.call(
       application_name_under_test: current_logger.application_name_under_test,
-      current_logger: current_logger,
+      logger: current_logger,
       path: @current_operation.path,
       context: context
     )

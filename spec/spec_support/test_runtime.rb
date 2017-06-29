@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 require 'fileutils'
-require 'example_logging_constants'
 
 module RunIdentifier
   # * Provides getter and setter methods to
