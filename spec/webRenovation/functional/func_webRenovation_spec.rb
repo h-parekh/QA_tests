@@ -71,6 +71,32 @@ feature 'User Browsing', js: true do
     calendar = WebRenovation::Pages::CalendarPage.new
     expect(calendar).to be_on_page
   end
+
+  scenario 'Search using OneSearch from HomePage' do
+    page.driver.browser.js_errors = false
+    visit '/'
+    find('#header-search-button').click
+    find_button('Search').trigger('click')
+    search = WebRenovation::Pages::SearchPage.new
+    # waits for search to load fully
+    sleep(1)
+    expect(search).to be_on_page
+  end
+
+  scenario 'Search using ND Catalog from HomePage' do
+    page.driver.browser.js_errors = false
+    visit '/'
+    find('#header-search-button').click
+    find('.current-search').click
+    within('.uSearchOptionList') do
+      find('p', text: 'ND Catalog').click
+    end
+    find_button('Search').trigger('click')
+    search = WebRenovation::Pages::SearchPage.new
+    # waits for search to load fully
+    sleep(1)
+    expect(search).to be_on_page
+  end
 end
 
 feature 'Logged In User Browsing', js: true do
