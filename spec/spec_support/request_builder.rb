@@ -2,15 +2,17 @@
 # This class provides a mechanism for adding header fields in a request
 # like authorization headers.
 require 'csv'
+require 'path_parameterizer'
 
 class RequestBuilder
   attr_reader :current_logger
 
-  def initialize(logger, operation)
+  def initialize(logger, operation, context: nil)
     @current_operation = operation
     @security_name = get_security_name
     @token = get_token
     @current_logger = logger
+    @context = context
     apply_parameter_to_parameterized_path!
   end
 
@@ -21,27 +23,17 @@ class RequestBuilder
   end
 
   def apply_parameter_to_parameterized_path!
-    path_parameter = @current_operation.path.match(/\{(.*)\}/)
-    if path_parameter
-      current_logger.debug(context: "Operation contains path parameter", path: @current_operation.path)
-      sampled_parameter = get_path_parameter!
-      @current_operation.path = @current_operation.path.sub(path_parameter[0], sampled_parameter[0])
-      current_logger.debug(context: "Path parameter has been updated", path: @current_operation.path)
-    else
-      current_logger.debug(context: "Operation does not contain a path parameter", path: @current_operation.path)
-    end
-  end
-
-  def get_path_parameter!
-    user_home_dir = File.expand_path('~')
-    parameter_list = CSV.read(user_home_dir + "/test_data/QA/aleph_system_ids.csv")
-    parameter_list.sample
+    @current_operation.path = PathParameterizer.call(
+      application_name_under_test: current_logger.application_name_under_test,
+      current_logger: current_logger,
+      path: @current_operation.path,
+      context: context
+    )
   end
 
   def get_token
-    user_home_dir = File.expand_path('~')
     # Accesses the file to get the jwt token
-    yaml = YAML.load_file(File.join("#{user_home_dir}", 'test_data/QA/jwt_token.yml'))
+    yaml = YAML.load_file(File.join(ENV.fetch('HOME'), 'test_data/QA/jwt_token.yml'))
     yaml.fetch('token')
   end
 
