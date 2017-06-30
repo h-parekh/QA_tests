@@ -112,21 +112,19 @@ feature 'Logged In User Browsing', js: true do
   scenario 'Log In and View Checked Out/Pending Items' do
     page.driver.browser.js_errors = false
     visit '/'
-    find('.log-in-out').click
+    click_on('Login')
     login.completeLogin
-    accountpage = WebRenovation::Pages::AccountPage.new
+    accountpage = WebRenovation::Pages::AccountPage.new(loggedin: true)
     expect(accountpage).to be_on_page
   end
 
   scenario 'View Courses/Instructs' do
     page.driver.browser.js_errors = false
     visit '/'
-    find('.log-in-out').click
+    click_on('Login')
     login.completeLogin
-    accountPage = WebRenovation::Pages::AccountPage.new
-    expect(accountPage).to be_on_page
     find_link('My Courses').click
-    coursesPage = WebRenovation::Pages::CoursesPage.new
+    coursesPage = WebRenovation::Pages::CoursesPage.new(loggedin: true)
     expect(coursesPage).to be_on_page
   end
 end

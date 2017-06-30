@@ -4,6 +4,10 @@ module WebRenovation
       include Capybara::DSL
       include CapybaraErrorIntel::DSL
 
+      def initialize(loggedin: false)
+        @loggedin  = loggedin
+      end
+
       def on_page?
         status_response_ok? &&
           valid_header? &&
@@ -26,13 +30,13 @@ module WebRenovation
           page.has_selector?('#services')
           page.has_selector?('#libraries')
           page.has_selector?('#about')
-          within('.menu-link.user') do
-            page.has_link?('My Account', href: '/personal')
+          if @loggedin
+            page.has_link?('My Account')
+          else
+            page.has_link?('Login')
           end
           find('a', id: 'header-search-button').visible?
           find_link('Hours', href: '/hours').visible?
-          # Add assertions for Research, Services, Libraries, About  and all their drawer buttons
-          # Add assertions for search, ask us and hours
         end
       end
 
