@@ -74,7 +74,6 @@ feature 'User Browsing', js: true do
 
   scenario 'Search using OneSearch from HomePage' do
     visit '/'
-    find('#header-search-button').click
     find_button('Search').trigger('click')
     search = WebRenovation::Pages::SearchPage.new
     # waits for search to load fully
@@ -84,7 +83,6 @@ feature 'User Browsing', js: true do
 
   scenario 'Search using ND Catalog from HomePage' do
     visit '/'
-    find('#header-search-button').click
     find('.current-search').click
     within('.uSearchOptionList') do
       find('p', text: 'ND Catalog').click
@@ -98,16 +96,24 @@ feature 'User Browsing', js: true do
 
   scenario 'Search using CurateND from HomePage' do
     visit '/'
-    find('#header-search-button').click
     find('.current-search').click
     within('.uSearchOptionList') do
-      find('p', text: 'ND Catalog').click
+      find('p', text: 'CurateND').click
     end
     find_button('Search').trigger('click')
-    search = WebRenovation::Pages::SearchPage.new
-    # waits for search to load fully
+    sleep(2)
+    expect(current_url).to eq('https://curate.nd.edu/catalog?utf8=%E2%9C%93&amp;search_field=all_fields&amp;q=')
+  end
+
+  scenario 'Search using Library Website from HomePage' do
+    visit '/'
+    find('.current-search').click
+    within('.uSearchOptionList') do
+      find('p', text: 'Library Website').click
+    end
+    find_button('Search').trigger('click')
     sleep(1)
-    expect(search).to be_on_page
+    expect(current_url).to eq('https://search.nd.edu/search/?client=lib_site_srch&amp;q=')
   end
 end
 
