@@ -1,7 +1,5 @@
-# frozen_string_literal: true
 module WebRenovation
   module Pages
-    # /personal
     class TechnologyLendingPage < BasePage
       include Capybara::DSL
       include CapybaraErrorIntel::DSL
@@ -16,8 +14,12 @@ module WebRenovation
         current_url == (Capybara.app_host + 'technology-lending')
       end
       def correct_content?
-        expect(page).to have_css('h2', text:'Technology and Miscellaneous Equipment Lending')
-        expect(page).to have_css('h3', text:'Contact Info', minimum: 1)
+        within('.container-fluid.content-area') do
+          find('h2', text:'Technology and Miscellaneous Equipment Lending')
+          find('h3', text: 'Contact Info', minimum: 1)
+        end
+        #expect(page).to have_css('h2', text:'Technology and Miscellaneous Equipment Lending')
+        #expect(page).to have_css('h3', text:'Contact Info', minimum: 1)
       end
     end
   end

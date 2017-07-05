@@ -42,10 +42,10 @@ feature 'User Browsing', js: true do
   scenario 'Technology Lending Button', :read_only, :smoke_test do
     page.driver.browser.js_errors = false
     visit '/'
-    within('.row.services') do
-      find_link(title: 'Technology Lending').trigger('click')
+    within('.services.hservices') do
+      find_link(title:'Technology Lending').trigger('click')
     end
-    room_reservation = WebRenovation::Pages::TechnologyLendingPage.new
+    technology_lending = WebRenovation::Pages::TechnologyLendingPage.new
     expect(technology_lending).to be_on_page
   end
 
