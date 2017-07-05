@@ -10,6 +10,7 @@ module WebRenovation
       end
 
       def on_page?
+        sleep(2)
         valid_url? &&
         correct_content? &&
         valid_status?
