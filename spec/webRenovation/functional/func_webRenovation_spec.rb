@@ -15,7 +15,28 @@ feature 'User Browsing', js: true do
       find_by_id('research').trigger('click')
       click_on('Browse A-Z Databases')
     end
-    room_reservation = WebRenovation::Pages::AZDatabases.new
+    az_databases= WebRenovation::Pages::AZDatabases.new
+  end
+
+  scenario 'Find A-Z Subjects', :read_only, :smoke_test do
+    page.driver.browser.js_errors = false
+    visit '/'
+    within('.uNavigation') do
+      find_by_id('research').trigger('click')
+      click_on('Browse A-Z Subjects')
+    end
+    az_subjects = WebRenovation::Pages::AZSubjects.new
+  end
+
+  scenario 'Research Guides', :read_only, :smoke_test do
+    page.driver.browser.js_errors = false
+    visit '/'
+    within('.uNavigation') do
+      find_by_id('research').trigger('click')
+      click_on('Research Guides')
+    end
+    research_guides = WebRenovation::Pages::ResearchGuidesPage.new
+    expect(research_guides).to be_on_page
   end
 
   scenario 'Reserve a Room underneath Services Tab', :read_only, :smoke_test do

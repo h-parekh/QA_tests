@@ -18,8 +18,6 @@ module WebRenovation
           find('h2', text:'Technology and Miscellaneous Equipment Lending')
           find('h3', text: 'Contact Info', minimum: 1)
         end
-        #expect(page).to have_css('h2', text:'Technology and Miscellaneous Equipment Lending')
-        #expect(page).to have_css('h3', text:'Contact Info', minimum: 1)
       end
     end
   end
