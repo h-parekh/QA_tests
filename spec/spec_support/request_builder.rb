@@ -32,6 +32,13 @@ class RequestBuilder
       path: @current_operation.path,
       context: context
     )
+
+    @current_operation.path = PathParameterizer.call_query_parameterizer(
+      application_name_under_test: current_logger.application_name_under_test,
+      logger: current_logger,
+      operation: @current_operation,
+      context: context
+    )
   end
 
   def get_token
@@ -57,6 +64,7 @@ class RequestBuilder
     case @current_operation.verb.to_s
     when "get"
       current_logger.info(context: "making GET request", url: @current_operation.url)
+      require 'byebug'; debugger
       if security
         RestClient.public_send(@current_operation.verb, @current_operation.url, "#{@security_name}": "#{@token}")
       else
