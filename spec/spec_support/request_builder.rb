@@ -17,8 +17,12 @@ class RequestBuilder
 
   # Identifies if the API has security or not then sends request accordingly
   def check_security
-    schema = @current_operation.responses.values[0].schema.root
-    schema.keys.include?('securityDefinitions')
+    if @current_operation.responses.values[0].schema.nil?
+      return false
+    else
+      schema = @current_operation.responses.values[0].schema.root
+      schema.keys.include?('securityDefinitions')
+    end
   end
 
   def apply_parameter_to_parameterized_path!
@@ -88,8 +92,16 @@ class RequestBuilder
       end
     when "options"
       current_logger.info(context: "OPTIONS method - no request made")
+      create_mock_response_for_options
     else
       current_logger.info(context: "Unknown verb - no request made")
     end
+  end
+
+  def create_mock_response_for_options
+    mock_body = "{message: 'Mocked up body for 'options' method}"
+    mock_response = Net::HTTPResponse.new('1.1', '200', 'Mock message')
+    mock_request = RestClient::Request.new(url: 'http://example.com', method: :options)
+    RestClient::Response.create(mock_body, mock_response, mock_request)
   end
 end

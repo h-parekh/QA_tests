@@ -13,7 +13,7 @@ module PathParameterizer
   def self.call(logger:, application_name_under_test:, path:, context: nil)
     original_path = path
     parameters = path.scan(PARAMETER_TOKEN_REGEXP)
-    if parameters.nil?
+    if parameters.empty?
       logger.debug(context: "Path is not parameterized", path: path)
       return path
     else

@@ -8,6 +8,7 @@ class ResponseValidator
   end
 
   def valid_response?
+    return true if @current_result.request.method == 'options'
     status_response_ok? &&
       valid_schema?
   end
