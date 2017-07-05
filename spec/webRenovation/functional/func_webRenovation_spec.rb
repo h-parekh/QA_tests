@@ -72,8 +72,14 @@ feature 'User Browsing', js: true do
     expect(calendar).to be_on_page
   end
 
+  scenario 'Go to Hours Page' do
+    visit '/'
+    find_link('Hours', href: '/hours').click
+    hours = WebRenovation::Pages::HoursPage.new
+    expect(hours).to be_on_page
+  end
+
   scenario 'Search using OneSearch from HomePage' do
-    page.driver.browser.js_errors = false
     visit '/'
     find('#header-search-button').click
     find_button('Search').trigger('click')
@@ -84,7 +90,6 @@ feature 'User Browsing', js: true do
   end
 
   scenario 'Search using ND Catalog from HomePage' do
-    page.driver.browser.js_errors = false
     visit '/'
     find('#header-search-button').click
     find('.current-search').click
