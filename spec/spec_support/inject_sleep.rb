@@ -79,6 +79,19 @@ end
 class RSpec::Matchers::BuiltIn::Eq
   def match(expected, actual)
     actual == expected
+  rescue Capybara::ExpectationNotMet, Exception => e
+    # if error
     sleep(3)
+    begin
+      actual == expected
+    rescue Capybara::ExpectationNotMet
+      # if still error
+      sleep(5)
+      begin
+        actual == expected
+      rescue Capybara::ExpectationNotMet
+        return false
+      end
+    end
   end
 end
