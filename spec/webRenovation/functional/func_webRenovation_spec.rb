@@ -76,8 +76,6 @@ feature 'User Browsing', js: true do
     visit '/'
     find_button('Search').trigger('click')
     search = WebRenovation::Pages::SearchPage.new
-    # waits for search to load fully
-    sleep(1)
     expect(search).to be_on_page
   end
 
@@ -89,8 +87,6 @@ feature 'User Browsing', js: true do
     end
     find_button('Search').trigger('click')
     search = WebRenovation::Pages::SearchPage.new
-    # waits for search to load fully
-    sleep(1)
     expect(search).to be_on_page
   end
 
@@ -101,8 +97,6 @@ feature 'User Browsing', js: true do
       find('p', text: 'CurateND').click
     end
     find_button('Search').trigger('click')
-    # waits for search to load fully
-    sleep(2)
     expect(current_url).to eq('https://curate.nd.edu/catalog?utf8=%E2%9C%93&amp;search_field=all_fields&amp;q=')
   end
 
@@ -113,8 +107,6 @@ feature 'User Browsing', js: true do
       find('p', text: 'Library Website').click
     end
     find_button('Search').trigger('click')
-    #waits for search to load fully
-    sleep(1)
     expect(current_url).to eq('https://search.nd.edu/search/?client=lib_site_srch&amp;q=')
   end
 end

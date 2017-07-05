@@ -75,3 +75,10 @@ module Capybara::Node::Actions
     # solves the issue of nonworking click statements after fill_in statements
   end
 end
+
+class RSpec::Matchers::BuiltIn::Eq
+  def match(expected, actual)
+    actual == expected
+    sleep(3)
+  end
+end
