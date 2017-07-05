@@ -1,7 +1,5 @@
-# frozen_string_literal: true
 module WebRenovation
   module Pages
-    # /personal
     class AZSubjects < BasePage
       include Capybara::DSL
       include CapybaraErrorIntel::DSL
