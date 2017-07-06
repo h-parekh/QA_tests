@@ -13,8 +13,8 @@ module WebRenovation
       end
 
       def correct_content?
-        expect(page).to have_selector(".alphabet")
-        expect(page).to have_css('h2', text:'Databases: A')
+        page.has_selector?(".alphabet")
+        page.has_css?('h2', text:'Databases: A')
       end
 
     end
