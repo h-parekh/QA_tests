@@ -40,11 +40,10 @@ feature 'User Browsing', js: true do
   end
 
   scenario 'Reserve a Room underneath Services Tab', :read_only, :smoke_test do
-    page.driver.browser.js_errors = false
     visit '/'
     within('.uNavigation') do
       find_by_id('services').trigger('click')
-      click_on('Reserve a Room')
+      click_on('Reserve a meeting or event space')
     end
     room_reservation_services_tab = WebRenovation::Pages::RoomReservationServicesTabPage.new
     expect(room_reservation_services_tab).to be_on_page
