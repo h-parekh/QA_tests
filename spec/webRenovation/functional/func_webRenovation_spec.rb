@@ -171,10 +171,12 @@ feature 'Logged In User Browsing', js: true do
   end
 
   scenario 'View Courses/Instructs' do
+    # Does not run properly do to issues with
     visit '/'
     click_on('Login')
     login.completeLogin
-    find_link('My Courses').click
+    click_on('My Account')
+    find_link('Courses').click
     coursesPage = WebRenovation::Pages::CoursesPage.new(loggedin: true)
     expect(coursesPage).to be_on_page
   end

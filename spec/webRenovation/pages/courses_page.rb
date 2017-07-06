@@ -13,9 +13,9 @@ module WebRenovation
       end
 
       def correct_content?
-        find_link("My Items").visible?
-        page.assert_selector("a", text: "Course Guide", minimum: 1)
-        page.assert_selector("a", text: "Course Reserves", minimum: 1)
+        find_link("My Items").visible? &&
+        find_link("Log Out").visible? &&
+        find('h2', text: "Courses")
       end
 
       def on_valid_url?
