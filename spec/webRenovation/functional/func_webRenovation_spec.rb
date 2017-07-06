@@ -119,6 +119,7 @@ feature 'User Browsing', js: true do
 
   scenario 'Search using OneSearch from HomePage' do
     visit '/'
+    page.driver.browser.js_errors = false # Suprressing JS errors from OneSearch site
     find_button('Search').trigger('click')
     search = WebRenovation::Pages::SearchPage.new
     sleep(2)
@@ -131,6 +132,7 @@ feature 'User Browsing', js: true do
     within('.uSearchOptionList') do
       find('p', text: 'ND Catalog').click
     end
+    page.driver.browser.js_errors = false # Suprressing JS errors from OneSearch site
     find_button('Search').trigger('click')
     search = WebRenovation::Pages::SearchPage.new
     sleep(2)
