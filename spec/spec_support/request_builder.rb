@@ -32,6 +32,13 @@ class RequestBuilder
       path: @current_operation.path,
       context: context
     )
+
+    @current_operation.path = PathParameterizer.call_query_parameterizer(
+      application_name_under_test: current_logger.application_name_under_test,
+      logger: current_logger,
+      operation: @current_operation,
+      context: context
+    )
   end
 
   def get_token

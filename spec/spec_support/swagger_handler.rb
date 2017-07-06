@@ -70,5 +70,10 @@ class SwaggerHandler
       def responses
         @operation.responses
       end
+
+      def parameters
+        return [] if @operation.parameters.nil?
+        @operation.parameters
+      end
     end
 end

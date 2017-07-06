@@ -29,6 +29,27 @@ module PathParameterizer
     end
   end
 
+  def self.call_query_parameterizer(logger:, application_name_under_test:, operation:, context: nil)
+    current_operation = operation
+    query_parameters = current_operation.parameters
+    if query_parameters.empty?
+      logger.debug(context: "URL is not query parameterized", path: current_operation.path)
+      return current_operation.path
+    else
+      logger.debug(context: "URL is query parameterized")
+      finder = ParameterFinder.new(application_name_under_test: application_name_under_test)
+      query_parameters.flatten.each do |parameter|
+        value = finder.find(key: parameter.name, context: context)
+        if parameter.in == 'query'
+          logger.debug(context: "Appending #{current_operation.path} with ?#{parameter.name}", value: value)
+          current_operation.path = current_operation.path + '?' + parameter.name + '=' + value
+        end
+      end
+      logger.debug(context: "Using #{current_operation.path.inspect} as query parameterized URI", path: current_operation.path)
+      return current_operation.path
+    end
+  end
+
   # Responsible for coordinating finding of parameterized keys based on a given context
   #
   # This assumes that we have two YAML files:
