@@ -162,11 +162,12 @@ end
 
 feature 'Logged In User Browsing', js: true do
   let(:login) { LoginPage.new(current_logger) }
-  scenario 'Log In and View Checked Out/Pending Items' do
+  scenario 'View Checked Out/Pending Items' do
     visit '/'
     click_on('Login')
     login.completeLogin
-    accountpage = WebRenovation::Pages::AccountPage.new(loggedin: true)
+    click_on('My Account')
+    accountpage = WebRenovation::Pages::ItemsPage.new(loggedin: true)
     expect(accountpage).to be_on_page
   end
 
