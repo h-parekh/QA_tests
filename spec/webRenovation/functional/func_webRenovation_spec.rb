@@ -53,7 +53,7 @@ feature 'User Browsing', js: true do
     page.driver.browser.js_errors = false
     visit '/'
     within('.services.hservices') do
-      find_link(title: 'Reserve a Room').trigger('click')
+      find_link('Reserve a Room').trigger('click')
     end
     room_reservation = WebRenovation::Pages::RoomReservationPage.new
     expect(room_reservation).to be_on_page
