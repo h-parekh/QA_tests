@@ -156,7 +156,7 @@ feature 'User Browsing', js: true do
     end
     find_button('Search').trigger('click')
     sleep(2)
-    expect(current_url).to eq('https://search.nd.edu/search/?client=lib_site_srch&amp;q=')
+    expect(current_url).to eq('https://search.nd.edu/search/?client=lib_site_srch&site=library;q=')
   end
 end
 
