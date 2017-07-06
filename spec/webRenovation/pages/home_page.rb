@@ -39,11 +39,13 @@ module WebRenovation
       end
 
       def has_service_boxes?
-        within('.row.services') do
+        within('.services.hservices') do
           # Reserves
           find_link(href: '/courses')
           # ILL
           find_link(href: '/personal')
+          # Find Librarian
+          find_link(href: '/subject-librarians')
           # Reserve Room
           find_link(href: 'http://nd.libcal.com/#s-lc-box-2749-container-tab1')
           # Tech Lending
