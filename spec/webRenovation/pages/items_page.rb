@@ -2,7 +2,7 @@
 module WebRenovation
   module Pages
     # /personal
-    class AccountPage < BasePage
+    class ItemsPage < BasePage
       include Capybara::DSL
       include CapybaraErrorIntel::DSL
 
@@ -14,12 +14,13 @@ module WebRenovation
 
       def correct_content?
         page.has_link?('My Courses')
-        page.assert_selector("button", text: "VIEW IN ILL", minimum: 1)
-        page.assert_selector("div", text: "Due Date", minimum: 1)
+        find_link("Log Out").visible? &&
+        find('h2', text: "Items & Requests")
+        find('h3', text: 'Checked out')
+        find('h3', text: 'Pending')
       end
 
       def on_valid_url?
-        puts current_url
         current_url == (Capybara.app_host + "personal")
       end
 

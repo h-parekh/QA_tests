@@ -41,7 +41,7 @@ module WebRenovation
       end
 
       def has_location?
-        find('address').visible?
+        find('.contact').visible?
       end
     end
   end

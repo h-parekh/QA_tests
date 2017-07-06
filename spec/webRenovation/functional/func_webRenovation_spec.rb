@@ -42,7 +42,7 @@ feature 'User Browsing', js: true do
     visit '/'
     within('.uNavigation') do
       find_by_id('services').trigger('click')
-      click_on('Reserve a Room')
+      click_on('Reserve a meeting or event space')
     end
     room_reservation_services_tab = WebRenovation::Pages::RoomReservationServicesTabPage.new
     expect(room_reservation_services_tab).to be_on_page
@@ -51,7 +51,7 @@ feature 'User Browsing', js: true do
   scenario 'Reserve a Room Button', :read_only, :smoke_test do
     visit '/'
     within('.services.hservices') do
-      find_link(title: 'Reserve a Room').trigger('click')
+      find_link('Reserve a Room').trigger('click')
     end
     room_reservation = WebRenovation::Pages::RoomReservationPage.new
     expect(room_reservation).to be_on_page
@@ -159,19 +159,22 @@ end
 
 feature 'Logged In User Browsing', js: true do
   let(:login) { LoginPage.new(current_logger) }
-  scenario 'Log In and View Checked Out/Pending Items' do
+  scenario 'View Checked Out/Pending Items' do
     visit '/'
     click_on('Login')
     login.completeLogin
-    accountpage = WebRenovation::Pages::AccountPage.new(loggedin: true)
+    click_on('My Account')
+    accountpage = WebRenovation::Pages::ItemsPage.new(loggedin: true)
     expect(accountpage).to be_on_page
   end
 
   scenario 'View Courses/Instructs' do
+    # Does not run properly do to issues with
     visit '/'
     click_on('Login')
     login.completeLogin
-    find_link('My Courses').click
+    click_on('My Account')
+    find_link('Courses').click
     coursesPage = WebRenovation::Pages::CoursesPage.new(loggedin: true)
     expect(coursesPage).to be_on_page
   end
