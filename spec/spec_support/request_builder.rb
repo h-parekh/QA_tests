@@ -64,7 +64,6 @@ class RequestBuilder
     case @current_operation.verb.to_s
     when "get"
       current_logger.info(context: "making GET request", url: @current_operation.url)
-      require 'byebug'; debugger
       if security
         RestClient.public_send(@current_operation.verb, @current_operation.url, "#{@security_name}": "#{@token}")
       else
