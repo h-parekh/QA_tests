@@ -9,27 +9,26 @@ feature 'User Browsing', js: true do
   end
 
   scenario 'Find A-Z Databases', :read_only, :smoke_test do
-    page.driver.browser.js_errors = false
     visit '/'
     within('.uNavigation') do
       find_by_id('research').trigger('click')
       click_on('Browse A-Z Databases')
     end
     az_databases= WebRenovation::Pages::AZDatabases.new
+    expect(az_databases).to be_on_page
   end
 
   scenario 'Find A-Z Subjects', :read_only, :smoke_test do
-    page.driver.browser.js_errors = false
     visit '/'
     within('.uNavigation') do
       find_by_id('research').trigger('click')
       click_on('Browse A-Z Subjects')
     end
     az_subjects = WebRenovation::Pages::AZSubjects.new
+    expect(az_subjects).to be_on_page
   end
 
   scenario 'Research Guides', :read_only, :smoke_test do
-    page.driver.browser.js_errors = false
     visit '/'
     within('.uNavigation') do
       find_by_id('research').trigger('click')
@@ -40,7 +39,6 @@ feature 'User Browsing', js: true do
   end
 
   scenario 'Reserve a Room underneath Services Tab', :read_only, :smoke_test do
-    page.driver.browser.js_errors = false
     visit '/'
     within('.uNavigation') do
       find_by_id('services').trigger('click')
@@ -51,7 +49,6 @@ feature 'User Browsing', js: true do
   end
 
   scenario 'Reserve a Room Button', :read_only, :smoke_test do
-    page.driver.browser.js_errors = false
     visit '/'
     within('.services.hservices') do
       find_link(title: 'Reserve a Room').trigger('click')
@@ -61,7 +58,6 @@ feature 'User Browsing', js: true do
   end
 
   scenario 'Technology Lending Button', :read_only, :smoke_test do
-    page.driver.browser.js_errors = false
     visit '/'
     within('.services.hservices') do
       find_link(title:'Technology Lending').trigger('click')
