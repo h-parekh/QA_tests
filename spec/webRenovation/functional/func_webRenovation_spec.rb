@@ -15,6 +15,7 @@ feature 'User Browsing', js: true do
       click_on('Browse A-Z Databases')
     end
     az_databases= WebRenovation::Pages::AZDatabases.new
+    expect(az_databases).to be_on_page
   end
 
   scenario 'Find A-Z Subjects', :read_only, :smoke_test do
@@ -24,6 +25,7 @@ feature 'User Browsing', js: true do
       click_on('Browse A-Z Subjects')
     end
     az_subjects = WebRenovation::Pages::AZSubjects.new
+    expect(az_subjects).to be_on_page
   end
 
   scenario 'Research Guides', :read_only, :smoke_test do
