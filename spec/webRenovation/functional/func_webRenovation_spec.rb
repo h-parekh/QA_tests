@@ -210,15 +210,15 @@ feature 'User Navigation', js: true do
       librarylist = all('li')
       require 'byebug'; debugger
       librarylist.each do |library|
-
-        if library.href.include?(Capybara.app_host)
+        click_on(library.text)
+        last_opened_window = page.driver.browser.window_handles.last
+        if last_opened_window.current?
           require 'byebug'; debugger
-
-          click_on(library.text)
           find('.map').trigger('click')
           library_pages = WebRenovation::Pages::LibraryPages.new
           expect(library_pages).to be_on_page
         end
+
       end
     end
   end
