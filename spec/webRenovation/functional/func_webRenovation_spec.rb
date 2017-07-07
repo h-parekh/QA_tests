@@ -205,11 +205,21 @@ feature 'User Navigation', js: true do
     visit'/'
     within('.uNavigation') do
       find_by_id('libraries').trigger('click')
-      click_on('Hesburgh Library')
     end
-    find('.map').trigger('click')
-    library_pages = WebRenovation::Pages::LibraryPages.new
-    expect(library_pages).to be_on_page
-  end
+    within('.col-md-offset-2.col-md-3.col-sm-4') do
+      librarylist = all('li')
+      require 'byebug'; debugger
+      librarylist.each do |library|
 
+        if library.href.include?(Capybara.app_host)
+          require 'byebug'; debugger
+
+          click_on(library.text)
+          find('.map').trigger('click')
+          library_pages = WebRenovation::Pages::LibraryPages.new
+          expect(library_pages).to be_on_page
+        end
+      end
+    end
+  end
 end
