@@ -185,3 +185,13 @@ feature 'Logged In User Browsing', js: true do
     expect(coursesPage).to be_on_page
   end
 end
+
+feature 'User Navigation', js: true do
+  scenario 'All Feature in Tab', :read_only, :smoke_test do
+    visit '/'
+    header_all_checks = WebRenovation::Pages::HeaderAllChecks.new
+    expect(header_all_checks).to be_on_page
+  end
+
+
+end

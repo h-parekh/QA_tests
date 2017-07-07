@@ -9,12 +9,13 @@ module WebRenovation
       def on_page?
         super &&
         correct_content?
-
       end
 
       def correct_content?
-        page.has_selector?(".alphabet")
-        page.has_css?('h2', text:'Databases: A')
+        within('.container-fluid.content-area') do
+          page.has_selector?(".alphabet")
+          page.has_css?('h2', text:'Databases: A')
+        end
       end
 
     end
