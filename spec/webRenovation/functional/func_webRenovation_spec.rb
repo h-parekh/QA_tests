@@ -197,11 +197,19 @@ feature 'User Navigation', js: true do
     within('.uNavigation') do
       find_by_id('services').trigger('click')
       click_on('Thesis and Dissertation Camps')
-      #find_link(title:'Thesis and Dissertation Camps').trigger('click')
     end
     thesis_camp = WebRenovation::Pages::ThesisCampsCheck.new
     expect(thesis_camp).to be_on_page
   end
-
+  scenario 'Library Page Navigation', :read_only, :smoke_test do
+    visit'/'
+    within('.uNavigation') do
+      find_by_id('libraries').trigger('click')
+      click_on('Hesburgh Library')
+    end
+    find('.map').trigger('click')
+    library_pages = WebRenovation::Pages::LibraryPages.new
+    expect(library_pages).to be_on_page
+  end
 
 end
