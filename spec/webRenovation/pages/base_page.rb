@@ -5,7 +5,7 @@ module WebRenovation
       include CapybaraErrorIntel::DSL
 
       def initialize(loggedin: false)
-        @loggedin  = loggedin
+        @loggedin = loggedin
       end
 
       def on_page?
@@ -58,10 +58,12 @@ module WebRenovation
           find('h4', text:'Leadership')
         end
 
-        if @loggedin
-          page.has_link?('My Account')
-        else
-          page.has_link?('Login')
+        within('.menu-link.user') do
+          if @loggedin
+            find('.m', text: 'MY ACCOUNT')
+          else
+            find_link('Login')
+          end
         end
         find('a', id: 'header-search-button').visible?
         find_link('Hours', href: '/hours').visible?
