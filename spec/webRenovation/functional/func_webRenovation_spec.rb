@@ -162,9 +162,16 @@ feature 'User Browsing', js: true do
   end
 end
 
-
 feature 'Logged In User Browsing', js: true do
   let(:login) { LoginPage.new(current_logger) }
+  scenario 'Log In' do
+    visit '/'
+    click_on('Login')
+    login.completeLogin
+    logged_in_home = WebRenovation::Pages::HomePage.new(loggedin: true)
+    expect(logged_in_home).to be_on_page
+  end
+
   scenario 'View Checked Out/Pending Items' do
     visit '/'
     click_on('Login')
