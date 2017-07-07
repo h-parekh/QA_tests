@@ -23,21 +23,48 @@ module WebRenovation
         within('#banner') do
           find_link('Hesburgh Libraries', href: '/').visible?
         end
-
         within('.uNavigation') do
           find_link('Home', href: '/').visible?
-          page.has_selector?('#research')
-          page.has_selector?('#services')
-          page.has_selector?('#libraries')
-          page.has_selector?('#about')
-          if @loggedin
-            page.has_link?('My Account')
-          else
-            page.has_link?('Login')
-          end
-          find('a', id: 'header-search-button').visible?
-          find_link('Hours', href: '/hours').visible?
         end
+        within('.uNavigation') do
+          find_by_id('research').trigger('click')
+        end
+        within('.menu-drawer.visible') do
+          find('h4', text:'Research Support')
+          find('h4', text:'Unique Collections')
+        end
+        within('.uNavigation') do
+          find_by_id('services').trigger('click')
+        end
+        within('.menu-drawer.visible') do
+          find('h4', text:'Technology and Spaces')
+          find('h4', text:'Find, Borrow, Request')
+          find('h4', text:'Teaching and Consulting')
+        end
+        within('.uNavigation') do
+          find_by_id('libraries').trigger('click')
+        end
+        within('.menu-drawer.visible') do
+          find('h4', text:'Hesburgh Libraries')
+          find('h4', text:'Global Gateways')
+          find('h4', text:'Area Libraries')
+        end
+        within('.uNavigation') do
+          find_by_id('about').trigger('click')
+        end
+        within('.menu-drawer.visible') do
+          find('h4', text:'People')
+          find('h4', text:'Spaces')
+          find('h4', text:'Leadership')
+        end
+
+        if @loggedin
+          page.has_link?('My Account')
+        else
+          page.has_link?('Login')
+        end
+        find('a', id: 'header-search-button').visible?
+        find_link('Hours', href: '/hours').visible?
       end
 
       def valid_footer?

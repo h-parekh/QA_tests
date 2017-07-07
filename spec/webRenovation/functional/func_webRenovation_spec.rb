@@ -186,13 +186,7 @@ feature 'Logged In User Browsing', js: true do
   end
 end
 
-
 feature 'User Navigation', js: true do
-  scenario 'Header Tab Navigation', :read_only, :smoke_test do
-    visit '/'
-    header_checks = WebRenovation::Pages::HeaderChecks.new
-    expect(header_checks).to be_on_page
-  end
   scenario 'All Feature in Tab', :read_only, :smoke_test do
     visit '/'
     header_all_checks = WebRenovation::Pages::HeaderAllChecks.new
