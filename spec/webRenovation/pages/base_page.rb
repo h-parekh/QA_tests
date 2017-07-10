@@ -51,13 +51,14 @@ module WebRenovation
         end
         within('.uNavigation') do
           find_by_id('about').trigger('click')
+          within('.menu-drawer.visible') do
+            find('h4', text:'People')
+            find('h4', text:'Spaces')
+            find('h4', text:'Leadership')
+          end
+          # need to close 'About' tab or issues randomly pop up
+          find_by_id('about').trigger('click')
         end
-        within('.menu-drawer.visible') do
-          find('h4', text:'People')
-          find('h4', text:'Spaces')
-          find('h4', text:'Leadership')
-        end
-
         within('.menu-link.user') do
           if @loggedin
             find('.m', text: 'MY ACCOUNT')
