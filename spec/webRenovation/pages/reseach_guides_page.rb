@@ -6,7 +6,6 @@ module WebRenovation
       include CapybaraErrorIntel::DSL
 
       def on_page?
-        super &&
         on_valid_url? &&
         correct_content?
       end

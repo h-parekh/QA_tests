@@ -12,7 +12,7 @@ module WebRenovation
           has_valid_searchbox? &&
           has_service_boxes? &&
           has_news_and_events? &&
-          has_hours?
+          has_hours? &&
           valid_nd_header?
       end
 
@@ -45,7 +45,7 @@ module WebRenovation
           # ILL
           find_link(href: '/personal')
           # Find Librarian
-          find_link(href: '/subject-librarians')
+          find_link(href: 'http://library.nd.edu/directory/subjects')
           # Reserve Room
           find_link(href: 'http://nd.libcal.com/#s-lc-box-2749-container-tab1')
           # Tech Lending
@@ -65,7 +65,7 @@ module WebRenovation
       def has_hours?
         # Hours display mid page
         within('.hours-display') do
-          !find_link(href: "hours").text.nil?
+          !find_link(href: "/hours").text.nil?
         end
       end
     end
