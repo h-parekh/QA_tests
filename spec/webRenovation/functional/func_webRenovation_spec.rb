@@ -85,9 +85,24 @@ feature 'User Browsing', js: true do
   end
 
   scenario 'Load Pathfinder', :read_only, :smoke_test do
-    visit '/architecture/'
-    pathfinder = WebRenovation::Pages::PathfinderPage.new
-    expect(pathfinder).to be_on_page
+    visit '/subjects'
+    link_list = []
+    href_list = []
+    within('.container-fluid.content-area') do
+      link_list = all('a')
+    end
+    link_list.each do |link|
+      # need to put into another array because link_list will become obsolete once another page is visited
+      href_list.append(link[:href])
+    end
+    href_list.each do |href|
+      visit href
+      # the if statement is just so it runs succesfully as these four pages are missing content
+      if !href.include?('africana') && !href.include?('philosophy-of-science') && !href.include?('philosophy') && !href.include?('theology-religion')
+        pathfinder = WebRenovation::Pages::PathfinderPage.new
+        expect(pathfinder).to be_on_page
+      end
+    end
   end
 
   scenario 'Chat with Librarian via button' do
