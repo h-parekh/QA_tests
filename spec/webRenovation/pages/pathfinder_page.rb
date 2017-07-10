@@ -6,9 +6,9 @@ module WebRenovation
 
       def on_page?
         super &&
-          (has_services? ||
-          has_guides? ||
-          has_resources?) &&
+          has_services? &&
+          has_guides? &&
+          has_resources? &&
           has_location_hours? &&
           has_location? &&
           has_librarians?
@@ -16,19 +16,19 @@ module WebRenovation
 
       def has_services?
         within('.p-services') do
-          all('li', between: 1..3)
+          all('li', minimum: 1)
         end
       end
 
       def has_guides?
         within('.p-guides') do
-          all('li', between: 1..3)
+          all('li', minimum: 1)
         end
       end
 
       def has_resources?
         within('.p-resources') do
-          all('li', between: 1..3)
+          all('li', minimum: 1)
         end
       end
 
@@ -41,7 +41,7 @@ module WebRenovation
       end
 
       def has_location?
-        find('.contact').visible?
+        find('.point').visible?
       end
     end
   end
