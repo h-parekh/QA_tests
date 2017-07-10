@@ -215,5 +215,44 @@ feature 'User Navigation', js: true do
     expect(header_all_checks).to be_on_page
   end
 
+  scenario 'Thesis Camps', :read_only, :smoke_test do
+    visit '/'
+    within('.uNavigation') do
+      find_by_id('services').trigger('click')
+      click_on('Thesis and Dissertation Camps')
+    end
+    thesis_camp = WebRenovation::Pages::ThesisCampsCheck.new
+    expect(thesis_camp).to be_on_page
+  end
 
+  scenario 'Library Page Navigation', :read_only, :smoke_test do
+    visit'/'
+    within('.uNavigation') do
+      find_by_id('libraries').trigger('click')
+    end
+    librarylist = nil
+    within('.col-md-offset-2.col-md-3.col-sm-4') do
+      librarylist = all('a')
+    end
+    text_and_href_list = {}
+    # need only strings in a hash because the elements of librarylist become
+    # absolete after going to another page
+    librarylist.each do |library|
+      text_and_href_list[library.text] = library[:href]
+    end
+    # use the strings from the hash in order to make assertions
+    text_and_href_list.each do |pair|
+      if pair[1].include?(Capybara.app_host)
+        click_on(pair[0])
+        sleep(2)
+        within('.building') do
+          find('.map')
+        end
+        find_link('Home').trigger('click')
+        within('.uNavigation') do
+          find_by_id('libraries').trigger('click')
+        end
+      end
+    end
+  end
 end
