@@ -97,6 +97,7 @@ feature 'User Browsing', js: true do
     end
     href_list.each do |href|
       visit href
+      sleep(2)
       # the if statement is just so it runs succesfully as these four pages are missing content
       if !href.include?('africana') && !href.include?('philosophy-of-science') && !href.include?('philosophy') && !href.include?('theology-religion')
         pathfinder = WebRenovation::Pages::PathfinderPage.new
