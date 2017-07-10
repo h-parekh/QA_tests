@@ -6,8 +6,8 @@ module WebRenovation
 
       def on_page?
         super &&
-        on_valid_url? &&
-        correct_content?
+        correct_content? &&
+        on_valid_url? 
       end
 
       def on_valid_url?
@@ -15,8 +15,8 @@ module WebRenovation
       end
       def correct_content?
         within('.container-fluid.content-area') do
-          find('h2', text:'Technology and Miscellaneous Equipment Lending')
-          find('h3', text: 'Contact Info', minimum: 1)
+          page.has_css?('h2', text:'Technology and Miscellaneous Equipment Lending')
+          page.has_css?('h3', text: 'Contact Info', minimum: 1)
         end
       end
     end

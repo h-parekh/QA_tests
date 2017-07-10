@@ -11,11 +11,10 @@ module WebRenovation
       end
 
       def correct_content?
-        page.has_selector?('.location', text: 'Hesburgh Library')
+        page.has_selector?('.location', text: 'Hesburgh Library') 
         page.has_selector?('.location', text: 'Engineering Library')
         page.has_selector?('.location', text: 'O\'Meara Mathematics Library')
-        # comment below is a placeholder for that code until the bug on the webite is fixed(Medieval shown twice)
-        # page.has_selector?('.location', text: 'Medieval Institute Library')
+        page.has_selector?('.location', text: 'Medieval Institute Library')
         page.has_selector?('.location', text: 'Rare Books & Special Collections')
         page.has_selector?('.location', text: 'Chemistry-Physics Library')
         page.has_selector?('.location', text: 'Visual Resources Center')
