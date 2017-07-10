@@ -51,7 +51,7 @@ feature 'User Browsing', js: true do
   scenario 'Reserve a Room Button', :read_only, :smoke_test do
     visit '/'
     within('.services.hservices') do
-      find_link('Reserve a Room').trigger('click')
+      find_link(title: 'Reserve a Room').trigger('click')
     end
     room_reservation = WebRenovation::Pages::RoomReservationPage.new
     expect(room_reservation).to be_on_page
@@ -120,7 +120,7 @@ feature 'User Browsing', js: true do
     find_link('Workshops', href: '/workshops').trigger('click')
     workshop = WebRenovation::Pages::WorkshopPage.new
     expect(workshop).to be_on_page
-    click_on('Library Workshop Registration Portal')
+    find_link('Library Workshop Registration Portal').trigger('click')
     calendar = WebRenovation::Pages::CalendarPage.new
     expect(calendar).to be_on_page
   end
