@@ -16,7 +16,7 @@ module WebRenovation
       end
 
       def status_response_ok?
-        status_code == 200
+        status_code == 200 || status_code == 304
       end
 
       def valid_header?
