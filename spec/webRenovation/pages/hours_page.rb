@@ -11,7 +11,7 @@ module WebRenovation
       end
 
       def correct_content?
-        page.has_selector?('.location', text: 'Hesburgh Library') 
+        page.has_selector?('.location', text: 'Hesburgh Library')
         page.has_selector?('.location', text: 'Engineering Library')
         page.has_selector?('.location', text: 'O\'Meara Mathematics Library')
         page.has_selector?('.location', text: 'Medieval Institute Library')
@@ -25,7 +25,7 @@ module WebRenovation
       end
 
       def correct_url?
-        current_url == (Capybara.app_host + "hours")
+        current_url == File.join(Capybara.app_host, "hours")
       end
     end
   end

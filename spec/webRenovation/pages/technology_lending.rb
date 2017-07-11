@@ -7,11 +7,11 @@ module WebRenovation
       def on_page?
         super &&
         correct_content? &&
-        on_valid_url? 
+        on_valid_url?
       end
 
       def on_valid_url?
-        current_url == (Capybara.app_host + 'technology-lending')
+        current_url == File.join(Capybara.app_host, 'technology-lending')
       end
       def correct_content?
         within('.container-fluid.content-area') do
