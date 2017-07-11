@@ -2,12 +2,11 @@
 module WebRenovation
   module Pages
     # /personal
-    class LibraryGivingPage < BasePage
+    class LibraryGivingPage
       include Capybara::DSL
       include CapybaraErrorIntel::DSL
 
       def on_page?
-        super &&
         correct_content? &&
         on_valid_url?
       end
