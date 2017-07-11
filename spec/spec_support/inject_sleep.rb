@@ -33,7 +33,6 @@ module Capybara::Node::Matchers
       assert_selector(*args, &optional_filter_block)
     rescue Capybara::ExpectationNotMet
       # if still error
-      puts '*' * 80
       sleep(10)
       begin
         assert_selector(*args, &optional_filter_block)
