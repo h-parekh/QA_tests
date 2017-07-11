@@ -14,8 +14,7 @@ module WebRenovation
         page.has_selector?('.location', text: 'Hesburgh Library')
         page.has_selector?('.location', text: 'Engineering Library')
         page.has_selector?('.location', text: 'O\'Meara Mathematics Library')
-        # comment below is a placeholder for that code until the bug on the webite is fixed(Medieval shown twice)
-        # page.has_selector?('.location', text: 'Medieval Institute Library')
+        page.has_selector?('.location', text: 'Medieval Institute Library')
         page.has_selector?('.location', text: 'Rare Books & Special Collections')
         page.has_selector?('.location', text: 'Chemistry-Physics Library')
         page.has_selector?('.location', text: 'Visual Resources Center')
@@ -26,7 +25,7 @@ module WebRenovation
       end
 
       def correct_url?
-        current_url == (Capybara.app_host + "hours")
+        current_url == File.join(Capybara.app_host, "hours")
       end
     end
   end

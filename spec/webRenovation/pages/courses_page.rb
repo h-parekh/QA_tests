@@ -13,15 +13,14 @@ module WebRenovation
       end
 
       def correct_content?
-        find_link("My Items").visible? &&
-        find_link("Log Out").visible? &&
+        page.has_link?("My Items") &&
+        page.has_link?("Log Out") &&
         find('h2', text: "Courses")
       end
 
       def on_valid_url?
         current_url == (Capybara.app_host + "courses")
       end
-
     end
   end
 end

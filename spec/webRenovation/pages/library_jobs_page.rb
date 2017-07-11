@@ -8,7 +8,13 @@ module WebRenovation
 
       def on_page?
         super &&
+        correct_content? &&
         on_valid_url?
+      end
+
+      def correct_content?
+        page.has_css?('h2', text: 'Employment')
+        page.has_link?('Office of Human Resources, Employment Opportunities')
       end
 
       def on_valid_url?

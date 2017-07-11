@@ -17,7 +17,6 @@ module WebRenovation
           page.has_css?('h2', text:'Databases: A')
         end
       end
-
     end
   end
 end

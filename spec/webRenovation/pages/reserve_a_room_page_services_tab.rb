@@ -8,15 +8,18 @@ module WebRenovation
 
       def on_page?
         super &&
+        correct_content? &&
         on_valid_url?
       end
 
-      def on_valid_url?
-        last_opened_window = page.driver.browser.window_handles.last
-        page.driver.browser.switch_to_window(last_opened_window)
-        current_url == (Capybara.app_host + 'room-reservations')
+      def correct_content?
+        page.has_css?('h2', text: 'Reserve a Meeting or Event Space')
+        page.has_selector?('.librarian', minimum: 1)
       end
 
+      def on_valid_url?
+        current_url == File.join(Capybara.app_host, 'room-reservations')
+      end
     end
   end
 end

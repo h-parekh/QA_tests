@@ -2,12 +2,11 @@
 module WebRenovation
   module Pages
     # /personal
-    class RoomReservationPage < BasePage
+    class RoomReservationPage
       include Capybara::DSL
       include CapybaraErrorIntel::DSL
 
       def on_page?
-        super &&
         on_valid_url?
       end
 
@@ -18,7 +17,6 @@ module WebRenovation
         page.driver.browser.switch_to_window(last_opened_window)
         current_url == libcal_room_reservation
       end
-
     end
   end
 end
