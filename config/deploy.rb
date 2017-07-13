@@ -28,7 +28,9 @@ task :run_test do |task|
       if ENV['ROLES'] =~ /[^\w]?#{test_application}[^\w]?/
         info "Starting tests for #{test_application}"
         info `ENVIRONMENT=#{fetch(:target_env_for_test_application)} LOG_LEVEL=#{fetch(:log_level_for_running_test)} bundle exec rspec spec/#{test_application}`
+        status = $?.exitstatus
         info "Finished cap run_task for #{test_application}"
+        exit(status)
       end
     end
   end
