@@ -19,7 +19,7 @@ module WebRenovation
       end
 
       def on_valid_url?
-        current_url == (Capybara.app_host + "courses")
+        current_url == File.join(Capybara.app_host, "courses")
       end
     end
   end
