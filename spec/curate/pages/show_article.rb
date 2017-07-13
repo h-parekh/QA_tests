@@ -39,7 +39,7 @@ module Curate
         has_content?(@article_title)
         # Make sure that the Abstract and Attributes sections have text
         within("article.abstract.descriptive-text") do
-          find('p')
+          page.has_selector?("p", minimum: 1)
         end
         within("table.table.table-striped") do
           first('p')

@@ -132,7 +132,9 @@ feature 'Facet Navigation', js: true do
     ['Department or Unit', 'Collection'].shuffle.each do |facet_name|
       current_logger.info(context: "Processing Facet: #{facet_name}")
       expect(page).not_to have_selector("#ajax-modal", visible: true)
-      click_on(facet_name)
+      within('.facets') do
+        click_on(facet_name)
+      end
       expect(page).to have_selector('#ajax-modal', visible: true)
       expect(page).to have_content(facet_name)
       within('#ajax-modal') do
