@@ -1,3 +1,3 @@
 dev: http://monarch-dev-buckets-publishbucket-10kv3ppl67y13.s3-website-us-east-1.amazonaws.com/
 preprod: http://monarch-prepalpha-buckets-publishbucket-13eibwhf9qm5.s3-website-us-east-1.amazonaws.com/
-prod: https://alpha.library.nd.edu/
+prod: https://beta.library.nd.edu/
