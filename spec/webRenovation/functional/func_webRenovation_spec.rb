@@ -89,7 +89,7 @@ feature 'User Browsing', js: true do
     link_list = []
     href_list = []
     within('.container-fluid.content-area') do
-      link_list = all('a')
+      link_list = find('.row').all('a')
     end
     link_list.each do |link|
       # need to put into another array because link_list will become obsolete once another page is visited
