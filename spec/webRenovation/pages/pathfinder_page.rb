@@ -27,9 +27,7 @@ module WebRenovation
       end
 
       def has_resources?
-        within('.p-resources') do
-          all('li', minimum: 1)
-        end
+        first('.p-resources').has_selector?('li', minimum: 1)
       end
 
       def has_location_hours?
