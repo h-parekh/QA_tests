@@ -13,31 +13,32 @@ class SwaggerHandler
   def initialize(example_variable:, config:)
     @example_variable = example_variable
     @config = config
-    read_repo_config
-    read_git_access_token
+    set_project_config!
+    set_access_token_value!
   end
 
-  def operations(&block)
-    @swagger || download_and_load_definition!
-    @operations ||= @swagger.operations.map { |operation| SwaggerOperationDecorator.new(@swagger, operation) }
+  def operations
+    @operations ||= swagger.operations.map { |operation| SwaggerOperationDecorator.new(swagger, operation) }
   end
 
   private
 
-    def read_repo_config
+    def set_project_config!
       repo_config_file = YAML.load_file(File.expand_path("../../#{example_variable.application_name_under_test}/#{example_variable.application_name_under_test}_repo_config.yml", __FILE__))
       @project_user_name = repo_config_file.fetch('repo_url').split('/')[3]
       @project_repository_name = repo_config_file.fetch('repo_url').split('/')[4]
     end
 
-    def download_and_load_definition!
-      url_to_swagger_def = File.join('https://raw.githubusercontent.com/', @project_user_name, @project_repository_name, 'master', 'definitions', 'swagger.yml')
-      swagger_yaml = open(url_to_swagger_def, "Authorization" => "token #{@access_token_value}").read
-      @swagger = Swagger.build(swagger_yaml, format: :yaml)
+    def swagger
+      @swagger ||= begin
+        url_to_swagger_def = File.join('https://raw.githubusercontent.com/', @project_user_name, @project_repository_name, 'master', 'definitions', 'swagger.yml')
+        swagger_yaml = open(url_to_swagger_def, "Authorization" => "token #{@access_token_value}").read
+        Swagger.build(swagger_yaml, format: :yaml)
+      end
     end
 
     # This is a temporary implementation until I conosildate all configs using Figaro
-    def read_git_access_token
+    def set_access_token_value!
       user_home_dir = File.expand_path('~')
       git_access_config_file = YAML.load_file(File.join(user_home_dir.to_s, 'test_data/QA/git_access.yaml'))
       @access_token_value = git_access_config_file.fetch("access_token")
