@@ -29,17 +29,26 @@ module PathParameterizer
     end
   end
 
+  # Substite any parameterized variables in the given `operation#path` to actual parameters.
+  #
+  # @param [#debug] logger: responds to debug
+  # @param [String] application_name_under_test
+  # @param [SwaggerHandler::SwaggerOperationDecorator] operation: A SwaggerOperation object (e.g. #path, #parameters)
+  # @param [String, NilClass] context: for parameter substitution, what context should we narrow our search for the parameter
+  # @return [String] The transformed path based
   def self.call_query_parameterizer(logger:, application_name_under_test:, operation:, context: nil)
     current_operation = operation
-    query_parameters = current_operation.parameters
-    if query_parameters.empty?
+    parameters = current_operation.parameters
+    if parameters.empty?
       logger.debug(context: "URL is not query parameterized", path: current_operation.path)
       return current_operation.path
     else
       logger.debug(context: "URL is query parameterized")
       finder = ParameterFinder.new(application_name_under_test: application_name_under_test)
-      query_parameters.flatten.each do |parameter|
+      parameters.flatten.each do |parameter|
         value = finder.find(key: parameter.name, context: context)
+        # Are we processing a GET requests query parameter; If so the substitution is different.
+        # TODO: This will not work with multiple parameters
         if parameter.in == 'query'
           logger.debug(context: "Appending #{current_operation.path} with ?#{parameter.name}", value: value)
           current_operation.path = current_operation.path + '?' + parameter.name + '=' + value

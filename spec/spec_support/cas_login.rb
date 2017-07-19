@@ -10,9 +10,13 @@ class LoginPage
   attr_reader :current_logger
   attr_reader :account_details_updated
 
+  # When logging this file, we do not want to accidentally log the passwords
+  #
+  # @return [String] anonymized details of the user details (e.g. skip passwords)
   def inspect
-    "#<#{self.class} @userName=#{userName.inspect}>"
+    "#<#{self.class} @userName=#{userName.inspect} @account_details_updated=#{account_details_updated.inspect}>"
   end
+  alias to_s inspect
 
   def initialize(logger, account_details_updated: (updated_set = false))
     @account_details_updated = account_details_updated
