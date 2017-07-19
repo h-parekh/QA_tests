@@ -45,15 +45,20 @@ module PathParameterizer
     else
       logger.debug(context: "URL is query parameterized")
       finder = ParameterFinder.new(application_name_under_test: application_name_under_test)
+      query_parameters = []
       parameters.flatten.each do |parameter|
         value = finder.find(key: parameter.name, context: context)
         # Are we processing a GET requests query parameter; If so the substitution is different.
-        # TODO: This will not work with multiple parameters
         if parameter.in == 'query'
-          logger.debug(context: "Appending #{current_operation.path} with ?#{parameter.name}", value: value)
-          current_operation.path = current_operation.path + '?' + parameter.name + '=' + value
+          logger.debug(context: "Appending #{current_operation.path} with query parameter #{parameter.name}", value: value)
+          query_parameters += "#{parameter.name}=#{value}"
         end
       end
+
+      if query_parameters.any?
+        current_operation.path = current_operation.path + '?' + query_parameters.join("&")
+      end
+
       logger.debug(context: "Using #{current_operation.path.inspect} as query parameterized URI", path: current_operation.path)
       return current_operation.path
     end
