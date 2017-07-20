@@ -180,7 +180,7 @@ end
 
 feature 'Logged In User Browsing', js: true do
   let(:login) { LoginPage.new(current_logger) }
-  scenario 'Log In' do
+  scenario 'Log In', :validates_login do
     visit '/'
     click_on('Login')
     login.completeLogin
