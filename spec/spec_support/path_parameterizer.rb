@@ -51,7 +51,7 @@ module PathParameterizer
         # Are we processing a GET requests query parameter; If so the substitution is different.
         if parameter.in == 'query'
           logger.debug(context: "Appending #{current_operation.path} with query parameter #{parameter.name}", value: value)
-          query_parameters += "#{parameter.name}=#{value}"
+          query_parameters.push "#{parameter.name}=#{value}"
         end
       end
 
