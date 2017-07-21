@@ -18,8 +18,9 @@ class LoginPage
   end
   alias to_s inspect
 
-  def initialize(logger, account_details_updated: (updated_set = false))
+  def initialize(logger, account_details_updated: (updated_set = false), terms_of_service_accepted: (accepted = true))
     @account_details_updated = account_details_updated
+    @terms_of_service_accepted = terms_of_service_accepted
     @current_logger = logger
     credentials = CSV.read(ENV['HOME']+"/test_data/QA/TestCredentials.csv")
     # To remove the header (first element in the array) while maintaining array type
@@ -29,6 +30,10 @@ class LoginPage
     # updated_set will only be nil if test specifies account_details_updated in initialization
     if updated_set == nil
       flagged_credentials = credentials.select{ |entry| cast_to_boolean(entry[3]) == @account_details_updated }
+      # randomly selecting a value from the remaining entries
+      credentials_to_use = flagged_credentials.sample
+    elsif accepted == nil
+      flagged_credentials = credentials.select{ |entry| cast_to_boolean(entry[4]) == @terms_of_service_accepted }
       # randomly selecting a value from the remaining entries
       credentials_to_use = flagged_credentials.sample
     else
