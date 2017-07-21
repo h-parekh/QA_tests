@@ -2,7 +2,7 @@
 require 'sipity/sipity_spec_helper'
 
 feature 'First Time User', js: true do
-  let(:casLogin) { Sipity::Pages::CASLoginPage.new(current_logger, terms_of_service_accepted: false) }
+  let(:casLogin) { LoginPage.new(current_logger, terms_of_service_accepted: false) }
   scenario 'FIRST TIME User Sign In', js: true do
     sign_in
     welcome_page = Sipity::Pages::ETDWelcomePage.new
@@ -14,7 +14,7 @@ feature 'First Time User', js: true do
 end
 
 feature 'User Browsing', js: true do
-  let(:casLogin) { Sipity::Pages::CASLoginPage.new(current_logger, terms_of_service_accepted: true) }
+  let(:casLogin) { LoginPage.new(current_logger, terms_of_service_accepted: true) }
   scenario 'Visit Homepage' do
     visit_home
   end
@@ -74,7 +74,7 @@ def sign_in
     find_link('Sign in').click
   end
   expect(casLogin).to be_on_page
-  casLogin.complete_login
+  casLogin.completeLogin
 end
 
 def returning_user_sign_in

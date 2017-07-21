@@ -20,6 +20,7 @@ module Sipity
       end
 
       def valid_page_content?
+        find('.btn.btn-primary.login').click
         find("div.btn-group.my-actions").click
         find("div.btn-group.my-actions.open")
         has_content?("My Works")
