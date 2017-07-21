@@ -158,7 +158,7 @@ end
 
 feature 'Logged In User (Account details NOT updated) Browsing', js: true do
   let(:login_page) { LoginPage.new(current_logger, account_details_updated: false) }
-  scenario "Log in" do
+  scenario "Log in", :validates_login do
     visit '/'
     click_on('Log In')
     login_page.completeLogin
@@ -313,7 +313,7 @@ end
 
 feature 'Logged In User (Account details updated) Browsing', js: true do
   let(:login_page) { LoginPage.new(current_logger, account_details_updated: true) }
-  scenario "Log in" do
+  scenario "Log in", :validates_login do
     visit '/'
     click_on('Log In')
     login_page.completeLogin
