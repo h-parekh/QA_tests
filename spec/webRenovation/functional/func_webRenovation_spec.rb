@@ -12,7 +12,7 @@ feature 'User Browsing', js: true do
     visit '/'
     within('.uNavigation') do
       find_by_id('research').trigger('click')
-      click_on('Browse A-Z Databases')
+      click_on('Databases A-Z')
     end
     az_databases= WebRenovation::Pages::AZDatabases.new
     expect(az_databases).to be_on_page
@@ -22,7 +22,7 @@ feature 'User Browsing', js: true do
     visit '/'
     within('.uNavigation') do
       find_by_id('research').trigger('click')
-      click_on('Browse A-Z Subjects')
+      click_on('Subjects A-Z')
     end
     az_subjects = WebRenovation::Pages::AZSubjects.new
     expect(az_subjects).to be_on_page
@@ -42,7 +42,7 @@ feature 'User Browsing', js: true do
     visit '/'
     within('.uNavigation') do
       find_by_id('services').trigger('click')
-      click_on('Reserve a meeting or event space')
+      click_on('Reserve a Meeting or Event Space')
     end
     room_reservation_services_tab = WebRenovation::Pages::RoomReservationServicesTabPage.new
     expect(room_reservation_services_tab).to be_on_page
