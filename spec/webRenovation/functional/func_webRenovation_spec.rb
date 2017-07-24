@@ -99,8 +99,11 @@ feature 'User Browsing', js: true do
       visit href
       sleep(2)
       # the if statement is just so it runs succesfully as these four pages are missing content
-      if !href.include?('africana') && !href.include?('philosophy-of-science') && !href.include?('philosophy') && !href.include?('theology-religion')
+      if !href.include?('africana') && !href.include?('philosophy-of-science') && !href.include?('philosophy') && !href.include?('theology-religion') && !href.include?('east-asian-studies') && !href.include?('russian')
         pathfinder = WebRenovation::Pages::PathfinderPage.new
+        expect(pathfinder).to be_on_page
+      elsif !href.include?('philosophy') && !href.include?('theology-religion')
+        pathfinder = WebRenovation::Pages::PathfinderPage.new(general_pathfinder_format: false)
         expect(pathfinder).to be_on_page
       end
     end
