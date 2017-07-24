@@ -4,6 +4,11 @@ module WebRenovation
       include Capybara::DSL
       include CapybaraErrorIntel::DSL
 
+      def initialize(general_pathfinder_format: true)
+        @general_pathfinder_format = general_pathfinder_format
+      end
+
+
       def on_page?
         super &&
           has_services? &&
@@ -15,19 +20,29 @@ module WebRenovation
       end
 
       def has_services?
-        within('.p-services') do
-          all('li', minimum: 1)
+        if @general_pathfinder_format
+          first('.p-services').has_selector?('li', minimum: 1)
+        else
+          true
         end
       end
 
       def has_guides?
-        within('.p-guides') do
-          all('li', minimum: 1)
+        if @general_pathfinder_format
+          within('.p-guides') do
+            all('li', minimum: 1)
+          end
+        else
+          true
         end
       end
 
       def has_resources?
-        first('.p-resources').has_selector?('li', minimum: 1)
+        if @general_pathfinder_format
+          first('.p-resources').has_selector?('li', minimum: 1)
+        else
+          true
+        end
       end
 
       def has_location_hours?
