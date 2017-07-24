@@ -29,8 +29,25 @@ class ResponseValidator
     resolved_schema = response_schema.schema.root.definitions
     # Resolve definition properties
     schema_properties = resolved_schema.fetch("#{ref}").properties.keys
+      # While statement tests if definition of the the schema has more $ref to get keys from other schemas
+    while resolved_schema.fetch("#{ref}").properties.values[0].keys.include?('$ref')
+      # gets the keys from deeper level $ref path
+      key_ref = resolved_schema.fetch("#{ref}").properties.values[0].values[0]
+      # turns the $ref path into a specfic $ref
+      ref = key_ref.split('#/definitions/').join
+      # adds the keys from deeper level schema
+      schema_properties += resolved_schema.fetch("#{ref}").properties.keys
+    end
     # Parse result body as JSON and find the keys
     result_keys = JSON.parse(@current_result.body).keys
+    # finds the deeper level results keys for each key
+    result_keys.each do |key|
+      # if the class is not an array, it means there are no more keys at that level
+      if JSON.parse(@current_result.body)[key].class == Array
+        # adds the deeper level result keys to the result_keys list
+        result_keys += JSON.parse(@current_result.body)[key][0].keys
+      end
+    end
     # Making sure all the properties listed in Swagger definition
     # are present in the result body
     (schema_properties & result_keys).sort == schema_properties.sort
