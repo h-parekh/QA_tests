@@ -43,9 +43,9 @@ module WebRenovation
           # Reserves
           find_link(href: '/courses')
           # ILL
-          find_link(href: '/personal')
-          # Find Librarian
-          find_link(href: 'http://library.nd.edu/directory/subjects')
+          find_link(href: '/items-requests')
+          # Subjects A-Z
+          find_link(href: '/subjects')
           # Reserve Room
           find_link(href: 'http://nd.libcal.com/#s-lc-box-2749-container-tab1')
           # Tech Lending
