@@ -42,11 +42,11 @@ module WebRenovation
         within('.services.hservices') do
           # Course Reserves
           find_link(href: '/courses')
-          # My Account
+          # ILL
           find_link(href: '/items-requests')
-          # Find Your Librarian
-          find_link(href: 'http://directory.library.nd.edu/directory/subjects')
-          # Book a Study Room
+          # Subjects A-Z
+          find_link(href: '/subjects')
+          # Reserve Room
           find_link(href: 'http://nd.libcal.com/#s-lc-box-2749-container-tab1')
           # Tech Lending
           find_link(href: '/technology-lending')

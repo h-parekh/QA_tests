@@ -51,7 +51,7 @@ feature 'User Browsing', js: true do
   scenario 'Reserve a Room Button', :read_only, :smoke_test do
     visit '/'
     within('.services.hservices') do
-      find_link(title: 'Reserve a Room').trigger('click')
+      find_link(title: 'Reserve a Room', href: "http://nd.libcal.com/#s-lc-box-2749-container-tab1").trigger('click')
     end
     room_reservation = WebRenovation::Pages::RoomReservationPage.new
     expect(room_reservation).to be_on_page
