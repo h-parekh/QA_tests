@@ -16,7 +16,7 @@ module WebRenovation
       def correct_content?
         within('.container-fluid.content-area') do
           page.has_css?('h2', text:'Technology and Miscellaneous Equipment Lending')
-          page.has_css?('h3', text: 'Contact Info', minimum: 1)
+          page.has_selector?('.librarian', minimum: 1)
         end
       end
     end

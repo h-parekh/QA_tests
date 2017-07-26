@@ -40,7 +40,7 @@ module WebRenovation
 
       def has_service_boxes?
         within('.services.hservices') do
-          # Reserves
+          # Course Reserves
           find_link(href: '/courses')
           # ILL
           find_link(href: '/items-requests')
