@@ -150,7 +150,7 @@ feature 'Facet Navigation', js: true do
     ['Type_of_Work', 'Creator', 'Subject', 'Language', 'Publisher', 'Academic_Status'].shuffle.each do |facet_name|
       current_logger.info(context: "Processing Facet: #{facet_name}")
       expect(page).not_to have_css("ul.facets #collapse_#{facet_name}.in")
-      find("ul.facets a[data-target=\"#collapse_#{facet_name}\"]").click
+      find("ul.facets a[data-target=\"#collapse_#{facet_name}\"]").trigger('click')
       expect(page).to have_css("ul.facets #collapse_#{facet_name}.in .slide-list")
     end
   end
