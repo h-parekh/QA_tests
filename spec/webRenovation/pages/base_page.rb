@@ -46,7 +46,7 @@ module WebRenovation
         within('.menu-drawer.visible') do
           find('h4', text:'Hesburgh Libraries')
           find('h4', text:'Global Gateways')
-          find('h4', text:'Area Libraries')
+          find('h4', text:'Partner Libraries')
         end
         within('.uNavigation') do
           find_by_id('about').trigger('click')
