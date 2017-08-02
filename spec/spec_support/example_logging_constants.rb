@@ -5,5 +5,5 @@ module ExampleLogging
   DEFAULT_ENVIRONMENT = 'prod'.freeze
   DEFAULT_LOG_LEVEL = 'info'.freeze
   AVAILABLE_LOG_LEVELS = %w(debug info warn error fatal).freeze
-  DISALLOWED_NETWORK_TRAFFIC_REGEXP = /\.contentful\.com\//.freeze
+  DISALLOWED_NETWORK_TRAFFIC_REGEXP = /\.example\.com\//.freeze
 end
