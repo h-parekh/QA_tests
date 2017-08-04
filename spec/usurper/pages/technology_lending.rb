@@ -1,4 +1,4 @@
-module WebRenovation
+module Usurper
   module Pages
     class TechnologyLendingPage < BasePage
       include Capybara::DSL
