@@ -1,10 +1,10 @@
 # frozen_string_literal: true
-require 'webRenovation/webRenovation_spec_helper'
+require 'usurper/usurper_spec_helper'
 
 feature 'User Browsing', js: true do
   scenario 'Load Homepage', :read_only, :smoke_test do
     visit '/'
-    home_page = WebRenovation::Pages::HomePage.new
+    home_page = Usurper::Pages::HomePage.new
     expect(home_page).to be_on_page
   end
 
@@ -14,7 +14,7 @@ feature 'User Browsing', js: true do
       find_by_id('research').trigger('click')
       click_on('Databases A-Z')
     end
-    az_databases= WebRenovation::Pages::AZDatabases.new
+    az_databases= Usurper::Pages::AZDatabases.new
     expect(az_databases).to be_on_page
   end
 
@@ -24,7 +24,7 @@ feature 'User Browsing', js: true do
       find_by_id('research').trigger('click')
       click_on('Subjects A-Z')
     end
-    az_subjects = WebRenovation::Pages::AZSubjects.new
+    az_subjects = Usurper::Pages::AZSubjects.new
     expect(az_subjects).to be_on_page
   end
 
@@ -34,7 +34,7 @@ feature 'User Browsing', js: true do
       find_by_id('research').trigger('click')
       click_on('Research Guides')
     end
-    research_guides = WebRenovation::Pages::ResearchGuidesPage.new
+    research_guides = Usurper::Pages::ResearchGuidesPage.new
     expect(research_guides).to be_on_page
   end
 
@@ -44,7 +44,7 @@ feature 'User Browsing', js: true do
       find_by_id('services').trigger('click')
       click_on('Reserve a Meeting or Event Space')
     end
-    room_reservation_services_tab = WebRenovation::Pages::RoomReservationServicesTabPage.new
+    room_reservation_services_tab = Usurper::Pages::RoomReservationServicesTabPage.new
     expect(room_reservation_services_tab).to be_on_page
   end
 
@@ -53,7 +53,7 @@ feature 'User Browsing', js: true do
     within('.services.hservices') do
       find_link(title: 'Reserve a Room', href: "http://nd.libcal.com/#s-lc-box-2749-container-tab1").trigger('click')
     end
-    room_reservation = WebRenovation::Pages::RoomReservationPage.new
+    room_reservation = Usurper::Pages::RoomReservationPage.new
     expect(room_reservation).to be_on_page
   end
 
@@ -62,7 +62,7 @@ feature 'User Browsing', js: true do
     within('.services.hservices') do
       find_link(title:'Technology Lending').trigger('click')
     end
-    technology_lending = WebRenovation::Pages::TechnologyLendingPage.new
+    technology_lending = Usurper::Pages::TechnologyLendingPage.new
     expect(technology_lending).to be_on_page
   end
 
@@ -71,7 +71,7 @@ feature 'User Browsing', js: true do
     within('.row.bottom-xs') do
       click_on('Library Giving')
     end
-    library_giving = WebRenovation::Pages::LibraryGivingPage.new
+    library_giving = Usurper::Pages::LibraryGivingPage.new
     expect(library_giving).to be_on_page
   end
 
@@ -80,7 +80,7 @@ feature 'User Browsing', js: true do
     within('.row.bottom-xs') do
       click_on('Jobs')
     end
-    library_jobs = WebRenovation::Pages::LibraryJobsPage.new
+    library_jobs = Usurper::Pages::LibraryJobsPage.new
     expect(library_jobs).to be_on_page
   end
 
@@ -100,10 +100,10 @@ feature 'User Browsing', js: true do
       sleep(2)
       # the if statement is just so it runs succesfully as these four pages are missing content
       if !href.include?('africana') && !href.include?('philosophy-of-science') && !href.include?('philosophy') && !href.include?('theology-religion') && !href.include?('east-asian-studies') && !href.include?('russian')
-        pathfinder = WebRenovation::Pages::PathfinderPage.new
+        pathfinder = Usurper::Pages::PathfinderPage.new
         expect(pathfinder).to be_on_page
       elsif !href.include?('philosophy') && !href.include?('theology-religion')
-        pathfinder = WebRenovation::Pages::PathfinderPage.new(general_pathfinder_format: false)
+        pathfinder = Usurper::Pages::PathfinderPage.new(general_pathfinder_format: false)
         expect(pathfinder).to be_on_page
       end
     end
@@ -122,17 +122,17 @@ feature 'User Browsing', js: true do
     visit '/'
     find('#services').click
     find_link('Workshops', href: '/workshops').trigger('click')
-    workshop = WebRenovation::Pages::WorkshopPage.new
+    workshop = Usurper::Pages::WorkshopPage.new
     expect(workshop).to be_on_page
     find_link('Library Workshop Registration Portal').trigger('click')
-    calendar = WebRenovation::Pages::CalendarPage.new
+    calendar = Usurper::Pages::CalendarPage.new
     expect(calendar).to be_on_page
   end
 
   scenario 'Go to Hours Page' do
     visit '/'
     find_link('Hours', href: '/hours').click
-    hours = WebRenovation::Pages::HoursPage.new
+    hours = Usurper::Pages::HoursPage.new
     expect(hours).to be_on_page
   end
 
@@ -140,7 +140,7 @@ feature 'User Browsing', js: true do
     visit '/'
     page.driver.browser.js_errors = false # Suprressing JS errors from OneSearch site
     find_button('Search').trigger('click')
-    search = WebRenovation::Pages::SearchPage.new
+    search = Usurper::Pages::SearchPage.new
     sleep(2)
     expect(search).to be_on_page
   end
@@ -153,7 +153,7 @@ feature 'User Browsing', js: true do
     end
     page.driver.browser.js_errors = false # Suprressing JS errors from OneSearch site
     find_button('Search').trigger('click')
-    search = WebRenovation::Pages::SearchPage.new
+    search = Usurper::Pages::SearchPage.new
     sleep(2)
     expect(search).to be_on_page
   end
@@ -187,7 +187,7 @@ feature 'Logged In User Browsing', js: true do
     visit '/'
     click_on('Login')
     login.completeLogin
-    logged_in_home = WebRenovation::Pages::HomePage.new(loggedin: true)
+    logged_in_home = Usurper::Pages::HomePage.new(loggedin: true)
     expect(logged_in_home).to be_on_page
   end
 
@@ -196,7 +196,7 @@ feature 'Logged In User Browsing', js: true do
     click_on('Login')
     login.completeLogin
     click_on('My Account')
-    accountpage = WebRenovation::Pages::ItemsPage.new(loggedin: true)
+    accountpage = Usurper::Pages::ItemsPage.new(loggedin: true)
     expect(accountpage).to be_on_page
   end
 
@@ -207,7 +207,7 @@ feature 'Logged In User Browsing', js: true do
     login.completeLogin
     click_on('My Account')
     find_link('Courses').click
-    coursesPage = WebRenovation::Pages::CoursesPage.new(loggedin: true)
+    coursesPage = Usurper::Pages::CoursesPage.new(loggedin: true)
     expect(coursesPage).to be_on_page
   end
 end
@@ -215,7 +215,7 @@ end
 feature 'User Navigation', js: true do
   scenario 'All Feature in Tab', :read_only, :smoke_test do
     visit '/'
-    header_all_checks = WebRenovation::Pages::HeaderAllChecks.new
+    header_all_checks = Usurper::Pages::HeaderAllChecks.new
     expect(header_all_checks).to be_on_page
   end
 
@@ -225,7 +225,7 @@ feature 'User Navigation', js: true do
       find_by_id('services').trigger('click')
       click_on('Thesis and Dissertation Camps')
     end
-    thesis_camp = WebRenovation::Pages::ThesisCampsCheck.new
+    thesis_camp = Usurper::Pages::ThesisCampsCheck.new
     expect(thesis_camp).to be_on_page
   end
 

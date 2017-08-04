@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-require 'webRenovation/webRenovation_spec_helper'
+require 'usurper/usurper_spec_helper'
 require 'google_drive'
 
 feature 'User Browsing', js: true do

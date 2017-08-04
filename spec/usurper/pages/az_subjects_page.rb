@@ -1,4 +1,4 @@
-module WebRenovation
+module Usurper
   module Pages
     class AZSubjects < BasePage
       include Capybara::DSL

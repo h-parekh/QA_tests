@@ -1,5 +1,5 @@
 
-module WebRenovation
+module Usurper
   module Pages
     class ResearchGuidesPage < BasePage
       include Capybara::DSL

@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-module WebRenovation
+module Usurper
   module Pages
     # /personal
     class ThesisCampsCheck < BasePage

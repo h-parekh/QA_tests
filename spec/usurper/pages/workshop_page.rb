@@ -1,4 +1,4 @@
-module WebRenovation
+module Usurper
   module Pages
     # / page for library workshops
     class WorkshopPage < BasePage

@@ -1,8 +1,8 @@
 # frozen_string_literal: true
-module WebRenovation
+module Usurper
   module Pages
     # /personal
-    class CoursesPage < BasePage
+    class ItemsPage < BasePage
       include Capybara::DSL
       include CapybaraErrorIntel::DSL
 
@@ -13,14 +13,17 @@ module WebRenovation
       end
 
       def correct_content?
-        page.has_link?("My Items") &&
+        page.has_link?('My Courses') &&
         page.has_link?("Log Out") &&
-        find('h2', text: "Courses")
+        find('h2', text: "Items & Requests").visible? &&
+        find('h3', text: 'Checked out').visible? &&
+        find('h3', text: 'Pending').visible?
       end
 
       def on_valid_url?
-        current_url == File.join(Capybara.app_host, "courses")
+        current_url == File.join(Capybara.app_host, "items-requests")
       end
+
     end
   end
 end

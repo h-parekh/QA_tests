@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-require 'usurper/usurper_spec_helper'
+require 'contentful/contentful_spec_helper'
 
 feature 'Test for Usurper content management API' do
   scenario "Creates, previews, and deletes an entry" do
