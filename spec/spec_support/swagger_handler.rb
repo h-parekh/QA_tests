@@ -34,6 +34,22 @@ class SwaggerHandler
         url_to_swagger_def = File.join('https://raw.githubusercontent.com/', @project_user_name, @project_repository_name, 'master', 'definitions', 'swagger.yml')
         swagger_yaml = open(url_to_swagger_def, "Authorization" => "token #{@access_token_value}").read
         Swagger.build(swagger_yaml, format: :yaml)
+      rescue ArgumentError
+        unreadable_swagger_file = YAML.load(swagger_yaml)
+        swagger_yaml = check_for_nested_swagger_def(unreadable_swagger_file)
+        Swagger.build(swagger_yaml, format: :json)
+      end
+    end
+
+    def check_for_nested_swagger_def(unreadable_swagger_file)
+      hash_to_search = unreadable_swagger_file
+      key = 'swagger'
+      if hash_to_search.respond_to?(:key?) && hash_to_search.key?(key)
+        hash_to_search.to_json
+      elsif hash_to_search.respond_to?(:each)
+        subset_of_hash_to_search = nil
+        hash_to_search.find{ |*a| subset_of_hash_to_search=check_for_nested_swagger_def(a.last) }
+        subset_of_hash_to_search
       end
     end
 
