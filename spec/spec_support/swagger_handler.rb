@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 # This class provides a mechanism to load swagger definition given a project repository
-# It leverages methods exposed by the gem 'swagger-rb'
-#   https://github.com/swagger-rb/swagger-rb
+# It leverages methods exposed by the gem 'swagger-parser'
+#   https://github.com/alexpjohnson/swagger-parser
 class SwaggerHandler
   def self.operations(for_file_path:, config: ENV)
     @registry ||= {}
