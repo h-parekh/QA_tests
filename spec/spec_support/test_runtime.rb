@@ -49,10 +49,15 @@ module InitializeExample
     if valid_url?(@example_variable.environment_under_test)
       Capybara.app_host = @example_variable.environment_under_test
     else
-      servers_by_environment = YAML.load_file(
-        File.expand_path("./#{@example_variable.application_name_under_test}/#{@example_variable.application_name_under_test}_config.yml", @example_variable.path_to_spec_directory)
-      )
-      Capybara.app_host = servers_by_environment.fetch(@example_variable.environment_under_test)
+      begin
+        path_to_environment_config_file = File.expand_path("./#{@example_variable.application_name_under_test}/#{@example_variable.application_name_under_test}_config.yml", @example_variable.path_to_spec_directory)
+        servers_by_environment = YAML.load_file(path_to_environment_config_file)
+        Capybara.app_host = servers_by_environment.fetch(@example_variable.environment_under_test)
+      rescue KeyError => e
+        ExampleLogging.current_logger.error(context: "Key '#{@example_variable.environment_under_test}' not found in config file", location_of_config_file: "#{path_to_environment_config_file}")
+        ExampleLogging.current_logger.error(context: "Provide a valid URL that starts with 'https' or use pre-configured config keys: #{servers_by_environment}")
+        exit!
+      end
     end
   end
 
