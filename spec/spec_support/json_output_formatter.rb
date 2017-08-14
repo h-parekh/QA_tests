@@ -9,9 +9,11 @@ class JsonOutputFormatter < RSpec::Core::Formatters::JsonFormatter
   RSpec::Core::Formatters.register self
 
   def close(notification)
-    @output_hash[:runID] ||= "#{RunIdentifier.get}"
+    if @output_hash.fetch(:messages).find{ |e| /31mLoadError/ =~ e }.nil?
+      @output_hash[:runID] ||= "#{RunIdentifier.get}"
+      report_json_result
+    end
     output.write JSON.pretty_generate(@output_hash)
-    report_json_result
   end
 
   def report_json_result
