@@ -235,7 +235,7 @@ feature 'User Navigation', js: true do
       find_by_id('libraries').trigger('click')
     end
     librarylist = nil
-    within('.col-md-offset-2.col-md-3.col-sm-4') do
+    within('.col-md-offset-2.col-md-3') do
       librarylist = all('a')
     end
     text_and_href_list = {}

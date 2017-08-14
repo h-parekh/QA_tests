@@ -22,15 +22,10 @@ module Usurper
       end
 
       def correct_content?
-        page.has_link?('Hesburgh Libraries', href: '//library.nd.edu/') &&
         page.has_selector?('#exlidUserAreaRibbon') &&
         page.has_selector?('#exlidMainMenuRibbon') &&
         page.has_selector?('.tab.onesearch.EXLSearchTabTitle.EXLSearchTabLABELOneSearch') &&
         page.has_selector?('.tab.ndcatalog.EXLSearchTabTitle.EXLSearchTabLABELND.Campus') &&
-        page.has_selector?('#tab_art_l.tab') &&
-        page.has_selector?('#tab_jou_l.tab') &&
-        page.has_selector?('#tab_dat_l.tab') &&
-        page.has_selector?('.tab.EXLSearchTabTitle.EXLSearchTabLABELeBooks') &&
         page.has_selector?('#goButton') &&
         if current_url == @nd_catlog_search_url
           page.has_selector?('#showMoreOptions') &&

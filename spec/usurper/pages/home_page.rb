@@ -42,10 +42,10 @@ module Usurper
         within('.services.hservices') do
           # Course Reserves
           find_link(href: '/courses')
-          # ILL
+          # My Account
           find_link(href: '/items-requests')
-          # Subjects A-Z
-          find_link(href: '/subjects')
+          # Find your librarian
+          find_link(href: 'http://directory.library.nd.edu/directory/subjects')
           # Reserve Room
           find_link(href: 'http://nd.libcal.com/#s-lc-box-2749-container-tab1')
           # Tech Lending
