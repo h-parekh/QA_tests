@@ -18,3 +18,9 @@ Capybara.register_driver :poltergeist do |app|
      }
   Capybara::Poltergeist::Driver.new(app, options)
 end
+
+RSpec.configure do |config|
+  config.before(:example) do
+    InitializeExample.require_version_number
+  end
+end

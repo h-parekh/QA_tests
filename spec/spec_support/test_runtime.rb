@@ -85,6 +85,18 @@ module InitializeExample
     Capybara.current_driver = @capybara_driver_name
     Capybara.javascript_driver = @capybara_driver_name
   end
+
+  # Checks for existence of VERSION_NUMBER in ENV config, and exits if it's not found
+  # NOTE: This method is ONLY being called from application specific spec helpers for
+  # those applications where asserting for version numbers of is required
+  # Example: spec/usurper/usurper_spec_helper.rb
+  def self.require_version_number
+    if ENV['VERSION_NUMBER'].nil?
+      ExampleLogging.current_logger.error(context: "VERSION_NUMBER not found in ENV config")
+      ExampleLogging.current_logger.error(context: "Provide VERSION_NUMBER of application being tested")
+      exit!
+    end
+  end
 end
 
 module ErrorReporter
