@@ -11,7 +11,8 @@ module Usurper
       def on_page?
         status_response_ok? &&
           valid_header? &&
-          valid_footer?
+          valid_footer? &&
+          valid_version?
       end
 
       def status_response_ok?
@@ -82,6 +83,18 @@ module Usurper
         within('#chat') do
           find('a.chat-button').visible?
         end
+      end
+
+      def valid_version?
+        # I could have done this implementation with find_by_id("nd-version"),
+        # but that approach does not let me assert on the version number in the 'content' attribute
+        # of meta tags. That's because Capybara does not support :content option in it's have_selector? method
+        # So I'm using string interpolation to assert on the entire selector
+        # Reference: https://stackoverflow.com/questions/12801463/capture-and-assert-meta-tags-in-rspec
+        # Reference: https://joanswork.com/rspec-test-specific-meta-tag-content/
+        expected_version = ENV['VERSION_NUMBER']
+        version_meta_tag = "meta[id=\"nd-version\"][content=\"#{expected_version}\"]"
+        find(version_meta_tag, visible: false)
       end
     end
   end
