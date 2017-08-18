@@ -45,7 +45,7 @@ module Usurper
           # My Account
           find_link(href: '/items-requests')
           # Find your librarian
-          find_link(href: 'http://directory.library.nd.edu/directory/subjects')
+          find_link(href: '/subjects')
           # Reserve Room
           find_link(href: 'http://nd.libcal.com/#s-lc-box-2749-container-tab1')
           # Tech Lending
