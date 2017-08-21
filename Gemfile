@@ -13,6 +13,7 @@ group :testcontroller do
   gem 'capybara'
   gem 'poltergeist'
   gem 'capybara_error_intel'
+  gem 'capybara-maleficent'
   gem 'rubocop', require: false
   gem 'rubocop-rspec'
   gem 'capybara-screenshot'
