@@ -16,6 +16,8 @@ Your local machine will need the following setup to be able to run these tests f
 7. Poltergeist 1.11.0 - chosen web driver for using with capybara
 8. Nokogiri 1.6.8.1 - for XML tree parsing and navigation
 9. Verify that `ssh app@testcontroller01.library.nd.edu` works
+10. Chrome (Version 60.* or above)
+11. chromedriver (Version 2.3.1 or above)
 
 ## Installation Phantomjs and Phantomenv install
 PhantomJS is a headless WebKit scriptable with a JavaScript API. It has fast and native support for various web standards: DOM handling, CSS selector, JSON, Canvas, and SVG.
@@ -209,6 +211,11 @@ verify network traffic.
 SKIP_VERIFY_NETWORK_TRAFFIC=true ./bin/run_tests spec/curate/functional/func_curate_spec.rb
 ```
 
+CHROME_HEADLESS: Using this toggle allows you to run tests using Selenium webdriver and Chrome headless.
+NOTE: This ecosystem is still work in progress and some assertions will fail (ex: status_code, response_headers)
+```console
+CHROME_HEADLESS=true ./bin/run_tests spec/curate/functional/func_curate_spec.rb
+```
 ## Running Rubocop
 
 Rubocop is install and configured to report any offenses in code. It is recommended to run rubocop on local machine before sending in pull request. Here is basic usage

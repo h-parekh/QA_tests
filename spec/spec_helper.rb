@@ -12,6 +12,7 @@ require 'rspec/logging_helper'
 require 'swagger'
 require 'open-uri'
 require 'airborne'
+require 'selenium-webdriver'
 
 # Auto-require all files in spec support
 Dir.glob(File.expand_path('../spec_support/**/*.rb', __FILE__)).each { |filename| require filename }
