@@ -81,9 +81,27 @@ module InitializeExample
   DEFAULT_CAPYBARA_DRIVER = :poltergeist
 
   def self.initialize_capybara_drivers!
-    @capybara_driver_name = CAPYBARA_DRIVER_MAP.fetch(@example_variable.application_name_under_test, :poltergeist)
+    if ENV['CHROME_HEADLESS']
+      initialize_chrome_headless_driver
+      @capybara_driver_name = :chrome_headless
+    else
+      @capybara_driver_name = CAPYBARA_DRIVER_MAP.fetch(@example_variable.application_name_under_test, :poltergeist)
+    end
     Capybara.current_driver = @capybara_driver_name
     Capybara.javascript_driver = @capybara_driver_name
+  end
+
+  def self.initialize_chrome_headless_driver
+    Capybara.register_driver :chrome_headless do |app|
+    capabilities = Selenium::WebDriver::Remote::Capabilities.chrome(
+      chromeOptions: {
+        args: %w[ no-sandbox headless disable-gpu ]
+      }
+    )
+    Capybara::Selenium::Driver.new(app,
+                                browser: :chrome,
+                                desired_capabilities: capabilities)
+    end
   end
 
   # Checks for existence of VERSION_NUMBER in ENV config, and exits if it's not found
