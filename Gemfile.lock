@@ -41,6 +41,9 @@ GEM
       rack (>= 1.0.0)
       rack-test (>= 0.5.4)
       xpath (~> 2.0)
+    capybara-maleficent (0.1.0)
+      activesupport (>= 4.2.0)
+      capybara (~> 2.13)
     capybara-screenshot (1.0.14)
       capybara (>= 1.0, < 3)
       launchy
@@ -213,6 +216,7 @@ DEPENDENCIES
   capistrano
   capistrano-bundler
   capybara
+  capybara-maleficent
   capybara-screenshot
   capybara_error_intel
   contentful
