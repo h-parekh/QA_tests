@@ -25,49 +25,24 @@ module Usurper
         end
         within('.uNavigation') do
           find_link('Home', href: '/').visible?
-        end
-        within('.uNavigation') do
           find_by_id('research').trigger('click')
-        end
-        within('.menu-drawer.visible') do
-          find('h4', text:'Research Support')
-          find('h4', text:'Unique Collections')
-        end
-        within('.uNavigation') do
+          menu_drawer_has_content?
           find_by_id('services').trigger('click')
-        end
-        within('.menu-drawer.visible') do
-          find('h4', text:'Technology and Spaces')
-          find('h4', text:'Find, Borrow, Request')
-          find('h4', text:'Teaching and Consulting')
-        end
-        within('.uNavigation') do
+          menu_drawer_has_content?
           find_by_id('libraries').trigger('click')
-        end
-        within('.menu-drawer.visible') do
-          find('h4', text:'Hesburgh Libraries')
-          find('h4', text:'Global Gateways')
-          find('h4', text:'Partner Libraries')
-        end
-        within('.uNavigation') do
+          menu_drawer_has_content?
           find_by_id('about').trigger('click')
-          within('.menu-drawer.visible') do
-            find('h4', text:'People')
-            find('h4', text:'Spaces')
-            find('h4', text:'Leadership')
-          end
+          menu_drawer_has_content?
           # need to close 'About' tab or issues randomly pop up
           find_by_id('about').trigger('click')
-        end
-        within('.menu-link.user') do
           if @loggedin
             find('.m', text: 'MY ACCOUNT')
           else
             find_link('Login')
           end
+          find('a', id: 'header-search-button').visible?
+          find_link('Hours', href: '/hours').visible?
         end
-        find('a', id: 'header-search-button').visible?
-        find_link('Hours', href: '/hours').visible?
       end
 
       def valid_footer?
@@ -95,6 +70,18 @@ module Usurper
         expected_version = ENV['VERSION_NUMBER']
         version_meta_tag = "meta[id=\"nd-version\"][content=\"#{expected_version}\"]"
         find(version_meta_tag, visible: false)
+      end
+
+      # This is a generic method to validate that each of the menu subdrawers for
+      # 'Research', 'Services', 'Libraries' and 'About' menu links have valid columns and links.
+      # This approach loosens the assertion because it only checks for existence, but is
+      # more maintainable since the text and links will keep changing in Contentful
+      def menu_drawer_has_content?
+        within('.menu-drawer.visible') do
+          all('.col-md-3').each do
+            all('li').any?
+          end
+        end
       end
     end
   end
