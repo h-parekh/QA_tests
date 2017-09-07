@@ -8,7 +8,6 @@ module Usurper
       def on_page?
         super &&
           on_valid_url? &&
-          has_nd_branding? &&
           has_valid_searchbox? &&
           has_service_boxes? &&
           has_news_and_events? &&
@@ -20,16 +19,12 @@ module Usurper
         current_url == Capybara.app_host || current_url == (Capybara.app_host + "/")
       end
 
+      # These links are only visible on the home page, and not on any other pages of the site
+      # So I'm not asserting for them in the BasePage module
       def valid_nd_header?
         within('#header') do
           find_link('University of Notre Dame', href: 'http://nd.edu').visible? &&
             find_link('Office of the Provost', href: 'http://provost.nd.edu').visible?
-        end
-      end
-
-      def has_nd_branding?
-        within('#wrapper') do
-          find_link('University of Notre Dame').visible?
         end
       end
 
