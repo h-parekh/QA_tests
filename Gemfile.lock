@@ -1,3 +1,9 @@
+PATH
+  remote: ../bunyan
+  specs:
+    bunyan (0.1.0)
+      capybara (~> 2.13)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -212,6 +218,7 @@ DEPENDENCIES
   activesupport
   airborne
   aws-sdk
+  bunyan!
   byebug
   capistrano
   capistrano-bundler
