@@ -23,15 +23,12 @@ Capybara.run_server = false
 
 # Keep only the screenshots generated from the last failing test suite
 Capybara::Screenshot.prune_strategy = :keep_last_run
-# ExampleLogging.instantiate_all_loggers!(config: ENV)
 Bunyan.instantiate_all_loggers!(config: ENV)
 
 # Gives access to the capybara methods
 RSpec.configure do |config|
   config.include Capybara::DSL
   config.include RSpec::LoggingHelper
-  #config.include ExampleLogging
-  #config.include ExampleLogging::CapybaraInjection
   config.include Bunyan
   config.include Bunyan::CapybaraInjection
 
