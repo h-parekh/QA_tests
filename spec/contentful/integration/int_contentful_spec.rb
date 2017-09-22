@@ -9,6 +9,8 @@ feature 'Test for Usurper content management API' do
       entry.make_previewable!
       visit "/#{entry.slug}?preview=true"
       # Remove the entry created using the Content Management API
+      test_page_preview = ContentfulTests::Pages::TestPagePreview.new(contentful_entry: entry)
+      expect(test_page_preview).to be_on_page
       expect(entry).not_to be_deleted
       entry.delete
       expect(entry).to be_deleted
