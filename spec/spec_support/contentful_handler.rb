@@ -93,5 +93,36 @@ class ContentfulHandler
       response = client.entries.find(space_id, entry.id)
       return !response.is_a?(entry.class)
     end
+
+    # Checks the contentful space for webhooks of alpha and beta site both at once.
+    # This method only reports an error message if any of the webhooks are not found
+    # and does not fail the spec. The spec will fail if its not able to preview the page
+    # So this method serves as a way to provide more guidance to the dev/tester to troubleshoot
+    def verify_webhooks
+      found_alpha_webhook = false
+      found_beta_webhook = false
+      expected_release = ENV['RELEASE_NUMBER']
+      require 'byebug'; debugger
+      webhooks = client.webhooks.all("#{space_id}")
+      webhooks.items.each do |webhook|
+        # require 'byebug'; debugger
+        if (webhook.name == "Publish to Usurper Alpha (#{expected_release})") &&
+            (webhook.url == "https://wse-websiterenovation-#{expected_release}-api.library.nd.edu/usurpercontent/entry")
+          found_alpha_webhook = true
+          current_logger.info(context: "Webhook set for alpha site", webhook_url: webhook.url)
+        end
+        if (webhook.name == "Publish to Usurper Beta (#{expected_release})") &&
+               (webhook.url == "https://wse-websiterenovation-libnd#{expected_release}-api.library.nd.edu/usurpercontent/entry")
+          found_beta_webhook = true
+          current_logger.info(context: "Webhook set for beta site", webhook_url: webhook.url)
+        end
+      end
+      if (found_alpha_webhook == false)
+        current_logger.error(context: "Webhook missing for alpha site")
+      end
+      if (found_beta_webhook == false)
+        current_logger.error(context: "Webhook missing for beta site")
+      end
+    end
   end
 end

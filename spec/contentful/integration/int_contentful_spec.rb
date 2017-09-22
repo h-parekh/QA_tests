@@ -2,8 +2,9 @@
 require 'contentful/contentful_spec_helper'
 
 feature 'Test for Usurper content management API' do
-  scenario "Creates, previews, and deletes an entry" do
+  scenario "Checks webhooks; creates, previews, and deletes an entry" do
     ContentfulHandler.create(current_logger: current_logger) do |entry|
+      entry.verify_webhooks
       expect(entry).not_to be_published
       # Preview the entry just created using Content Preview API
       entry.make_previewable!
