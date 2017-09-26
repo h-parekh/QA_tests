@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 require 'forwardable'
+
 # This class provides support to interact with the following contentful APIs:
 # * Content Delivery API: https://www.contentful.com/developers/docs/references/content-delivery-api/
 # * Content Management API: https://www.contentful.com/developers/docs/references/content-management-api/
@@ -49,80 +50,76 @@ class ContentfulHandler
 
   private
 
-  def read_contentful_tokens
-    cf_key_file = YAML.load_file(File.join(ENV.fetch('HOME'), 'test_data/QA/cf_api_key.yml'))
-    qa_key = cf_key_file.fetch('QA_key')
-    @space_id = qa_key.fetch('space_id')
-    @cdn_token = qa_key.fetch('cdn_token')
-    @preview_token = qa_key.fetch('preview_token')
-    @personal_access_token = qa_key.fetch('personal_access_token')
-  end
-
-  def set_clients!
-    @client = Contentful::Management::Client.new(@personal_access_token)
-    @preview_client = Contentful::Client.new(space: "#{@space_id}", access_token: "#{@preview_token}", api_url: 'preview.contentful.com')
-  end
-
-  class ContentfulEntryWrapper
-    extend Forwardable
-    attr_reader :entry, :handler
-    def initialize(entry:, handler:)
-      @entry = entry
-      @handler = handler
-    end
-    def_delegators :@handler, :current_logger, :client, :preview_client, :space_id
-    def_delegators :@entry, :published?, :title, :slug, :id
-
-    def make_previewable!
-      current_logger.info(context: "Making page previewable", page_title: entry.title, contentful_entry_id: entry.id)
-      preview_client.entry(entry.id)
+    def read_contentful_tokens
+      cf_key_file = YAML.load_file(File.join(ENV.fetch('HOME'), 'test_data/QA/cf_api_key.yml'))
+      qa_key = cf_key_file.fetch('QA_key')
+      @space_id = qa_key.fetch('space_id')
+      @cdn_token = qa_key.fetch('cdn_token')
+      @preview_token = qa_key.fetch('preview_token')
+      @personal_access_token = qa_key.fetch('personal_access_token')
     end
 
-    def delete
-      title = entry.title
-      contentful_entry_id = entry.id
-      current_logger.info(context: "Deleting page", page_title: title, contentful_entry_id: contentful_entry_id)
-      entry.destroy
-      current_logger.info(context: "Page has been deleted", page_title: title, contentful_entry_id: contentful_entry_id)
+    def set_clients!
+      @client = Contentful::Management::Client.new(@personal_access_token)
+      @preview_client = Contentful::Client.new(space: "#{@space_id}", access_token: "#{@preview_token}", api_url: 'preview.contentful.com')
     end
 
-    # If the found response is of a different type that the entry we know it is gone.
-    # A successful find will return a Contentful::Management::DynamicEntry[content_type] object
-    # An unsuccessful find will return a Contentful::Management::NotFound object
-    def deleted?
-      response = client.entries.find(space_id, entry.id)
-      return !response.is_a?(entry.class)
-    end
+    class ContentfulEntryWrapper
+      extend Forwardable
+      attr_reader :entry, :handler
+      def initialize(entry:, handler:)
+        @entry = entry
+        @handler = handler
+      end
+      def_delegators :@handler, :current_logger, :client, :preview_client, :space_id
+      def_delegators :@entry, :published?, :title, :slug, :id
 
-    # Checks the contentful space for webhooks of alpha and beta site both at once.
-    # This method only reports an error message if any of the webhooks are not found
-    # and does not fail the spec. The spec will fail if its not able to preview the page
-    # So this method serves as a way to provide more guidance to the dev/tester to troubleshoot
-    def verify_webhooks
-      found_alpha_webhook = false
-      found_beta_webhook = false
-      expected_release = ENV['RELEASE_NUMBER']
-      require 'byebug'; debugger
-      webhooks = client.webhooks.all("#{space_id}")
-      webhooks.items.each do |webhook|
-        # require 'byebug'; debugger
-        if (webhook.name == "Publish to Usurper Alpha (#{expected_release})") &&
-            (webhook.url == "https://wse-websiterenovation-#{expected_release}-api.library.nd.edu/usurpercontent/entry")
-          found_alpha_webhook = true
-          current_logger.info(context: "Webhook set for alpha site", webhook_url: webhook.url)
+      def make_previewable!
+        current_logger.info(context: "Making page previewable", page_title: entry.title, contentful_entry_id: entry.id)
+        preview_client.entry(entry.id)
+      end
+
+      def delete
+        title = entry.title
+        contentful_entry_id = entry.id
+        current_logger.info(context: "Deleting page", page_title: title, contentful_entry_id: contentful_entry_id)
+        entry.destroy
+        current_logger.info(context: "Page has been deleted", page_title: title, contentful_entry_id: contentful_entry_id)
+      end
+
+      # If the found response is of a different type that the entry we know it is gone.
+      # A successful find will return a Contentful::Management::DynamicEntry[content_type] object
+      # An unsuccessful find will return a Contentful::Management::NotFound object
+      def deleted?
+        response = client.entries.find(space_id, entry.id)
+        return !response.is_a?(entry.class)
+      end
+
+      # Checks the contentful space for webhooks of alpha and beta site both at once.
+      # This method only reports an error message if any of the webhooks are not found
+      # and does not fail the spec. The spec will fail if its not able to preview the page
+      # So this method serves as a way to provide more guidance to the dev/tester to troubleshoot
+      def verify_webhooks
+        found_alpha_webhook = false
+        found_beta_webhook = false
+        expected_release = ENV['RELEASE_NUMBER']
+        webhooks = client.webhooks.all("#{space_id}")
+        webhooks.items.each do |webhook|
+          if (webhook.name == "Publish to Usurper Alpha (#{expected_release})") && (webhook.url == "https://wse-websiterenovation-#{expected_release}-api.library.nd.edu/usurpercontent/entry")
+            found_alpha_webhook = true
+            current_logger.info(context: "Webhook set for alpha site", webhook_url: webhook.url)
+          end
+          if (webhook.name == "Publish to Usurper Beta (#{expected_release})") && (webhook.url == "https://wse-websiterenovation-libnd#{expected_release}-api.library.nd.edu/usurpercontent/entry")
+            found_beta_webhook = true
+            current_logger.info(context: "Webhook set for beta site", webhook_url: webhook.url)
+          end
         end
-        if (webhook.name == "Publish to Usurper Beta (#{expected_release})") &&
-               (webhook.url == "https://wse-websiterenovation-libnd#{expected_release}-api.library.nd.edu/usurpercontent/entry")
-          found_beta_webhook = true
-          current_logger.info(context: "Webhook set for beta site", webhook_url: webhook.url)
+        if found_alpha_webhook == false
+          current_logger.error(context: "Webhook missing for alpha site")
+        end
+        if found_beta_webhook == false
+          current_logger.error(context: "Webhook missing for beta site")
         end
       end
-      if (found_alpha_webhook == false)
-        current_logger.error(context: "Webhook missing for alpha site")
-      end
-      if (found_beta_webhook == false)
-        current_logger.error(context: "Webhook missing for beta site")
-      end
     end
-  end
 end
