@@ -253,6 +253,7 @@ feature 'User Navigation', js: true do
           find('.map')
         end
         find_link('Home').trigger('click')
+        sleep(2)
         within('.uNavigation') do
           find_by_id('libraries').trigger('click')
         end
