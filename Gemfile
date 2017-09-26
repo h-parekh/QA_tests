@@ -26,5 +26,5 @@ group :testcontroller do
   gem 'contentful'
   gem 'google_drive'
   gem 'contentful-management'
-  gem "bunyan"
+  gem 'bunyan_capybara'
 end
