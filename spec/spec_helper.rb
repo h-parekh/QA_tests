@@ -14,6 +14,7 @@ require 'swagger'
 require 'open-uri'
 require 'airborne'
 require 'selenium-webdriver'
+require 'bunyan_capybara'
 
 # Auto-require all files in spec support
 Dir.glob(File.expand_path('../spec_support/**/*.rb', __FILE__)).each { |filename| require filename }
@@ -22,14 +23,14 @@ Capybara.run_server = false
 
 # Keep only the screenshots generated from the last failing test suite
 Capybara::Screenshot.prune_strategy = :keep_last_run
-ExampleLogging.instantiate_all_loggers!(config: ENV)
+Bunyan.instantiate_all_loggers!(config: ENV)
 
 # Gives access to the capybara methods
 RSpec.configure do |config|
   config.include Capybara::DSL
   config.include RSpec::LoggingHelper
-  config.include ExampleLogging
-  config.include ExampleLogging::CapybaraInjection
+  config.include Bunyan
+  config.include Bunyan::CapybaraInjection
 
   config.capture_log_messages
   # Ensuring that things run in a random order; This is a prefered mechanism
@@ -45,8 +46,8 @@ RSpec.configure do |config|
   end
 
   config.before(:example) do |rspec_example|
-    @current_logger = ExampleLogging.start(example: rspec_example, config: ENV, test_handler: self)
-    ExampleLogging.current_logger = @current_logger
+    @current_logger = Bunyan.start(example: rspec_example, config: ENV, test_handler: self)
+    Bunyan.current_logger = @current_logger
     InitializeExample.initialize_app_host(example: rspec_example, config: ENV)
     InitializeExample.initialize_capybara_drivers!
     # Set the window size only after capybara drivers are initialized
@@ -57,6 +58,6 @@ RSpec.configure do |config|
     ErrorReporter.conditionally_report_unsuccessful_scenario(example: rspec_example)
     VerifyNetworkTraffic.report_network_traffic(driver: Capybara.current_session.driver, test_handler: self)
     @current_logger.stop()
-    ExampleLogging.reset_current_logger!
+    Bunyan.reset_current_logger!
   end
 end

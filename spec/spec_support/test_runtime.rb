@@ -54,15 +54,15 @@ module InitializeExample
         servers_by_environment = YAML.load_file(path_to_environment_config_file)
         Capybara.app_host = servers_by_environment.fetch(@example_variable.environment_under_test)
       rescue KeyError => e
-        ExampleLogging.current_logger.error(context: "Key '#{@example_variable.environment_under_test}' not found in config file", location_of_config_file: "#{path_to_environment_config_file}")
-        ExampleLogging.current_logger.error(context: "Provide a valid URL that starts with 'https' or use pre-configured config keys: #{servers_by_environment}")
+        Bunyan.current_logger.error(context: "Key '#{@example_variable.environment_under_test}' not found in config file", location_of_config_file: "#{path_to_environment_config_file}")
+        Bunyan.current_logger.error(context: "Provide a valid URL that starts with 'https' or use pre-configured config keys: #{servers_by_environment}")
         exit!
       end
     end
   end
 
   def self.initialize_example_variables!
-    @example_variable = ExampleVariableExtractor.call(path: @example.metadata.fetch(:absolute_file_path), config: @config)
+    @example_variable = BunyanVariableExtractor.call(path: @example.metadata.fetch(:absolute_file_path), config: @config)
   end
 
   def self.valid_url?(url)
@@ -110,8 +110,8 @@ module InitializeExample
   # Example: spec/usurper/usurper_spec_helper.rb
   def self.require_version_number
     if ENV['VERSION_NUMBER'].nil?
-      ExampleLogging.current_logger.error(context: "VERSION_NUMBER not found in ENV config")
-      ExampleLogging.current_logger.error(context: "Provide VERSION_NUMBER of application being tested")
+      Bunyan.current_logger.error(context: "VERSION_NUMBER not found in ENV config")
+      Bunyan.current_logger.error(context: "Provide VERSION_NUMBER of application being tested")
       exit!
     end
   end
@@ -123,7 +123,7 @@ module ErrorReporter
     return true if successful_scenario?
     # Leverage RSpec's logic to zero in on the location of failure from the exception backtrace
     location_of_failure = RSpec.configuration.backtrace_formatter.format_backtrace(example.exception.backtrace).first
-    ExampleLogging.current_logger.error(context: "FAILED example", location_of_failure: location_of_failure, message: @example.exception.message)
+    Bunyan.current_logger.error(context: "FAILED example", location_of_failure: location_of_failure, message: @example.exception.message)
   end
 
   def self.successful_scenario?
@@ -141,7 +141,7 @@ module VerifyNetworkTraffic
     return true unless driver_allows_network_traffic_verification?
     return true if ENV.fetch('SKIP_VERIFY_NETWORK_TRAFFIC', false)
     return true unless test_needs_network_verification?
-    ExampleLogging.current_logger.info(context: "verifying_all_network_traffic") do
+    Bunyan.current_logger.info(context: "verifying_all_network_traffic") do
       verify_network_traffic(driver: driver)
     end
   end
@@ -163,13 +163,13 @@ module VerifyNetworkTraffic
         if (400..599).cover? response.status
           resource_hash = { url: response.url, status_code: response.status }
           failed_resources << resource_hash
-          ExampleLogging.current_logger.error(context: "verifying_network_traffic", url: response.url, status_code: response.status)
-        elsif ! ENV['ALLOW_ALL_NETWORK_HOSTS'] && response.url =~ ExampleLogging::DISALLOWED_NETWORK_TRAFFIC_REGEXP
+          Bunyan.current_logger.error(context: "verifying_network_traffic", url: response.url, status_code: response.status)
+        elsif ! ENV['ALLOW_ALL_NETWORK_HOSTS'] && response.url =~ Bunyan::DISALLOWED_NETWORK_TRAFFIC_REGEXP
           resource_hash = { url: response.url, status_code: response.status }
           failed_resources << resource_hash
-          ExampleLogging.current_logger.error(context: "verifying_network_traffic", url: response.url, status_code: response.status, disallowed_network: "true")
+          Bunyan.current_logger.error(context: "verifying_network_traffic", url: response.url, status_code: response.status, disallowed_network: "true")
         else
-          ExampleLogging.current_logger.debug(context: "verifying_network_traffic", url: response.url, status_code: response.status)
+          Bunyan.current_logger.debug(context: "verifying_network_traffic", url: response.url, status_code: response.status)
         end
       end
     end
