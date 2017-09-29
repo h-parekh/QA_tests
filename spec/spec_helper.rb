@@ -21,9 +21,10 @@ Dir.glob(File.expand_path('../spec_support/**/*.rb', __FILE__)).each { |filename
 
 Capybara.run_server = false
 
+spec_path = File.expand_path('../', __FILE__)
 # Keep only the screenshots generated from the last failing test suite
 Capybara::Screenshot.prune_strategy = :keep_last_run
-Bunyan.instantiate_all_loggers!(config: ENV)
+Bunyan.instantiate_all_loggers!(config: ENV, path: spec_path)
 
 # Gives access to the capybara methods
 RSpec.configure do |config|

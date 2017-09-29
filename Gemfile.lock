@@ -25,7 +25,7 @@ GEM
     aws-sdk-resources (2.10.3)
       aws-sdk-core (= 2.10.3)
     aws-sigv4 (1.0.0)
-    bunyan_capybara (0.1.3)
+    bunyan_capybara (0.1.4)
       capybara (~> 2.13)
     byebug (9.0.6)
     capistrano (3.8.2)
