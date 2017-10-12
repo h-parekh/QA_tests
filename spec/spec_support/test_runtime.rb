@@ -5,8 +5,8 @@ module RunIdentifier
   # * Provides getter and setter methods to
   # create a unique ID for identifying the test run
   def self.set
-    Bunyan.current_logger.info(context: 'YOOOOOOOOOOOOOOOOOOOO')
     @run_identifier = DateTime.now.strftime("%Y-%m-%dT%H:%M:%S.%L-05:00")
+    Bunyan.current_logger.debug(context: 'RunIdentifier set')
   end
 
   def self.get
@@ -36,6 +36,7 @@ module ScreenshotsManager
     FileUtils.mkdir RunIdentifier.get
     Dir.chdir(current_working_directory) # Return to current directory so screenshots are in the right place
     File.join(screenshots_root, RunIdentifier.get)
+    Bunyan.current_logger.debug(context: 'Screenshots Save Path found')
   end
 end
 
