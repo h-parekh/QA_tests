@@ -214,7 +214,7 @@ DEPENDENCIES
   activesupport
   airborne
   aws-sdk
-  bunyan_capybara (= 0.1.5)
+  bunyan_capybara
   byebug
   capistrano
   capistrano-bundler
