@@ -117,6 +117,18 @@ module InitializeExample
       exit!
     end
   end
+
+  # Checks for existence of RELEASE_NUMBER in ENV config, and exits if it's not found
+  # NOTE: This method is ONLY being called from application specific spec helpers for
+  # those tests where asserting for release numbers of is required
+  # Example: spec/contentful/contentful_spec_helper.rb
+  def self.require_release_number
+    if ENV['RELEASE_NUMBER'].nil?
+      Bunyan.current_logger.error(context: "RELEASE_NUMBER not found in ENV config")
+      Bunyan.current_logger.error(context: "Provide RELEASE_NUMBER of application being tested, ex: r20170922")
+      exit!
+    end
+  end
 end
 
 module ErrorReporter
