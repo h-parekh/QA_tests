@@ -102,16 +102,21 @@ class ContentfulHandler
       def verify_webhooks
         found_alpha_webhook = false
         found_beta_webhook = false
+        found_libguides_webhook = false
         expected_release = ENV['RELEASE_NUMBER']
         webhooks = client.webhooks.all("#{space_id}")
         webhooks.items.each do |webhook|
           if (webhook.name == "Publish to Usurper Alpha (#{expected_release})") && (webhook.url == "https://wse-websiterenovation-#{expected_release}-api.library.nd.edu/usurpercontent/entry")
             found_alpha_webhook = true
-            current_logger.info(context: "Webhook set for alpha site", webhook_url: webhook.url)
+            current_logger.info(context: "Webhook check for alpha site successful", webhook_url: webhook.url)
           end
           if (webhook.name == "Publish to Usurper Beta (#{expected_release})") && (webhook.url == "https://wse-websiterenovation-libnd#{expected_release}-api.library.nd.edu/usurpercontent/entry")
             found_beta_webhook = true
-            current_logger.info(context: "Webhook set for beta site", webhook_url: webhook.url)
+            current_logger.info(context: "Webhook check for beta site successful", webhook_url: webhook.url)
+          end
+          if (webhook.name == "Libguides Event Updater (#{expected_release})") && (webhook.url == "https://wse-websiterenovation-#{expected_release}-api.library.nd.edu/monarchlibguides/newevent")
+            found_libguides_webhook = true
+            current_logger.info(context: "Webhook check for libguide event updater successful", webhook_url: webhook.url)
           end
         end
         if found_alpha_webhook == false
@@ -119,6 +124,9 @@ class ContentfulHandler
         end
         if found_beta_webhook == false
           current_logger.error(context: "Webhook missing for beta site")
+        end
+        if found_libguides_webhook == false
+          current_logger.error(context: "Webhook missing for Libguides events updater")
         end
       end
     end
