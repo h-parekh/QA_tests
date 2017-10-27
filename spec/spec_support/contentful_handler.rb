@@ -100,8 +100,27 @@ class ContentfulHandler
       # A successful find will return a Contentful::Management::DynamicEntry[content_type] object
       # An unsuccessful find will return a Contentful::Management::NotFound object
       def deleted?
-        response = client.entries.find(space_id, entry.id)
+        response = find_entry
         return !response.is_a?(entry.class)
+      end
+
+      # Looks for an entry by entry.id in a given space_id
+      # @return object of class Contentful::Management::DynamicEntry
+      def find_entry
+        client.entries.find(space_id, entry.id)
+      end
+
+      # Calls find_entry method and overwrites @entry object if entry.id of existing object and new object are equal
+      # This approach ensures that you're not overwriting the @entry object with anything
+      # other than a valid Contentful::Management::DynamicEntry object of the same ID.
+      def refresh_entry
+        refreshed_entry = find_entry
+        if refreshed_entry.id == entry.id
+          @entry = refreshed_entry
+          current_logger.info(context: "Entry refresh successful", contentful_entry_id: entry.id, space_id: space_id)
+        else
+          current_logger.error(context: "Entry not refreshed", contentful_entry_id: entry.id, space_id: space_id)
+        end
       end
 
       # Checks the contentful space for webhooks of alpha and beta site both at once.
