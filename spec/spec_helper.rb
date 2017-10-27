@@ -39,11 +39,15 @@ RSpec.configure do |config|
   config.order = :random
   Kernel.srand config.seed
 
-  config.before(:suite) do
+  config.before(:suite) do |rspec_suite|
+    @current_logger = Bunyan.start(example: rspec_suite, config: ENV, test_handler: self)
+    Bunyan.current_logger = @current_logger
     RunIdentifier.set
     CloudwatchEventHandler.set_aws_config
     new_save_path = ScreenshotsManager.get_screenshots_save_path
     Capybara.save_path = new_save_path
+    @current_logger.stop()
+    Bunyan.reset_current_logger!
   end
 
   config.before(:example) do |rspec_example|
