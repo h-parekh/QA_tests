@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 module ContentfulTests
   module Pages
-    class TestPagePreview
+    class PageEntryPreview
       include Capybara::DSL
       include CapybaraErrorIntel::DSL
 

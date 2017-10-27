@@ -9,15 +9,15 @@ feature 'Tests for Contentful entries and webhook integrations' do
       # Preview the entry just created using Content Preview API
       entry.make_previewable!
       visit "/#{entry.slug}?preview=true"
-      test_page_preview = ContentfulTests::Pages::TestPagePreview.new(contentful_entry: entry)
-      expect(test_page_preview).to be_on_page
+      page_entry_preview = ContentfulTests::Pages::PageEntryPreview.new(contentful_entry: entry)
+      expect(page_entry_preview).to be_on_page
       expect(entry).not_to be_deleted
       # Remove the entry created using the Content Management API
       entry.delete
       expect(entry).to be_deleted
     end
   end
-  
+
   # This scenario is testing the /newevent endpoint of monarch_libguides API
   # https://github.com/ndlib/monarch_libguides/blob/master/deploy/gateway.yml
   # I am calling /newevent via contentful to make sure the webhooks are firing
@@ -31,8 +31,8 @@ feature 'Tests for Contentful entries and webhook integrations' do
       entry.refresh_entry
       entry.make_previewable!
       visit "/event/#{entry.slug}?preview=true"
-      entry_preview = ContentfulTests::Pages::EntryPreview.new(contentful_entry: entry)
-      expect(entry_preview).to be_on_page
+      event_entry_preview = ContentfulTests::Pages::EventEntryPreview.new(contentful_entry: entry)
+      expect(event_entry_preview).to be_on_page
       expect(entry).not_to be_deleted
       # Remove the entry created using the Content Management API
       entry.delete
