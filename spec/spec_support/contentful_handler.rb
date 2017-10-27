@@ -51,6 +51,7 @@ class ContentfulHandler
     contentful_content_type = client.content_types.find(@space_id, content_type)
     current_logger.info(context: "Creating entry of type #{content_type} in contentful", page_title: title)
     entry = client.entries.create(contentful_content_type, title: title, slug: slug, libCalId: libCalId)
+    entry.save
     current_logger.info(context: "Created entry of type #{content_type} in contentful", page_title: title, contentful_entry_id: entry.id)
     ContentfulEntryWrapper.new(entry: entry, handler: self)
   end
