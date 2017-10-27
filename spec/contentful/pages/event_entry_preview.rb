@@ -5,8 +5,8 @@ module ContentfulTests
       include Capybara::DSL
       include CapybaraErrorIntel::DSL
 
-      def initialize(contentful_entry)
-        @contentful_entry = contentful_entry.fetch(:contentful_entry)
+      def initialize(contentful_entry:)
+        @contentful_entry = contentful_entry
       end
 
       def on_page?
