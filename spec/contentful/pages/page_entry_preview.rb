@@ -15,7 +15,8 @@ module ContentfulTests
       end
 
       def correct_content?
-        find('.page-title', text: "#{@contentful_entry.slug}")
+        require 'byebug'; debugger
+        find('.page-title', text: "#{@contentful_entry.title}")
       end
 
       def correct_url?
