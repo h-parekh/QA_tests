@@ -14,11 +14,18 @@ class ContentfulHandler
   # @param [String] content_type - default to "page"
   # @yieldparam [ContentfulEntryWrapper] entry that is created within the scope of this block
   # @return true - Regardless of the yielded block, we will return true
-  def self.create(current_logger:, content_type: 'page')
+  def self.create(current_logger:, content_type: 'page', lib_cal_id: nil)
     handler = new(current_logger: current_logger)
-    title = 'Testing_page_' + RunIdentifier.get
-    slug = title
-    entry = handler.create_entry(title: title, slug: slug, content_type: content_type)
+    case content_type
+    when 'page'
+      title = 'Testing_page_' + RunIdentifier.get
+      slug = title
+    else
+      title = nil
+      slug = nil
+      current_logger.info(context: "Title and slug are set to nil")
+    end
+    entry = handler.create_entry(title: title, slug: slug, content_type: content_type, libCalId: lib_cal_id)
     yield(entry)
     return true
   ensure
@@ -39,12 +46,12 @@ class ContentfulHandler
     set_clients!
   end
 
-  def create_entry(title:, slug:, content_type:)
+  def create_entry(title:, slug:, content_type:, libCalId:)
     current_logger.info(context: "Finding content type '#{content_type}' in contentful", content_type: content_type)
     contentful_content_type = client.content_types.find(@space_id, content_type)
-    current_logger.info(context: "Creating page in contentful", page_title: title)
-    entry = client.entries.create(contentful_content_type, title: title, slug: slug)
-    current_logger.info(context: "Created page in contentful", page_title: title, contentful_entry_id: entry.id)
+    current_logger.info(context: "Creating entry of type #{content_type} in contentful", page_title: title)
+    entry = client.entries.create(contentful_content_type, title: title, slug: slug, libCalId: libCalId)
+    current_logger.info(context: "Created entry of type #{content_type} in contentful", page_title: title, contentful_entry_id: entry.id)
     ContentfulEntryWrapper.new(entry: entry, handler: self)
   end
 
