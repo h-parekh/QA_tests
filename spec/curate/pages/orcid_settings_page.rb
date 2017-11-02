@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 module Curate
   module Pages
-    class AccountDetailsPage
+    class OrcidSettingsPage
       include Capybara::DSL
       include CapybaraErrorIntel::DSL
 
@@ -12,7 +12,7 @@ module Curate
       end
 
       def on_valid_url?
-        current_url == File.join(Capybara.app_host, 'users/edit')
+        current_url == File.join(Capybara.app_host, 'orcid_settings')
       end
 
       def status_response_ok?
@@ -20,9 +20,10 @@ module Curate
       end
 
       def valid_page_content?
-        has_content?("Account Details")
-        has_selector?(:link_or_button, "Update My Account")
-        has_selector?(:link_or_button, "ORCID Settings")
+        page.has_content?("ORCID Settings")
+        page.has_selector?(:link_or_button, "ORCID Settings")
+        page.has_selector?(:link_or_button, "Open Researcher and Contributor ID (ORCID)")
+        page.has_selector?(:link_or_button, "Create or Connect your ORCID iD")
       end
     end
   end
