@@ -14,11 +14,18 @@ class ContentfulHandler
   # @param [String] content_type - default to "page"
   # @yieldparam [ContentfulEntryWrapper] entry that is created within the scope of this block
   # @return true - Regardless of the yielded block, we will return true
-  def self.create(current_logger:, content_type: 'page')
+  def self.create(current_logger:, content_type: 'page', lib_cal_id: nil)
     handler = new(current_logger: current_logger)
-    title = 'Testing_page_' + RunIdentifier.get
-    slug = title
-    entry = handler.create_entry(title: title, slug: slug, content_type: content_type)
+    case content_type
+    when 'page'
+      title = 'Testing_page_' + RunIdentifier.get
+      slug = title
+    else
+      title = nil
+      slug = nil
+      current_logger.info(context: "Title and slug are set to nil")
+    end
+    entry = handler.create_entry(title: title, slug: slug, content_type: content_type, libCalId: lib_cal_id)
     yield(entry)
     return true
   ensure
@@ -39,12 +46,13 @@ class ContentfulHandler
     set_clients!
   end
 
-  def create_entry(title:, slug:, content_type:)
+  def create_entry(title:, slug:, content_type:, libCalId:)
     current_logger.info(context: "Finding content type '#{content_type}' in contentful", content_type: content_type)
     contentful_content_type = client.content_types.find(@space_id, content_type)
-    current_logger.info(context: "Creating page in contentful", page_title: title)
-    entry = client.entries.create(contentful_content_type, title: title, slug: slug)
-    current_logger.info(context: "Created page in contentful", page_title: title, contentful_entry_id: entry.id)
+    current_logger.info(context: "Creating entry of type #{content_type} in contentful", page_title: title)
+    entry = client.entries.create(contentful_content_type, title: title, slug: slug, libCalId: libCalId)
+    entry.save
+    current_logger.info(context: "Created entry of type #{content_type} in contentful", page_title: title, contentful_entry_id: entry.id)
     ContentfulEntryWrapper.new(entry: entry, handler: self)
   end
 
@@ -52,7 +60,9 @@ class ContentfulHandler
 
     def read_contentful_tokens
       cf_key_file = YAML.load_file(File.join(ENV.fetch('HOME'), 'test_data/QA/cf_api_key.yml'))
-      qa_key = cf_key_file.fetch('QA_key')
+      # Change the qa_key to fetch 'prep' when you want to test in non-production contentful space
+      # TODO: https://github.com/ndlib/QA_tests/issues/234 
+      qa_key = cf_key_file.fetch('prod')
       @space_id = qa_key.fetch('space_id')
       @cdn_token = qa_key.fetch('cdn_token')
       @preview_token = qa_key.fetch('preview_token')
@@ -91,8 +101,27 @@ class ContentfulHandler
       # A successful find will return a Contentful::Management::DynamicEntry[content_type] object
       # An unsuccessful find will return a Contentful::Management::NotFound object
       def deleted?
-        response = client.entries.find(space_id, entry.id)
+        response = find_entry
         return !response.is_a?(entry.class)
+      end
+
+      # Looks for an entry by entry.id in a given space_id
+      # @return object of class Contentful::Management::DynamicEntry
+      def find_entry
+        client.entries.find(space_id, entry.id)
+      end
+
+      # Calls find_entry method and overwrites @entry object if entry.id of existing object and new object are equal
+      # This approach ensures that you're not overwriting the @entry object with anything
+      # other than a valid Contentful::Management::DynamicEntry object of the same ID.
+      def refresh_entry
+        refreshed_entry = find_entry
+        if refreshed_entry.id == entry.id
+          @entry = refreshed_entry
+          current_logger.info(context: "Entry refresh successful", contentful_entry_id: entry.id, space_id: space_id)
+        else
+          current_logger.error(context: "Entry not refreshed", contentful_entry_id: entry.id, space_id: space_id)
+        end
       end
 
       # Checks the contentful space for webhooks of alpha and beta site both at once.
@@ -102,16 +131,21 @@ class ContentfulHandler
       def verify_webhooks
         found_alpha_webhook = false
         found_beta_webhook = false
+        found_libguides_webhook = false
         expected_release = ENV['RELEASE_NUMBER']
         webhooks = client.webhooks.all("#{space_id}")
         webhooks.items.each do |webhook|
           if (webhook.name == "Publish to Usurper Alpha (#{expected_release})") && (webhook.url == "https://wse-websiterenovation-#{expected_release}-api.library.nd.edu/usurpercontent/entry")
             found_alpha_webhook = true
-            current_logger.info(context: "Webhook set for alpha site", webhook_url: webhook.url)
+            current_logger.info(context: "Webhook check for alpha site successful", webhook_url: webhook.url)
           end
           if (webhook.name == "Publish to Usurper Beta (#{expected_release})") && (webhook.url == "https://wse-websiterenovation-libnd#{expected_release}-api.library.nd.edu/usurpercontent/entry")
             found_beta_webhook = true
-            current_logger.info(context: "Webhook set for beta site", webhook_url: webhook.url)
+            current_logger.info(context: "Webhook check for beta site successful", webhook_url: webhook.url)
+          end
+          if (webhook.name == "Libguides Event Updater (#{expected_release})") && (webhook.url == "https://wse-websiterenovation-#{expected_release}-api.library.nd.edu/monarchlibguides/newevent")
+            found_libguides_webhook = true
+            current_logger.info(context: "Webhook check for libguide event updater successful", webhook_url: webhook.url)
           end
         end
         if found_alpha_webhook == false
@@ -119,6 +153,9 @@ class ContentfulHandler
         end
         if found_beta_webhook == false
           current_logger.error(context: "Webhook missing for beta site")
+        end
+        if found_libguides_webhook == false
+          current_logger.error(context: "Webhook missing for Libguides events updater")
         end
       end
     end

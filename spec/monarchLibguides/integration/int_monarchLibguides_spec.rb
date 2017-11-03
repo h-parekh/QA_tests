@@ -1,7 +1,7 @@
 #frozen_string_literal: true
-require 'hours/hours_spec_helper'
+require 'monarchLibguides/monarchLibguides_spec_helper'
 
-feature 'Hours API test' do
+feature 'monarchLibguides API tests' do
   SwaggerHandler.operations(for_file_path: __FILE__).each do |operation|
     scenario "calls #{operation.verb} #{operation.path}" do
       schema = RequestBuilder.new(current_logger, operation)

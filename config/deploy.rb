@@ -12,7 +12,7 @@ set :deploy_via, :copy
 set :stages, ["staging", "production"]
 set :default_stage, "production"
 set :branch, 'master'
-set :tested_applications, ['classes', 'contentful', 'crawler', 'curate', 'dave', 'dec', 'gatekeeper', 'hesburghsite', 'hours', 'microfilms', 'osf', 'recommendationEngine', 'sipity', 'testApi', 'usurper', 'vatican', 'viceroy']
+set :tested_applications, ['classes', 'contentful', 'crawler', 'curate', 'dave', 'dec', 'gatekeeper', 'hesburghsite', 'monarchLibguides', 'microfilms', 'osf', 'recommendationEngine', 'sipity', 'testApi', 'usurper', 'vatican', 'viceroy']
 set :target_env_for_test_application, ENV['TARGET']
 set :log_level_for_running_test, ENV['LOG_LEVEL']
 

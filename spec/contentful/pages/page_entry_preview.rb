@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 module ContentfulTests
   module Pages
-    class TestPagePreview
+    class PageEntryPreview
       include Capybara::DSL
       include CapybaraErrorIntel::DSL
 
-      def initialize(contentful_entry)
-        @contentful_entry = contentful_entry.fetch(:contentful_entry)
+      def initialize(contentful_entry:)
+        @contentful_entry = contentful_entry
       end
 
       def on_page?
@@ -15,7 +15,7 @@ module ContentfulTests
       end
 
       def correct_content?
-        find('.page-title', text: "#{@contentful_entry.slug}")
+        find('.page-title', text: "#{@contentful_entry.title}")
       end
 
       def correct_url?
