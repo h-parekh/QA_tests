@@ -5,8 +5,8 @@ module Usurper
       include CapybaraErrorIntel::DSL
 
       def initialize
-        @one_search_url = 'http://onesearch.library.nd.edu/primo_library/libweb/action/dlSearch.do?bulkSize=10&dym=true&highlight=true&indx=1&institution=NDU&mode=Basic&onCampus=false&pcAvailabiltyMode=true&query=any%2Ccontains%2C&search_scope=malc_blended&tab=onesearch&vid=NDU&displayField=title&displayField=creator'
-        @nd_catlog_search_url = 'http://onesearch.library.nd.edu/primo_library/libweb/action/dlSearch.do?bulkSize=10&dym=true&highlight=true&indx=1&institution=NDU&mode=Basic&onCampus=false&pcAvailabiltyMode=true&query=any%2Ccontains%2C&search_scope=nd_campus&tab=nd_campus&vid=NDU&displayField=title&displayField=creator'
+        @one_search_url = 'http://onesearch.library.nd.edu/primo_library/libweb/action/search.do?fn=search&ct=search&initialSearch=true&mode=Basic&tab=onesearch&indx=1&dum=true&srt=rank&vid=NDU&frbg=&tb=t&vl%28freeText0%29=&scp.scps=scope%3A%28hathi_pub%29%2Cscope%3A%28ndulawrestricted%29%2Cscope%3A%28dtlrestricted%29%2Cscope%3A%28NDU%29%2Cscope%3A%28NDLAW%29%2Cscope%3A%28ndu_digitool%29'
+        @nd_catlog_search_url = 'http://onesearch.library.nd.edu/primo_library/libweb/action/search.do?fn=search&ct=search&initialSearch=true&mode=Basic&tab=nd_campus&indx=1&dum=true&srt=rank&vid=NDU&frbg=&tb=t&vl%28freeText0%29=&scp.scps=scope%3A%28hathi_pub%29%2Cscope%3A%28ndulawrestricted%29%2Cscope%3A%28dtlrestricted%29%2Cscope%3A%28NDU%29%2Cscope%3A%28NDLAW%29%2Cscope%3A%28ndu_digitool%29'
       end
 
       def on_page?
