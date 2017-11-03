@@ -247,7 +247,9 @@ feature 'User Navigation', js: true do
     # use the strings from the hash in order to make assertions
     text_and_href_list.each do |pair|
       if pair[1].include?(Capybara.app_host)
-        click_on(pair[0])
+        within('#librariesNav') do
+          click_on(pair[0])
+        end
         sleep(2)
         within('.building') do
           find('.map')
