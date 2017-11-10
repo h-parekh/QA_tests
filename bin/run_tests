@@ -9,13 +9,16 @@ require File.expand_path('../../spec/spec_support/example_logging_constants', __
 #
 # *****************************************************************************
 
-CONFIG_KEYS = [:ENVIRONMENT, :LOG_LEVEL, :SKIP_CLOUDWATCH, :SKIP_VERIFY_NETWORK_TRAFFIC, :ALLOW_ALL_NETWORK_HOSTS].freeze
+CONFIG_KEYS = [:ENVIRONMENT, :LOG_LEVEL, :SKIP_CLOUDWATCH, :SKIP_VERIFY_NETWORK_TRAFFIC, :ALLOW_ALL_NETWORK_HOSTS, :USE_CONTENTFUL_SPACE, :VERSION_NUMBER, :RELEASE_NUMBER].freeze
 
 ENVIRONMENT = ENV.fetch('ENVIRONMENT', Bunyan::DEFAULT_ENVIRONMENT)
 LOG_LEVEL = ENV.fetch('LOG_LEVEL', Bunyan::DEFAULT_LOG_LEVEL)
 SKIP_CLOUDWATCH = ENV.fetch('SKIP_CLOUDWATCH', nil)
 SKIP_VERIFY_NETWORK_TRAFFIC = ENV.fetch('SKIP_VERIFY_NETWORK_TRAFFIC', nil)
 ALLOW_ALL_NETWORK_HOSTS = ENV.fetch('ALLOW_ALL_NETWORK_HOSTS', false)
+USE_CONTENTFUL_SPACE = ENV.fetch('USE_CONTENTFUL_SPACE', nil)
+VERSION_NUMBER = ENV.fetch('VERSION_NUMBER', nil)
+RELEASE_NUMBER = ENV.fetch('RELEASE_NUMBER', nil)
 
 # *****************************************************************************
 #
@@ -67,6 +70,23 @@ if ARGV.grep(/-h/i).size == 1
   $stdout.puts ""
   $stdout.puts "Example:"
   $stdout.puts "$ ALLOW_ALL_NETWORK_HOSTS=true ./bin/#{File.basename(__FILE__)}"
+  $stdout.puts ""
+  $stdout.puts "USE_CONTENTFUL_SPACE: This toggle is only used for and required for contentful testing. When testing contentful, there are two options for contentful space: prod and prep."
+  $stdout.puts "In order to use these spaces, the user needs a token from the shared drive which differs for each space. So, you must define which space you want for your test in the command line."
+  $stdout.puts ""
+  $stdout.puts "Example:"
+  $stdout.puts "$ USE_CONTENTFUL_SPACE=prod ./bin/#{File.basename(__FILE__)}"
+  $stdout.puts ""
+  $stdout.puts "VERSION_NUMBER: When testing usurper, you must input the version number for the version of the site you want to test so that the tests run accurately and small design changes"
+  $stdout.puts "from version to version do not cause failures."
+  $stdout.puts ""
+  $stdout.puts "Example:"
+  $stdout.puts "$ VERSION_NUMBER=v2017.2 ./bin/#{File.basename(__FILE__)}"
+  $stdout.puts ""
+  $stdout.puts "RELEASE_NUMBER: This toggle is only used for contentful_testing. When testing contentful, you must provide a release number to ensure you are testing to correct contentful release."
+  $stdout.puts ""
+  $stdout.puts "Example:"
+  $stdout.puts "$ RELEASE_NUMBER=r20170922 ./bin/#{File.basename(__FILE__)}"
   exit(0)
 end
 

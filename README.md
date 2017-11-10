@@ -216,6 +216,23 @@ NOTE: This ecosystem is still work in progress and some assertions will fail (ex
 ```console
 CHROME_HEADLESS=true ./bin/run_tests spec/curate/functional/func_curate_spec.rb
 ```
+
+USE_CONTENTFUL_SPACE: This toggle is only used for and required for contentful testing. When testing contentful, there are two options for contentful space: prod and prep. In order to use these spaces, the user needs a token from the shared drive which differs for each space. So, you must define which space you want for your test in the command line.
+```console
+USE_CONTENTFUL_SPACE=prod
+```
+
+VERSION_NUMBER: When testing usurper, you must input the version number for the version of the site you want to test so that the tests run accurately and small design changes
+from version to version do not cause failures.
+```console
+VERSION_NUMBER=v2017.2
+```
+
+RELEASE_NUMBER: This toggle is only used for contentful_testing. When testing contentful, you must provide a release number to ensure you are testing to correct contentful release.
+```console
+RELEASE_NUMBER=r20170922
+```
+
 ## Running Rubocop
 
 Rubocop is install and configured to report any offenses in code. It is recommended to run rubocop on local machine before sending in pull request. Here is basic usage
