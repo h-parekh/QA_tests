@@ -60,9 +60,8 @@ class ContentfulHandler
 
     def read_contentful_tokens
       cf_key_file = YAML.load_file(File.join(ENV.fetch('HOME'), 'test_data/QA/cf_api_key.yml'))
-      # Change the qa_key to fetch 'prep' when you want to test in non-production contentful space
-      # TODO: https://github.com/ndlib/QA_tests/issues/234 
-      qa_key = cf_key_file.fetch('prod')
+      contentful_space = ENV['USE_CONTENTFUL_SPACE']
+      qa_key = cf_key_file.fetch(contentful_space)
       @space_id = qa_key.fetch('space_id')
       @cdn_token = qa_key.fetch('cdn_token')
       @preview_token = qa_key.fetch('preview_token')

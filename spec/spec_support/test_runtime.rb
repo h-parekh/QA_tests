@@ -129,6 +129,21 @@ module InitializeExample
       exit!
     end
   end
+
+  # Checks for existence of USE_CONTENTFUL_SPACE in ENV config, checks if the proper values are assigned to it, and exits if it's not found or if incorrect values are assigned
+  # NOTE: This method is ONLY being called from application specific spec helpers for
+  # those tests where asserting for release numbers of is required
+  # Example: spec/contentful/contentful_spec_helper.rb
+  def self.require_contentful_space
+    if ENV['USE_CONTENTFUL_SPACE'].nil?
+      Bunyan.current_logger.error(context: "USE_CONTENTFUL_SPACE not found in ENV config")
+      Bunyan.current_logger.error(context: "Provide USE_CONTENTFUL_SPACE to designate desired Contentful space (prod or prep)")
+      exit!
+    elsif ENV['USE_CONTENTFUL_SPACE'] != 'prod' && ENV['USE_CONTENTFUL_SPACE'] != 'prep'
+      Bunyan.current_logger.error(context: "Only options for USE_CONTENTFUL_SPACE are prod or prep")
+      exit!
+    end
+  end
 end
 
 module ErrorReporter
