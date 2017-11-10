@@ -11,4 +11,7 @@ RSpec.configure do |config|
   config.before(:example) do
     InitializeExample.require_release_number
   end
+  config.before(:example) do
+    InitializeExample.require_contentful_space
+  end
 end
