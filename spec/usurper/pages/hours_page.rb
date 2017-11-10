@@ -25,7 +25,7 @@ module Usurper
       end
 
       def correct_url?
-        current_url == File.join(Capybara.app_host, "hours")
+        current_url == File.join(Capybara.app_host, "hours") || current_url == File.join(Capybara.app_host, "hours#")
       end
     end
   end

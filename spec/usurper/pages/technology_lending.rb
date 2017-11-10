@@ -11,7 +11,7 @@ module Usurper
       end
 
       def on_valid_url?
-        current_url == File.join(Capybara.app_host, 'technology-lending')
+        current_url == File.join(Capybara.app_host, 'technology-lending') || current_url == File.join(Capybara.app_host, 'technology-lending#')
       end
       def correct_content?
         within('.container-fluid.content-area') do

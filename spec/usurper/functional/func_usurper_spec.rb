@@ -166,7 +166,7 @@ feature 'User Browsing', js: true do
     end
     find_button('Search').trigger('click')
     sleep(2)
-    expect(current_url).to eq('https://curate.nd.edu/catalog?utf8=%E2%9C%93&amp;search_field=all_fields&amp;q=')
+    expect(current_url).to match(/^https:\/\/curate.nd.edu\/catalog./)
   end
 
   scenario 'Search using Library Website from HomePage' do
@@ -177,7 +177,7 @@ feature 'User Browsing', js: true do
     end
     find_button('Search').trigger('click')
     sleep(2)
-    expect(current_url).to eq('https://search.nd.edu/search/?client=lib_site_srch&site=library;q=')
+    expect(current_url).to match(/^https:\/\/search.nd.edu\/search\/./)
   end
 end
 
@@ -247,7 +247,9 @@ feature 'User Navigation', js: true do
     # use the strings from the hash in order to make assertions
     text_and_href_list.each do |pair|
       if pair[1].include?(Capybara.app_host)
-        click_on(pair[0])
+        within('#librariesNav') do
+          click_on(pair[0])
+        end
         sleep(2)
         within('.building') do
           find('.map')

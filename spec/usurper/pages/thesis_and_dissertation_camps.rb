@@ -12,7 +12,7 @@ module Usurper
       end
 
       def on_valid_url?
-        current_url == File.join(Capybara.app_host,  'thesis-dissertation-camps')
+        current_url == File.join(Capybara.app_host,  'thesis-dissertation-camps') || current_url == File.join(Capybara.app_host,  'thesis-dissertation-camps#')
       end
     end
   end

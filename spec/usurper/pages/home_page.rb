@@ -16,7 +16,7 @@ module Usurper
       end
 
       def on_valid_url?
-        current_url == Capybara.app_host || current_url == (Capybara.app_host + "/")
+        current_url == Capybara.app_host || current_url == (Capybara.app_host + "/") || current_url == (Capybara.app_host + "#")
       end
 
       # These links are only visible on the home page, and not on any other pages of the site

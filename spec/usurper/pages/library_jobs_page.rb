@@ -18,7 +18,7 @@ module Usurper
       end
 
       def on_valid_url?
-        current_url == File.join(Capybara.app_host, "employment/")
+        current_url == File.join(Capybara.app_host, "employment/") || current_url == File.join(Capybara.app_host, "employment/#")
       end
     end
   end

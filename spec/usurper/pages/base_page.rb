@@ -34,7 +34,7 @@ module Usurper
           find_by_id('about').trigger('click')
           menu_drawer_has_content?
           # need to close 'About' tab or issues randomly pop up
-          find_by_id('about').trigger('click')
+          find('a', id: 'about').trigger('click')
           if @loggedin
             find('.m', text: 'MY ACCOUNT')
           else
