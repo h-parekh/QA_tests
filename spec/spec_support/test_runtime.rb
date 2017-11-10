@@ -132,7 +132,7 @@ module InitializeExample
 
   # Checks for existence of USE_CONTENTFUL_SPACE in ENV config, checks if the proper values are assigned to it, and exits if it's not found or if incorrect values are assigned
   # NOTE: This method is ONLY being called from application specific spec helpers for
-  # those tests where asserting for release numbers of is required
+  # those tests where assertion of contentful space of is required
   # Example: spec/contentful/contentful_spec_helper.rb
   def self.require_contentful_space
     if ENV['USE_CONTENTFUL_SPACE'].nil?
