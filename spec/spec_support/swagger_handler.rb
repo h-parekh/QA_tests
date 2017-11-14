@@ -55,8 +55,7 @@ class SwaggerHandler
 
     # This is a temporary implementation until I conosildate all configs using Figaro
     def set_access_token_value!
-      user_home_dir = File.expand_path('~')
-      git_access_config_file = YAML.load_file(File.join(user_home_dir.to_s, 'test_data/QA/git_access.yaml'))
+      git_access_config_file = YAML.load_file(File.join(ENV.fetch('HOME'), 'test_data/QA/git_access.yaml'))
       @access_token_value = git_access_config_file.fetch("access_token")
     end
 
