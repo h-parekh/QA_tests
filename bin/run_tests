@@ -1,7 +1,9 @@
 #!/usr/bin/env ruby -wU
 # frozen_string_literal: true
-
-require File.expand_path('../../spec/spec_support/example_logging_constants', __FILE__)
+unless defined?(Bunyan)
+  gem 'bunyan_capybara'
+  require 'bunyan_capybara/bunyan_constants'
+end
 
 # *****************************************************************************
 #
