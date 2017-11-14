@@ -8,8 +8,7 @@ module CloudwatchEventHandler
       return true
     end
     target_aws_account = 'testlibnd'
-    user_home_dir = File.expand_path('~')
-    aws_env_config_file = YAML.load_file(File.join("#{user_home_dir}", 'test_data/QA/aws_config.yaml'))
+    aws_env_config_file = YAML.load_file(File.join(ENV.fetch('HOME'), 'test_data/QA/aws_config.yaml'))
     Aws.config.update({region: aws_env_config_file.fetch("#{target_aws_account}").fetch("default_region_name")})
     Aws.config.update({credentials: Aws::Credentials.new(aws_env_config_file.fetch("#{target_aws_account}").fetch("aws_access_key_id"), aws_env_config_file.fetch("#{target_aws_account}").fetch("aws_secret_access_key"))})
     Bunyan.current_logger.debug(context: 'AWS Cloudwatch Config set')

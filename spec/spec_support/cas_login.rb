@@ -22,7 +22,7 @@ class LoginPage
     @account_details_updated = account_details_updated
     @terms_of_service_accepted = terms_of_service_accepted
     @current_logger = logger
-    credentials = CSV.read(ENV['HOME']+"/test_data/QA/TestCredentials.csv")
+    credentials = CSV.read(File.join(ENV.fetch('HOME'), 'test_data/QA/TestCredentials.csv'))
     # To remove the header (first element in the array) while maintaining array type
     # so sample method is still available
     credentials.shift
