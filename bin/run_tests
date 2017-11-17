@@ -83,7 +83,7 @@ if ARGV.grep(/-h/i).size == 1
   $stdout.puts "Example:"
   $stdout.puts "$ VERSION_NUMBER=v2017.2 ./bin/#{File.basename(__FILE__)}"
   $stdout.puts ""
-  $stdout.puts "RELEASE_NUMBER: This toggle is only used for contentful_testing. When testing contentful, you must provide a release number to ensure you are testing to correct contentful release."
+  $stdout.puts "RELEASE_NUMBER: This toggle is only used for contentful_testing. When testing contentful, you must provide a release number to define the stack of deployed VERSION_NUMBER(s)"
   $stdout.puts ""
   $stdout.puts "Example:"
   $stdout.puts "$ RELEASE_NUMBER=r20170922 ./bin/#{File.basename(__FILE__)}"
