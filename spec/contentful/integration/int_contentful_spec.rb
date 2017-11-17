@@ -23,10 +23,8 @@ feature 'Tests for Contentful entries and webhook integrations' do
   # I am calling /newevent via contentful to make sure the webhooks are firing
   # correctly, and the event is then previewable
   # 'lib_cal_id' is a unique ID that is used to pull data from the libcal system
-  # TODO: Parameterize libcal ID, we should leverage the PathParameterizer::ParameterFinder
-  # class. It probably needs some refactor becuase it's designed to parameterize
-  # endpoints for path and query parameters
-  # Tracking here: https://github.com/ndlib/QA_tests/issues/233
+  # libcal ID is parameterized by leveraging the PathParameterizer::ParameterFinder
+  # class along with the associated find method of ParameterFinder
   scenario "Create and preview an entry of type 'Events'" do
     contentful_params = PathParameterizer::ParameterFinder.new(application_name_under_test: 'contentful')
     lib_cal_id = contentful_params.find(key: 'libCalId').to_s
