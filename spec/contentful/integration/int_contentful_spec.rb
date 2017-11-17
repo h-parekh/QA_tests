@@ -28,8 +28,8 @@ feature 'Tests for Contentful entries and webhook integrations' do
   # endpoints for path and query parameters
   # Tracking here: https://github.com/ndlib/QA_tests/issues/233
   scenario "Create and preview an entry of type 'Events'" do
-    contentful_params = YAML.load_file(ENV['HOME']+"/test_data/QA/parameters/contentful.yml")
-    lib_cal_id = contentful_param['libCalId'][0].values.sample.to_s
+    contentful_params = PathParameterizer::ParameterFinder.new(application_name_under_test: 'contentful')
+    lib_cal_id = contentful_params.find(key: 'libCalId').to_s
     ContentfulHandler.create(current_logger: current_logger, content_type: 'event', lib_cal_id: lib_cal_id ) do |entry|
       entry.verify_webhooks
       expect(entry).not_to be_published
