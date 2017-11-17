@@ -228,7 +228,7 @@ from version to version do not cause failures.
 VERSION_NUMBER=v2017.2
 ```
 
-RELEASE_NUMBER: This toggle is only used for contentful_testing. When testing contentful, you must provide a release number to define the stack of deployed VERSION_NUMBERS.
+RELEASE_NUMBER: This toggle is only used for contentful_testing. When testing contentful, you must provide a release number to define the stack of deployed VERSION_NUMBER(s).
 ```console
 RELEASE_NUMBER=r20170922
 ```
