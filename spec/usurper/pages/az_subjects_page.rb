@@ -12,7 +12,7 @@ module Usurper
       def correct_content?
         within('.container-fluid.content-area') do
           page.has_selector?(".col-md-6", minimum: 2)
-          page.has_css?('h2', text:'Subjects')
+          page.has_css?('h1', text:'Subjects')
         end
       end
     end
