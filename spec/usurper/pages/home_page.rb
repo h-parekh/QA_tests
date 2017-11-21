@@ -16,7 +16,7 @@ module Usurper
       end
 
       def on_valid_url?
-        current_url == Capybara.app_host || current_url == (Capybara.app_host + "/") || current_url == (Capybara.app_host + "#")
+        current_url == Capybara.app_host || current_url == (Capybara.app_host + "/") || current_url == (Capybara.app_host + "#") || current_url == (Capybara.app_host + "/#")
       end
 
       # These links are only visible on the home page, and not on any other pages of the site
@@ -50,9 +50,9 @@ module Usurper
 
       def has_news_and_events?
         within('.row.news') do
-          find('h3', text: 'News') &&
+          find('h2', text: 'News') &&
             all('.news-card', between: 1..3)
-          find('h3', text: 'Events') &&
+          find('h2', text: 'Events') &&
             all('.event-card', between: 1..3)
         end
       end
