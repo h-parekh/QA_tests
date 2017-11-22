@@ -15,7 +15,7 @@ module Usurper
       def correct_content?
         page.has_link?("My Items") &&
         page.has_link?("Log Out") &&
-        find('h2', text: "Courses")
+        find('h1', text: "Courses")
       end
 
       def on_valid_url?

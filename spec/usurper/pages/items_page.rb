@@ -15,9 +15,9 @@ module Usurper
       def correct_content?
         page.has_link?('My Courses') &&
         page.has_link?("Log Out") &&
-        find('h2', text: "Items & Requests").visible? &&
-        find('h3', text: 'Checked out').visible? &&
-        find('h3', text: 'Pending').visible?
+        find('h1', text: "Items & Requests").visible? &&
+        find('h3', match: :smart, text: 'Checked Out').visible? &&
+        find('h3', match: :smart, text: 'Pending').visible?
       end
 
       def on_valid_url?
