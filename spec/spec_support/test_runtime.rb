@@ -164,6 +164,10 @@ module VerifyNetworkTraffic
   # leverages network_traffic method of poltergeist driver to verify
   # that all the network calls for static assets and 3rd party support
   # are working on the site
+  def self.exclude_uri_from_network_traffic_validation
+    @exclude_uri_from_network_traffic_validation ||= []
+  end
+
   def self.report_network_traffic(driver:, test_handler:)
     @driver = driver
     @test_handler = test_handler
@@ -185,20 +189,37 @@ module VerifyNetworkTraffic
     Capybara.current_driver == :poltergeist
   end
 
+  # This method slices all the network traffic into 4 categories and validates them:
+  # non_uri_resources: resources that are not URIs (come through due to bugs in Poltergeist)
+  # not_verified_resources: resources that have been requested not to be verified (Assets that may be failing)
+  # failed_resources: resources that should give an error message on certain conditions
   def self.verify_network_traffic(driver:)
     failed_resources = []
+    not_verified_resources = []
+    non_uri_resources = []
+    verification_passed_resources = []
     driver.network_traffic.each do |request|
       request.response_parts.uniq(&:url).each do |response|
-        if (400..599).cover? response.status
+      if ! InitializeExample.valid_url?(response.url)
+          resource_hash = { url: response.url, status_code: response.status }
+          non_uri_resources << resource_hash
+          Bunyan.current_logger.debug(context: "Verification skipped, Resource isn't of type URI", url: response.url, status_code: response.status)
+        elsif @exclude_uri_from_network_traffic_validation.include? URI.parse(response.url).request_uri
+          resource_hash = { url: response.url, status_code: response.status }
+          not_verified_resources << resource_hash
+          Bunyan.current_logger.debug(context: "Verification skipped, resource exists in @exclude_uri_from_network_traffic_validation", url: response.url, status_code: response.status)
+        elsif (400..599).cover? response.status
           resource_hash = { url: response.url, status_code: response.status }
           failed_resources << resource_hash
-          Bunyan.current_logger.error(context: "verifying_network_traffic", url: response.url, status_code: response.status)
+          Bunyan.current_logger.error(context: "Verification failed, response code in range 400..599", url: response.url, status_code: response.status)
         elsif ! ENV['ALLOW_ALL_NETWORK_HOSTS'] && response.url =~ Bunyan::DISALLOWED_NETWORK_TRAFFIC_REGEXP
           resource_hash = { url: response.url, status_code: response.status }
           failed_resources << resource_hash
-          Bunyan.current_logger.error(context: "verifying_network_traffic", url: response.url, status_code: response.status, disallowed_network: "true")
+          Bunyan.current_logger.error(context: "Verification failed, url is blocked by Bunyan::DISALLOWED_NETWORK_TRAFFIC_REGEXP", url: response.url, status_code: response.status, disallowed_network: "true")
         else
-          Bunyan.current_logger.debug(context: "verifying_network_traffic", url: response.url, status_code: response.status)
+          resource_hash = { url: response.url, status_code: response.status }
+          verification_passed_resources << resource_hash
+          Bunyan.current_logger.debug(context: "Verification passed", url: response.url, status_code: response.status)
         end
       end
     end

@@ -3,7 +3,7 @@ module Curate
     class AudioPage
       include Capybara::DSL
       include CapybaraErrorIntel::DSL
-
+      VerifyNetworkTraffic.exclude_uri_from_network_traffic_validation.push('/assets/ui-bg_highlight-soft_100_eeeeee_1x100.png')
       def on_page?
           on_valid_url? &&
           status_response_ok? &&
