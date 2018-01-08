@@ -164,7 +164,10 @@ module VerifyNetworkTraffic
   # leverages network_traffic method of poltergeist driver to verify
   # that all the network calls for static assets and 3rd party support
   # are working on the site
-  EXCLUDE_URI_FROM_NETWORK_TRAFFIC_VALIDATION = []
+  def self.exclude_uri_from_network_traffic_validation
+    @exclude_uri_from_network_traffic_validation ||= []
+  end
+
   def self.report_network_traffic(driver:, test_handler:)
     @driver = driver
     @test_handler = test_handler
@@ -201,10 +204,10 @@ module VerifyNetworkTraffic
           resource_hash = { url: response.url, status_code: response.status }
           non_uri_resources << resource_hash
           Bunyan.current_logger.debug(context: "Verification skipped, Resource isn't of type URI", url: response.url, status_code: response.status)
-        elsif EXCLUDE_URI_FROM_NETWORK_TRAFFIC_VALIDATION.include? URI.parse(response.url).request_uri
+        elsif @exclude_uri_from_network_traffic_validation.include? URI.parse(response.url).request_uri
           resource_hash = { url: response.url, status_code: response.status }
           not_verified_resources << resource_hash
-          Bunyan.current_logger.debug(context: "Verification skipped, resource exists in EXCLUDE_URI_FROM_NETWORK_TRAFFIC_VALIDATION", url: response.url, status_code: response.status)
+          Bunyan.current_logger.debug(context: "Verification skipped, resource exists in @exclude_uri_from_network_traffic_validation", url: response.url, status_code: response.status)
         elsif (400..599).cover? response.status
           resource_hash = { url: response.url, status_code: response.status }
           failed_resources << resource_hash
