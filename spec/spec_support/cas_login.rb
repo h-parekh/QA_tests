@@ -65,15 +65,7 @@ class LoginPage
     fill_in('username', with: userName)
     fill_in('password', with: passWord)
     find('.form-signin [name=submit]').trigger('click')
-    page.has_selector?("input[name=passcode]")
-    fill_in('passcode', with: passCode)
-    page.has_selector?('.form-signin [name=submit]')
-    # keeps clicking until the cas login page is gone (TEMP FIX)
-    loop do
-      find('.form-signin [name=submit]').trigger('click')
-      break if page.has_no_selector?('.form-signin [name=submit]')
-      # waits for it to leave the login page
-    end
+    page.has_no_selector?('.form-signin [name=submit]')
     current_logger.info(context: "Logging in user: #{userName}")
   end
 end
