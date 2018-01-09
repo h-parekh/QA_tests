@@ -4,8 +4,8 @@ require 'curate/curate_spec_helper'
 
 class LoginPage
   def checkLoginPage
-    page.has_content?("Login to Curate")
+    page.has_content?("Central Authentication Service")
     find('#password')
-    find('button[name="submit"]', :text => 'LOGIN')
+    find('#username')
   end
 end
