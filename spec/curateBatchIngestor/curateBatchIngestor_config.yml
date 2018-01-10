@@ -1,0 +1,2 @@
+prep: secret_url
+prod: secret_url

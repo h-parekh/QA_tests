@@ -8,7 +8,7 @@
 # server 'example.com', user: 'deploy', roles: %w{app web}, other_property: :other_value
 # server 'db.example.com', user: 'deploy', roles: %w{db}
 set :stage, :production
-server 'testcontroller01.library.nd.edu', roles: %w{classes contentful crawler curate dave dec gatekeeper hesburghsite monarchLibguides microfilms osf recommendationEngine sipity testApi usurper vatican viceroy}, user: 'app'
+server 'testcontroller01.library.nd.edu', roles: %w{classes contentful crawler curate curateBatchIngestor dave dec gatekeeper hesburghsite monarchLibguides microfilms osf recommendationEngine sipity testApi usurper vatican viceroy}, user: 'app'
 
 # role-based syntax
 # ==================
