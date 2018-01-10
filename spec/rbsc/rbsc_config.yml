@@ -1,3 +1,4 @@
 local: jello
-pprd: https://ead-preview-pprd.library.nd.edu
+staging: https://ead-preview-staging.library.nd.edu
+prep: https://ead-preview-pprd.library.nd.edu
 prod: https://ead-preview-prod-vm.library.nd.edu
