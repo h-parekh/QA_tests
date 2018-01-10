@@ -42,25 +42,64 @@ end
 
 module InitializeExample
   # * Checks if value of ENVIRONMENT is a URL or key
-  # * Sets Capybara.app_host to a URL
-  # * Sets Capybara driver name
+  # * Sets Capybara.app_host to a valid URL
   def self.initialize_app_host(example:, config:)
     @example = example
     @config = config
     initialize_example_variables!
     if valid_url?(@example_variable.environment_under_test)
-      Capybara.app_host = @example_variable.environment_under_test
+      Bunyan.current_logger.debug("context: ENVIRONMENT variable has a valid URL")
+      set_capybara_app_host(@example_variable.environment_under_test)
     else
-      begin
-        path_to_environment_config_file = File.expand_path("./#{@example_variable.application_name_under_test}/#{@example_variable.application_name_under_test}_config.yml", @example_variable.path_to_spec_directory)
-        servers_by_environment = YAML.load_file(path_to_environment_config_file)
-        Capybara.app_host = servers_by_environment.fetch(@example_variable.environment_under_test)
-      rescue KeyError => e
-        Bunyan.current_logger.error(context: "Key '#{@example_variable.environment_under_test}' not found in config file", location_of_config_file: "#{path_to_environment_config_file}")
-        Bunyan.current_logger.error(context: "Provide a valid URL that starts with 'https' or use pre-configured config keys: #{servers_by_environment}")
-        exit!
-      end
+      Bunyan.current_logger.debug(context: "Looking up '#{@example_variable.environment_under_test}' in config or secret files")
+      find_app_host_url
     end
+  end
+
+  # * Checks if the corresponding config file of applcation under test holds a valid URL for given key
+  # * If not, this method proceeds to lookup the secret files
+  # NOTE: This method always expects the key (prep, prod..) to be present in application config file even if the value is stored in secret files
+  def self.find_app_host_url
+    begin
+      value_from_config_file = find_url_from_config_file
+      if valid_url?(value_from_config_file)
+        Bunyan.current_logger.debug(context: "Value for key '#{@example_variable.environment_under_test}' in config file has a valid URL: '#{value_from_config_file}'")
+        set_capybara_app_host(value_from_config_file)
+      else
+        Bunyan.current_logger.debug(context: "Value for key '#{@example_variable.environment_under_test}' in config file is not a valid URL: '#{value_from_config_file}'")
+        Bunyan.current_logger.debug(context: "Looking up in secret parameter files")
+        value_from_secret_files = find_url_from_secret_files
+        if valid_url?(value_from_secret_files)
+          Bunyan.current_logger.debug(context: "Value for key '#{@example_variable.environment_under_test}' in secret files has a valid URL: '#{value_from_secret_files}'")
+          set_capybara_app_host(value_from_secret_files)
+        else
+          Bunyan.current_logger.error(context: "Value for key '#{@example_variable.environment_under_test}' in secret files is not a valid URL: '#{value_from_secret_files}'")
+          Bunyan.current_logger.error(context: "Unable to set Capybara.app_host")
+          Bunyan.current_logger.error(context: "Aborting scenario")
+          exit!
+        end
+      end
+    rescue KeyError => e
+      Bunyan.current_logger.error(context: "Key '#{@example_variable.environment_under_test}' not found in config file", location_of_config_file: "#{@path_to_environment_config_file}")
+      Bunyan.current_logger.error(context: "Provide a valid URL that starts with 'https' or use pre-configured config keys: #{@servers_by_environment}")
+      exit!
+    end
+  end
+
+  def self.find_url_from_config_file
+    @path_to_environment_config_file = File.expand_path("./#{@example_variable.application_name_under_test}/#{@example_variable.application_name_under_test}_config.yml", @example_variable.path_to_spec_directory)
+    @servers_by_environment = YAML.load_file(@path_to_environment_config_file)
+    @servers_by_environment.fetch(@example_variable.environment_under_test)
+  end
+
+  def self.find_url_from_secret_files
+    finder = PathParameterizer::ParameterFinder.new(application_name_under_test: @example_variable.application_name_under_test)
+    finder.find(key: @example_variable.environment_under_test)
+  end
+
+  def self.set_capybara_app_host(url)
+    Capybara.app_host = url
+    Bunyan.current_logger.debug(context: "Capybara.app_host set to #{url}")
   end
 
   def self.initialize_example_variables!
