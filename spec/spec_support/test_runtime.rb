@@ -204,7 +204,7 @@ module VerifyNetworkTraffic
           resource_hash = { url: response.url, status_code: response.status }
           non_uri_resources << resource_hash
           Bunyan.current_logger.debug(context: "Verification skipped, Resource isn't of type URI", url: response.url, status_code: response.status)
-        elsif @exclude_uri_from_network_traffic_validation.include? URI.parse(response.url).request_uri
+        elsif !@exclude_uri_from_network_traffic_validation.nil? && (@exclude_uri_from_network_traffic_validation.include? URI.parse(response.url).request_uri)
           resource_hash = { url: response.url, status_code: response.status }
           not_verified_resources << resource_hash
           Bunyan.current_logger.debug(context: "Verification skipped, resource exists in @exclude_uri_from_network_traffic_validation", url: response.url, status_code: response.status)
