@@ -1,0 +1,6 @@
+version: '3'
+services:
+  qa-test:
+    build: .
+    volumes:
+    - /Volumes/DCNS/library/Departmental/Infrastructure/:/root/test_data
