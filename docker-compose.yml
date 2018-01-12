@@ -4,3 +4,7 @@ services:
     build: .
     volumes:
     - /Volumes/DCNS/library/Departmental/Infrastructure/vars/QA:/root/test_data/QA
+  qa-test-pub:
+    image: ndlib/qa-tests:latest
+    volumes:
+    - /Volumes/DCNS/library/Departmental/Infrastructure/vars/QA:/root/test_data/QA
