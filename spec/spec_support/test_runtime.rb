@@ -48,7 +48,7 @@ module InitializeExample
     @config = config
     initialize_example_variables!
     if valid_url?(@example_variable.environment_under_test)
-      Bunyan.current_logger.debug("context: ENVIRONMENT variable has a valid URL")
+      Bunyan.current_logger.debug(context: "ENVIRONMENT variable has a valid URL")
       set_capybara_app_host(@example_variable.environment_under_test)
     else
       Bunyan.current_logger.debug(context: "Looking up '#{@example_variable.environment_under_test}' in config or secret files")
