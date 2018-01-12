@@ -6,3 +6,4 @@ COPY bin ./bin/
 COPY config ./config/
 COPY logs ./logs/
 COPY spec ./spec/
+COPY .rspec ./

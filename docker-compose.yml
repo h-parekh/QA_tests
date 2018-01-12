@@ -3,4 +3,4 @@ services:
   qa-test:
     build: .
     volumes:
-    - /Volumes/DCNS/library/Departmental/Infrastructure/:/root/test_data
+    - /Volumes/DCNS/library/Departmental/Infrastructure/vars/QA:/root/test_data/QA
