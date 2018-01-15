@@ -1,37 +1,17 @@
 # frozen_string_literal: true
+
 require 'microfilms/microfilms_spec_helper'
 
 feature 'User Browsing', js: true do
-  scenario 'Test 1: Loads Home Page' do
+  scenario 'Loads Home Page', :smoke_test do
+    page.driver.browser.js_errors = false
     visit '/'
-    expect(page).to have_content 'About Searching'
-    within('.search') do
-      expect(page).to have_field 'q', type: 'text'
-      expect(page).to have_button 'search'
-    end
-    within('.facets') do
-      expect(page).to have_link 'Format'
-      expect(page).to have_link 'Library'
-      expect(page).to have_link 'City'
-      expect(page).to have_link 'Country of Origin'
-      expect(page).to have_link 'Collection'
-      expect(page).to have_link 'Language'
-      expect(page).to have_link 'Date Range'
-      expect(page).to have_link 'Illuminations'
-      expect(page).to have_link 'Musical Notation'
-      expect(page).to have_link 'Commentary Volume'
-      expect(page).to have_link 'Type of Text'
-    end
+    home_page = Microfilms::Pages::HomePage.new
+    expect(home_page).to be_on_page
   end
 
-  scenario 'Test 2: Ask a Librarian' do
-    visit '/'
-    within('#nav.sf-menu li.darker') do
-      click_on('Ask a Librarian')
-    end
-  end
-
-  scenario 'Test 3: See List of Cities in A-Z Order' do
+  scenario 'Test facet navigation' do
+    page.driver.browser.js_errors = false
     visit '/'
     within('.facets') do
       click_on('City')
@@ -46,15 +26,5 @@ feature 'User Browsing', js: true do
       expect(page).to have_no_link 'A-Z Sort'
       expect(page).to have_link 'Numerical Sort'
     end
-  end
-  scenario 'Test 4: See List of K Resources' do
-    visit '/'
-    within('#nav.sf-menu') do
-      find('.left').hover
-      within('#dbsaz') do
-        click_on('K')
-      end
-    end
-    expect(page).to have_css('h1', text: 'K')
   end
 end
