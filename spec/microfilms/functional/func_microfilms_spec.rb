@@ -3,6 +3,7 @@ require 'microfilms/microfilms_spec_helper'
 
 feature 'User Browsing', js: true do
   scenario 'Test 1: Loads Home Page' do
+    page.driver.browser.js_errors = false
     visit '/'
     expect(page).to have_content 'About Searching'
     within('.search') do
@@ -25,6 +26,7 @@ feature 'User Browsing', js: true do
   end
 
   scenario 'Test 2: Ask a Librarian' do
+    page.driver.browser.js_errors = false
     visit '/'
     within('#nav.sf-menu li.darker') do
       click_on('Ask a Librarian')
@@ -32,6 +34,7 @@ feature 'User Browsing', js: true do
   end
 
   scenario 'Test 3: See List of Cities in A-Z Order' do
+    page.driver.browser.js_errors = false
     visit '/'
     within('.facets') do
       click_on('City')
@@ -48,6 +51,7 @@ feature 'User Browsing', js: true do
     end
   end
   scenario 'Test 4: See List of K Resources' do
+    page.driver.browser.js_errors = false
     visit '/'
     within('#nav.sf-menu') do
       find('.left').hover
