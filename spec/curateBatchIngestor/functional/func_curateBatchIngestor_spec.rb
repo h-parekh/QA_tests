@@ -7,4 +7,10 @@ feature 'Load health status page', js: true do
     health_status_page = CurateBatchIngestor::Pages::HealthStatusPage.new
     expect(health_status_page).to be_on_page
   end
+
+  scenario 'Check filesystems work', :smoke_test do
+    visit '/jobs'
+    jobs_status_page = CurateBatchIngestor::Pages::JobsStatusPage.new
+    expect(jobs_status_page).to be_on_page
+  end
 end
