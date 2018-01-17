@@ -1,2 +1,2 @@
-prep: seasideprep.library.nd.edu
-prod: seaside.library.nd.edu
+prep: https://seasideprep.library.nd.edu/
+prod: https://seaside.library.nd.edu/
