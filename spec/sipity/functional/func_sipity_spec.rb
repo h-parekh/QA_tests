@@ -15,7 +15,7 @@ end
 
 feature 'User Browsing', js: true do
   let(:casLogin) { LoginPage.new(current_logger, terms_of_service_accepted: true) }
-  scenario 'Visit Homepage' do
+  scenario 'Visit Homepage', :smoke_test do
     visit_home
   end
 
@@ -57,8 +57,7 @@ feature 'User Browsing', js: true do
   scenario 'Sign Out', js: true do
     returning_user_sign_in
     find_link("Sign out").click
-    find('#password')
-    find('button[name="submit"]', :text => 'LOGIN')
+    expect(casLogin).to be_on_page
   end
 end
 

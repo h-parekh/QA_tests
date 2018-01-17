@@ -68,4 +68,24 @@ class LoginPage
     page.has_no_selector?('.form-signin [name=submit]')
     current_logger.info(context: "Logging in user: #{userName}")
   end
+
+  def on_page?
+    on_valid_url? &&
+      status_response_ok? &&
+      valid_page_content?
+  end
+
+  def on_valid_url?
+    current_url.start_with?('https://login.nd.edu/cas/login')
+  end
+
+  def status_response_ok?
+    status_code.to_s.match(/^20[0,1,6]$/)
+  end
+
+  def valid_page_content?
+    page.has_content?("Central Authentication Service")
+    find('#password')
+    find('#username')
+  end
 end
