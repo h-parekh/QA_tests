@@ -57,8 +57,7 @@ feature 'User Browsing', js: true do
   scenario 'Sign Out', js: true do
     returning_user_sign_in
     find_link("Sign out").click
-    find('#password')
-    find('button[name="submit"]', :text => 'LOGIN')
+    expect(casLogin).to be_on_page
   end
 end
 
