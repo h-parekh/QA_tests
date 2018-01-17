@@ -15,7 +15,7 @@ end
 
 feature 'User Browsing', js: true do
   let(:casLogin) { LoginPage.new(current_logger, terms_of_service_accepted: true) }
-  scenario 'Visit Homepage' do
+  scenario 'Visit Homepage', :smoke_test do
     visit_home
   end
 
