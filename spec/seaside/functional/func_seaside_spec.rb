@@ -23,4 +23,12 @@ feature 'User Browsing', js: true do
     history_page = Seaside::Pages::HistoryPage.new
     expect(history_page).to be_on_page
   end
+
+  scenario 'Visit About Seaside - Oral History Page', :read_only do
+    visit '/'
+    click_on('About Seaside')
+    find_link(href: '/essays/oral-histories').trigger('click')
+    oral_hist_page = Seaside::Pages::OralHistPage.new
+    expect(oral_hist_page).to be_on_page
+  end
 end
