@@ -14,7 +14,7 @@ module Seaside
       end
 
       def status_response_ok?
-        status_code.to_s.match(/^20[0,1,6]$/)
+        status_code == 200 || status_code == 304
       end
 
       def valid_top_banner?
