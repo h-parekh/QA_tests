@@ -14,7 +14,7 @@ module Seaside
       end
 
       def on_valid_url?
-        current_url == 'https://seaside.library.nd.edu/essays/seaside-history'
+        current_url == File.join(Capybara.app_host, 'essays/seaside-history') || File.join(Capybara.app_host, "essays/seaside-history#")
       end
 
       def valid_page_content?

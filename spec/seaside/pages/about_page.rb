@@ -15,7 +15,7 @@ module Seaside
       end
 
       def on_valid_url?
-        current_url == 'https://seaside.library.nd.edu/about'
+        current_url == File.join(Capybara.app_host, "about") || File.join(Capybara.app_host, "about#")
       end
 
       def has_images?

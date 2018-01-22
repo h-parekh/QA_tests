@@ -15,7 +15,7 @@ module Seaside
       end
 
       def on_valid_url?
-        current_url == 'https://seaside.library.nd.edu/essays/oral-histories'
+        current_url == File.join(Capybara.app_host, 'essays/oral-histories') || File.join(Capybara.app_host, "essays/oral-histories#")
       end
 
       def has_videos?

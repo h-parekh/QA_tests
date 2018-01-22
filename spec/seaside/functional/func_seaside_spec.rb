@@ -2,7 +2,7 @@
 require 'seaside/seaside_spec_helper'
 
 feature 'User Browsing', js: true do
-  scenario 'Load Homepage', :smoke_test do
+  scenario 'Load Homepage', :read_only, :smoke_test do
     visit '/'
     home_page = Seaside::Pages::HomePage.new
     expect(home_page).to be_on_page
