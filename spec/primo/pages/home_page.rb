@@ -26,6 +26,16 @@ module Primo
           find_button(id: 'goButton')
         end
       end
+
+      def onesearch_tab_activated?
+        # Check if the onesearch tab is selected
+       find('a.active.tab.onesearch.EXLSearchTabTitle.EXLSearchTabLABELOneSearch')
+      end
+
+      def ndcatalog_tab_activated?
+        # Check if the NDcatalog tab is selected
+        find('a.active.tab.ndcatalog.EXLSearchTabTitle.EXLSearchTabLABELND.Campus')
+      end
     end
   end
 end
