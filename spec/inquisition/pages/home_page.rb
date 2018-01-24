@@ -9,7 +9,6 @@ module Inquisition
       include CapybaraErrorIntel::DSL
 
       def on_page?
-        require 'byebug'; debugger
         status_response_ok? &&
           on_valid_url? &&
           valid_top_banner? &&
