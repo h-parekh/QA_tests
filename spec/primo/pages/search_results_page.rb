@@ -21,6 +21,7 @@ module Primo
       end
 
       def has_results?
+        page.has_content?('LIMIT RESULTS BY')
         within('#resultsListNoId') do
           !find('table#exlidResultsTable').find_all('tr').empty?
         end
