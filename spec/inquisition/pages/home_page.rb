@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'inquisition/inquisition_spec_helper'
 
 module Inquisition
@@ -8,6 +9,7 @@ module Inquisition
       include CapybaraErrorIntel::DSL
 
       def on_page?
+        require 'byebug'; debugger
         status_response_ok? &&
           on_valid_url? &&
           valid_top_banner? &&
@@ -21,7 +23,7 @@ module Inquisition
       end
 
       def on_valid_url?
-        current_url == Capybara.app_host || File.join(Capybara.app_host, '#')
+        current_url == File.join(Capybara.app_host, 'collections/RBSC-INQ:COLLECTION') || current_url == File.join(Capybara.app_host, 'collections/RBSC-INQ:COLLECTION#')
       end
 
       def valid_top_banner?
@@ -54,7 +56,7 @@ module Inquisition
             find_link('Autos de fe', href: '/collections/RBSC-INQ:COLLECTION/genre/RBSC-INQ:Autos_de_fe').visible? &&
             find_link('Censorship', href: '/collections/RBSC-INQ:COLLECTION/genre/RBSC-INQ:Censorship').visible? &&
             find_link('Familiars and officials', href: '/collections/RBSC-INQ:COLLECTION/genre/RBSC-INQ:Familiars_and_officials') &&
-            find_link('Policies and proceedings', href:'/collections/RBSC-INQ:COLLECTION/genre/RBSC-INQ:Policies_and_proceedings') &&
+            find_link('Policies and proceedings', href: '/collections/RBSC-INQ:COLLECTION/genre/RBSC-INQ:Policies_and_proceedings') &&
             find_link('Polemics and histories', href: '/collections/RBSC-INQ:COLLECTION/genre/RBSC-INQ:Polemics_and_histories')
         end
       end

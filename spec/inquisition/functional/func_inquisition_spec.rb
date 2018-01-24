@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'inquisition/inquisition_spec_helper'
 
 feature 'User Browsing', js: true do
