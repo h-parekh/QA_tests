@@ -18,7 +18,7 @@ module Curate
       LOOKUP_CATEGORY_CAPTION = {
         thesis: "Theses & Dissertations",
         article: "Articles & Publications",
-        dataset: "Datasets & Related Materials"
+        dataset: "Datasets & Related Items"
       }.freeze
       LOOKUP_CATEGORY_VALUE = {
         thesis: "Doctoral Dissertation OR Master's Thesis",

@@ -24,7 +24,7 @@ module Curate
 
       def valid_page_content?
         within('.main-header') do
-          return false unless has_content?('Browse Materials by Department or Unit')
+          return false unless has_content?('Browse Items by Department or Unit')
         end
         within(".page-footer-wrapper") do
           return false unless has_link?('Help')

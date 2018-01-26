@@ -40,14 +40,12 @@ feature 'User Browsing', js: true do
     expect(catalog_page).to be_on_base_url
   end
 
-  scenario 'Category search for Theses', :read_only do
+  scenario 'Category search for All Items', :read_only do
     visit '/'
-    title = 'Theses & Dissertations'
+    title = 'All Items'
     click_on(title)
-    category_page = Curate::Pages::CatalogPage.new(category: :thesis)
+    category_page = Curate::Pages::CatalogPage.new({})
     expect(category_page).to be_on_page
-    click_on('Clear all')
-    expect(category_page).to be_on_base_url
   end
 
   scenario 'Category search for Articles', :read_only do
@@ -62,7 +60,7 @@ feature 'User Browsing', js: true do
 
   scenario 'Category search for Datasets', :read_only do
     visit '/'
-    title = 'Datasets & Related Materials'
+    title = 'Datasets & Related Items'
     click_on(title)
     category_page = Curate::Pages::CatalogPage.new(category: :dataset)
     expect(category_page).to be_on_page
@@ -77,9 +75,9 @@ feature 'User Browsing', js: true do
     expect(contribute_page).to be_on_page
   end
 
-  scenario 'Materials by Department link', :read_only do
+  scenario 'Items by Department link', :read_only do
     visit '/'
-    click_on('Materials by Department')
+    click_on('Items by Department')
     dept_page = Curate::Pages::DepartmentsPage.new
     expect(dept_page).to be_on_page
     departmental_link = dept_page.select_random_departmental_link
