@@ -505,28 +505,28 @@ feature 'Logged in user changing ORCID settings:', js: true do
 end
 
 feature 'Featured Collections:', js: true do
-  scenario 'Patents', :read_only, focus: true do
+  scenario 'Patents', :read_only do
     visit '/'
     click_on('Notre Dame Patents')
     catalog_page = Curate::Pages::CatalogPage.new(category: :patents)
     expect(catalog_page).to be_on_page
   end
 
-  scenario 'Press', :read_only, focus: true do
+  scenario 'Press', :read_only do
     visit '/'
     click_on('Notre Dame Press')
     catalog_page = Curate::Pages::CatalogPage.new(category: :press)
     expect(catalog_page).to be_on_page
   end
 
-  scenario 'Thesis & Dissertations', :read_only, focus: true do
+  scenario 'Thesis & Dissertations', :read_only do
     visit '/'
     click_on('Graduate School Thesis & Dissertations')
     catalog_page = Curate::Pages::CatalogPage.new(category: :thesis)
     expect(catalog_page).to be_on_page
   end
 
-  scenario 'Varieties of Democracy', :read_only, focus: true do
+  scenario 'Varieties of Democracy', :read_only do
     visit '/'
     click_on('Varieties of Democracy')
     catalog_page = Curate::Pages::CatalogPage.new(category: :varieties)
