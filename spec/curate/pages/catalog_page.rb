@@ -82,9 +82,13 @@ module Curate
       end
 
       def valid_page_content?
-        return false unless page.find('.sidebar').has_content?('Filter by:')
+        within('.sidebar') do
+          return false unless has_content?('Filter by:')
+        end
         return true if category.nil?
-        page.find('h1').has_content?(category_caption)
+        within('h1') do
+          has_content?(category_caption)
+        end
       end
 
       def category_caption
@@ -100,11 +104,17 @@ module Curate
       end
 
       def valid_search_content?
-        page.find('.search-constraint-notice').has_content?('Search criteria:')
+        within('.search-constraint-notice') do
+          return false unless has_content?('Search criteria:')
+        end
+        true
       end
 
       def valid_filter_value?
-        page.find('.filter-value').has_content?(filter_value)
+        within('.filter-value') do |node|
+          return false unless has_content?(filter_value)
+        end
+        true
       end
 
       def filter_value
@@ -115,7 +125,10 @@ module Curate
 
       def valid_filter_name?
         return true if category.nil?
-        page.find('.filter-name').has_content?(LOOKUP_CATEGORY_FILTER.fetch(category))
+        within('.filter-name') do
+          return false unless has_content?(LOOKUP_CATEGORY_FILTER.fetch(category))
+        end
+        true
       end
 
       def valid_content_count?
