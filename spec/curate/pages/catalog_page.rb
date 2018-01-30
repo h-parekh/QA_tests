@@ -11,25 +11,37 @@ module Curate
       attr_reader :search_term, :category, :departmental_link
 
       LOOKUP_CATEGORY_URL = {
-        thesis: "/catalog?f_inclusive%5Bhuman_readable_type_sim%5D%5B%5D=Doctoral+Dissertation&f_inclusive%5Bhuman_readable_type_sim%5D%5B%5D=Master%27s+Thesis",
+        thesis: "/catalog?f_inclusive[human_readable_type_sim][]=Doctoral+Dissertation&f_inclusive[human_readable_type_sim][]=Master's+Thesis",
         article: "/catalog?f%5Bhuman_readable_type_sim%5D%5B%5D=Article",
-        dataset: "/catalog?f%5Bhuman_readable_type_sim%5D%5B%5D=Dataset"
+        dataset: "/catalog?f%5Bhuman_readable_type_sim%5D%5B%5D=Dataset",
+        patents: "/catalog?f[library_collections_pathnames_hierarchy_with_titles_sim][]=Notre+Dame+Patents|und%3Azw12z32008t",
+        press: "/catalog?f[library_collections_pathnames_hierarchy_with_titles_sim][]=University+of+Notre+Dame+Press|und%3A1g05fb51m8t",
+        varieties: "/catalog?f[library_collections_pathnames_hierarchy_with_titles_sim][]=Varieties+of+Democracy|und%3A1z40ks6792x"
       }.freeze
       LOOKUP_CATEGORY_CAPTION = {
         thesis: "Theses & Dissertations",
         article: "Articles & Publications",
-        dataset: "Datasets & Related Materials"
+        dataset: "Datasets & Related Materials",
+        patents: "Notre Dame Patents",
+        press: "Notre Dame Press",
+        varieties: "Varieties of Democracy"
       }.freeze
       LOOKUP_CATEGORY_VALUE = {
         thesis: "Doctoral Dissertation OR Master's Thesis",
         article: "Article",
-        dataset: "Dataset"
+        dataset: "Dataset",
+        patents: "Notre Dame Patents",
+        press: "Notre Dame Press",
+        varieties: "Varieties of Democracy"
       }.freeze
       LOOKUP_CATEGORY_FILTER = {
         thesis: "Type of Work:",
         article: "Type of Work:",
         dataset: "Type of Work:",
-        department: "Department or Unit:"
+        department: "Department or Unit:",
+        patents: "Collection:",
+        press: "Collection:",
+        varieties: "Collection:"
       }.freeze
 
       def initialize(search_term: nil, category: nil, departmental_link: nil)
