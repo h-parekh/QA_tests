@@ -111,7 +111,7 @@ module Curate
       end
 
       def valid_filter_value?
-        within('.filter-value') do |node|
+        within('.filter-value') do
           return false unless has_content?(filter_value)
         end
         true
