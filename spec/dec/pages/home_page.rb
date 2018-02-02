@@ -11,7 +11,7 @@ module Dec
       end
 
       def on_valid_url?
-        current_url == File.join(Capybara.app_host)
+        current_url == File.join(Capybara.app_host) || current_url == File.join(Capybara.app_host, '/')
       end
 
       def status_response_ok?
@@ -20,9 +20,9 @@ module Dec
 
       def valid_page_content?
         within('.collectionscover') do
-          has_css?('span', text: 'Digital Collections') 
+          has_css?('span', text: 'Digital Collections')
         end
-        within('.brand-bar') do 
+        within('.brand-bar') do
           find_link('University of Notre Dame', href: 'http://www.nd.edu') &&
           find_link('Hesburgh Libraries', href: 'http://library.nd.edu')
         end

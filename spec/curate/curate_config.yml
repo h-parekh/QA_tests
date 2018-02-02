@@ -1,6 +1,6 @@
 local: jello
-staging6: https://libvirt6.library.nd.edu/
-staging8: https://libvirt8.library.nd.edu/
-staging9: https://libvirt9.library.nd.edu/
-pprd: https://curatepprd.library.nd.edu/
-prod: https://curate.nd.edu/
+staging6: https://libvirt6.library.nd.edu
+staging8: https://libvirt8.library.nd.edu
+staging9: https://libvirt9.library.nd.edu
+pprd: https://curatepprd.library.nd.edu
+prod: https://curate.nd.edu
