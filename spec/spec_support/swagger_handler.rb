@@ -3,6 +3,10 @@
 # It leverages methods exposed by the gem 'swagger-parser'
 #   https://github.com/alexpjohnson/swagger-parser
 class SwaggerHandler
+  # This is the first method that gets called from the spec
+  # * Pulls variables frmo BunyanVariableExtractor
+  # * Calls `initialize` for SwaggerHandler class
+  # * Calls the `operations` instance method of SwaggerHandler class
   def self.operations(for_file_path:, config: ENV)
     @registry ||= {}
     example_variable = BunyanVariableExtractor.call(path: for_file_path, config: config)
@@ -17,8 +21,17 @@ class SwaggerHandler
     set_access_token_value!
   end
 
+  # Calls `reject_operations_with_skip_tag` method and assigns the array to @filtered_operations
+  # Note that it isn't changing the original 'swagger' object
+  # Sets @operations variable with an array of objects of type SwaggerHandler::SwaggerOperationDecorator
   def operations
-    @operations ||= swagger.operations.map { |operation| SwaggerOperationDecorator.new(swagger, operation) }
+    @fitered_operations = reject_operations_with_skip_tag
+    @operations ||= @fitered_operations.map { |operation| SwaggerOperationDecorator.new(swagger, operation) }
+  end
+
+  # Returns an array of objects of type Swagger::V2::Operation
+  def reject_operations_with_skip_tag
+    swagger.operations.delete_if { |operation| !operation.tags.nil? && operation.tags.include?("skipTests") }
   end
 
   private
@@ -61,6 +74,9 @@ class SwaggerHandler
 
     attr_reader :example_variable, :config
 
+    # As the name suggests, this class wraps objcets of type Swagger::V2::Operation and provides
+    # methods to easilty read and write its variables
+    # It does not change the operation itself
     class SwaggerOperationDecorator
       def initialize(swagger, operation)
         @swagger = swagger
