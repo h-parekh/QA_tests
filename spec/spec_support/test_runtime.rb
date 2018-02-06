@@ -98,8 +98,8 @@ module InitializeExample
   end
 
   def self.set_capybara_app_host(url)
-    Capybara.app_host = url
-    Bunyan.current_logger.debug(context: "Capybara.app_host set to #{url}")
+    Capybara.app_host = url.chomp("/")
+    Bunyan.current_logger.debug(context: "Capybara.app_host set to #{Capybara.app_host}")
   end
 
   def self.initialize_example_variables!

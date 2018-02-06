@@ -14,7 +14,7 @@ module Seaside
       end
 
       def on_valid_url?
-        current_url == Capybara.app_host || File.join(Capybara.app_host, '#')
+        current_url == Capybara.app_host || File.join(Capybara.app_host, '/')
       end
 
       def valid_page_content?

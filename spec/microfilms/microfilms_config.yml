@@ -1,4 +1,4 @@
 local: jello
 staging: https://medievalstaging-vm.library.nd.edu
-prep: https://medievalpprd-vm.library.nd.edu/
+prep: https://medievalpprd-vm.library.nd.edu
 prod: https://medievalprod-vm.library.nd.edu
