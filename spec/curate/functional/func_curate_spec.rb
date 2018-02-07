@@ -533,3 +533,11 @@ feature 'Featured Collections:', js: true do
     expect(catalog_page).to be_on_page
   end
 end
+
+feature 'Catalog Thumbnail Views:', js: true do
+  scenario 'Collections', :read_only do
+    visit '/catalog?f_inclusive[human_readable_type_sim][]=Collection&display=grid'
+    category_page = Curate::Pages::CatalogPage.new()
+    expect(category_page).to be_on_page
+  end
+end
