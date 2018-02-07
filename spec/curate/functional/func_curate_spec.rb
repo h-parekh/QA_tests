@@ -521,7 +521,7 @@ feature 'Featured Collections:', js: true do
 
   scenario 'Thesis & Dissertations', :read_only do
     visit '/'
-    click_on('Graduate School Thesis & Dissertations')
+    click_on('Graduate School Theses & Dissertations')
     catalog_page = Curate::Pages::CatalogPage.new(category: :thesis)
     expect(catalog_page).to be_on_page
   end
