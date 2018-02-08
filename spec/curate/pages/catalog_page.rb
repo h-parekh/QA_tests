@@ -143,6 +143,38 @@ module Curate
           return node_list[2].text
         end
       end
+
+      def test_facets_list_vs_grid
+        link_list = []
+        href_list = []
+        # Gets first list of Types of Work
+        link_list = all(:css, 'a.facet_select')
+        link_list.each do |link|
+          # Puts the hrefs of the links into a separate array because links become obsolete after page changes
+          href_list.append(link[:href])
+        end
+        unless find('.disabled.btn', text: 'Next »').visible?
+          within('.modal-footer') do
+            find_link('Next').trigger('click')
+          end
+          # Does this a second time because some facets are on the second page of ajax-modal
+          link_list = all(:css, 'a.facet_select')
+          link_list.each do |link|
+            href_list.append(link[:href])
+          end
+        end
+        # Actual testing starts here
+        href_list.each do |href|
+          visit href
+          on_page?
+          find('.display-type.listing.active')
+          find('.search-results-list')
+          # Switch to grid view
+          find('.display-type.grid').click
+          find('.display-type.grid.active')
+          find('.search-results-grid')
+        end
+      end
     end
   end
 end
