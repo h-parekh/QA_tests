@@ -232,6 +232,23 @@ RELEASE_NUMBER: This toggle is only used for contentful_testing. When testing co
 ```console
 RELEASE_NUMBER=r20170922
 ```
+# Using Docker
+## Pre-requisites:
+* Install Docker https://docs.docker.com/install/
+* ensure /Volumes/DCNS is mounted
+
+### Example for running tests from master branch using Docker - For QA testers
+* cd <QA_tests>
+* docker-compose run -e SKIP_CLOUDWATCH=true qa-test-master spec/curate/functional/func_curate_spec.rb
+
+### Example for running tests from local branch (NOT MASTER) - For QA developers
+* cd <QA_tests>
+* git checkout -b <dev branch>
+* <do development stuff>
+* docker-compose run -e SKIP_CLOUDWATCH=true qa-test spec/curate/functional/func_curate_spec.rb
+* Create a PR your local QA_tests branch to merge into master
+* Wait for qa-test-master:latest to be updated at https://hub.docker.com/r/ndlib/qa-tests/
+* You can now use new specs with docker-compose as described in previous section
 
 ## Running Rubocop
 
