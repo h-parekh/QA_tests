@@ -1,10 +1,12 @@
+---
 version: '3'
 services:
   qa-test:
     build: .
     volumes:
-    - /Volumes/DCNS/library/Departmental/Infrastructure/vars/QA:/root/test_data/QA
-  qa-test-pub:
-    image: ndlib/qa-tests:latest
+    - /Volumes/DCNS/Library/Departmental/Infrastructure/vars/QA:/root/test_data/QA
+  qa-test-master:
+    image: ndlib/qa-test:latest
     volumes:
-    - /Volumes/DCNS/library/Departmental/Infrastructure/vars/QA:/root/test_data/QA
+    - /Volumes/DCNS/Library/Departmental/Infrastructure/vars/QA:/root/test_data/QA
+...

@@ -4,6 +4,6 @@ COPY Gemfile* ./
 RUN bundle install --deployment
 COPY bin ./bin/
 COPY config ./config/
-COPY logs ./logs/
 COPY spec ./spec/
 COPY .rspec ./
+ENTRYPOINT ["bundle", "exec", "rspec"]
