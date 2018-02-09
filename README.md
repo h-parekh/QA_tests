@@ -247,7 +247,7 @@ RELEASE_NUMBER=r20170922
 * <do development stuff>
 * docker-compose run -e SKIP_CLOUDWATCH=true qa-test spec/curate/functional/func_curate_spec.rb
 * Create a PR your local QA_tests branch to merge into master
-* Wait for qa-test-master:latest to be updated at https://hub.docker.com/r/ndlib/qa-tests/
+* Wait for qa-test-master:latest to be updated at https://hub.docker.com/r/ndlib/qa-test/
 * You can now use new specs with docker-compose as described in previous section
 
 ## Running Rubocop
