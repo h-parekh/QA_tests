@@ -160,7 +160,7 @@ module Curate
           # Switch to grid view
           find('.display-type.grid').click
           find('.display-type.grid.active')
-          find('.search-results-grid')
+          ('.search-results-grid')
         end
       end
 
@@ -170,16 +170,22 @@ module Curate
         # Gets first list of Types of Work
         link_list = all(:css, 'a.facet_select')
         get_hrefs_from_links(link_list, href_list)
-        unless find('.disabled.btn', text: 'Next »').visible?
+        # Must sleep here in order for if statement to work 
+        sleep(1)
+        # This logic is because some of the environments(staging9) have only one page of links
+        if first('.disabled.btn', text: 'Next »')
+          # Testing for staging9 starts here
+          test_href_list(href_list)
+        else
           within('.modal-footer') do
             find_link('Next').trigger('click')
           end
           # Does this a second time because some facets are on the second page of ajax-modal
           link_list = all(:css, 'a.facet_select')
-          get_hrefs_froms_links(link_list, href_list)
+          get_hrefs_from_links(link_list, href_list)
+          # Testing for pprd and prod starts here
+          test_href_list(href_list)
         end
-        # Actual testing starts here
-        test_href_list(href_list)
       end
     end
   end

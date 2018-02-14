@@ -542,7 +542,7 @@ feature 'Catalog Thumbnail Views:', js: true do
       find("a[data-target='#collapse_Type_of_Work']").click
     end
     within('#collapse_Type_of_Work.accordion-body.in.collapse') do
-      click_on('Show more')
+      find_link('Show more').trigger('click')
     end
     category_page = Curate::Pages::CatalogPage.new()
     category_page.test_facets_list_vs_grid
