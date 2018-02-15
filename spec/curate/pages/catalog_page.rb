@@ -160,7 +160,7 @@ module Curate
           # Switch to grid view
           find('.display-type.grid').click
           find('.display-type.grid.active')
-          ('.search-results-grid')
+          find('.search-results-grid')
         end
       end
 
@@ -170,7 +170,7 @@ module Curate
         # Gets first list of Types of Work
         link_list = all(:css, 'a.facet_select')
         get_hrefs_from_links(link_list, href_list)
-        # Must sleep here in order for if statement to work 
+        # Must sleep here in order for if statement to work
         sleep(1)
         # This logic is because some of the environments(staging9) have only one page of links
         if first('.disabled.btn', text: 'Next »')
