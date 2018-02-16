@@ -26,12 +26,20 @@ class SwaggerHandler
   # Sets @operations variable with an array of objects of type SwaggerHandler::SwaggerOperationDecorator
   def operations
     @fitered_operations = reject_operations_with_skip_tag
-    @operations ||= @fitered_operations.map { |operation| SwaggerOperationDecorator.new(swagger, operation) }
+    if ENV['SWAGGER_LOCATION'] == 'gateway'
+      @operations ||= @fitered_operations.map { |operation| SwaggerOperationDecorator.new(swagger_from_gateway, operation) }
+    else
+      swagger_from_definitions.operations.delete_if { |operation| !operation.tags.nil? && operation.tags.include?("skipTests") }
+    end
   end
 
   # Returns an array of objects of type Swagger::V2::Operation
   def reject_operations_with_skip_tag
-    swagger.operations.delete_if { |operation| !operation.tags.nil? && operation.tags.include?("skipTests") }
+    if ENV['SWAGGER_LOCATION'] == 'gateway'
+      swagger_from_gateway.operations.delete_if { |operation| !operation.tags.nil? && operation.tags.include?("skipTests") }
+    else
+      swagger_from_definitions.operations.delete_if { |operation| !operation.tags.nil? && operation.tags.include?("skipTests") }
+    end
   end
 
   private
@@ -42,7 +50,17 @@ class SwaggerHandler
       @project_repository_name = repo_config_file.fetch('repo_url').split('/')[4]
     end
 
-    def swagger
+    def swagger_from_gateway
+      @swagger ||= begin
+        url_to_swagger_def = File.join('https://raw.githubusercontent.com/', @project_user_name, @project_repository_name, 'master', 'deploy', 'gateway.yml')
+        swagger_yaml = open(url_to_swagger_def, "Authorization" => "token #{@access_token_value}").read
+        unreadable_swagger_file = YAML.load(swagger_yaml)
+        readable_swagger_json = check_for_nested_swagger_def(unreadable_swagger_file)
+        Swagger.build(readable_swagger_json, format: :json)
+      end
+    end
+
+    def swagger_from_definitions
       @swagger ||= begin
         url_to_swagger_def = File.join('https://raw.githubusercontent.com/', @project_user_name, @project_repository_name, 'master', 'definitions', 'swagger.yml')
         swagger_yaml = open(url_to_swagger_def, "Authorization" => "token #{@access_token_value}").read
@@ -70,6 +88,23 @@ class SwaggerHandler
     def set_access_token_value!
       git_access_config_file = YAML.load_file(File.join(ENV.fetch('HOME'), 'test_data/QA/git_access.yaml'))
       @access_token_value = git_access_config_file.fetch("access_token")
+    end
+
+    def self.require_swagger_location
+      if SwaggerHandler.ensure_integration_test
+        if ENV['SWAGGER_LOCATION'].nil?
+          Bunyan.current_logger.error(context: "SWAGGER LOCATION not found in ENV config")
+          Bunyan.current_logger.error(context: "Provide SWAGGER LOCATION of API being tested, ex: gateway")
+          exit!
+        elsif ENV['SWAGGER_LOCATION'] != "gateway" && ENV['SWAGGER_LOCATION'] != "definitions"
+          Bunyan.current_logger.error(context: "SWAGGER LOCATION is invalid.  Valid options are: definitions or gateway.")
+          exit!
+        end
+      end
+    end
+
+    def self.ensure_integration_test
+      return ARGV[0].split('/').include?('integration')
     end
 
     attr_reader :example_variable, :config
