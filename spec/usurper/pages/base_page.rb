@@ -40,7 +40,6 @@ module Usurper
           else
             find_link('Login')
           end
-          find('a', id: 'header-search-button').visible?
           find_link('Hours', href: '/hours').visible?
         end
       end
