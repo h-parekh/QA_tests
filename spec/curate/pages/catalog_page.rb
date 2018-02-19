@@ -151,41 +151,54 @@ module Curate
         end
       end
 
+      def list_view_active?
+        find('.display-type.listing.active')
+        find('.search-results-list')
+      end
+
+      def grid_view_active?
+        find('.display-type.grid.active')
+        find('.search-results-grid')
+      end
+
       def test_href_list(href_list)
         href_list.each do |href|
           visit href
           on_page?
-          find('.display-type.listing.active')
-          find('.search-results-list')
+          list_view_active?
           # Switch to grid view
           find('.display-type.grid').click
-          find('.display-type.grid.active')
-          find('.search-results-grid')
+          grid_view_active?
         end
       end
 
       def test_facets_list_vs_grid
         link_list = []
         href_list = []
+        # Ensures that ajax_modal is on the page
+        has_css?('#ajax-modal')
         # Gets first list of Types of Work
-        link_list = all(:css, 'a.facet_select')
+        within('#ajax-modal') do
+          link_list = all(:css, 'a.facet_select')
+        end
         get_hrefs_from_links(link_list, href_list)
         # Must sleep here in order for if statement to work
         sleep(1)
         # This logic is because some of the environments(staging9) have only one page of links
-        if first('.disabled.btn', text: 'Next »')
-          # Testing for staging9 starts here
-          test_href_list(href_list)
-        else
+        unless first('.disabled.btn', text: 'Next »')
           within('.modal-footer') do
             find_link('Next').trigger('click')
+            # Ensures that ajax-modal is now on the second page
+            has_link?('Previous')
           end
           # Does this a second time because some facets are on the second page of ajax-modal
-          link_list = all(:css, 'a.facet_select')
+          within('#ajax-modal') do
+            link_list = all(:css, 'a.facet_select')
+          end
           get_hrefs_from_links(link_list, href_list)
-          # Testing for pprd and prod starts here
-          test_href_list(href_list)
         end
+        # Testing for grid and list view starts here
+        test_href_list(href_list)
       end
     end
   end
