@@ -93,11 +93,11 @@ class SwaggerHandler
     def self.require_swagger_location
       if SwaggerHandler.ensure_integration_test
         if ENV['SWAGGER_LOCATION'].nil?
-          Bunyan.current_logger.error(context: "SWAGGER LOCATION not found in ENV config")
-          Bunyan.current_logger.error(context: "Provide SWAGGER LOCATION of API being tested, ex: gateway")
+          Bunyan.current_logger.error(context: "SWAGGER_LOCATION not found in ENV config")
+          Bunyan.current_logger.error(context: "Provide SWAGGER_LOCATION of API being tested, ex: gateway")
           exit!
         elsif ENV['SWAGGER_LOCATION'] != "gateway" && ENV['SWAGGER_LOCATION'] != "definitions"
-          Bunyan.current_logger.error(context: "SWAGGER LOCATION is invalid.  Valid options are: definitions or gateway.")
+          Bunyan.current_logger.error(context: "SWAGGER_LOCATION is invalid.  Valid options are: definitions or gateway.")
           exit!
         end
       end
