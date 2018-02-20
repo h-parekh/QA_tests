@@ -42,6 +42,7 @@ RSpec.configure do |config|
   config.before(:suite) do |rspec_suite|
     @current_logger = Bunyan.start(example: rspec_suite, config: ENV, test_handler: self)
     Bunyan.current_logger = @current_logger
+    SwaggerHandler.require_swagger_location
     RunIdentifier.set
     CloudwatchEventHandler.set_aws_config
     new_save_path = ScreenshotsManager.get_screenshots_save_path
