@@ -232,6 +232,11 @@ RELEASE_NUMBER: This toggle is only used for contentful_testing. When testing co
 ```console
 RELEASE_NUMBER=r20170922
 ```
+
+SWAGGER_LOCATION: Used to specify the swagger definition to use for integration tests, you must provide
+a value from either 'definitions' or 'gateway'.
+'definitions': Expects swagger definition in `definitions/swagger.yml` of the API's github repo
+'gateway': Expects swagger definition in `deploy/gateway.yml` of the APIS's github repo
 # Using Docker
 ## Pre-requisites:
 * Install Docker https://docs.docker.com/install/
