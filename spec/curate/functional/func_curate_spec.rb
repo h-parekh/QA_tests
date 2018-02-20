@@ -535,9 +535,16 @@ feature 'Featured Collections:', js: true do
 end
 
 feature 'Catalog Thumbnail Views:', js: true do
-  scenario 'Collections', :read_only do
-    visit '/catalog?f_inclusive[human_readable_type_sim][]=Collection&display=grid'
+  scenario 'List vs. Grid View of Types of Work', :read_only do
+    visit '/'
+    click_on('All Items')
+    within('.facets') do
+      find("a[data-target='#collapse_Type_of_Work']").click
+    end
+    within('#collapse_Type_of_Work.accordion-body.in.collapse') do
+      find_link('Show more').trigger('click')
+    end
     category_page = Curate::Pages::CatalogPage.new()
-    expect(category_page).to be_on_page
+    category_page.test_facets_list_vs_grid
   end
 end
