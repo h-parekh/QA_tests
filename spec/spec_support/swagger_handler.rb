@@ -29,7 +29,7 @@ class SwaggerHandler
     if ENV['SWAGGER_LOCATION'] == 'gateway'
       @operations ||= @fitered_operations.map { |operation| SwaggerOperationDecorator.new(swagger_from_gateway, operation) }
     else
-      swagger_from_definitions.operations.delete_if { |operation| !operation.tags.nil? && operation.tags.include?("skipTests") }
+      @operations ||= @fitered_operations.map { |operation| SwaggerOperationDecorator.new(swagger_from_definitions, operation) }
     end
   end
 
