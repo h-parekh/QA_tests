@@ -65,7 +65,7 @@ module Curate
           current_url.start_with?(File.join(Capybara.app_host, 'catalog'))
         elsif category.nil?
           current_url.start_with?(File.join(Capybara.app_host, 'catalog')) &&
-            current_url.include?(search_term)
+            current_url.include?(encoded_search_term)
         elsif caption.nil?
           current_url == File.join(Capybara.app_host, LOOKUP_CATEGORY_URL.fetch(category))
         else # use caption link
@@ -199,6 +199,15 @@ module Curate
         end
         # Testing for grid and list view starts here
         test_href_list(href_list)
+      end
+
+      def encoded_search_term
+        # If a search term has spaces, curate will convert them to +. If it has +, it will encode them. Ex:
+        #   "Article with many files" => "Article+with+many+files"
+        #   "Article+with+many+files" => "Article%2Bwith%2Bmany%2Bfiles"
+        result = URI.encode(search_term, /\+/)
+        result = result.gsub(/\s/, "+")
+        result
       end
     end
   end

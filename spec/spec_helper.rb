@@ -7,7 +7,7 @@ require 'capybara/poltergeist'
 require 'yaml'
 require 'capybara_error_intel/dsl'
 require 'capybara-screenshot/rspec'
-require 'capybara/maleficent/spindle' # Auto-inject sleep intervals into DOM interactions
+require 'capybara/maleficent/spindle' unless ENV['SKIP_MALEFICENT'] # Auto-inject sleep intervals into DOM interactions
 require 'logging'
 require 'rspec/logging_helper'
 require 'swagger'
