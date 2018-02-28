@@ -55,7 +55,7 @@ module Curate
         within("article.abstract.descriptive-text") do
           page.has_selector?("p", minimum: 1)
         end
-        within("table.table.table-striped") do
+        within("table.table.table-striped.document.attributes") do
           first('p')
         end
       end
