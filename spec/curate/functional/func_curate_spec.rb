@@ -99,15 +99,6 @@ feature 'User Browsing', js: true do
     show_article = Curate::Pages::ShowArticlePage.new(title: article_link.text)
     article_link.click
     expect(show_article).to be_on_page
-    if show_article.has_files?
-      download_button=find("a.action.btn", :text => "Download")
-      article_link = download_button['href']
-      download_button.click
-      last_opened_window = page.driver.browser.window_handles.last
-      page.driver.browser.switch_to_window(last_opened_window)
-      expect(page.current_url).to eq(article_link)
-      expect(status_code.to_s).to match(/^20[0,1,6]$/)
-    end
   end
 end
 
@@ -546,5 +537,38 @@ feature 'Catalog Thumbnail Views:', js: true do
     end
     category_page = Curate::Pages::CatalogPage.new()
     category_page.test_facets_list_vs_grid
+  end
+end
+
+feature 'Browsing attached files' do
+  scenario "Show an Article with many files" do
+    visit '/'
+    home_page = Curate::Pages::HomePage.new
+    expect(home_page).to be_on_page
+    search_term = "Article with many files"
+    fill_in('catalog_search', with: search_term)
+    click_on('Search')
+    catalog_page = Curate::Pages::CatalogPage.new(search_term: search_term)
+    expect(catalog_page).to be_on_page
+    article_link = first('a[id^="src_copy_link"]')
+    show_article = Curate::Pages::ShowArticlePage.new(title: article_link.text)
+    article_link.click
+
+    # Check the state of the rendered page
+    expect(show_article).to be_on_page
+    expect(show_article).to have_files
+    expect(show_article).to have_pagination("files_page")
+
+    # Check that a user can download one of the files
+    download_link=find("article.attached-file a", match: :first)
+    file_name=download_link.text
+    download_link_href = download_link['href']
+    download_link.click
+    last_opened_window = page.driver.browser.window_handles.last
+    page.driver.browser.switch_to_window(last_opened_window)
+    # Can't check the page url, get "about:blank". Have to check that the response header has the right file name.
+    # Doing it this way also tests that the download link (not the button) has the file name as the text for the link
+    expect(page.response_headers['Content-Disposition']).to match(/filename="#{file_name}"/)
+    expect(status_code.to_s).to match(/^20[0,1,6]$/)
   end
 end
