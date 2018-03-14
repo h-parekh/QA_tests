@@ -38,6 +38,7 @@ RSpec.configure do |config|
   # as it helps identify temporal couplings
   config.order = :random
   Kernel.srand config.seed
+  SpecFilterManager.set_default_filters(config: config)
 
   config.before(:suite) do |rspec_suite|
     @current_logger = Bunyan.start(example: rspec_suite, config: ENV, test_handler: self)
