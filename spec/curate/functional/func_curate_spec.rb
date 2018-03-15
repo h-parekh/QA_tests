@@ -86,7 +86,7 @@ feature 'User Browsing', js: true do
     expect(dept_search_page).to be_on_page
   end
 
-  scenario "Show an Article" do
+  scenario "Show an Article", :read_only do
     visit '/'
     home_page = Curate::Pages::HomePage.new
     expect(home_page).to be_on_page
@@ -147,7 +147,7 @@ end
 
 feature 'Logged In User (Account details NOT updated) Browsing', js: true do
   let(:login_page) { LoginPage.new(current_logger, account_details_updated: false) }
-  scenario "Log in", :validates_login do
+  scenario "Log in", :validates_login, :read_only do
     visit '/'
     click_on('Log In')
     login_page.completeLogin
@@ -155,7 +155,7 @@ feature 'Logged In User (Account details NOT updated) Browsing', js: true do
     expect(logged_in_home_page).to be_on_page
   end
 
-  scenario "Manage My Works" do
+  scenario "Manage My Works", :read_only do
     visit '/'
     click_on('Log In')
     login_page.completeLogin
@@ -167,7 +167,7 @@ feature 'Logged In User (Account details NOT updated) Browsing', js: true do
     expect(works_page).to be_on_page
   end
 
-  scenario "Visit Manage My Groups page" do
+  scenario "Visit Manage My Groups page", :read_only do
     visit '/'
     click_on('Log In')
     login_page.completeLogin
@@ -179,7 +179,7 @@ feature 'Logged In User (Account details NOT updated) Browsing', js: true do
     expect(account_details_page).to be_on_page
   end
 
-  scenario "Visit Manage My Collections page" do
+  scenario "Visit Manage My Collections page", :read_only do
     visit '/'
     click_on('Log In')
     login_page.completeLogin
@@ -191,7 +191,7 @@ feature 'Logged In User (Account details NOT updated) Browsing', js: true do
     expect(account_details_page).to be_on_page
   end
 
-  scenario "Visit Manage My Profile page" do
+  scenario "Visit Manage My Profile page", :read_only do
     visit '/'
     click_on('Log In')
     login_page.completeLogin
@@ -203,7 +203,7 @@ feature 'Logged In User (Account details NOT updated) Browsing', js: true do
     expect(account_details_page).to be_on_page
   end
 
-  scenario "Visit Deposit New Article page" do
+  scenario "Visit Deposit New Article page", :read_only do
     visit '/'
     click_on('Log In')
     login_page.completeLogin
@@ -215,7 +215,7 @@ feature 'Logged In User (Account details NOT updated) Browsing', js: true do
     expect(account_details_page).to be_on_page
   end
 
-  scenario "Visit Deposit New Dataset page" do
+  scenario "Visit Deposit New Dataset page", :read_only do
     visit '/'
     click_on('Log In')
     login_page.completeLogin
@@ -227,7 +227,7 @@ feature 'Logged In User (Account details NOT updated) Browsing', js: true do
     expect(account_details_page).to be_on_page
   end
 
-  scenario "Visit Deposit New Document page" do
+  scenario "Visit Deposit New Document page", :read_only do
     visit '/'
     click_on('Log In')
     login_page.completeLogin
@@ -239,7 +239,7 @@ feature 'Logged In User (Account details NOT updated) Browsing', js: true do
     expect(account_details_page).to be_on_page
   end
 
-  scenario "Visit Deposit New Image page" do
+  scenario "Visit Deposit New Image page", :read_only do
     visit '/'
     click_on('Log In')
     login_page.completeLogin
@@ -251,7 +251,7 @@ feature 'Logged In User (Account details NOT updated) Browsing', js: true do
     expect(account_details_page).to be_on_page
   end
 
-  scenario "Visit More Options page" do
+  scenario "Visit More Options page", :read_only do
     visit '/'
     click_on('Log In')
     login_page.completeLogin
@@ -263,7 +263,7 @@ feature 'Logged In User (Account details NOT updated) Browsing', js: true do
     expect(account_details_page).to be_on_page
   end
 
-  scenario "Visit Deposit New Audio page" do
+  scenario "Visit Deposit New Audio page", :read_only do
     visit '/'
     click_on('Log In')
     login_page.completeLogin
@@ -275,7 +275,7 @@ feature 'Logged In User (Account details NOT updated) Browsing', js: true do
     expect(account_details_page).to be_on_page
   end
 
-  scenario "Visit Deposit New Senior Thesis page" do
+  scenario "Visit Deposit New Senior Thesis page", :read_only do
     visit '/'
     click_on('Log In')
     login_page.completeLogin
@@ -287,7 +287,7 @@ feature 'Logged In User (Account details NOT updated) Browsing', js: true do
     expect(account_details_page).to be_on_page
   end
 
-  scenario "Log out" do
+  scenario "Log out", :read_only do
     visit '/'
     click_on('Log In')
     login_page.completeLogin
@@ -302,7 +302,7 @@ end
 
 feature 'Logged In User (Account details updated) Browsing', js: true do
   let(:login_page) { LoginPage.new(current_logger, account_details_updated: true) }
-  scenario "Log in", :validates_login do
+  scenario "Log in", :validates_login, :read_only do
     visit '/'
     click_on('Log In')
     login_page.completeLogin
@@ -310,7 +310,7 @@ feature 'Logged In User (Account details updated) Browsing', js: true do
     expect(logged_in_home_page).to be_on_page
   end
 
-  scenario "Manage My Works", js: true do
+  scenario "Manage My Works", js: true, :read_only do
     visit '/'
     click_on('Log In')
     login_page.completeLogin
@@ -322,7 +322,7 @@ feature 'Logged In User (Account details updated) Browsing', js: true do
     expect(works_page).to be_on_page
   end
 
-  scenario "Visit Manage My Groups page" do
+  scenario "Visit Manage My Groups page", :read_only do
     visit '/'
     click_on('Log In')
     login_page.completeLogin
@@ -334,7 +334,7 @@ feature 'Logged In User (Account details updated) Browsing', js: true do
     expect(groups_page).to be_on_page
   end
 
-  scenario "Visit Manage My Collections page" do
+  scenario "Visit Manage My Collections page", :read_only do
     visit '/'
     click_on('Log In')
     login_page.completeLogin
@@ -346,7 +346,7 @@ feature 'Logged In User (Account details updated) Browsing', js: true do
     expect(collections_page).to be_on_page
   end
 
-  scenario "Visit Manage My Profile page" do
+  scenario "Visit Manage My Profile page", :read_only do
     visit '/'
     click_on('Log In')
     login_page.completeLogin
@@ -358,7 +358,7 @@ feature 'Logged In User (Account details updated) Browsing', js: true do
     expect(profile_page).to be_on_page
   end
 
-  scenario "Visit Manage My Delegates page" do
+  scenario "Visit Manage My Delegates page", :read_only do
     visit '/'
     click_on('Log In')
     login_page.completeLogin
@@ -370,7 +370,7 @@ feature 'Logged In User (Account details updated) Browsing', js: true do
     expect(delegates_page).to be_on_page
   end
 
-  scenario "Visit Deposit New Article page" do
+  scenario "Visit Deposit New Article page", :read_only do
     visit '/'
     click_on('Log In')
     login_page.completeLogin
@@ -382,7 +382,7 @@ feature 'Logged In User (Account details updated) Browsing', js: true do
     expect(article_page).to be_on_page
   end
 
-  scenario "Visit Deposit New Dataset page" do
+  scenario "Visit Deposit New Dataset page", :read_only do
     visit '/'
     click_on('Log In')
     login_page.completeLogin
@@ -394,7 +394,7 @@ feature 'Logged In User (Account details updated) Browsing', js: true do
     expect(dataset_page).to be_on_page
   end
 
-  scenario "Visit Deposit New Document page" do
+  scenario "Visit Deposit New Document page", :read_only do
     visit '/'
     click_on('Log In')
     login_page.completeLogin
@@ -406,7 +406,7 @@ feature 'Logged In User (Account details updated) Browsing', js: true do
     expect(document_page).to be_on_page
   end
 
-  scenario "Visit Deposit New Image page" do
+  scenario "Visit Deposit New Image page", :read_only do
     visit '/'
     click_on('Log In')
     login_page.completeLogin
@@ -418,7 +418,7 @@ feature 'Logged In User (Account details updated) Browsing', js: true do
     expect(image_page).to be_on_page
   end
 
-  scenario "Visit More Options page" do
+  scenario "Visit More Options page", :read_only do
     visit '/'
     click_on('Log In')
     login_page.completeLogin
@@ -430,7 +430,7 @@ feature 'Logged In User (Account details updated) Browsing', js: true do
     expect(options_page).to be_on_page
   end
 
-  scenario "Visit Deposit New Audio page" do
+  scenario "Visit Deposit New Audio page", :read_only do
     visit '/'
     click_on('Log In')
     login_page.completeLogin
@@ -445,7 +445,7 @@ feature 'Logged In User (Account details updated) Browsing', js: true do
     expect(audio_page).to be_on_page
   end
 
-  scenario "Visit Deposit New Senior Thesis page" do
+  scenario "Visit Deposit New Senior Thesis page", :read_only do
     visit '/'
     click_on('Log In')
     login_page.completeLogin
@@ -460,7 +460,7 @@ feature 'Logged In User (Account details updated) Browsing', js: true do
     expect(thesis_page).to be_on_page
   end
 
-  scenario "Log out" do
+  scenario "Log out", :read_only do
     visit '/'
     click_on('Log In')
     login_page.completeLogin
@@ -474,7 +474,7 @@ end
 
 feature 'Logged in user changing ORCID settings:', js: true do
   let(:login_page) { LoginPage.new(current_logger, account_details_updated: false) }
-  scenario "Go to ORCID.org home page", :validates_login do
+  scenario "Go to ORCID.org home page", :validates_login, :read_only do
     visit '/'
     click_on('Log In')
     login_page.completeLogin
@@ -541,7 +541,7 @@ feature 'Catalog Thumbnail Views:', js: true do
 end
 
 feature 'Browsing attached files' do
-  scenario "Show an Article with many files" do
+  scenario "Show an Article with many files", :read_only do
     visit '/'
     home_page = Curate::Pages::HomePage.new
     expect(home_page).to be_on_page

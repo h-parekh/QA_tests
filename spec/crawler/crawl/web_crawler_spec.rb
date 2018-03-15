@@ -5,7 +5,7 @@ require "net/http"
 require "uri"
 require "set"
 feature 'Link Checker' do
-  scenario 'Check Links' do
+  scenario 'Check Links', :read_only do
     begin
       File.foreach(ENV["HOME"] + "/crawl_sites.txt") do |root_url|
         root_url.strip!

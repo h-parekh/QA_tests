@@ -1,8 +1,11 @@
 # frozen_string_literal: true
 require 'contentful/contentful_spec_helper'
 
+# Both these scenarios are adding content in production but I'm still tagging
+# them as ':read_only' because they have a built in mechanism to cleanup
+# test data before finishing  the scenarios
 feature 'Tests for Contentful entries and webhook integrations' do
-  scenario "Create and preview an entry of type 'Page'" do
+  scenario "Create and preview an entry of type 'Page'", :read_only do
     ContentfulHandler.create(current_logger: current_logger) do |entry|
       entry.verify_webhooks
       expect(entry).not_to be_published
@@ -25,7 +28,7 @@ feature 'Tests for Contentful entries and webhook integrations' do
   # 'lib_cal_id' is a unique ID that is used to pull data from the libcal system
   # libcal ID is parameterized by leveraging the PathParameterizer::ParameterFinder
   # class along with the associated find method of ParameterFinder
-  scenario "Create and preview an entry of type 'Events'" do
+  scenario "Create and preview an entry of type 'Events'", :read_only do
     contentful_params = PathParameterizer::ParameterFinder.new(application_name_under_test: 'contentful')
     lib_cal_id = contentful_params.find(key: 'libCalId').to_s
     ContentfulHandler.create(current_logger: current_logger, content_type: 'event', lib_cal_id: lib_cal_id ) do |entry|
