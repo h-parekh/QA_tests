@@ -460,7 +460,111 @@ feature 'Logged In User (Account details updated) Browsing', js: true do
     expect(thesis_page).to be_on_page
   end
 
-  scenario "Log out", :read_only do
+  scenario "Create Embargo Work" do
+    visit '/'
+    click_on('Log In')
+    login_page.completeLogin
+    logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
+    expect(logged_in_home_page).to be_on_page
+    logged_in_home_page.openAddContentDrawer
+    click_on('New Image')
+    image_page = Curate::Pages::ImagePage.new
+    # To test if the ebargo date requirement works
+    image_page.createTempImage(access_rights: 'embargo', embargo_date: false)
+    # Since there is no embargo date the url should not change
+    expect(current_url).to include('concern/images/new')
+    fill_in(id: 'image_embargo_release_date', with: Date.today+1)
+    find('.btn.btn-primary.require-contributor-agreement').trigger('click')
+    # Since there is an embargo date the url should change (slep because it takes time for page to load)
+    sleep(3)
+    expect(current_url).not_to include('concern/images/new')
+    find_link('Delete').trigger('click')
+  end
+
+
+  scenario "Changing Work Access Rights to Embargo without Filling in Date Should Not Work" do
+    visit '/'
+    click_on('Log In')
+    login_page.completeLogin
+    logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
+    expect(logged_in_home_page).to be_on_page
+    logged_in_home_page.openAddContentDrawer
+    click_on('New Image')
+    image_page = Curate::Pages::ImagePage.new
+    image_page.createTempImage(access_rights: 'restricted')
+    within('.page-actions') do
+      click_on('Edit')
+    end
+    within('#set-access-controls') do
+      choose(id: 'visibility_embargo')
+    end
+    # To test that the embargo date requirement works
+    find('.btn.btn-primary.require-contributor-agreement').trigger('click')
+    expect(current_url).not_to include('confirm')
+    fill_in(id: 'image_embargo_release_date', with: Date.today+1)
+    find('.btn.btn-primary.require-contributor-agreement').trigger('click')
+    within('.button_to') do
+      find('.btn.btn-primary').trigger('click')
+    end
+    find_link('Delete').trigger('click')
+  end
+
+  scenario "Changing Work Access Rights from Embargo to Open" do
+    visit '/'
+    click_on('Log In')
+    login_page.completeLogin
+    logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
+    expect(logged_in_home_page).to be_on_page
+    logged_in_home_page.openAddContentDrawer
+    click_on('New Image')
+    image_page = Curate::Pages::ImagePage.new
+    image_page.createTempImage(access_rights: 'embargo')
+    within('.page-actions') do
+      click_on('Edit')
+    end
+    within('#set-access-controls') do
+      choose(id: 'visibility_open')
+    end
+    find('.btn.btn-primary.require-contributor-agreement').trigger('click')
+    within('.button_to') do
+      find('.btn.btn-primary').trigger('click')
+    end
+    # Make sure the Access Control switches to Open
+    find('.label.label-success')
+    find_link('Delete').trigger('click')
+  end
+
+  scenario "Changing Work Access Rights from Registered to Embargo" do
+    visit '/'
+    click_on('Log In')
+    login_page.completeLogin
+    logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
+    expect(logged_in_home_page).to be_on_page
+    logged_in_home_page.openAddContentDrawer
+    click_on('New Image')
+    image_page = Curate::Pages::ImagePage.new
+    image_page.createTempImage(access_rights: 'ndu')
+    within('.page-actions') do
+      click_on('Edit')
+    end
+    within('#set-access-controls') do
+      choose(id: 'visibility_embargo')
+    end
+    fill_in(id: 'image_embargo_release_date', with: Date.today+1)
+    find('.btn.btn-primary.require-contributor-agreement').trigger('click')
+    within('.button_to') do
+      find('.btn.btn-primary').trigger('click')
+    end
+    within('.page-actions') do
+      click_on('Edit')
+    end
+    # Make sure the embargo radio button is checked
+    expect(find("#visibility_embargo")).to be_checked
+    find_link('Cancel').trigger('click')
+    find_link('Delete').trigger('click')
+  end
+
+  scenario "Log out" do
     visit '/'
     click_on('Log In')
     login_page.completeLogin
