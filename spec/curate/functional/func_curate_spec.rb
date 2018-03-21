@@ -310,7 +310,7 @@ feature 'Logged In User (Account details updated) Browsing', js: true do
     expect(logged_in_home_page).to be_on_page
   end
 
-  scenario "Manage My Works", js: true, :read_only do
+  scenario "Manage My Works", :read_only do
     visit '/'
     click_on('Log In')
     login_page.completeLogin
