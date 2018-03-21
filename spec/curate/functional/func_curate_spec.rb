@@ -541,7 +541,7 @@ feature 'Catalog Thumbnail Views:', js: true do
 end
 
 feature 'Browsing attached files' do
-  scenario "Show an Article with many files", :read_only do
+  scenario "Show an Article with many files", :read_only, :nonprod_only do
     visit '/'
     home_page = Curate::Pages::HomePage.new
     expect(home_page).to be_on_page
