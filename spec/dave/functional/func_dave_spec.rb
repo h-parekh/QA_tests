@@ -54,17 +54,17 @@ end
 
 feature 'View DAVE Artifact', js: true do
   let(:site) { DaveSite.new }
-  scenario 'Load First Document' do
+  scenario 'Load First Document', :read_only do
     visitHome()
   end
 
-  scenario 'Select Next Image' do
+  scenario 'Select Next Image', :read_only do
     visitHome()
     visitNewPage(page: 1)
     expect(page.current_url).to eq(site.current_url_for_view_type(view_type: :one_page, page: 1))
   end
 
-  scenario 'Select Previous Image' do
+  scenario 'Select Previous Image', :read_only do
     visitHome()
     visitNewPage(page: 1)
     expect(page.current_url).to eq(site.current_url_for_view_type(view_type: :one_page, page: 1))
@@ -73,14 +73,14 @@ feature 'View DAVE Artifact', js: true do
     visitNewPage(page: 1)
     expect(page.current_url).to eq(site.current_url_for_view_type(view_type: :one_page, page: 1))
   end
-  scenario 'Select Last Image' do
+  scenario 'Select Last Image', :read_only do
     visitHome()
     last_page = getLastPage()
     visitNewPage(page: last_page)
     checkImageSelection(imageNumber: last_page)
   end
 
-  scenario 'Select First Image' do
+  scenario 'Select First Image', :read_only do
     visitHome()
     last_page = getLastPage()
     visitNewPage(page: last_page)
@@ -88,7 +88,7 @@ feature 'View DAVE Artifact', js: true do
     visitNewPage()
     checkImageSelection(imageNumber: 0)
   end
-  scenario 'Select Specific Page' do
+  scenario 'Select Specific Page', :read_only do
     visitHome()
     last_page = getLastPage()
     pageNumber = Random.rand(1..last_page)
@@ -99,7 +99,7 @@ feature 'View DAVE Artifact', js: true do
     checkImageSelection(imageNumber: pageNumber)
   end
 
-  scenario 'Make a Dropdown Selection' do
+  scenario 'Make a Dropdown Selection', :read_only do
     visitHome()
     last_page = getLastPage()
     pageNumber = Random.rand(1..last_page)
@@ -108,7 +108,7 @@ feature 'View DAVE Artifact', js: true do
     end
     checkImageSelection(imageNumber: pageNumber)
   end
-  scenario 'Go to Two Image View' do
+  scenario 'Go to Two Image View', :read_only do
     visitHome()
     twoPageViewURL = site.button_link_url(view_type: :two_page)
     within(bottom_Document_NavBar) do
@@ -126,7 +126,7 @@ feature 'View DAVE Artifact', js: true do
     first_doc = Dave::Pages::FirstDocument.new
     expect(first_doc).to be_two_page
   end
-  scenario 'Go to Grid Image View' do
+  scenario 'Go to Grid Image View', :read_only do
     visitHome()
     gridURL = site.button_link_url(view_type: :grid)
     within(bottom_Document_NavBar) do
@@ -135,7 +135,7 @@ feature 'View DAVE Artifact', js: true do
     expect(page.current_url).to eq(site.current_url_for_view_type(view_type: :grid))
   end
 
-  scenario 'Go to Detail View' do
+  scenario 'Go to Detail View', :read_only do
     visitHome()
     last_page = getLastPage()
     pageNumber = Random.rand(1..last_page)
@@ -158,7 +158,7 @@ feature 'View DAVE Artifact', js: true do
       expect(first_doc).to be_detail_view
     end
   end
-  scenario 'Visit Page from Current Document' do
+  scenario 'Visit Page from Current Document', :read_only do
     site.visit_from_current_document(page: 1)
     expect(page.current_url).to eq(site.current_url_for_view_type(view_type: :one_page, page: 1))
   end

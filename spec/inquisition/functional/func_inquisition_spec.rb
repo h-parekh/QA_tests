@@ -2,7 +2,7 @@
 
 require 'inquisition/inquisition_spec_helper'
 
-feature 'User Browsing', js: true do
+feature 'User Browsing', js: true , :read_only do
   scenario 'Load Homepage', :read_only, :smoke_test do
     page.driver.browser.js_errors = false
     visit '/'

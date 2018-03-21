@@ -173,10 +173,11 @@ $ ./bin/run_tests spec/curate/functional/func_curate_spec.rb
 
 #### Testing on your local machine
 
+To see all available input variables and examples:
 ```console
 $ cd /path/to/QA_tests
-$ ./bin/run_tests spec/curate/functional/func_curate_spec.rb
-```
+$ ./bin/run_tests -h
+````
 
 #### Triggering from Jenkins CI
 

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 require 'vatican/vatican_spec_helper'
-feature "User Browsing", js: true do
+feature "User Browsing", :read_only, js: true do
   scenario 'Load Homepage' do
     page.driver.browser.js_errors = false
     visit '/'
@@ -8,7 +8,7 @@ feature "User Browsing", js: true do
     expect(home_page).to be_on_page
   end
 
-  scenario 'Go to "How To Use Database" page' do
+  scenario 'Go to "How To Use Database" page', :read_only do
     page.driver.browser.js_errors = false
     visit '/'
     click_on('How To Use the Database')
@@ -16,7 +16,7 @@ feature "User Browsing", js: true do
     expect(instructions_page).to be_on_page
   end
 
-  scenario 'Load "Search the Database" page' do
+  scenario 'Load "Search the Database" page', :read_only do
     page.driver.browser.js_errors = false
     visit '/'
     click_on("Search The Database")
@@ -24,7 +24,7 @@ feature "User Browsing", js: true do
     expect(search_page).to be_on_page
   end
 
-  scenario 'Validate navigation menu on search page' do
+  scenario 'Validate navigation menu on search page', :read_only do
     page.driver.browser.js_errors = false
     visit '/'
     click_on("Search The Database")
@@ -35,7 +35,7 @@ feature "User Browsing", js: true do
     end
   end
 
-  scenario 'Check a box in "Search By Topic"' do
+  scenario 'Check a box in "Search By Topic"', :read_only do
     page.driver.browser.js_errors = false
     visit '/'
     click_on("Search The Database")
@@ -45,7 +45,7 @@ feature "User Browsing", js: true do
     expect(page).to have_content("Catholic Social Teaching")
   end
 
-  scenario 'Clear Selected Topic' do
+  scenario 'Clear Selected Topic', :read_only do
     page.driver.browser.js_errors = false
     visit '/'
     click_on("Search The Database")
@@ -59,7 +59,7 @@ feature "User Browsing", js: true do
     expect(page).to have_no_content("Catholic Social Teaching")
   end
 
-  scenario 'Search Results Divided into Columns' do
+  scenario 'Search Results Divided into Columns', :read_only do
     page.driver.browser.js_errors = false
     visit '/'
     click_on("Search The Database")
@@ -75,7 +75,7 @@ feature "User Browsing", js: true do
     expect(page).to have_content("International Human Rights Law")
   end
 
-  scenario 'Access Entire Document' do
+  scenario 'Access Entire Document', :read_only do
     page.driver.browser.js_errors = false
     visit '/'
     click_on("Search The Database")
@@ -95,7 +95,7 @@ feature "User Browsing", js: true do
     expect(page).to have_content("Topics in Document")
   end
 
-  scenario 'Sort Newest To Oldest' do
+  scenario 'Sort Newest To Oldest', :read_only do
     page.driver.browser.js_errors = false
     visit '/'
     click_on("Search The Database")

@@ -110,7 +110,7 @@ feature 'User Browsing', js: true do
     end
   end
 
-  scenario 'Chat with Librarian via button' do
+  scenario 'Chat with Librarian via button', :read_only do
     visit '/'
     within('#chat.footer-chat') do
       find('.chat-button').click
@@ -119,7 +119,7 @@ feature 'User Browsing', js: true do
     end
   end
 
-  scenario 'Go to Workshops page' do
+  scenario 'Go to Workshops page', :read_only do
     visit '/'
     find('#services').click
     find_link('Workshops', href: '/workshops').trigger('click')
@@ -130,14 +130,14 @@ feature 'User Browsing', js: true do
     expect(calendar).to be_on_page
   end
 
-  scenario 'Go to Hours Page' do
+  scenario 'Go to Hours Page', :read_only do
     visit '/'
     find_link('Hours', href: '/hours').click
     hours = Usurper::Pages::HoursPage.new
     expect(hours).to be_on_page
   end
 
-  scenario 'Search using OneSearch from HomePage' do
+  scenario 'Search using OneSearch from HomePage', :read_only do
     visit '/'
     page.driver.browser.js_errors = false # Suprressing JS errors from OneSearch site
     find_button('Search').trigger('click')
@@ -146,7 +146,7 @@ feature 'User Browsing', js: true do
     expect(search).to be_on_page
   end
 
-  scenario 'Search using ND Catalog from HomePage' do
+  scenario 'Search using ND Catalog from HomePage', :read_only do
     visit '/'
     find('.current-search').click
     within('.uSearchOptionList') do
@@ -159,7 +159,7 @@ feature 'User Browsing', js: true do
     expect(search).to be_on_page
   end
 
-  scenario 'Search using CurateND from HomePage' do
+  scenario 'Search using CurateND from HomePage', :read_only do
     visit '/'
     find('.current-search').click
     within('.uSearchOptionList') do
@@ -170,7 +170,7 @@ feature 'User Browsing', js: true do
     expect(current_url).to match(/^https:\/\/curate.nd.edu\/catalog./)
   end
 
-  scenario 'Search using Library Website from HomePage' do
+  scenario 'Search using Library Website from HomePage', :read_only do
     visit '/'
     find('.current-search').click
     within('.uSearchOptionList') do
@@ -184,7 +184,7 @@ end
 
 feature 'Logged In User Browsing', js: true do
   let(:login) { LoginPage.new(current_logger) }
-  scenario 'Log In', :validates_login do
+  scenario 'Log In', :read_only, :validates_login do
     visit '/'
     click_on('Login')
     login.completeLogin
@@ -192,7 +192,7 @@ feature 'Logged In User Browsing', js: true do
     expect(logged_in_home).to be_on_page
   end
 
-  scenario 'View Checked Out/Pending Items' do
+  scenario 'View Checked Out/Pending Items', :read_only do
     visit '/'
     click_on('Login')
     login.completeLogin
@@ -201,7 +201,7 @@ feature 'Logged In User Browsing', js: true do
     expect(accountpage).to be_on_page
   end
 
-  scenario 'View Courses/Instructs' do
+  scenario 'View Courses/Instructs', :read_only do
     # Does not run properly do to issues with
     visit '/'
     click_on('Login')

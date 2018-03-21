@@ -11,9 +11,10 @@ end
 #
 # *****************************************************************************
 
-CONFIG_KEYS = [:ENVIRONMENT, :LOG_LEVEL, :SKIP_CLOUDWATCH, :SKIP_VERIFY_NETWORK_TRAFFIC, :SKIP_MALEFICENT, :ALLOW_ALL_NETWORK_HOSTS, :USE_CONTENTFUL_SPACE, :VERSION_NUMBER, :RELEASE_NUMBER].freeze
+CONFIG_KEYS = [:ENVIRONMENT, :ENVIRONMENT_CATEGORY, :LOG_LEVEL, :SKIP_CLOUDWATCH, :SKIP_VERIFY_NETWORK_TRAFFIC, :SKIP_MALEFICENT, :ALLOW_ALL_NETWORK_HOSTS, :USE_CONTENTFUL_SPACE, :VERSION_NUMBER, :RELEASE_NUMBER].freeze
 
 ENVIRONMENT = ENV.fetch('ENVIRONMENT', Bunyan::DEFAULT_ENVIRONMENT)
+ENVIRONMENT_CATEGORY = ENV.fetch('ENVIRONMENT_CATEGORY', nil)
 LOG_LEVEL = ENV.fetch('LOG_LEVEL', Bunyan::DEFAULT_LOG_LEVEL)
 SKIP_CLOUDWATCH = ENV.fetch('SKIP_CLOUDWATCH', nil)
 SKIP_VERIFY_NETWORK_TRAFFIC = ENV.fetch('SKIP_VERIFY_NETWORK_TRAFFIC', nil)
@@ -51,10 +52,20 @@ if ARGV.grep(/-h/i).size == 1
   $stdout.puts ""
   $stdout.puts "Available LOG_LEVEL: #{Bunyan::AVAILABLE_LOG_LEVELS.join(', ')}"
   $stdout.puts "You can override the configuration option by adding the corresponding"
-  $stdout.puts "ENV variable."
+  $stdout.puts "ENV variable key from spec/<app_you_are_testing>/<app_you_are_testing>_config.yml"
   $stdout.puts ""
   $stdout.puts "Example:"
   $stdout.puts "$ ENVIRONMENT=local ./bin/#{File.basename(__FILE__)}"
+  $stdout.puts ""
+  $stdout.puts "'ENVIRONMENT' can also be an endpoint URL"
+  $stdout.puts "Example:"
+  $stdout.puts "$ ENVIRONMENT=https://library.nd.edu ./bin/#{File.basename(__FILE__)}"
+  $stdout.puts ""
+  $stdout.puts "In that case, please specify whether endpoint is production or non_production using 'ENVIRONMENT_CATEGORY'"
+  $stdout.puts "ENVIRONMENT_CATEGORY can be one of: ['local', 'dev', 'test', 'prep', 'pprd', 'staging', 'staging6', 'staging8','staging9', 'prod']"
+  $stdout.puts "NOTE that some scenarios will be filtered out if you're running against production"
+  $stdout.puts "Example:"
+  $stdout.puts "$ ENVIRONMENT_CATEGORY=prod ENVIRONMENT=https://library.nd.edu ./bin/#{File.basename(__FILE__)}"
   $stdout.puts ""
 
   $stdout.puts "SKIP_CLOUDWATCH: By default we notify CloudWatch of test events. In some cases,"
