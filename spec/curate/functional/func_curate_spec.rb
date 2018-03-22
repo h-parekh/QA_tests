@@ -460,7 +460,7 @@ feature 'Logged In User (Account details updated) Browsing', js: true do
     expect(thesis_page).to be_on_page
   end
 
-  scenario "Create Embargo Work" do
+  scenario "Create Embargo Work", :nonprod_only do
     visit '/'
     click_on('Log In')
     login_page.completeLogin
@@ -482,7 +482,7 @@ feature 'Logged In User (Account details updated) Browsing', js: true do
   end
 
 
-  scenario "Changing Work Access Rights to Embargo without Filling in Date Should Not Work" do
+  scenario "Changing Work Access Rights to Embargo without Filling in Date Should Not Work", :nonprod_only do
     visit '/'
     click_on('Log In')
     login_page.completeLogin
@@ -509,7 +509,7 @@ feature 'Logged In User (Account details updated) Browsing', js: true do
     find_link('Delete').trigger('click')
   end
 
-  scenario "Changing Work Access Rights from Embargo to Open" do
+  scenario "Changing Work Access Rights from Embargo to Open", :nonprod_only do
     visit '/'
     click_on('Log In')
     login_page.completeLogin
@@ -534,7 +534,7 @@ feature 'Logged In User (Account details updated) Browsing', js: true do
     find_link('Delete').trigger('click')
   end
 
-  scenario "Changing Work Access Rights from Registered to Embargo" do
+  scenario "Changing Work Access Rights from Registered to Embargo", :nonprod_only do
     visit '/'
     click_on('Log In')
     login_page.completeLogin
