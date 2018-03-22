@@ -5,10 +5,10 @@ module Curate
       include Capybara::DSL
       include CapybaraErrorIntel::DSL
 
-      def on_page?
+      def on_page?(account_details_updated)
         on_valid_url? &&
           status_response_ok? &&
-          valid_page_content? &&
+          valid_page_content?(account_details_updated) &&
           valid_uri_parameters?
       end
 
@@ -20,10 +20,18 @@ module Curate
         status_code == 200
       end
 
-      def valid_page_content?
+      def valid_page_content?(account_details_updated)
         page.has_content?("ORCID")
-        page.has_selector?(:link_or_button, "Register")
-        page.has_selector?(:link_or_button, "Sign In")
+        if account_details_updated
+          find('#register-form-password')
+          page.has_selector?(:link_or_button, "Sign In")
+          page.has_selector?(:link_or_button, "Register")
+        else
+          find('#userId.form-control.ng-pristine.ng-untouched.ng-valid.ng-empty')
+          find('#password.form-control')
+          page.has_selector?(:link_or_button, "Register now")
+          page.has_selector?(:link_or_button, "Sign into ORCID")
+        end
       end
 
       def valid_uri_parameters?
