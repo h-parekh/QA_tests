@@ -310,7 +310,7 @@ feature 'Logged In User (Account details updated) Browsing', js: true do
     expect(logged_in_home_page).to be_on_page
   end
 
-  scenario "Manage My Works", js: true, :read_only do
+  scenario "Manage My Works", :read_only do
     visit '/'
     click_on('Log In')
     login_page.completeLogin
@@ -472,9 +472,9 @@ feature 'Logged In User (Account details updated) Browsing', js: true do
   end
 end
 
-feature 'Logged in user changing ORCID settings:', js: true do
+feature 'Logged in user changing ORCID settings (Account Details Not Updated):', js: true do
   let(:login_page) { LoginPage.new(current_logger, account_details_updated: false) }
-  scenario "Go to ORCID.org home page", :validates_login, :read_only do
+  scenario "Go to ORCID.org Signin page", :validates_login, :read_only do
     visit '/'
     click_on('Log In')
     login_page.completeLogin
@@ -491,7 +491,31 @@ feature 'Logged in user changing ORCID settings:', js: true do
     find_link('Create or Connect your ORCID iD').trigger('click')
     sleep(1)
     orcid_home_page = Curate::Pages::OrcidHomePage.new
-    expect(orcid_home_page).to be_on_page
+    expect(orcid_home_page).to be_on_page(login_page.account_details_updated)
+  end
+end
+
+feature 'Logged in user changing ORCID settings (Account Details Updated):', js: true do
+  let(:login_page) { LoginPage.new(current_logger, account_details_updated: true) }
+  scenario "Go to ORCID.org registration page", :validates_login, :read_only do
+    visit '/'
+    click_on('Log In')
+    login_page.completeLogin
+    logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
+    expect(logged_in_home_page).to be_on_page
+    logged_in_home_page.openActionsDrawer
+    click_on("My Profile")
+    click_on("Update Personal Information")
+    account_details_page = Curate::Pages::AccountDetailsPage.new
+    expect(account_details_page).to be_on_page
+    find_link('ORCID Settings').trigger('click')
+    sleep(1)
+    orcid_settings_page = Curate::Pages::OrcidSettingsPage.new
+    expect(orcid_settings_page).to be_on_page
+    find_link('Create or Connect your ORCID iD').trigger('click')
+    sleep(1)
+    orcid_home_page = Curate::Pages::OrcidHomePage.new
+    expect(orcid_home_page).to be_on_page(login_page.account_details_updated)
   end
 end
 
