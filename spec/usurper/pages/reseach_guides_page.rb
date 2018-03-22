@@ -16,9 +16,8 @@ module Usurper
       end
 
       def on_valid_url?
-        #Link to the libcal reserve library spaces page
-        libcal_research_guides = ('http://libguides.library.nd.edu/')
-        current_url == libcal_research_guides
+        # Library guides Homepage redirects to 'By Subject' tab on load
+        current_url == 'http://libguides.library.nd.edu/?b=s'
       end
 
     def correct_content?

@@ -29,7 +29,7 @@ module Usurper
       end
 
       def correct_url?
-        page.current_url == 'http://nd.libcal.com/calendar/allworkshops/?cid=447&t=m&d=0000-00-00&cal%5B%5D=447'
+        page.current_url == 'http://nd.libcal.com/calendar/allworkshops/?cid=447&t=m&d=0000-00-00&cal=447'
       end
     end
   end
