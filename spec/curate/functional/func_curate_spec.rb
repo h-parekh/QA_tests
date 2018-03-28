@@ -127,7 +127,7 @@ feature 'Facet Navigation', js: true do
       expect(page).to have_selector('#ajax-modal', visible: true)
       expect(page).to have_content(facet_name)
       within('#ajax-modal') do
-        find('.close').click
+        find('.close').trigger('click')
       end
       expect(page).not_to have_selector("#ajax-modal", visible: true)
     end
