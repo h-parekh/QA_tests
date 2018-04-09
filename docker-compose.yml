@@ -1,12 +1,13 @@
 ---
 version: '3'
 services:
-  qa-tests:
+  qa-tests-dev:
     build: .
-    volumes:
-    - /Volumes/DCNS/Library/Departmental/Infrastructure/vars/QA:/root/test_data/QA
+    env_file:
+      - ~/.aws/credentials
+      - ~/.aws/config
   qa-tests-master:
     image: ndlib/qa-tests:latest
-    volumes:
-    - /Volumes/DCNS/Library/Departmental/Infrastructure/vars/QA:/root/test_data/QA
+  qa-tests-aws:
+    image: ndlib/qa-tests:hp_docker_on_aws
 ...
