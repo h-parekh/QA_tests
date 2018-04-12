@@ -5,7 +5,11 @@ module Primo
     class HomePage
       include Capybara::DSL
       include CapybaraErrorIntel::DSL
-      VerifyNetworkTraffic.exclude_uri_from_network_traffic_validation.push('/PDSMExlibris.css')
+
+      def initialize
+        VerifyNetworkTraffic.exclude_uri_from_network_traffic_validation.push('/PDSMExlibris.css')
+      end
+
       def on_page?
         on_valid_url? &&
           status_response_ok? &&
