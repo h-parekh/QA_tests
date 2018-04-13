@@ -1,3 +1,7 @@
+# @see https://downey.io/blog/writing-rubocop-linters-for-database-migrations/ for background in creating
+# and implementing custom Rubocop linters
+#
+# @see http://www.rubydoc.info/gems/rubocop/RuboCop/AST to learn about methods for using Rubocop Node Pattern
 module RuboCop
   module Cop
     module RSpecTags
