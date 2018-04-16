@@ -21,7 +21,7 @@ module RuboCop
         # @example
         #    # good
         #    scenario "jello", :nonprod_only do
-        MSG = 'All scenarios must either have a :nonprod_only or a :read_only tag.'.freeze
+        MSG = 'All scenarios must either have a :nonprod_only or a :read_only tag. Further details see: https://github.com/ndlib/QA_tests#tagging'.freeze
 
         def on_block(node)
           node.each_descendant(:send) do |send_node|
