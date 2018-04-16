@@ -472,6 +472,114 @@ feature 'Logged In User (Account details updated) Browsing', js: true do
   end
 end
 
+feature 'Embargo scenarios:', js: true do
+  let(:login_page) { LoginPage.new(current_logger, account_details_updated: true) }
+  scenario "Create Embargo Work", :nonprod_only do
+    visit '/'
+    click_on('Log In')
+    login_page.completeLogin
+    logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
+    expect(logged_in_home_page).to be_on_page
+    logged_in_home_page.openAddContentDrawer
+    click_on('New Image')
+    image_page = Curate::Pages::ImagePage.new
+    # To test if the ebargo date requirement works
+    image_page.createTempImage(access_rights: 'embargo', embargo_date: false)
+    # Since there is no embargo date the url should not change
+    expect(current_url).to include('concern/images/new')
+    fill_in(id: 'image_embargo_release_date', with: Date.today+1)
+    find('.btn.btn-primary.require-contributor-agreement').trigger('click')
+    expect(page).to have_css('.label.label-warning', text: "Under Embargo")
+    expect(current_url).not_to include('concern/images/new')
+    find_link('Delete').trigger('click')
+  end
+
+
+  scenario "Changing Work Access Rights to Embargo without Filling in Date Should Not Work", :nonprod_only do
+    visit '/'
+    click_on('Log In')
+    login_page.completeLogin
+    logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
+    expect(logged_in_home_page).to be_on_page
+    logged_in_home_page.openAddContentDrawer
+    click_on('New Image')
+    image_page = Curate::Pages::ImagePage.new
+    image_page.createTempImage(access_rights: 'restricted')
+    expect(page).to have_css('.main-header', text: "foo") # Leveraging Capybara::Maleficent.with_sleep_injection
+    within('.page-actions') do
+      click_on('Edit')
+    end
+    within('#set-access-controls') do
+      choose(id: 'visibility_embargo')
+    end
+    # To test that the embargo date requirement works
+    find('.btn.btn-primary.require-contributor-agreement').trigger('click')
+    expect(current_url).not_to include('confirm')
+    fill_in(id: 'image_embargo_release_date', with: Date.today+1)
+    find('.btn.btn-primary.require-contributor-agreement').trigger('click')
+    expect(page).to have_css('.span12', text: "You've changed this foo to be open_with_embargo_release_date") # Leveraging Capybara::Maleficent.with_sleep_injection
+    within('.button_to') do
+      find('.btn.btn-primary').trigger('click')
+    end
+    expect(page).to have_css('.label.label-warning', text: "Under Embargo")
+    find_link('Delete').trigger('click')
+  end
+
+  scenario "Changing Work Access Rights from Embargo to Open", :nonprod_only do
+    visit '/'
+    click_on('Log In')
+    login_page.completeLogin
+    logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
+    expect(logged_in_home_page).to be_on_page
+    logged_in_home_page.openAddContentDrawer
+    click_on('New Image')
+    image_page = Curate::Pages::ImagePage.new
+    image_page.createTempImage(access_rights: 'embargo')
+    expect(page).to have_css('.main-header', text: "foo") # Leveraging Capybara::Maleficent.with_sleep_injection
+    within('.page-actions') do
+      click_on('Edit')
+    end
+    within('#set-access-controls') do
+      choose(id: 'visibility_open')
+    end
+    find('.btn.btn-primary.require-contributor-agreement').trigger('click')
+    expect(page).to have_css('.span12', text: "You've changed this foo to be open.") # Leveraging Capybara::Maleficent.with_sleep_injection
+    within('.button_to') do
+      find('.btn.btn-primary').trigger('click')
+    end
+    # Make sure the Access Control switches to Open
+    expect(page).to have_css('.label.label-success', text: "Open Access")
+    find_link('Delete').trigger('click')
+  end
+
+  scenario "Changing Work Access Rights from Registered to Embargo", :nonprod_only do
+    visit '/'
+    click_on('Log In')
+    login_page.completeLogin
+    logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
+    expect(logged_in_home_page).to be_on_page
+    logged_in_home_page.openAddContentDrawer
+    click_on('New Image')
+    image_page = Curate::Pages::ImagePage.new
+    image_page.createTempImage(access_rights: 'ndu')
+    expect(page).to have_css('.main-header', text: "foo") # Leveraging Capybara::Maleficent.with_sleep_injection
+    within('.page-actions') do
+      click_on('Edit')
+    end
+    within('#set-access-controls') do
+      choose(id: 'visibility_embargo')
+    end
+    fill_in(id: 'image_embargo_release_date', with: Date.today+1)
+    find('.btn.btn-primary.require-contributor-agreement').trigger('click')
+    expect(page).to have_css('.span12', text: "You've changed this foo to be open_with_embargo_release_date") # Leveraging Capybara::Maleficent.with_sleep_injection
+    within('.button_to') do
+      find('.btn.btn-primary').trigger('click')
+    end
+    expect(page).to have_css('.label.label-warning', text: "Under Embargo")
+    find_link('Delete').trigger('click')
+  end
+end
+
 feature 'Logged in user changing ORCID settings (Account Details Not Updated):', js: true do
   let(:login_page) { LoginPage.new(current_logger, account_details_updated: false) }
   scenario "Go to ORCID.org Signin page", :validates_login, :read_only do
