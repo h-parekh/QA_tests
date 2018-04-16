@@ -1,4 +1,6 @@
-require: rubocop-rspec
+require:
+  - rubocop-rspec
+  - ./linter/rspec_tags/check_tags.rb
 inherit_from: .rubocop_todo.yml
 
 AllCops:
@@ -12,6 +14,9 @@ AllCops:
     - 'script/**/*'
     - 'spec/test_app_templates/**/*'
     - 'vendor/**/*'
+
+RSpecTags/CheckTags:
+  Enabled: true
 
 Lint/ImplicitStringConcatenation:
   Exclude:
