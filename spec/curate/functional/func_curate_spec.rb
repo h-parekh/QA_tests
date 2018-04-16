@@ -460,7 +460,7 @@ feature 'Logged In User (Account details updated) Browsing', js: true do
     expect(thesis_page).to be_on_page
   end
 
-  scenario "Log out" do
+  scenario "Log out", :read_only do
     visit '/'
     click_on('Log In')
     login_page.completeLogin
