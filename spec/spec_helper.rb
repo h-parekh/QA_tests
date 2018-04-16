@@ -66,5 +66,6 @@ RSpec.configure do |config|
     VerifyNetworkTraffic.report_network_traffic(driver: Capybara.current_session.driver, test_handler: self)
     @current_logger.stop()
     Bunyan.reset_current_logger!
+    VerifyNetworkTraffic.exclude_uri_from_network_traffic_validation.clear
   end
 end

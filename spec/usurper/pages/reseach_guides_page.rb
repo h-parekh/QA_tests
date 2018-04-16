@@ -4,8 +4,9 @@ module Usurper
     class ResearchGuidesPage < BasePage
       include Capybara::DSL
       include CapybaraErrorIntel::DSL
-      VerifyNetworkTraffic.exclude_uri_from_network_traffic_validation.push('/svn/loader/run_prettify.js', '/libapps/sites/3767/include/img/jesus.gif')
+
       def initialize
+        VerifyNetworkTraffic.exclude_uri_from_network_traffic_validation.push('/svn/loader/run_prettify.js', '/libapps/sites/3767/include/img/jesus.gif')
         last_opened_window = page.driver.browser.window_handles.last
         page.driver.browser.switch_to_window(last_opened_window)
       end

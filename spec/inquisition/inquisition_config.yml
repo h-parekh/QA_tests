@@ -1,2 +1,3 @@
-prep: https://inquisition-prep.library.nd.edu
+local: http://localhost:3000
+prep: https://inquisition-prep.lc.nd.edu
 prod: https://inquisition.library.nd.edu
