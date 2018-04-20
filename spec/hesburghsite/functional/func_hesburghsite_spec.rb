@@ -36,9 +36,9 @@ feature 'User Browsing', js: true do
       expect(page).to have_link('About')
     end
     within('.large-12.columns.contents') do
-      expect(page).to have_css('h2 a', count: 5) # should be 10 but not all header links made yet
-      expect(page).to have_css('a img', count: 10)
-      expect(page).to have_css('li a', count: 25) # should be 57 but not all list links made yet
+      expect(page).to have_css('h2 a', count: 6) #should be 10 but not all header links made yet
+      expect(page).to have_css('a img', count: 6)
+      expect(page).to have_css('li a', count: 33) #should be 57 but not all list links made yet
     end
   end
 
@@ -46,7 +46,7 @@ feature 'User Browsing', js: true do
     page.driver.browser.js_errors = false
     visit '/'
     click_on('Story Index')
-    click_on('The Early Years')
+    click_on('a', text: 'The Early Years')
     within('.signup') do
       expect(page).to have_link('Keep in Touch')
     end
@@ -99,7 +99,7 @@ feature 'User Browsing', js: true do
     end
   end
   scenario 'Test 5: Visit the Media Gallery page', :read_only do
-    page.driver.browser.js_errors = false
+    # page.driver.browser.js_errors = false
     visit '/'
     click_on('Media Gallery')
     within('.signup') do
@@ -114,8 +114,7 @@ feature 'User Browsing', js: true do
       expect(page).to have_link('About')
     end
     within('article.media') do
-      expect(page).to have_css('video', count: 3)
-      expect(page).to have_css('audio')
+      expect(page).to have_css('figure.video', count: 9)
     end
   end
   scenario 'Test 6: Click on Speeches link', :read_only do
