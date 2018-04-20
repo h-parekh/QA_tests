@@ -36,9 +36,9 @@ feature 'User Browsing', js: true do
       expect(page).to have_link('About')
     end
     within('.large-12.columns.contents') do
-      expect(page).to have_css('h2 a', count: 6) #should be 10 but not all header links made yet
+      expect(page).to have_css('h2 a', count: 6) # should be 10 but not all header links made yet
       expect(page).to have_css('a img', count: 6)
-      expect(page).to have_css('li a', count: 33) #should be 57 but not all list links made yet
+      expect(page).to have_css('li a', count: 33) # should be 57 but not all list links made yet
     end
   end
 
