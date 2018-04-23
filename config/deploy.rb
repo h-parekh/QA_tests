@@ -1,4 +1,6 @@
 # frozen_string_literal: true
+
+require "English"
 # config valid only for current version of Capistrano
 lock '3.8.2'
 #############################################################
@@ -22,13 +24,13 @@ set :log_level_for_running_test, ENV['LOG_LEVEL']
 #  - :tested_applications
 #  - server roles in deploy/production.rb
 # Sample Jenkins command: TARGET=prod LOG_LEVEL=info ROLES=curate cap production deploy
-task :run_test do |task|
+task :run_test do
   fetch(:tested_applications).each do |test_application|
-    on roles(test_application) do |role|
+    on roles(test_application) do
       if ENV['ROLES'] =~ /[^\w]?#{test_application}[^\w]?/
         info "Starting tests for #{test_application}"
         info `ENVIRONMENT=#{fetch(:target_env_for_test_application)} LOG_LEVEL=#{fetch(:log_level_for_running_test)} bundle exec rspec spec/#{test_application}`
-        status = $?.exitstatus
+        status = $CHILD_STATUS.exitstatus
         info "Finished cap run_task for #{test_application}"
         exit(status)
       end
