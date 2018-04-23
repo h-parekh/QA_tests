@@ -65,6 +65,14 @@ Style/Documentation:
 Style/SingleLineBlockParams:
   Enabled: false
 
+Style/FileName:
+  Exclude:
+    - Capfile
+
+Style/FrozenStringLiteralComment:
+  Exclude:
+    - Capfile
+
 Rails:
   Enabled: false
 
