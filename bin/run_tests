@@ -1,5 +1,6 @@
 #!/usr/bin/env ruby -wU
 # frozen_string_literal: true
+
 unless defined?(Bunyan)
   gem 'bunyan_capybara'
   require 'bunyan_capybara/bunyan_constants'
