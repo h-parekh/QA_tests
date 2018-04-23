@@ -68,10 +68,12 @@ Style/SingleLineBlockParams:
 Style/FileName:
   Exclude:
     - Capfile
+    - Gemfile
 
 Style/FrozenStringLiteralComment:
   Exclude:
     - Capfile
+    - Gemfile
 
 Rails:
   Enabled: false
