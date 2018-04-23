@@ -75,6 +75,10 @@ Style/FrozenStringLiteralComment:
     - Capfile
     - Gemfile
 
+Style/PercentLiteralDelimiters:
+  PreferredDelimiters:
+    "%w": '{}'
+
 Rails:
   Enabled: false
 
