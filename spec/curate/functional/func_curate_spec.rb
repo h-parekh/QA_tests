@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'curate/curate_spec_helper'
 
 feature 'User Browsing', js: true do
