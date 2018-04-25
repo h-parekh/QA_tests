@@ -106,3 +106,6 @@ RSpec/NestedGroups:
 
 RSpec/LeadingSubject:
   Enabled: false
+
+Performance/StartWith:
+  Enabled: false

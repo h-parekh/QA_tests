@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'crawler/crawler_spec_helper'
 require 'nokogiri'
 require "net/http"
@@ -18,23 +19,19 @@ feature 'Link Checker' do
           href = link.attribute('href').to_s.strip
           hrefs << href unless href.empty?
         end
-        for href in hrefs do
-          if href.start_with?('/')
-            href = root_url + href
-          end
+        hrefs.each do |href|
+          href = root_url + href if href.start_with?('/')
           next if href =~ /\A#/ || href =~ /mailto:/ || href =~ /tel:/
           uri = URI.parse(href)
           http = Net::HTTP.new(uri.host, uri.port)
           http.read_timeout = 5
           http.open_timeout = 5
-          if uri.scheme == 'https'
-            http.use_ssl = true
-          end
+          http.use_ssl = true if uri.scheme == 'https'
 
           begin
-            response = http.start() { |http|
-              http.get(uri)
-            }
+            response = http.start do |block_http|
+              block_http.get(uri)
+            end
             if response.code.to_i >= 400 && response.code.to_i <= 599
               current_logger.info(context: "crawler ERROR", url: href, status_code: response.code)
             else
