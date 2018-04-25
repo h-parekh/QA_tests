@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'contentful/contentful_spec_helper'
 
 # Both these scenarios are adding content in production but I'm still tagging
@@ -31,7 +32,7 @@ feature 'Tests for Contentful entries and webhook integrations' do
   scenario "Create and preview an entry of type 'Events'", :read_only do
     contentful_params = PathParameterizer::ParameterFinder.new(application_name_under_test: 'contentful')
     lib_cal_id = contentful_params.find(key: 'libCalId').to_s
-    ContentfulHandler.create(current_logger: current_logger, content_type: 'event', lib_cal_id: lib_cal_id ) do |entry|
+    ContentfulHandler.create(current_logger: current_logger, content_type: 'event', lib_cal_id: lib_cal_id) do |entry|
       entry.verify_webhooks
       expect(entry).not_to be_published
       # This isn't elegant but necessary in this case, because we want to wait for the

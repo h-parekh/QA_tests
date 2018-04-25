@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module ContentfulTests
   module Pages
     class EventEntryPreview
@@ -15,7 +16,7 @@ module ContentfulTests
       end
 
       def correct_content?
-        find('.page-title', text: "#{@contentful_entry.title}")
+        find('.page-title', text: @contentful_entry.title.to_s)
       end
 
       def correct_url?
