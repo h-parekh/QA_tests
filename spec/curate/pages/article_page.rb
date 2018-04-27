@@ -10,7 +10,7 @@ module Curate
         on_valid_url? &&
           status_response_ok? &&
           valid_page_content? &&
-          hasInputFields?
+          has_input_fields?
       end
 
       def on_valid_url?
