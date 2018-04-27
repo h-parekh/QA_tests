@@ -297,7 +297,7 @@ feature 'Logged In User (Account details NOT updated) Browsing', js: true do
     expect(logged_in_home_page).to be_on_page
     logged_in_home_page.open_actions_drawer
     click_on("Log Out")
-    login_page.checkLoginPage
+    login_page.check_login_page
   end
 end
 
@@ -469,7 +469,7 @@ feature 'Logged In User (Account details updated) Browsing', js: true do
     expect(logged_in_home_page).to be_on_page
     logged_in_home_page.open_actions_drawer
     click_on("Log Out")
-    login_page.checkLoginPage
+    login_page.check_login_page
   end
 end
 
