@@ -14,10 +14,10 @@ module Curate
 
       def on_logged_in_page?
         on_valid_url? &&
-        status_response_ok? &&
-        valid_logged_in_page_content? &&
-        manageDropdown? &&
-        depositDropdown?
+          status_response_ok? &&
+          valid_logged_in_page_content? &&
+          manageDropdown? &&
+          depositDropdown?
       end
 
       def on_valid_url?
