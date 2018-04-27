@@ -33,6 +33,12 @@ Metrics/AbcSize:
   Exclude:
     - 'spec/**/*_spec.rb'
 
+Metrics/CyclomaticComplexity:
+  Enabled: false
+
+Metrics/PerceivedComplexity:
+  Enabled: false
+
 Metrics/MethodLength:
   Max: 15
 
