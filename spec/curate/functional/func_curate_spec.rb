@@ -162,7 +162,7 @@ feature 'Logged In User (Account details NOT updated) Browsing', js: true do
     login_page.completeLogin
     logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
     expect(logged_in_home_page).to be_on_page
-    logged_in_home_page.openActionsDrawer
+    logged_in_home_page.open_actions_drawer
     click_on("My Works")
     works_page = Curate::Pages::MyWorksPage.new
     expect(works_page).to be_on_page
@@ -174,7 +174,7 @@ feature 'Logged In User (Account details NOT updated) Browsing', js: true do
     login_page.completeLogin
     logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
     expect(logged_in_home_page).to be_on_page
-    logged_in_home_page.openActionsDrawer
+    logged_in_home_page.open_actions_drawer
     click_on("My Groups")
     account_details_page = Curate::Pages::AccountDetailsPage.new
     expect(account_details_page).to be_on_page
@@ -186,7 +186,7 @@ feature 'Logged In User (Account details NOT updated) Browsing', js: true do
     login_page.completeLogin
     logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
     expect(logged_in_home_page).to be_on_page
-    logged_in_home_page.openActionsDrawer
+    logged_in_home_page.open_actions_drawer
     click_on("My Collections")
     account_details_page = Curate::Pages::AccountDetailsPage.new
     expect(account_details_page).to be_on_page
@@ -198,7 +198,7 @@ feature 'Logged In User (Account details NOT updated) Browsing', js: true do
     login_page.completeLogin
     logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
     expect(logged_in_home_page).to be_on_page
-    logged_in_home_page.openActionsDrawer
+    logged_in_home_page.open_actions_drawer
     click_on("My Profile")
     account_details_page = Curate::Pages::AccountDetailsPage.new
     expect(account_details_page).to be_on_page
@@ -210,7 +210,7 @@ feature 'Logged In User (Account details NOT updated) Browsing', js: true do
     login_page.completeLogin
     logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
     expect(logged_in_home_page).to be_on_page
-    logged_in_home_page.openAddContentDrawer
+    logged_in_home_page.open_add_content_drawer
     click_on("New Article")
     account_details_page = Curate::Pages::AccountDetailsPage.new
     expect(account_details_page).to be_on_page
@@ -222,7 +222,7 @@ feature 'Logged In User (Account details NOT updated) Browsing', js: true do
     login_page.completeLogin
     logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
     expect(logged_in_home_page).to be_on_page
-    logged_in_home_page.openAddContentDrawer
+    logged_in_home_page.open_add_content_drawer
     click_on("New Dataset")
     account_details_page = Curate::Pages::AccountDetailsPage.new
     expect(account_details_page).to be_on_page
@@ -234,7 +234,7 @@ feature 'Logged In User (Account details NOT updated) Browsing', js: true do
     login_page.completeLogin
     logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
     expect(logged_in_home_page).to be_on_page
-    logged_in_home_page.openAddContentDrawer
+    logged_in_home_page.open_add_content_drawer
     click_on("New Document")
     account_details_page = Curate::Pages::AccountDetailsPage.new
     expect(account_details_page).to be_on_page
@@ -246,7 +246,7 @@ feature 'Logged In User (Account details NOT updated) Browsing', js: true do
     login_page.completeLogin
     logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
     expect(logged_in_home_page).to be_on_page
-    logged_in_home_page.openAddContentDrawer
+    logged_in_home_page.open_add_content_drawer
     click_on("New Image")
     account_details_page = Curate::Pages::AccountDetailsPage.new
     expect(account_details_page).to be_on_page
@@ -258,7 +258,7 @@ feature 'Logged In User (Account details NOT updated) Browsing', js: true do
     login_page.completeLogin
     logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
     expect(logged_in_home_page).to be_on_page
-    logged_in_home_page.openAddContentDrawer
+    logged_in_home_page.open_add_content_drawer
     click_on("More Options")
     account_details_page = Curate::Pages::AccountDetailsPage.new
     expect(account_details_page).to be_on_page
@@ -270,7 +270,7 @@ feature 'Logged In User (Account details NOT updated) Browsing', js: true do
     login_page.completeLogin
     logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
     expect(logged_in_home_page).to be_on_page
-    logged_in_home_page.openAddContentDrawer
+    logged_in_home_page.open_add_content_drawer
     click_on("More Options")
     account_details_page = Curate::Pages::AccountDetailsPage.new
     expect(account_details_page).to be_on_page
@@ -282,7 +282,7 @@ feature 'Logged In User (Account details NOT updated) Browsing', js: true do
     login_page.completeLogin
     logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
     expect(logged_in_home_page).to be_on_page
-    logged_in_home_page.openAddContentDrawer
+    logged_in_home_page.open_add_content_drawer
     click_on("More Options")
     account_details_page = Curate::Pages::AccountDetailsPage.new
     expect(account_details_page).to be_on_page
@@ -295,7 +295,7 @@ feature 'Logged In User (Account details NOT updated) Browsing', js: true do
     logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
     expect(page).not_to have_selector('.form-signin [name=submit]')
     expect(logged_in_home_page).to be_on_page
-    logged_in_home_page.openActionsDrawer
+    logged_in_home_page.open_actions_drawer
     click_on("Log Out")
     login_page.checkLoginPage
   end
@@ -317,7 +317,7 @@ feature 'Logged In User (Account details updated) Browsing', js: true do
     login_page.completeLogin
     logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
     expect(logged_in_home_page).to be_on_page
-    logged_in_home_page.openActionsDrawer
+    logged_in_home_page.open_actions_drawer
     click_on("My Works")
     works_page = Curate::Pages::MyWorksPage.new
     expect(works_page).to be_on_page
@@ -329,7 +329,7 @@ feature 'Logged In User (Account details updated) Browsing', js: true do
     login_page.completeLogin
     logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
     expect(logged_in_home_page).to be_on_page
-    logged_in_home_page.openActionsDrawer
+    logged_in_home_page.open_actions_drawer
     click_on("My Groups")
     groups_page = Curate::Pages::MyGroupsPage.new
     expect(groups_page).to be_on_page
@@ -341,7 +341,7 @@ feature 'Logged In User (Account details updated) Browsing', js: true do
     login_page.completeLogin
     logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
     expect(logged_in_home_page).to be_on_page
-    logged_in_home_page.openActionsDrawer
+    logged_in_home_page.open_actions_drawer
     click_on("My Collections")
     collections_page = Curate::Pages::MyCollectionsPage.new
     expect(collections_page).to be_on_page
@@ -353,7 +353,7 @@ feature 'Logged In User (Account details updated) Browsing', js: true do
     login_page.completeLogin
     logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
     expect(logged_in_home_page).to be_on_page
-    logged_in_home_page.openActionsDrawer
+    logged_in_home_page.open_actions_drawer
     click_on("My Profile")
     profile_page = Curate::Pages::MyProfilePage.new
     expect(profile_page).to be_on_page
@@ -365,7 +365,7 @@ feature 'Logged In User (Account details updated) Browsing', js: true do
     login_page.completeLogin
     logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
     expect(logged_in_home_page).to be_on_page
-    logged_in_home_page.openActionsDrawer
+    logged_in_home_page.open_actions_drawer
     click_on("My Delegates")
     delegates_page = Curate::Pages::MyDelegatesPage.new
     expect(delegates_page).to be_on_page
@@ -377,7 +377,7 @@ feature 'Logged In User (Account details updated) Browsing', js: true do
     login_page.completeLogin
     logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
     expect(logged_in_home_page).to be_on_page
-    logged_in_home_page.openAddContentDrawer
+    logged_in_home_page.open_add_content_drawer
     click_on("New Article")
     article_page = Curate::Pages::ArticlePage.new
     expect(article_page).to be_on_page
@@ -389,7 +389,7 @@ feature 'Logged In User (Account details updated) Browsing', js: true do
     login_page.completeLogin
     logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
     expect(logged_in_home_page).to be_on_page
-    logged_in_home_page.openAddContentDrawer
+    logged_in_home_page.open_add_content_drawer
     click_on("New Dataset")
     dataset_page = Curate::Pages::DatasetPage.new
     expect(dataset_page).to be_on_page
@@ -401,7 +401,7 @@ feature 'Logged In User (Account details updated) Browsing', js: true do
     login_page.completeLogin
     logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
     expect(logged_in_home_page).to be_on_page
-    logged_in_home_page.openAddContentDrawer
+    logged_in_home_page.open_add_content_drawer
     click_on("New Document")
     document_page = Curate::Pages::DocumentPage.new
     expect(document_page).to be_on_page
@@ -413,7 +413,7 @@ feature 'Logged In User (Account details updated) Browsing', js: true do
     login_page.completeLogin
     logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
     expect(logged_in_home_page).to be_on_page
-    logged_in_home_page.openAddContentDrawer
+    logged_in_home_page.open_add_content_drawer
     click_on("New Image")
     image_page = Curate::Pages::ImagePage.new
     expect(image_page).to be_on_page
@@ -425,7 +425,7 @@ feature 'Logged In User (Account details updated) Browsing', js: true do
     login_page.completeLogin
     logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
     expect(logged_in_home_page).to be_on_page
-    logged_in_home_page.openAddContentDrawer
+    logged_in_home_page.open_add_content_drawer
     click_on("More Options")
     options_page = Curate::Pages::StartDepositPage.new
     expect(options_page).to be_on_page
@@ -437,7 +437,7 @@ feature 'Logged In User (Account details updated) Browsing', js: true do
     login_page.completeLogin
     logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
     expect(logged_in_home_page).to be_on_page
-    logged_in_home_page.openAddContentDrawer
+    logged_in_home_page.open_add_content_drawer
     click_on("More Options")
     options_page = Curate::Pages::StartDepositPage.new
     expect(options_page).to be_on_page
@@ -452,7 +452,7 @@ feature 'Logged In User (Account details updated) Browsing', js: true do
     login_page.completeLogin
     logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
     expect(logged_in_home_page).to be_on_page
-    logged_in_home_page.openAddContentDrawer
+    logged_in_home_page.open_add_content_drawer
     click_on("More Options")
     options_page = Curate::Pages::StartDepositPage.new
     expect(options_page).to be_on_page
@@ -467,7 +467,7 @@ feature 'Logged In User (Account details updated) Browsing', js: true do
     login_page.completeLogin
     logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
     expect(logged_in_home_page).to be_on_page
-    logged_in_home_page.openActionsDrawer
+    logged_in_home_page.open_actions_drawer
     click_on("Log Out")
     login_page.checkLoginPage
   end
@@ -481,7 +481,7 @@ feature 'Embargo scenarios:', js: true do
     login_page.completeLogin
     logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
     expect(logged_in_home_page).to be_on_page
-    logged_in_home_page.openAddContentDrawer
+    logged_in_home_page.open_add_content_drawer
     click_on('New Image')
     image_page = Curate::Pages::ImagePage.new
     # To test if the ebargo date requirement works
@@ -501,7 +501,7 @@ feature 'Embargo scenarios:', js: true do
     login_page.completeLogin
     logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
     expect(logged_in_home_page).to be_on_page
-    logged_in_home_page.openAddContentDrawer
+    logged_in_home_page.open_add_content_drawer
     click_on('New Image')
     image_page = Curate::Pages::ImagePage.new
     image_page.create_temp_image(access_rights: 'restricted')
@@ -531,7 +531,7 @@ feature 'Embargo scenarios:', js: true do
     login_page.completeLogin
     logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
     expect(logged_in_home_page).to be_on_page
-    logged_in_home_page.openAddContentDrawer
+    logged_in_home_page.open_add_content_drawer
     click_on('New Image')
     image_page = Curate::Pages::ImagePage.new
     image_page.create_temp_image(access_rights: 'embargo')
@@ -558,7 +558,7 @@ feature 'Embargo scenarios:', js: true do
     login_page.completeLogin
     logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
     expect(logged_in_home_page).to be_on_page
-    logged_in_home_page.openAddContentDrawer
+    logged_in_home_page.open_add_content_drawer
     click_on('New Image')
     image_page = Curate::Pages::ImagePage.new
     image_page.create_temp_image(access_rights: 'ndu')
@@ -588,7 +588,7 @@ feature 'Logged in user changing ORCID settings (Account Details Not Updated):',
     login_page.completeLogin
     logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
     expect(logged_in_home_page).to be_on_page
-    logged_in_home_page.openActionsDrawer
+    logged_in_home_page.open_actions_drawer
     click_on("My Profile")
     account_details_page = Curate::Pages::AccountDetailsPage.new
     expect(account_details_page).to be_on_page
@@ -611,7 +611,7 @@ feature 'Logged in user changing ORCID settings (Account Details Updated):', js:
     login_page.completeLogin
     logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
     expect(logged_in_home_page).to be_on_page
-    logged_in_home_page.openActionsDrawer
+    logged_in_home_page.open_actions_drawer
     click_on("My Profile")
     click_on("Update Personal Information")
     account_details_page = Curate::Pages::AccountDetailsPage.new
