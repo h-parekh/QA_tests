@@ -7,10 +7,10 @@ module Curate
       include CapybaraErrorIntel::DSL
 
       def on_page?
-          on_valid_url? &&
+        on_valid_url? &&
           status_response_ok? &&
           valid_page_content? &&
-          hasInputFields?
+          has_input_fields?
       end
 
       def on_valid_url?
@@ -25,7 +25,7 @@ module Curate
         has_content?("Describe Your Document")
       end
 
-      def hasInputFields?
+      def has_input_fields?
         has_field?("document[title]")
         has_field?("document[rights]")
         has_field?("document[type]")
