@@ -7,10 +7,10 @@ module Curate
       include CapybaraErrorIntel::DSL
 
       def on_page?
-          on_valid_url? &&
+        on_valid_url? &&
           status_response_ok? &&
           valid_page_content? &&
-          hasInputFields?
+          has_input_fields?
       end
 
       def on_valid_url?
@@ -25,7 +25,7 @@ module Curate
         has_content?("Describe Your Dataset")
       end
 
-      def hasInputFields?
+      def has_input_fields?
         has_field?("dataset[title]")
         has_css?("div.control-group.text.required.dataset_description")
         has_field?("dataset[rights]")
