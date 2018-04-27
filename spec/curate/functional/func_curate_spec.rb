@@ -485,7 +485,7 @@ feature 'Embargo scenarios:', js: true do
     click_on('New Image')
     image_page = Curate::Pages::ImagePage.new
     # To test if the ebargo date requirement works
-    image_page.createTempImage(access_rights: 'embargo', embargo_date: false)
+    image_page.create_temp_image(access_rights: 'embargo', embargo_date: false)
     # Since there is no embargo date the url should not change
     expect(current_url).to include('concern/images/new')
     fill_in(id: 'image_embargo_release_date', with: Date.today + 1)
@@ -504,7 +504,7 @@ feature 'Embargo scenarios:', js: true do
     logged_in_home_page.openAddContentDrawer
     click_on('New Image')
     image_page = Curate::Pages::ImagePage.new
-    image_page.createTempImage(access_rights: 'restricted')
+    image_page.create_temp_image(access_rights: 'restricted')
     expect(page).to have_css('.main-header', text: "foo") # Leveraging Capybara::Maleficent.with_sleep_injection
     within('.page-actions') do
       click_on('Edit')
@@ -534,7 +534,7 @@ feature 'Embargo scenarios:', js: true do
     logged_in_home_page.openAddContentDrawer
     click_on('New Image')
     image_page = Curate::Pages::ImagePage.new
-    image_page.createTempImage(access_rights: 'embargo')
+    image_page.create_temp_image(access_rights: 'embargo')
     expect(page).to have_css('.main-header', text: "foo") # Leveraging Capybara::Maleficent.with_sleep_injection
     within('.page-actions') do
       click_on('Edit')
@@ -561,7 +561,7 @@ feature 'Embargo scenarios:', js: true do
     logged_in_home_page.openAddContentDrawer
     click_on('New Image')
     image_page = Curate::Pages::ImagePage.new
-    image_page.createTempImage(access_rights: 'ndu')
+    image_page.create_temp_image(access_rights: 'ndu')
     expect(page).to have_css('.main-header', text: "foo") # Leveraging Capybara::Maleficent.with_sleep_injection
     within('.page-actions') do
       click_on('Edit')
