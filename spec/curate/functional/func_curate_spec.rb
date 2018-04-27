@@ -488,13 +488,12 @@ feature 'Embargo scenarios:', js: true do
     image_page.createTempImage(access_rights: 'embargo', embargo_date: false)
     # Since there is no embargo date the url should not change
     expect(current_url).to include('concern/images/new')
-    fill_in(id: 'image_embargo_release_date', with: Date.today+1)
+    fill_in(id: 'image_embargo_release_date', with: Date.today + 1)
     find('.btn.btn-primary.require-contributor-agreement').trigger('click')
     expect(page).to have_css('.label.label-warning', text: "Under Embargo")
     expect(current_url).not_to include('concern/images/new')
     find_link('Delete').trigger('click')
   end
-
 
   scenario "Changing Work Access Rights to Embargo without Filling in Date Should Not Work", :nonprod_only do
     visit '/'
@@ -516,7 +515,7 @@ feature 'Embargo scenarios:', js: true do
     # To test that the embargo date requirement works
     find('.btn.btn-primary.require-contributor-agreement').trigger('click')
     expect(current_url).not_to include('confirm')
-    fill_in(id: 'image_embargo_release_date', with: Date.today+1)
+    fill_in(id: 'image_embargo_release_date', with: Date.today + 1)
     find('.btn.btn-primary.require-contributor-agreement').trigger('click')
     expect(page).to have_css('.span12', text: "You've changed this foo to be open_with_embargo_release_date") # Leveraging Capybara::Maleficent.with_sleep_injection
     within('.button_to') do
@@ -570,7 +569,7 @@ feature 'Embargo scenarios:', js: true do
     within('#set-access-controls') do
       choose(id: 'visibility_embargo')
     end
-    fill_in(id: 'image_embargo_release_date', with: Date.today+1)
+    fill_in(id: 'image_embargo_release_date', with: Date.today + 1)
     find('.btn.btn-primary.require-contributor-agreement').trigger('click')
     expect(page).to have_css('.span12', text: "You've changed this foo to be open_with_embargo_release_date") # Leveraging Capybara::Maleficent.with_sleep_injection
     within('.button_to') do
@@ -668,7 +667,7 @@ feature 'Catalog Thumbnail Views:', js: true do
     within('#collapse_Type_of_Work.accordion-body.in.collapse') do
       find_link('Show more').trigger('click')
     end
-    category_page = Curate::Pages::CatalogPage.new()
+    category_page = Curate::Pages::CatalogPage.new
     category_page.test_facets_list_vs_grid
   end
 end
@@ -693,9 +692,8 @@ feature 'Browsing attached files' do
     expect(show_article).to have_pagination("files_page")
 
     # Check that a user can download one of the files
-    download_link=find("article.attached-file a", match: :first)
-    file_name=download_link.text
-    download_link_href = download_link['href']
+    download_link = find("article.attached-file a", match: :first)
+    file_name = download_link.text
     download_link.click
     last_opened_window = page.driver.browser.window_handles.last
     page.driver.browser.switch_to_window(last_opened_window)
