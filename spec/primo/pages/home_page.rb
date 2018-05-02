@@ -33,7 +33,7 @@ module Primo
 
       def onesearch_tab_activated?
         # Check if the onesearch tab is selected
-       find('a.active.tab.onesearch.EXLSearchTabTitle.EXLSearchTabLABELOneSearch')
+        find('a.active.tab.onesearch.EXLSearchTabTitle.EXLSearchTabLABELOneSearch')
       end
 
       def ndcatalog_tab_activated?
