@@ -83,6 +83,7 @@ Style/FileName:
     - Gemfile
     - spec/curateBatchIngestor/**/*
     - spec/monarchLibguides/**/*
+    - spec/recommendationEngine/**/*
 
 Style/FrozenStringLiteralComment:
   Exclude:
