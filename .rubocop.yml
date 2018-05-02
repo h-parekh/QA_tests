@@ -82,6 +82,7 @@ Style/FileName:
     - Capfile
     - Gemfile
     - spec/curateBatchIngestor/**/*
+    - spec/monarchLibguides/**/*
 
 Style/FrozenStringLiteralComment:
   Exclude:

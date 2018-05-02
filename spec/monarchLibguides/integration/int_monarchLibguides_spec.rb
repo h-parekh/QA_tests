@@ -1,4 +1,5 @@
-#frozen_string_literal: true
+# frozen_string_literal: true
+
 require 'monarchLibguides/monarchLibguides_spec_helper'
 
 feature 'monarchLibguides API tests' do
