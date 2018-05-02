@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Dec
   module Pages
     class HomePage
@@ -24,13 +25,13 @@ module Dec
         end
         within('.brand-bar') do
           find_link('University of Notre Dame', href: 'http://www.nd.edu') &&
-          find_link('Hesburgh Libraries', href: 'http://library.nd.edu')
+            find_link('Hesburgh Libraries', href: 'http://library.nd.edu')
         end
         first('div', text: 'Featured Collections')
       end
 
       def click_collections_page
-        first('span', {text: 'Explore', visible: false}).click
+        first('span', text: 'Explore', visible: false).click
       end
     end
   end
