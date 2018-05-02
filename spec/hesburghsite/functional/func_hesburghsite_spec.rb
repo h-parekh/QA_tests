@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'hesburghsite/hesburghsite_spec_helper'
 
 feature 'User Browsing', js: true do
@@ -35,9 +36,9 @@ feature 'User Browsing', js: true do
       expect(page).to have_link('About')
     end
     within('.large-12.columns.contents') do
-      expect(page).to have_css('h2 a', count: 5) #should be 10 but not all header links made yet
+      expect(page).to have_css('h2 a', count: 5) # should be 10 but not all header links made yet
       expect(page).to have_css('a img', count: 10)
-      expect(page).to have_css('li a', count: 25) #should be 57 but not all list links made yet
+      expect(page).to have_css('li a', count: 25) # should be 57 but not all list links made yet
     end
   end
 
@@ -66,9 +67,9 @@ feature 'User Browsing', js: true do
       expect(page).to have_css('h2 a')
     end
     within('.large-4.large-offset-2.columns') do
-        ['Photo Gallery', 'Document Gallery'].shuffle.each do |name|
-            expect(page).to have_link(name)
-        end
+      ['Photo Gallery', 'Document Gallery'].shuffle.each do |name|
+        expect(page).to have_link(name)
+      end
     end
   end
   scenario 'Test 4: Click specific story on Story Index page', :read_only do
@@ -119,14 +120,14 @@ feature 'User Browsing', js: true do
   end
   scenario 'Test 6: Click on Speeches link', :read_only do
     visit '/'
-    new_window = window_opened_by {click_on('Speeches')}
+    new_window = window_opened_by { click_on('Speeches') }
     within_window new_window do
       expect(current_url).to eq('http://archives.nd.edu/Hesburgh/speeches.htm')
     end
   end
   scenario 'Test 7: Visit the Further Research page', :read_only do
     visit '/'
-    new_window = window_opened_by {click_on('Further Research')}
+    new_window = window_opened_by { click_on('Further Research') }
     within_window new_window do
       within_window new_window do
         expect(current_url).to eq('http://archives.nd.edu/Hesburgh/index.htm')
