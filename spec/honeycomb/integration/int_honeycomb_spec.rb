@@ -1,5 +1,6 @@
-require 'spec_helper'
 # frozen_string_literal: true
+
+require 'spec_helper'
 describe 'Step 1: Collections endpoint' do
   xit 'returns a response' do
     visit 'https://honeycombpprd-vm.library.nd.edu/v1/collections'
