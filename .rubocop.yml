@@ -120,5 +120,8 @@ RSpec/NestedGroups:
 RSpec/LeadingSubject:
   Enabled: false
 
+RSpec/RepeatedExample:
+  Enabled: false
+
 Performance/StartWith:
   Enabled: false
