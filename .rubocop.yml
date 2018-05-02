@@ -24,9 +24,11 @@ Lint/ImplicitStringConcatenation:
 
 Metrics/LineLength:
   Max: 180
+  Enabled: false
 
 Metrics/ClassLength:
   Max: 120
+  Enabled: false
 
 Metrics/AbcSize:
   Max: 30
@@ -41,6 +43,10 @@ Metrics/PerceivedComplexity:
 
 Metrics/MethodLength:
   Max: 15
+  Enabled: false
+
+Metrics/BlockLength:
+  Enabled: false
 
 Style/IndentationConsistency:
   EnforcedStyle: rails
@@ -94,6 +100,7 @@ RSpec/DescribeClass:
 
 RSpec/ExampleLength:
   Max: 15
+  Enabled: false
 
 RSpec/ExpectActual:
   Enabled: false
