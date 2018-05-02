@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'osf/osf_spec_helper'
 
 feature 'Institutional Login', js: true do
@@ -9,7 +10,7 @@ feature 'Institutional Login', js: true do
     page.has_selector?('#alternative-institution')
     find('#alternative-institution').click
     find('#institution-form-select').click
-    page.has_field?('option' ,text: 'University of Notre Dame')
+    page.has_field?('option', text: 'University of Notre Dame')
     page.select('University of Notre Dame')
     find('input[name=submit]').trigger(:click)
     login_page.completeLogin
