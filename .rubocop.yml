@@ -81,6 +81,7 @@ Style/FileName:
   Exclude:
     - Capfile
     - Gemfile
+    - spec/curateBatchIngestor/**/*
 
 Style/FrozenStringLiteralComment:
   Exclude:
