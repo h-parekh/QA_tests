@@ -21,9 +21,7 @@ module Seaside
 
       def has_images?
         within('.main') do
-          all('figure.image', count: 3).each do |image|
-            image.visible?
-          end
+          all('figure.image', count: 3).each(&:visible?)
         end
       end
 

@@ -21,17 +21,13 @@ module Seaside
 
       def has_videos?
         within('.article') do
-          all('iframe.player', count: 9).each do |video|
-            video.visible?
-          end
+          all('iframe.player', count: 9).each(&:visible?)
         end
       end
 
       def has_video_titles?
         within('.article') do
-          all('hgroup.movie-title', count: 9).each do |title|
-            title.visible?
-          end
+          all('hgroup.movie-title', count: 9).each(&:visible?)
         end
       end
     end

@@ -36,7 +36,7 @@ feature 'User Browsing', js: true do
   scenario 'Visit About Seaside - All', :read_only do
     visit '/'
     click_on('About Seaside')
-    find_link('All', href:'/about').trigger('click')
+    find_link('All', href: '/about').trigger('click')
     about_page = Seaside::Pages::AboutPage.new
     expect(about_page).to be_on_page
   end
