@@ -13,7 +13,7 @@ module Sipity
       end
 
       def on_valid_url?
-        current_url == File.join(Capybara.app_host,'areas/etd')
+        current_url == File.join(Capybara.app_host, 'areas/etd')
       end
 
       def status_response_ok?
@@ -31,9 +31,9 @@ module Sipity
         find_link('View Submitted ETDs')
         find_link('dteditor@nd.edu')[:href].start_with?('mailto')
         find_link('574-631-7545')[:href].start_with?('tel')
-        find_link('Hesburgh Libraries of Notre Dame')[:href] == 'http://library.nd.edu/'
-        find_link('University of Notre Dame')[:href] == 'http://www.nd.edu/'
-        find('a.hesburgh-logo')[:href] == 'http://library.nd.edu/'
+        find_link('Hesburgh Libraries of Notre Dame', href: 'http://library.nd.edu')
+        find_link('University of Notre Dame', href: 'http://www.nd.edu')
+        find_link(class: 'hesburgh-logo', href: 'http://library.nd.edu')
       end
     end
   end
