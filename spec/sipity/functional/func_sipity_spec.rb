@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'sipity/sipity_spec_helper'
 
 feature 'First Time User', js: true do
