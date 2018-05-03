@@ -7,7 +7,7 @@ feature 'Institutional Login', js: true do
 
   scenario 'Sign in by institution (Notre Dame)', :validates_login, :smoke_test, :read_only do
     visit '/Shibboleth.sso/Login?target=https%3A%2F%2Fremix.nd.edu%2F%3Fq%3Dshib_login%2Fnode%2F27'
-    login_page.completeLogin
+    login_page.complete_login
     expect(page).to have_selector('.header__site-link')
     expect(current_url).to eq('https://remix.nd.edu/?q=node/27')
   end

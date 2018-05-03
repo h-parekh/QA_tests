@@ -54,7 +54,7 @@ class LoginPage
     end
   end
 
-  def completeLogin
+  def complete_login
     page.has_selector?('#username [name=username]')
     page.has_selector?("#password [name=password]")
     page.has_selector?('.form-signin [name=submit]')

@@ -187,7 +187,7 @@ feature 'Logged In User Browsing', js: true do
   scenario 'Log In', :read_only, :validates_login do
     visit '/'
     click_on('Login')
-    login.completeLogin
+    login.complete_login
     logged_in_home = Usurper::Pages::HomePage.new(loggedin: true)
     expect(logged_in_home).to be_on_page
   end
@@ -195,7 +195,7 @@ feature 'Logged In User Browsing', js: true do
   scenario 'View Checked Out/Pending Items', :read_only do
     visit '/'
     click_on('Login')
-    login.completeLogin
+    login.complete_login
     click_on('My Account')
     accountpage = Usurper::Pages::ItemsPage.new(loggedin: true)
     expect(accountpage).to be_on_page
@@ -205,7 +205,7 @@ feature 'Logged In User Browsing', js: true do
     # Does not run properly do to issues with
     visit '/'
     click_on('Login')
-    login.completeLogin
+    login.complete_login
     click_on('My Account')
     find_link('Courses').click
     coursesPage = Usurper::Pages::CoursesPage.new(loggedin: true)

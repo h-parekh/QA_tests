@@ -76,7 +76,7 @@ def sign_in
     find_link('Sign in').click
   end
   expect(casLogin).to be_on_page
-  casLogin.completeLogin
+  casLogin.complete_login
 end
 
 def returning_user_sign_in

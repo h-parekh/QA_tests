@@ -7,7 +7,7 @@ feature 'Institutional Login', js: true do
 
   scenario 'Sign in by institution (Notre Dame)', :read_only, :validates_login do
     visit '/'
-    login_page.completeLogin
+    login_page.complete_login
     expect(page).to have_selector('.glyphicon-log-out')
   end
 end

@@ -8,7 +8,7 @@ feature 'Institutional Login', js: true do
     visit '/'
     find('#login-button').trigger('click')
     find('.button.continue').click
-    login_page.completeLogin
+    login_page.complete_login
     expect(page).to have_link('My Collections')
     expect(page).to have_link('Logout')
   end

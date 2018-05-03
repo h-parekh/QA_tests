@@ -13,7 +13,7 @@ feature 'Institutional Login', js: true do
     page.has_field?('option', text: 'University of Notre Dame')
     page.select('University of Notre Dame')
     find('input[name=submit]').trigger(:click)
-    login_page.completeLogin
+    login_page.complete_login
     expect(page).to have_selector('.dropdown-toggle.nav-user-dropdown')
     # This selector is the user dropdown menu that only appears with a successful login
   end

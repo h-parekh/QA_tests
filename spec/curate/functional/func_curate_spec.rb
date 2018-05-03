@@ -151,7 +151,7 @@ feature 'Logged In User (Account details NOT updated) Browsing', js: true do
   scenario "Log in", :validates_login, :read_only do
     visit '/'
     click_on('Log In')
-    login_page.completeLogin
+    login_page.complete_login
     logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
     expect(logged_in_home_page).to be_on_page
   end
@@ -159,7 +159,7 @@ feature 'Logged In User (Account details NOT updated) Browsing', js: true do
   scenario "Manage My Works", :read_only do
     visit '/'
     click_on('Log In')
-    login_page.completeLogin
+    login_page.complete_login
     logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
     expect(logged_in_home_page).to be_on_page
     logged_in_home_page.open_actions_drawer
@@ -171,7 +171,7 @@ feature 'Logged In User (Account details NOT updated) Browsing', js: true do
   scenario "Visit Manage My Groups page", :read_only do
     visit '/'
     click_on('Log In')
-    login_page.completeLogin
+    login_page.complete_login
     logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
     expect(logged_in_home_page).to be_on_page
     logged_in_home_page.open_actions_drawer
@@ -183,7 +183,7 @@ feature 'Logged In User (Account details NOT updated) Browsing', js: true do
   scenario "Visit Manage My Collections page", :read_only do
     visit '/'
     click_on('Log In')
-    login_page.completeLogin
+    login_page.complete_login
     logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
     expect(logged_in_home_page).to be_on_page
     logged_in_home_page.open_actions_drawer
@@ -195,7 +195,7 @@ feature 'Logged In User (Account details NOT updated) Browsing', js: true do
   scenario "Visit Manage My Profile page", :read_only do
     visit '/'
     click_on('Log In')
-    login_page.completeLogin
+    login_page.complete_login
     logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
     expect(logged_in_home_page).to be_on_page
     logged_in_home_page.open_actions_drawer
@@ -207,7 +207,7 @@ feature 'Logged In User (Account details NOT updated) Browsing', js: true do
   scenario "Visit Deposit New Article page", :read_only do
     visit '/'
     click_on('Log In')
-    login_page.completeLogin
+    login_page.complete_login
     logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
     expect(logged_in_home_page).to be_on_page
     logged_in_home_page.open_add_content_drawer
@@ -219,7 +219,7 @@ feature 'Logged In User (Account details NOT updated) Browsing', js: true do
   scenario "Visit Deposit New Dataset page", :read_only do
     visit '/'
     click_on('Log In')
-    login_page.completeLogin
+    login_page.complete_login
     logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
     expect(logged_in_home_page).to be_on_page
     logged_in_home_page.open_add_content_drawer
@@ -231,7 +231,7 @@ feature 'Logged In User (Account details NOT updated) Browsing', js: true do
   scenario "Visit Deposit New Document page", :read_only do
     visit '/'
     click_on('Log In')
-    login_page.completeLogin
+    login_page.complete_login
     logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
     expect(logged_in_home_page).to be_on_page
     logged_in_home_page.open_add_content_drawer
@@ -243,7 +243,7 @@ feature 'Logged In User (Account details NOT updated) Browsing', js: true do
   scenario "Visit Deposit New Image page", :read_only do
     visit '/'
     click_on('Log In')
-    login_page.completeLogin
+    login_page.complete_login
     logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
     expect(logged_in_home_page).to be_on_page
     logged_in_home_page.open_add_content_drawer
@@ -255,7 +255,7 @@ feature 'Logged In User (Account details NOT updated) Browsing', js: true do
   scenario "Visit More Options page", :read_only do
     visit '/'
     click_on('Log In')
-    login_page.completeLogin
+    login_page.complete_login
     logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
     expect(logged_in_home_page).to be_on_page
     logged_in_home_page.open_add_content_drawer
@@ -267,7 +267,7 @@ feature 'Logged In User (Account details NOT updated) Browsing', js: true do
   scenario "Visit Deposit New Audio page", :read_only do
     visit '/'
     click_on('Log In')
-    login_page.completeLogin
+    login_page.complete_login
     logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
     expect(logged_in_home_page).to be_on_page
     logged_in_home_page.open_add_content_drawer
@@ -279,7 +279,7 @@ feature 'Logged In User (Account details NOT updated) Browsing', js: true do
   scenario "Visit Deposit New Senior Thesis page", :read_only do
     visit '/'
     click_on('Log In')
-    login_page.completeLogin
+    login_page.complete_login
     logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
     expect(logged_in_home_page).to be_on_page
     logged_in_home_page.open_add_content_drawer
@@ -291,7 +291,7 @@ feature 'Logged In User (Account details NOT updated) Browsing', js: true do
   scenario "Log out", :read_only do
     visit '/'
     click_on('Log In')
-    login_page.completeLogin
+    login_page.complete_login
     logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
     expect(page).not_to have_selector('.form-signin [name=submit]')
     expect(logged_in_home_page).to be_on_page
@@ -306,7 +306,7 @@ feature 'Logged In User (Account details updated) Browsing', js: true do
   scenario "Log in", :validates_login, :read_only do
     visit '/'
     click_on('Log In')
-    login_page.completeLogin
+    login_page.complete_login
     logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
     expect(logged_in_home_page).to be_on_page
   end
@@ -314,7 +314,7 @@ feature 'Logged In User (Account details updated) Browsing', js: true do
   scenario "Manage My Works", :read_only do
     visit '/'
     click_on('Log In')
-    login_page.completeLogin
+    login_page.complete_login
     logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
     expect(logged_in_home_page).to be_on_page
     logged_in_home_page.open_actions_drawer
@@ -326,7 +326,7 @@ feature 'Logged In User (Account details updated) Browsing', js: true do
   scenario "Visit Manage My Groups page", :read_only do
     visit '/'
     click_on('Log In')
-    login_page.completeLogin
+    login_page.complete_login
     logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
     expect(logged_in_home_page).to be_on_page
     logged_in_home_page.open_actions_drawer
@@ -338,7 +338,7 @@ feature 'Logged In User (Account details updated) Browsing', js: true do
   scenario "Visit Manage My Collections page", :read_only do
     visit '/'
     click_on('Log In')
-    login_page.completeLogin
+    login_page.complete_login
     logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
     expect(logged_in_home_page).to be_on_page
     logged_in_home_page.open_actions_drawer
@@ -350,7 +350,7 @@ feature 'Logged In User (Account details updated) Browsing', js: true do
   scenario "Visit Manage My Profile page", :read_only do
     visit '/'
     click_on('Log In')
-    login_page.completeLogin
+    login_page.complete_login
     logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
     expect(logged_in_home_page).to be_on_page
     logged_in_home_page.open_actions_drawer
@@ -362,7 +362,7 @@ feature 'Logged In User (Account details updated) Browsing', js: true do
   scenario "Visit Manage My Delegates page", :read_only do
     visit '/'
     click_on('Log In')
-    login_page.completeLogin
+    login_page.complete_login
     logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
     expect(logged_in_home_page).to be_on_page
     logged_in_home_page.open_actions_drawer
@@ -374,7 +374,7 @@ feature 'Logged In User (Account details updated) Browsing', js: true do
   scenario "Visit Deposit New Article page", :read_only do
     visit '/'
     click_on('Log In')
-    login_page.completeLogin
+    login_page.complete_login
     logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
     expect(logged_in_home_page).to be_on_page
     logged_in_home_page.open_add_content_drawer
@@ -386,7 +386,7 @@ feature 'Logged In User (Account details updated) Browsing', js: true do
   scenario "Visit Deposit New Dataset page", :read_only do
     visit '/'
     click_on('Log In')
-    login_page.completeLogin
+    login_page.complete_login
     logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
     expect(logged_in_home_page).to be_on_page
     logged_in_home_page.open_add_content_drawer
@@ -398,7 +398,7 @@ feature 'Logged In User (Account details updated) Browsing', js: true do
   scenario "Visit Deposit New Document page", :read_only do
     visit '/'
     click_on('Log In')
-    login_page.completeLogin
+    login_page.complete_login
     logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
     expect(logged_in_home_page).to be_on_page
     logged_in_home_page.open_add_content_drawer
@@ -410,7 +410,7 @@ feature 'Logged In User (Account details updated) Browsing', js: true do
   scenario "Visit Deposit New Image page", :read_only do
     visit '/'
     click_on('Log In')
-    login_page.completeLogin
+    login_page.complete_login
     logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
     expect(logged_in_home_page).to be_on_page
     logged_in_home_page.open_add_content_drawer
@@ -422,7 +422,7 @@ feature 'Logged In User (Account details updated) Browsing', js: true do
   scenario "Visit More Options page", :read_only do
     visit '/'
     click_on('Log In')
-    login_page.completeLogin
+    login_page.complete_login
     logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
     expect(logged_in_home_page).to be_on_page
     logged_in_home_page.open_add_content_drawer
@@ -434,7 +434,7 @@ feature 'Logged In User (Account details updated) Browsing', js: true do
   scenario "Visit Deposit New Audio page", :read_only do
     visit '/'
     click_on('Log In')
-    login_page.completeLogin
+    login_page.complete_login
     logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
     expect(logged_in_home_page).to be_on_page
     logged_in_home_page.open_add_content_drawer
@@ -449,7 +449,7 @@ feature 'Logged In User (Account details updated) Browsing', js: true do
   scenario "Visit Deposit New Senior Thesis page", :read_only do
     visit '/'
     click_on('Log In')
-    login_page.completeLogin
+    login_page.complete_login
     logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
     expect(logged_in_home_page).to be_on_page
     logged_in_home_page.open_add_content_drawer
@@ -464,7 +464,7 @@ feature 'Logged In User (Account details updated) Browsing', js: true do
   scenario "Log out", :read_only do
     visit '/'
     click_on('Log In')
-    login_page.completeLogin
+    login_page.complete_login
     logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
     expect(logged_in_home_page).to be_on_page
     logged_in_home_page.open_actions_drawer
@@ -478,7 +478,7 @@ feature 'Embargo scenarios:', js: true do
   scenario "Create Embargo Work", :nonprod_only do
     visit '/'
     click_on('Log In')
-    login_page.completeLogin
+    login_page.complete_login
     logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
     expect(logged_in_home_page).to be_on_page
     logged_in_home_page.open_add_content_drawer
@@ -498,7 +498,7 @@ feature 'Embargo scenarios:', js: true do
   scenario "Changing Work Access Rights to Embargo without Filling in Date Should Not Work", :nonprod_only do
     visit '/'
     click_on('Log In')
-    login_page.completeLogin
+    login_page.complete_login
     logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
     expect(logged_in_home_page).to be_on_page
     logged_in_home_page.open_add_content_drawer
@@ -528,7 +528,7 @@ feature 'Embargo scenarios:', js: true do
   scenario "Changing Work Access Rights from Embargo to Open", :nonprod_only do
     visit '/'
     click_on('Log In')
-    login_page.completeLogin
+    login_page.complete_login
     logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
     expect(logged_in_home_page).to be_on_page
     logged_in_home_page.open_add_content_drawer
@@ -555,7 +555,7 @@ feature 'Embargo scenarios:', js: true do
   scenario "Changing Work Access Rights from Registered to Embargo", :nonprod_only do
     visit '/'
     click_on('Log In')
-    login_page.completeLogin
+    login_page.complete_login
     logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
     expect(logged_in_home_page).to be_on_page
     logged_in_home_page.open_add_content_drawer
@@ -585,7 +585,7 @@ feature 'Logged in user changing ORCID settings (Account Details Not Updated):',
   scenario "Go to ORCID.org Signin page", :validates_login, :read_only do
     visit '/'
     click_on('Log In')
-    login_page.completeLogin
+    login_page.complete_login
     logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
     expect(logged_in_home_page).to be_on_page
     logged_in_home_page.open_actions_drawer
@@ -608,7 +608,7 @@ feature 'Logged in user changing ORCID settings (Account Details Updated):', js:
   scenario "Go to ORCID.org registration page", :validates_login, :read_only do
     visit '/'
     click_on('Log In')
-    login_page.completeLogin
+    login_page.complete_login
     logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
     expect(logged_in_home_page).to be_on_page
     logged_in_home_page.open_actions_drawer
