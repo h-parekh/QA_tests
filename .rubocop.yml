@@ -48,6 +48,9 @@ Metrics/MethodLength:
 Metrics/BlockLength:
   Enabled: false
 
+Security/Eval:
+  Enabled: false
+
 Style/IndentationConsistency:
   EnforcedStyle: rails
 
