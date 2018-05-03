@@ -32,7 +32,7 @@ module SpecFilterManager
       puts "['local', 'dev', 'test', 'prep', 'pprd', 'staging', 'staging6', 'staging8','staging9', 'prod']"
       # Using a random string as argument to filter_run_including method will skip all tests
       RSpec.configure do |c|
-        c.filter_run_including (generate_random_string.to_sym)
+        c.filter_run_including(generate_random_string.to_sym)
       end
     end
   end
@@ -44,9 +44,9 @@ module SpecFilterManager
   end
 
   def self.environment_under_test_is_nonprod?
-    possible_non_production_keys = ['local', 'dev', 'test', 'prep', 'pprd', 'staging', 'staging6', 'staging8','staging9']
+    possible_non_production_keys = ['local', 'dev', 'test', 'prep', 'pprd', 'staging', 'staging6', 'staging8', 'staging9']
     (possible_non_production_keys.include? @example_variable.environment_under_test) ||
-    (possible_non_production_keys.include? ENV['ENVIRONMENT_CATEGORY'])
+      (possible_non_production_keys.include? ENV['ENVIRONMENT_CATEGORY'])
   end
 
   def self.generate_random_string
