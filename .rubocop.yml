@@ -32,6 +32,7 @@ Metrics/ClassLength:
 
 Metrics/AbcSize:
   Max: 30
+  Enabled: false
   Exclude:
     - 'spec/**/*_spec.rb'
 
