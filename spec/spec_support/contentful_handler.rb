@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'forwardable'
 
 # This class provides support to interact with the following contentful APIs:
@@ -70,7 +71,7 @@ class ContentfulHandler
 
     def set_clients!
       @client = Contentful::Management::Client.new(@personal_access_token)
-      @preview_client = Contentful::Client.new(space: "#{@space_id}", access_token: "#{@preview_token}", api_url: 'preview.contentful.com')
+      @preview_client = Contentful::Client.new(space: @space_id.to_s, access_token: @preview_token.to_s, api_url: 'preview.contentful.com')
     end
 
     class ContentfulEntryWrapper
@@ -101,7 +102,7 @@ class ContentfulHandler
       # An unsuccessful find will return a Contentful::Management::NotFound object
       def deleted?
         response = find_entry
-        return !response.is_a?(entry.class)
+        !response.is_a?(entry.class)
       end
 
       # Looks for an entry by entry.id in a given space_id
@@ -132,7 +133,7 @@ class ContentfulHandler
         found_beta_webhook = false
         found_libguides_webhook = false
         expected_release = ENV['RELEASE_NUMBER']
-        webhooks = client.webhooks.all("#{space_id}")
+        webhooks = client.webhooks.all(space_id.to_s)
         webhooks.items.each do |webhook|
           if (webhook.name == "Publish to Usurper Alpha (#{expected_release})") && (webhook.url == "https://wse-websiterenovation-#{expected_release}-api.library.nd.edu/usurpercontent/entry")
             found_alpha_webhook = true
@@ -147,15 +148,9 @@ class ContentfulHandler
             current_logger.info(context: "Webhook check for libguide event updater successful", webhook_url: webhook.url)
           end
         end
-        if found_alpha_webhook == false
-          current_logger.error(context: "Webhook missing for alpha site")
-        end
-        if found_beta_webhook == false
-          current_logger.error(context: "Webhook missing for beta site")
-        end
-        if found_libguides_webhook == false
-          current_logger.error(context: "Webhook missing for Libguides events updater")
-        end
+        current_logger.error(context: "Webhook missing for alpha site") unless found_alpha_webhook
+        current_logger.error(context: "Webhook missing for beta site") unless found_beta_webhook
+        current_logger.error(context: "Webhook missing for Libguides events updater") unless found_libguides_webhook
       end
     end
 end
