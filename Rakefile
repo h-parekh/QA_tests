@@ -138,3 +138,10 @@ namespace :webRennovation do
     end
   end
 end
+
+require 'rubocop/rake_task'
+RuboCop::RakeTask.new do |task|
+  task.options = ['--display-cop-names']
+end
+
+task default: :rubocop
