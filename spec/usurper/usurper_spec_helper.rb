@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'spec_helper'
 
 require File.expand_path('../pages/base_page.rb', __FILE__)
@@ -12,10 +13,10 @@ end
 
 Capybara.register_driver :poltergeist do |app|
   options = {
-       phantomjs_options: [
-         '--ssl-protocol=tlsv1.2'
-       ]
-     }
+    phantomjs_options: [
+      '--ssl-protocol=tlsv1.2'
+    ]
+  }
   Capybara::Poltergeist::Driver.new(app, options)
 end
 
