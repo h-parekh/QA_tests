@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # This class provides a mechanism to load swagger definition given a project repository
 # It leverages methods exposed by the gem 'swagger-parser'
 #   https://github.com/alexpjohnson/swagger-parser
@@ -26,11 +27,11 @@ class SwaggerHandler
   # Sets @operations variable with an array of objects of type SwaggerHandler::SwaggerOperationDecorator
   def operations
     @fitered_operations = reject_operations_with_skip_tag
-    if ENV['SWAGGER_LOCATION'] == 'gateway'
-      @operations ||= @fitered_operations.map { |operation| SwaggerOperationDecorator.new(swagger_from_gateway, operation) }
-    else
-      @operations ||= @fitered_operations.map { |operation| SwaggerOperationDecorator.new(swagger_from_definitions, operation) }
-    end
+    @operations ||= if ENV['SWAGGER_LOCATION'] == 'gateway'
+                      @fitered_operations.map { |operation| SwaggerOperationDecorator.new(swagger_from_gateway, operation) }
+                    else
+                      @fitered_operations.map { |operation| SwaggerOperationDecorator.new(swagger_from_definitions, operation) }
+                    end
   end
 
   # Returns an array of objects of type Swagger::V2::Operation
@@ -54,7 +55,7 @@ class SwaggerHandler
       @swagger ||= begin
         url_to_swagger_def = File.join('https://raw.githubusercontent.com/', @project_user_name, @project_repository_name, 'master', 'deploy', 'gateway.yml')
         swagger_yaml = open(url_to_swagger_def, "Authorization" => "token #{@access_token_value}").read
-        unreadable_swagger_file = YAML.load(swagger_yaml)
+        unreadable_swagger_file = YAML.safe_load(swagger_yaml)
         readable_swagger_json = check_for_nested_swagger_def(unreadable_swagger_file)
         Swagger.build(readable_swagger_json, format: :json)
       end
@@ -66,7 +67,7 @@ class SwaggerHandler
         swagger_yaml = open(url_to_swagger_def, "Authorization" => "token #{@access_token_value}").read
         Swagger.build(swagger_yaml, format: :yaml)
       rescue ArgumentError
-        unreadable_swagger_file = YAML.load(swagger_yaml)
+        unreadable_swagger_file = YAML.safe_load(swagger_yaml)
         swagger_yaml = check_for_nested_swagger_def(unreadable_swagger_file)
         Swagger.build(swagger_yaml, format: :json)
       end
@@ -79,7 +80,7 @@ class SwaggerHandler
         hash_to_search.to_json
       elsif hash_to_search.respond_to?(:each)
         subset_of_hash_to_search = nil
-        hash_to_search.find{ |*a| subset_of_hash_to_search=check_for_nested_swagger_def(a.last) }
+        hash_to_search.find { |*a| subset_of_hash_to_search = check_for_nested_swagger_def(a.last) }
         subset_of_hash_to_search
       end
     end
@@ -91,20 +92,19 @@ class SwaggerHandler
     end
 
     def self.require_swagger_location
-      if SwaggerHandler.ensure_integration_test
-        if ENV['SWAGGER_LOCATION'].nil?
-          Bunyan.current_logger.error(context: "SWAGGER_LOCATION not found in ENV config")
-          Bunyan.current_logger.error(context: "Provide SWAGGER_LOCATION of API being tested, ex: gateway")
-          exit!
-        elsif ENV['SWAGGER_LOCATION'] != "gateway" && ENV['SWAGGER_LOCATION'] != "definitions"
-          Bunyan.current_logger.error(context: "SWAGGER_LOCATION is invalid.  Valid options are: definitions or gateway.")
-          exit!
-        end
+      return unless SwaggerHandler.ensure_integration_test
+      if ENV['SWAGGER_LOCATION'].nil?
+        Bunyan.current_logger.error(context: "SWAGGER_LOCATION not found in ENV config")
+        Bunyan.current_logger.error(context: "Provide SWAGGER_LOCATION of API being tested, ex: gateway")
+        exit!
+      elsif ENV['SWAGGER_LOCATION'] != "gateway" && ENV['SWAGGER_LOCATION'] != "definitions"
+        Bunyan.current_logger.error(context: "SWAGGER_LOCATION is invalid.  Valid options are: definitions or gateway.")
+        exit!
       end
     end
 
     def self.ensure_integration_test
-      return ARGV[0].split('/').include?('integration')
+      ARGV[0].split('/').include?('integration')
     end
 
     attr_reader :example_variable, :config
