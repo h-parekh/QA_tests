@@ -4,6 +4,7 @@ require 'osf/osf_spec_helper'
 
 feature 'Institutional Login', js: true do
   let(:login_page) { LoginPage.new(current_logger, account_details_updated: false) }
+  
   scenario 'Sign in by institution (Notre Dame)', :read_only do
     visit '/'
     click_on('Sign In')
