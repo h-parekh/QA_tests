@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 
 module Usurper
   module Pages
@@ -13,7 +14,7 @@ module Usurper
 
       def on_page?
         correct_content? &&
-        on_valid_url?
+          on_valid_url?
       end
 
       def on_valid_url?
@@ -21,16 +22,15 @@ module Usurper
         current_url == 'http://libguides.library.nd.edu/?b=s'
       end
 
-    def correct_content?
-      within('.s-lib-public-body') do
-        page.has_selector?('#s-lg-index-all-btn')
-        page.has_selector?('#s-lg-index-guidetype-btn')
-        page.has_selector?('#s-lg-index-subject-btn')
-        page.has_selector?('#s-lg-index-owner-btn')
-        page.has_selector?('#s-lg-guide-search')
+      def correct_content?
+        within('.s-lib-public-body') do
+          page.has_selector?('#s-lg-index-all-btn')
+          page.has_selector?('#s-lg-index-guidetype-btn')
+          page.has_selector?('#s-lg-index-subject-btn')
+          page.has_selector?('#s-lg-index-owner-btn')
+          page.has_selector?('#s-lg-guide-search')
+        end
       end
-    end
-
     end
   end
 end

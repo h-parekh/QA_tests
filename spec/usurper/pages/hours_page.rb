@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Usurper
   module Pages
     class HoursPage < BasePage
@@ -6,8 +8,8 @@ module Usurper
 
       def on_page?
         super &&
-        correct_content? &&
-        correct_url?
+          correct_content? &&
+          correct_url?
       end
 
       def correct_content?

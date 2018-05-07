@@ -9,7 +9,7 @@ module Usurper
 
       def on_page?
         super &&
-        correct_content?
+          correct_content?
       end
 
       def correct_content?

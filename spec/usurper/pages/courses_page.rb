@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Usurper
   module Pages
     # /personal
@@ -8,14 +9,14 @@ module Usurper
 
       def on_page?
         super &&
-        on_valid_url? &&
-        correct_content?
+          on_valid_url? &&
+          correct_content?
       end
 
       def correct_content?
         page.has_link?("My Items") &&
-        page.has_link?("Log Out") &&
-        find('h1', text: "Courses")
+          page.has_link?("Log Out") &&
+          find('h1', text: "Courses")
       end
 
       def on_valid_url?

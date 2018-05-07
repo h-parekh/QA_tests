@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Usurper
   module Pages
     # /personal
@@ -8,7 +9,7 @@ module Usurper
 
       def on_page?
         super &&
-        on_valid_url?
+          on_valid_url?
       end
 
       def on_valid_url?
