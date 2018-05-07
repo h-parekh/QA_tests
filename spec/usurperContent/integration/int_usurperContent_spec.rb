@@ -1,5 +1,6 @@
 #frozen_string_literal: true
-require 'usurperContent/usurperContent_spec_helper'
+
+require 'usurpercontent/usurpercontent_spec_helper'
 
 feature 'API tests for Usurper Content API' do
   SwaggerHandler.operations(for_file_path: __FILE__).each do |operation|
