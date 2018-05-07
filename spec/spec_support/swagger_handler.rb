@@ -43,6 +43,22 @@ class SwaggerHandler
     end
   end
 
+  def self.require_swagger_location
+    return unless SwaggerHandler.ensure_integration_test
+    if ENV['SWAGGER_LOCATION'].nil?
+      Bunyan.current_logger.error(context: "SWAGGER_LOCATION not found in ENV config")
+      Bunyan.current_logger.error(context: "Provide SWAGGER_LOCATION of API being tested, ex: gateway")
+      exit!
+    elsif ENV['SWAGGER_LOCATION'] != "gateway" && ENV['SWAGGER_LOCATION'] != "definitions"
+      Bunyan.current_logger.error(context: "SWAGGER_LOCATION is invalid.  Valid options are: definitions or gateway.")
+      exit!
+    end
+  end
+
+  def self.ensure_integration_test
+    ARGV[0].split('/').include?('integration')
+  end
+
   private
 
     def set_project_config!
@@ -89,22 +105,6 @@ class SwaggerHandler
     def set_access_token_value!
       git_access_config_file = YAML.load_file(File.join(ENV.fetch('HOME'), 'test_data/QA/git_access.yaml'))
       @access_token_value = git_access_config_file.fetch("access_token")
-    end
-
-    def self.require_swagger_location
-      return unless SwaggerHandler.ensure_integration_test
-      if ENV['SWAGGER_LOCATION'].nil?
-        Bunyan.current_logger.error(context: "SWAGGER_LOCATION not found in ENV config")
-        Bunyan.current_logger.error(context: "Provide SWAGGER_LOCATION of API being tested, ex: gateway")
-        exit!
-      elsif ENV['SWAGGER_LOCATION'] != "gateway" && ENV['SWAGGER_LOCATION'] != "definitions"
-        Bunyan.current_logger.error(context: "SWAGGER_LOCATION is invalid.  Valid options are: definitions or gateway.")
-        exit!
-      end
-    end
-
-    def self.ensure_integration_test
-      ARGV[0].split('/').include?('integration')
     end
 
     attr_reader :example_variable, :config
