@@ -609,7 +609,7 @@ end
 
 feature 'Logged in user changing ORCID settings (Account Details Updated):', js: true do
   let(:login_page) { LoginPage.new(current_logger, account_details_updated: true) }
-  
+
   scenario "Go to ORCID.org registration page", :validates_login, :read_only do
     visit '/'
     click_on('Log In')

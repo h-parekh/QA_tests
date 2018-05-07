@@ -55,7 +55,7 @@ end
 
 feature 'View DAVE Artifact', js: true do
   let(:site) { DaveSite.new }
-  
+
   scenario 'Load First Document', :read_only do
     visit_home
   end
