@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/ndlib/QA_tests.svg?branch=master)](https://travis-ci.org/ndlib/QA_tests)
+
 # NDlib QA Tests
 > A place to collect all types of test suites for HesLib web application and APIs
 
