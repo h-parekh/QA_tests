@@ -49,6 +49,9 @@ Metrics/MethodLength:
 Metrics/BlockLength:
   Enabled: false
 
+Metrics/ModuleLength:
+  Max: 200
+
 Security/Eval:
   Enabled: false
 
