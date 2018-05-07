@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'curateBatchIngestor/curateBatchIngestor_spec_helper'
+require 'curatebatchingestor/curatebatchingestor_spec_helper'
 
 feature 'Load health status page', js: true do
   scenario 'Check version', :smoke_test, :read_only do

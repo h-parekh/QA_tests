@@ -91,9 +91,6 @@ Style/FileName:
   Exclude:
     - Capfile
     - Gemfile
-    - spec/curateBatchIngestor/**/*
-    - spec/monarchLibguides/**/*
-    - spec/recommendationEngine/**/*
 
 Style/FrozenStringLiteralComment:
   Exclude:
