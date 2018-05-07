@@ -148,6 +148,7 @@ end
 
 feature 'Logged In User (Account details NOT updated) Browsing', js: true do
   let(:login_page) { LoginPage.new(current_logger, account_details_updated: false) }
+
   scenario "Log in", :validates_login, :read_only do
     visit '/'
     click_on('Log In')
@@ -303,6 +304,7 @@ end
 
 feature 'Logged In User (Account details updated) Browsing', js: true do
   let(:login_page) { LoginPage.new(current_logger, account_details_updated: true) }
+
   scenario "Log in", :validates_login, :read_only do
     visit '/'
     click_on('Log In')
@@ -475,6 +477,7 @@ end
 
 feature 'Embargo scenarios:', js: true do
   let(:login_page) { LoginPage.new(current_logger, account_details_updated: true) }
+
   scenario "Create Embargo Work", :nonprod_only do
     visit '/'
     click_on('Log In')
@@ -582,6 +585,7 @@ end
 
 feature 'Logged in user changing ORCID settings (Account Details Not Updated):', js: true do
   let(:login_page) { LoginPage.new(current_logger, account_details_updated: false) }
+
   scenario "Go to ORCID.org Signin page", :validates_login, :read_only do
     visit '/'
     click_on('Log In')
@@ -605,6 +609,7 @@ end
 
 feature 'Logged in user changing ORCID settings (Account Details Updated):', js: true do
   let(:login_page) { LoginPage.new(current_logger, account_details_updated: true) }
+  
   scenario "Go to ORCID.org registration page", :validates_login, :read_only do
     visit '/'
     click_on('Log In')
