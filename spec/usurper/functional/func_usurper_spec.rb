@@ -15,7 +15,7 @@ feature 'User Browsing', js: true do
       find_by_id('research').trigger('click')
       click_on('Databases A-Z')
     end
-    az_databases= Usurper::Pages::AZDatabases.new
+    az_databases = Usurper::Pages::AZDatabases.new
     expect(az_databases).to be_on_page
   end
 
@@ -61,7 +61,7 @@ feature 'User Browsing', js: true do
   scenario 'Technology Lending Button', :read_only, :smoke_test do
     visit '/'
     within('.services.hservices') do
-      find_link(title:'Technology Lending').trigger('click')
+      find_link(title: 'Technology Lending').trigger('click')
     end
     technology_lending = Usurper::Pages::TechnologyLendingPage.new
     expect(technology_lending).to be_on_page
@@ -209,8 +209,8 @@ feature 'Logged In User Browsing', js: true do
     login.complete_login
     click_on('My Account')
     find_link('Courses').click
-    coursesPage = Usurper::Pages::CoursesPage.new(loggedin: true)
-    expect(coursesPage).to be_on_page
+    courses_page = Usurper::Pages::CoursesPage.new(loggedin: true)
+    expect(courses_page).to be_on_page
   end
 end
 
@@ -248,19 +248,18 @@ feature 'User Navigation', js: true do
     end
     # use the strings from the hash in order to make assertions
     text_and_href_list.each do |pair|
-      if pair[1].include?(Capybara.app_host)
-        within('#librariesNav') do
-          click_on(pair[0])
-        end
-        sleep(2)
-        within('.building') do
-          find('.map')
-        end
-        find_link('Home').trigger('click')
-        sleep(2)
-        within('.uNavigation') do
-          find_by_id('libraries').trigger('click')
-        end
+      next unless pair[1].include?(Capybara.app_host)
+      within('#librariesNav') do
+        click_on(pair[0])
+      end
+      sleep(2)
+      within('.building') do
+        find('.map')
+      end
+      find_link('Home').trigger('click')
+      sleep(2)
+      within('.uNavigation') do
+        find_by_id('libraries').trigger('click')
       end
     end
   end
