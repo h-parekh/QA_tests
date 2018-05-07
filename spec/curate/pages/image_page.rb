@@ -42,7 +42,7 @@ module Curate
         fill_in(id: "image_title", with: "foo")
         fill_in(id: "image_creator", with: "foo")
         within('#set-access-controls') do
-          if access_rights == 'ndu' || access_rights == 'open' || access_rights == 'restricted'
+          if ['ndu', 'open', 'restricted'].include?(access_rights)
             choose(id: 'visibility_' + access_rights)
           elsif access_rights == 'embargo'
             choose(id: 'visibility_' + access_rights)
