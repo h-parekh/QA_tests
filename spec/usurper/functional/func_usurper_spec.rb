@@ -184,6 +184,7 @@ end
 
 feature 'Logged In User Browsing', js: true do
   let(:login) { LoginPage.new(current_logger) }
+
   scenario 'Log In', :read_only, :validates_login do
     visit '/'
     click_on('Login')
@@ -231,7 +232,7 @@ feature 'User Navigation', js: true do
   end
 
   scenario 'Library Page Navigation', :read_only, :smoke_test do
-    visit'/'
+    visit '/'
     within('.uNavigation') do
       find_by_id('libraries').trigger('click')
     end
