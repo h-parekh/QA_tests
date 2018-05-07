@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'monarchLibguides/monarchLibguides_spec_helper'
+require 'monarchlibguides/monarchlibguides_spec_helper'
 
 feature 'monarchLibguides API tests' do
   SwaggerHandler.operations(for_file_path: __FILE__).each do |operation|
