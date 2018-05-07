@@ -1,14 +1,17 @@
 # frozen_string_literal: true
+
 require 'usurper/usurper_spec_helper'
 require 'google_drive'
 
 feature 'User Browsing', js: true do
+  let(:ws_hash)
   let(:session) { GoogleDrive::Session.from_config("tmp/google_drive_tokens.json") }
-  let(:ws_hash) do
+
+  it do
     ws = session.spreadsheet_by_key("1sUEizFQYu1fc0kunEST-JpHWWH9vMWHr0lj1ZKiIWyk").worksheets[1]
     ws_hash = {}
-    for i in 2..ws.num_rows do
-      ws_hash[ws[i,2]] = ws[i,1]
+    [2..ws.num_rows].each do |i|
+      ws_hash[ws[i, 2]] = ws[i, 1]
     end
     ws_hash
   end
