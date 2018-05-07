@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'recommendationEngine/recommendationEngine_spec_helper'
+require 'recommendationengine/recommendationengine_spec_helper'
 
 feature 'Recommendation Engine API test' do
   SwaggerHandler.operations(for_file_path: __FILE__).each do |operation|

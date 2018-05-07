@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # This class provides a mechanism for adding header fields in a request
 # like authorization headers.
 require 'csv'
@@ -17,12 +18,9 @@ class RequestBuilder
 
   # Identifies if the API has security or not then sends request accordingly
   def check_security
-    if @current_operation.responses.values[0].schema.nil?
-      return false
-    else
-      schema = @current_operation.responses.values[0].schema.root
-      schema.keys.include?('securityDefinitions')
-    end
+    return false if @current_operation.responses.values[0].schema.nil?
+    schema = @current_operation.responses.values[0].schema.root
+    schema.keys.include?('securityDefinitions')
   end
 
   def apply_parameter_to_parameterized_path!
@@ -48,14 +46,13 @@ class RequestBuilder
   end
 
   def get_security_name
-    if check_security
-      # Get schema of the response
-      schema = @current_operation.responses.values[0].schema.root
-      # Get the type, name, and in fields of the security
-      schema_security = schema.securityDefinitions.values[0]
-      # Gets the name of the security to use for authorization
-      schema_security.name
-    end
+    return unless check_security
+    # Get schema of the response
+    schema = @current_operation.responses.values[0].schema.root
+    # Get the type, name, and in fields of the security
+    schema_security = schema.securityDefinitions.values[0]
+    # Gets the name of the security to use for authorization
+    schema_security.name
   end
 
   def send_via_operation_verb(*body)
@@ -65,35 +62,35 @@ class RequestBuilder
     when "get"
       current_logger.info(context: "making GET request", url: @current_operation.url)
       if security
-        RestClient.public_send(@current_operation.verb, @current_operation.url, "#{@security_name}": "#{@token}")
+        RestClient.public_send(@current_operation.verb, @current_operation.url, "#{@security_name}": @token.to_s)
       else
         RestClient.public_send(@current_operation.verb, @current_operation.url)
       end
     when "post"
       current_logger.info(context: "making POST request", url: @current_operation.url)
       if security
-        RestClient.public_send(@current_operation.verb, @current_operation.url, body, "#{@security_name}": "#{@token}")
+        RestClient.public_send(@current_operation.verb, @current_operation.url, body, "#{@security_name}": @token.to_s)
       else
         RestClient.public_send(@current_operation.verb, @current_operation.url, body)
       end
     when "put" # might need  specific item when testing
       current_logger.info(context: "making PUT request", url: @current_operation.url)
       if security
-        RestClient.public_send(@current_operation.verb, @current_operation.url, body, "#{@security_name}": "#{@token}")
+        RestClient.public_send(@current_operation.verb, @current_operation.url, body, "#{@security_name}": @token.to_s)
       else
         RestClient.public_send(@current_operation.verb, @current_operation.url, body)
       end
     when "patch" # might need specific item when testing
       current_logger.info(context: "making PATCH request", url: @current_operation.url)
       if security
-        RestClient.public_send(@current_operation.verb, @current_operation.url, body, "#{@security_name}": "#{@token}")
+        RestClient.public_send(@current_operation.verb, @current_operation.url, body, "#{@security_name}": @token.to_s)
       else
         RestClient.public_send(@current_operation.verb, @current_operation.url, body)
       end
     when "delete" # might need specific item when testing
       current_logger.info(context: "making DELETE request", url: @current_operation.url)
       if security
-        RestClient.public_send(@current_operation.verb, @current_operation.url, "#{@security_name}": "#{@token}")
+        RestClient.public_send(@current_operation.verb, @current_operation.url, "#{@security_name}": @token.to_s)
       else
         RestClient.public_send(@current_operation.verb, @current_operation.url)
       end

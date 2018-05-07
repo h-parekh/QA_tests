@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Usurper
   module Pages
     class PathfinderPage < BasePage
@@ -7,7 +9,6 @@ module Usurper
       def initialize(general_pathfinder_format: true)
         @general_pathfinder_format = general_pathfinder_format
       end
-
 
       def on_page?
         super &&

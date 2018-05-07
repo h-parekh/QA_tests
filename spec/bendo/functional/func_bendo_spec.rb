@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'bendo/bendo_spec_helper'
 
 feature 'Load health status page', js: true do

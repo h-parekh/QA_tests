@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Curate
   module Pages
     class AudioPage
@@ -9,10 +11,10 @@ module Curate
       end
 
       def on_page?
-          on_valid_url? &&
+        on_valid_url? &&
           status_response_ok? &&
           valid_page_content? &&
-          hasInputFields?
+          has_input_fields?
       end
 
       def on_valid_url?
@@ -27,7 +29,7 @@ module Curate
         has_content?("Describe Your Audio")
       end
 
-      def hasInputFields?
+      def has_input_fields?
         has_field?("audio[title]")
         has_field?("audio[rights]")
         has_css?("div.control-group.text.optional.audio_description")

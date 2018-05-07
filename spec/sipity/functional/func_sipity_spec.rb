@@ -1,9 +1,11 @@
 # frozen_string_literal: true
+
 require 'sipity/sipity_spec_helper'
 
 feature 'First Time User', js: true do
   let(:casLogin) { LoginPage.new(current_logger, terms_of_service_accepted: false) }
-  scenario 'FIRST TIME User Sign In', :validates_login, :read_only, js: true  do
+
+  scenario 'FIRST TIME User Sign In', :validates_login, :read_only, js: true do
     sign_in
     welcome_page = Sipity::Pages::ETDWelcomePage.new
     expect(welcome_page).to be_on_page
@@ -15,11 +17,12 @@ end
 
 feature 'User Browsing', js: true do
   let(:casLogin) { LoginPage.new(current_logger, terms_of_service_accepted: true) }
+
   scenario 'Visit Homepage', :smoke_test, :read_only do
     visit_home
   end
 
-  scenario 'RETURN User Sign In', :validates_login, :read_only , js: true do
+  scenario 'RETURN User Sign In', :validates_login, :read_only, js: true do
     returning_user_sign_in
   end
 
@@ -73,7 +76,7 @@ def sign_in
     find_link('Sign in').click
   end
   expect(casLogin).to be_on_page
-  casLogin.completeLogin
+  casLogin.complete_login
 end
 
 def returning_user_sign_in

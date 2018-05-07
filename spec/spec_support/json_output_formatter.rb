@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'rspec/core/formatters/json_formatter'
 require 'rspec/core/formatters/console_codes'
 
@@ -8,9 +9,9 @@ class JsonOutputFormatter < RSpec::Core::Formatters::JsonFormatter
   # https://github.com/rspec/rspec-core/blob/master/lib/rspec/core/formatters/json_formatter.rb
   RSpec::Core::Formatters.register self
 
-  def close(notification)
-    if @output_hash.fetch(:messages, []).find{ |e| /31mLoadError/ =~ e }.nil? && @output_hash.fetch(:messages, []).find{ |e| /31mSyntaxError/ =~ e }.nil?
-      @output_hash[:runID] ||= "#{RunIdentifier.get}"
+  def close(_notification)
+    if @output_hash.fetch(:messages, []).find { |e| /31mLoadError/ =~ e }.nil? && @output_hash.fetch(:messages, []).find { |e| /31mSyntaxError/ =~ e }.nil?
+      @output_hash[:runID] ||= RunIdentifier.get.to_s
       report_json_result
     end
     output.write JSON.pretty_generate(@output_hash)

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # use rspec/autorun only when you need to absolutely run *.rb files using ruby command
 # require 'rspec/autorun'
 require 'capybara/rspec'
@@ -48,7 +49,7 @@ RSpec.configure do |config|
     CloudwatchEventHandler.set_aws_config
     new_save_path = ScreenshotsManager.get_screenshots_save_path
     Capybara.save_path = new_save_path
-    @current_logger.stop()
+    @current_logger.stop
     Bunyan.reset_current_logger!
   end
 
@@ -64,7 +65,7 @@ RSpec.configure do |config|
   config.after(:example) do |rspec_example|
     ErrorReporter.conditionally_report_unsuccessful_scenario(example: rspec_example)
     VerifyNetworkTraffic.report_network_traffic(driver: Capybara.current_session.driver, test_handler: self)
-    @current_logger.stop()
+    @current_logger.stop
     Bunyan.reset_current_logger!
     VerifyNetworkTraffic.exclude_uri_from_network_traffic_validation.clear
   end

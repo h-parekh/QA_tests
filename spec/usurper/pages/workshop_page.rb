@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Usurper
   module Pages
     # / page for library workshops
@@ -7,12 +9,12 @@ module Usurper
 
       def on_page?
         super &&
-        correct_content?
+          correct_content?
       end
 
       def correct_content?
         page.has_selector?('.librarian', minimum: 1) &&
-        page.has_link?('Library Workshop Registration Portal')
+          page.has_link?('Library Workshop Registration Portal')
       end
     end
   end

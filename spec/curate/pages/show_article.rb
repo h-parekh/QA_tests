@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Curate
   module Pages
     class ShowArticlePage
@@ -27,26 +28,22 @@ module Curate
 
       # Not all articles have downloads. Don't fail in a bad way if that is the case
       def has_files?
-        begin
-          find("div.actions a.action.btn", text: "Download", match: :first)
-          return true
-        rescue Capybara::ElementNotFound
-          false
-        end
+        find("div.actions a.action.btn", text: "Download", match: :first)
+        return true
+      rescue Capybara::ElementNotFound
+        false
       end
 
       def has_pagination?(page_var = "page")
-        begin
-          within("div.pager div.page_links") do
-            find("li.prev-page")
-            next_page = find("li.next-page a")
-            # Also make sure it links with the correct page parameter
-            return next_page['href'] =~ (/.*[?&]#{page_var}=.*/)
-          end
-          return true
-        rescue Capybara::ElementNotFound
-          false
+        within("div.pager div.page_links") do
+          find("li.prev-page")
+          next_page = find("li.next-page a")
+          # Also make sure it links with the correct page parameter
+          return next_page['href'] =~ /.*[?&]#{page_var}=.*/
         end
+        return true
+      rescue Capybara::ElementNotFound
+        false
       end
 
       def valid_page_content?

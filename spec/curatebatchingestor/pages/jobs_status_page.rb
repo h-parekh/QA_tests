@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module CurateBatchIngestor
   module Pages
     class JobsStatusPage
@@ -24,12 +25,10 @@ module CurateBatchIngestor
       # and also verifies that each hash element has valid keys
       def valid_response?
         response_array = JSON.parse(page.text)
-        if response_array.count > 0
-          response_array.all? { |each_hash|
-            each_hash.has_key?("Name")
-            each_hash.has_key?("Status") }
-        else
-          return false
+        return false unless response_array.count > 0
+        response_array.all? do |each_hash|
+          each_hash.key?("Name")
+          each_hash.key?("Status")
         end
       end
     end

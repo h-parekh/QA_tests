@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module ResponsiveHelpers
   def self.resize_window_to_mobile(mode)
     resize_window_by([640, 480], mode)

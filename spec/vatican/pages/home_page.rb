@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Vatican
   module Pages
     class HomePage
@@ -12,7 +13,7 @@ module Vatican
       end
 
       def on_valid_url?
-        current_url == Capybara.app_host || current_url = File.join(Capybara.app_host, '/')
+        current_url == Capybara.app_host || current_url == File.join(Capybara.app_host, '/')
       end
 
       def status_response_ok?

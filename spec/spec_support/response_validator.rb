@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # This class provides a consolidation for validating responses from an API test
 
 class ResponseValidator
@@ -36,7 +37,7 @@ class ResponseValidator
         result_keys += JSON.parse(@current_result.body)[key][0].keys
       end
     end
-    return result_keys
+    result_keys
   end
 
   def get_schema_properties
@@ -46,29 +47,29 @@ class ResponseValidator
     # Gets the response $ref
     key_ref = response_schema.schema.values[0]
     # Seperates the $ref from path format to get specific $ref
-    ref=key_ref.split('#/definitions/').join
+    ref = key_ref.split('#/definitions/').join
     # Resolve definition references
     resolved_schema = response_schema.schema.root.definitions
     # Resolve definition properties
-    schema_properties = resolved_schema.fetch("#{ref}").properties.keys
+    schema_properties = resolved_schema.fetch(ref.to_s).properties.keys
     schema_properties.each do |property|
       # needed to identify if items property exists
-      definition_ref = resolved_schema.fetch("#{ref}").properties[property]
+      definition_ref = resolved_schema.fetch(ref.to_s).properties[property]
       # if items key exists it needs to be used
       if definition_ref.keys.include?('items')
         key_ref = definition_ref.items.values[0]
         ref = key_ref.split('#/definitions/').join
-        schema_properties += resolved_schema.fetch("#{ref}").properties.keys
+        schema_properties += resolved_schema.fetch(ref.to_s).properties.keys
       # else use conventional way
-      elsif resolved_schema.fetch("#{ref}").properties.values[0].keys.include?('$ref')
+      elsif resolved_schema.fetch(ref.to_s).properties.values[0].keys.include?('$ref')
         # gets the keys from deeper level $ref path
-        key_ref = resolved_schema.fetch("#{ref}").properties.values[0].values[0]
+        key_ref = resolved_schema.fetch(ref.to_s).properties.values[0].values[0]
         # turns the $ref path into a specfic $ref
         ref = key_ref.split('#/definitions/').join
         # adds the keys from deeper level schema
-        schema_properties += resolved_schema.fetch("#{ref}").properties.keys
+        schema_properties += resolved_schema.fetch(ref.to_s).properties.keys
       end
     end
-    return schema_properties
+    schema_properties
   end
 end

@@ -24,17 +24,39 @@ Lint/ImplicitStringConcatenation:
 
 Metrics/LineLength:
   Max: 180
+  Enabled: false
 
 Metrics/ClassLength:
   Max: 120
+  Enabled: false
 
 Metrics/AbcSize:
   Max: 30
+  Enabled: false
   Exclude:
     - 'spec/**/*_spec.rb'
 
+Metrics/CyclomaticComplexity:
+  Enabled: false
+
+Metrics/PerceivedComplexity:
+  Enabled: false
+
 Metrics/MethodLength:
   Max: 15
+  Enabled: false
+
+Metrics/BlockLength:
+  Enabled: false
+
+Metrics/ModuleLength:
+  Max: 200
+
+Security/Eval:
+  Enabled: false
+
+Style/AccessorMethodName:
+  Enabled: false
 
 Style/IndentationConsistency:
   EnforcedStyle: rails
@@ -65,6 +87,23 @@ Style/Documentation:
 Style/SingleLineBlockParams:
   Enabled: false
 
+Style/FileName:
+  Exclude:
+    - Capfile
+    - Gemfile
+
+Style/FrozenStringLiteralComment:
+  Exclude:
+    - Capfile
+    - Gemfile
+
+Style/PercentLiteralDelimiters:
+  PreferredDelimiters:
+    "%w": '{}'
+
+Style/SymbolArray:
+  EnforcedStyle: brackets
+
 Rails:
   Enabled: false
 
@@ -74,6 +113,7 @@ RSpec/DescribeClass:
 
 RSpec/ExampleLength:
   Max: 15
+  Enabled: false
 
 RSpec/ExpectActual:
   Enabled: false
@@ -91,4 +131,10 @@ RSpec/NestedGroups:
   Enabled: false
 
 RSpec/LeadingSubject:
+  Enabled: false
+
+RSpec/RepeatedExample:
+  Enabled: false
+
+Performance/StartWith:
   Enabled: false

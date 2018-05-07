@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'fileutils'
 
 module RunIdentifier
@@ -26,11 +27,9 @@ module ScreenshotsManager
     FileUtils.mkdir_p(screenshots_root)
     Dir.chdir(screenshots_root)
     screenshots_directories = Dir.glob('*').select { |f| File.directory? f } # Returns a list of all screenshots directories in screenshots_root
-    screenshots_directories.reverse.each_with_index { |dir, index|
-      if index >= runs
-        FileUtils.rm_rf(dir)
-      end
-    }
+    screenshots_directories.reverse.each_with_index do |dir, index|
+      return FileUtils.rm_rf(dir) if index >= runs
+    end
 
     # Using value of @run_identifier as directory name
     FileUtils.mkdir RunIdentifier.get
@@ -60,30 +59,28 @@ module InitializeExample
   # * If not, this method proceeds to lookup the secret files
   # NOTE: This method always expects the key (prep, prod..) to be present in application config file even if the value is stored in secret files
   def self.find_app_host_url
-    begin
-      value_from_config_file = find_url_from_config_file
-      if valid_url?(value_from_config_file)
-        Bunyan.current_logger.debug(context: "Value for key '#{@example_variable.environment_under_test}' in config file has a valid URL: '#{value_from_config_file}'")
-        set_capybara_app_host(value_from_config_file)
+    value_from_config_file = find_url_from_config_file
+    if valid_url?(value_from_config_file)
+      Bunyan.current_logger.debug(context: "Value for key '#{@example_variable.environment_under_test}' in config file has a valid URL: '#{value_from_config_file}'")
+      set_capybara_app_host(value_from_config_file)
+    else
+      Bunyan.current_logger.debug(context: "Value for key '#{@example_variable.environment_under_test}' in config file is not a valid URL: '#{value_from_config_file}'")
+      Bunyan.current_logger.debug(context: "Looking up in secret parameter files")
+      value_from_secret_files = find_url_from_secret_files
+      if valid_url?(value_from_secret_files)
+        Bunyan.current_logger.debug(context: "Value for key '#{@example_variable.environment_under_test}' in secret files has a valid URL: '#{value_from_secret_files}'")
+        set_capybara_app_host(value_from_secret_files)
       else
-        Bunyan.current_logger.debug(context: "Value for key '#{@example_variable.environment_under_test}' in config file is not a valid URL: '#{value_from_config_file}'")
-        Bunyan.current_logger.debug(context: "Looking up in secret parameter files")
-        value_from_secret_files = find_url_from_secret_files
-        if valid_url?(value_from_secret_files)
-          Bunyan.current_logger.debug(context: "Value for key '#{@example_variable.environment_under_test}' in secret files has a valid URL: '#{value_from_secret_files}'")
-          set_capybara_app_host(value_from_secret_files)
-        else
-          Bunyan.current_logger.error(context: "Value for key '#{@example_variable.environment_under_test}' in secret files is not a valid URL: '#{value_from_secret_files}'")
-          Bunyan.current_logger.error(context: "Unable to set Capybara.app_host")
-          Bunyan.current_logger.error(context: "Aborting scenario")
-          exit!
-        end
+        Bunyan.current_logger.error(context: "Value for key '#{@example_variable.environment_under_test}' in secret files is not a valid URL: '#{value_from_secret_files}'")
+        Bunyan.current_logger.error(context: "Unable to set Capybara.app_host")
+        Bunyan.current_logger.error(context: "Aborting scenario")
+        exit!
       end
-    rescue KeyError => e
-      Bunyan.current_logger.error(context: "Key '#{@example_variable.environment_under_test}' not found in config file", location_of_config_file: "#{@path_to_environment_config_file}")
-      Bunyan.current_logger.error(context: "Provide a valid URL that starts with 'https' or use pre-configured config keys: #{@servers_by_environment}")
-      exit!
     end
+  rescue KeyError
+    Bunyan.current_logger.error(context: "Key '#{@example_variable.environment_under_test}' not found in config file", location_of_config_file: @path_to_environment_config_file.to_s)
+    Bunyan.current_logger.error(context: "Provide a valid URL that starts with 'https' or use pre-configured config keys: #{@servers_by_environment}")
+    exit!
   end
 
   def self.find_url_from_config_file
@@ -134,14 +131,14 @@ module InitializeExample
 
   def self.initialize_chrome_headless_driver
     Capybara.register_driver :chrome_headless do |app|
-    capabilities = Selenium::WebDriver::Remote::Capabilities.chrome(
-      chromeOptions: {
-        args: %w[ no-sandbox headless disable-gpu ]
-      }
-    )
-    Capybara::Selenium::Driver.new(app,
-                                browser: :chrome,
-                                desired_capabilities: capabilities)
+      capabilities = Selenium::WebDriver::Remote::Capabilities.chrome(
+        chromeOptions: {
+          args: %w{no-sandbox headless disable-gpu}
+        }
+      )
+      Capybara::Selenium::Driver.new(app,
+                                     browser: :chrome,
+                                     desired_capabilities: capabilities)
     end
   end
 
@@ -150,11 +147,10 @@ module InitializeExample
   # those applications where asserting for version numbers of is required
   # Example: spec/usurper/usurper_spec_helper.rb
   def self.require_version_number
-    if ENV['VERSION_NUMBER'].nil?
-      Bunyan.current_logger.error(context: "VERSION_NUMBER not found in ENV config")
-      Bunyan.current_logger.error(context: "Provide VERSION_NUMBER of application being tested")
-      exit!
-    end
+    return unless ENV['VERSION_NUMBER'].nil?
+    Bunyan.current_logger.error(context: "VERSION_NUMBER not found in ENV config")
+    Bunyan.current_logger.error(context: "Provide VERSION_NUMBER of application being tested")
+    exit!
   end
 
   # Checks for existence of RELEASE_NUMBER in ENV config, and exits if it's not found
@@ -162,11 +158,10 @@ module InitializeExample
   # those tests where asserting for release numbers of is required
   # Example: spec/contentful/contentful_spec_helper.rb
   def self.require_release_number
-    if ENV['RELEASE_NUMBER'].nil?
-      Bunyan.current_logger.error(context: "RELEASE_NUMBER not found in ENV config")
-      Bunyan.current_logger.error(context: "Provide RELEASE_NUMBER of application being tested, ex: r20170922")
-      exit!
-    end
+    return unless ENV['RELEASE_NUMBER'].nil?
+    Bunyan.current_logger.error(context: "RELEASE_NUMBER not found in ENV config")
+    Bunyan.current_logger.error(context: "Provide RELEASE_NUMBER of application being tested, ex: r20170922")
+    exit!
   end
 
   # Checks for existence of USE_CONTENTFUL_SPACE in ENV config, checks if the proper values are assigned to it, and exits if it's not found or if incorrect values are assigned
@@ -220,7 +215,7 @@ module VerifyNetworkTraffic
 
   def self.test_needs_network_verification?
     input = ARGV.join.split('/')
-    #splits the test path into individual array elements
+    # splits the test path into individual array elements
     !input.include?('integration')
   end
 
@@ -239,20 +234,17 @@ module VerifyNetworkTraffic
     verification_passed_resources = []
     driver.network_traffic.each do |request|
       request.response_parts.uniq(&:url).each do |response|
-      if ! InitializeExample.valid_url?(response.url)
-          resource_hash = { url: response.url, status_code: response.status }
+        resource_hash = { url: response.url, status_code: response.status }
+        if !InitializeExample.valid_url?(response.url)
           non_uri_resources << resource_hash
           Bunyan.current_logger.debug(context: "Verification skipped, Resource isn't of type URI", url: response.url, status_code: response.status)
         elsif !@exclude_uri_from_network_traffic_validation.nil? && (@exclude_uri_from_network_traffic_validation.include? URI.parse(response.url).request_uri)
-          resource_hash = { url: response.url, status_code: response.status }
           not_verified_resources << resource_hash
           Bunyan.current_logger.debug(context: "Verification skipped, resource exists in @exclude_uri_from_network_traffic_validation", url: response.url, status_code: response.status)
         elsif (400..599).cover? response.status
-          resource_hash = { url: response.url, status_code: response.status }
           failed_resources << resource_hash
           Bunyan.current_logger.error(context: "Verification failed, response code in range 400..599", url: response.url, status_code: response.status)
-        elsif ! ENV['ALLOW_ALL_NETWORK_HOSTS'] && response.url =~ Bunyan::DISALLOWED_NETWORK_TRAFFIC_REGEXP
-          resource_hash = { url: response.url, status_code: response.status }
+        elsif !ENV['ALLOW_ALL_NETWORK_HOSTS'] && response.url =~ Bunyan::DISALLOWED_NETWORK_TRAFFIC_REGEXP
           failed_resources << resource_hash
           Bunyan.current_logger.error(context: "Verification failed, url is blocked by Bunyan::DISALLOWED_NETWORK_TRAFFIC_REGEXP", url: response.url, status_code: response.status, disallowed_network: "true")
         else
@@ -264,7 +256,6 @@ module VerifyNetworkTraffic
     end
     @test_handler.expect(failed_resources).to @test_handler.be_empty, build_failed_messages_for(failed_resources)
   end
-
 
   def self.build_failed_messages_for(failed_resources)
     text = "Resource Error:"

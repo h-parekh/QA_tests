@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'dec/dec_spec_helper'
 
 feature 'User Browsing', js: true do
@@ -24,4 +26,4 @@ feature 'User Browsing', js: true do
     expect(collections_page).to be_on_page
     collections_page.click_forward_arrow
   end
- end
+end

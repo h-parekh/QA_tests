@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Curate
   module Pages
     class LoggedInHomePage < HomePage
@@ -9,8 +10,8 @@ module Curate
       def on_page?
         super &&
           valid_logged_in_page_content? &&
-          manageDropdown? &&
-          depositDropdown?
+          manage_dropdown? &&
+          deposit_dropdown?
       end
 
       def valid_logged_in_page_content?
@@ -18,7 +19,7 @@ module Curate
           find("div.btn-group.my-actions")
       end
 
-      def manageDropdown?
+      def manage_dropdown?
         find("div.btn-group.my-actions").click
         find("div.btn-group.my-actions.open")
         has_content?("My Works")
@@ -26,9 +27,7 @@ module Curate
         has_content?("My Groups")
         has_content?("My Profile")
         has_content?("Log Out")
-        if account_details_updated?
-          has_content?("My Delegates")
-        end
+        has_content?("My Delegates") if account_details_updated?
         find("div.btn-group.my-actions").click
       end
 
@@ -36,7 +35,7 @@ module Curate
         @login_page.account_details_updated
       end
 
-      def depositDropdown?
+      def deposit_dropdown?
         find("div.btn-group.add-content").click
         find("div.btn-group.add-content.open")
         has_content?("New Article")
@@ -47,11 +46,11 @@ module Curate
         find("div.btn-group.add-content").click
       end
 
-      def openActionsDrawer
+      def open_actions_drawer
         find("div.btn-group.my-actions").click
       end
 
-      def openAddContentDrawer
+      def open_add_content_drawer
         find("div.btn-group.add-content").click
       end
     end

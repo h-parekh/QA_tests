@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'gatekeeper/gatekeeper_spec_helper'
 
 feature 'Gatekeeper API test' do

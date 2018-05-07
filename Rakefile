@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'csv'
 require 'fileutils'
 require 'pathname'
@@ -6,10 +8,10 @@ require 'json'
 namespace :webRennovation do
   desc "Query Contentful for data, run Lighthouse, and Build Report (WARNING: SLOW)"
   task(accessibility_audit: [
-    "accessibility_audit:write_contentful_slugs_to_csv",
-    "accessibility_audit:run_lighthouse_against_urls_and_generate_csv",
-    "accessibility_audit:consolidate_lighthouse_json_to_csv"
-  ])
+         "accessibility_audit:write_contentful_slugs_to_csv",
+         "accessibility_audit:run_lighthouse_against_urls_and_generate_csv",
+         "accessibility_audit:consolidate_lighthouse_json_to_csv"
+       ])
 
   namespace :accessibility_audit do
     desc 'Check that the Lighthouse command is installed and the proper version'
@@ -52,8 +54,8 @@ namespace :webRennovation do
       space = qa.fetch('space_id')
 
       client = Contentful::Client.new(
-        space: "#{space}",
-        access_token: "#{token}",
+        space: space.to_s,
+        access_token: token.to_s
       )
 
       # Only content types with a slug have are addressable
@@ -87,14 +89,14 @@ namespace :webRennovation do
       csv = CSV.read(CONTENTFUL_CSV_FILENAME, headers: true)
       csv.each do |line|
         url = line['URL'].strip
-        slug = line['SLUG'].strip.gsub('/', '-')
+        slug = line['SLUG'].strip.tr('/', '-')
         system("lighthouse #{url} --output-path=#{PATH_FOR_JSON_REPORTS.join("#{slug}-#{DATE_SUFFIX}.json --output=json")}")
       end
     end
 
     desc "Consolidate Lighthouse JSON output into CSV"
     task consolidate_lighthouse_json_to_csv: :config do
-      REPORT_CATEGORIES_TO_TEST = ["Accessibility", "Best Practices"]
+      REPORT_CATEGORIES_TO_TEST = ["Accessibility", "Best Practices"].freeze
       CSV.open(PROJECT_PATH.join("tmp/accessibility-#{DATE_SUFFIX}.csv"), 'w+') do |csv|
         csv << ["URL", "CATEGORY_NAME", "AUDIT_ID", "AUDIT_HELP", "NOTE", "SELECTOR"]
         Dir.glob(PATH_FOR_JSON_REPORTS.join("**/*.json")).each do |filename|

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Usurper
   module Pages
     # /events calander page
@@ -12,8 +14,8 @@ module Usurper
 
       def on_page?
         correct_content? &&
-        correct_url? &&
-        status_response_ok?
+          correct_url? &&
+          status_response_ok?
       end
 
       def status_response_ok?
@@ -22,10 +24,10 @@ module Usurper
 
       def correct_content?
         page.has_selector?('.btn.dropdown-toggle.btn-default.btn-sm') &&
-        page.has_selector?('.btn.dropdown-toggle.bs-placeholder.btn-default.btn-sm') &&
-        page.has_selector?('#s-lc-c-dp-m') &&
-        page.has_selector?('#s-lc-c-search') &&
-        page.has_selector?('.input-group-btn')
+          page.has_selector?('.btn.dropdown-toggle.bs-placeholder.btn-default.btn-sm') &&
+          page.has_selector?('#s-lc-c-dp-m') &&
+          page.has_selector?('#s-lc-c-search') &&
+          page.has_selector?('.input-group-btn')
       end
 
       def correct_url?

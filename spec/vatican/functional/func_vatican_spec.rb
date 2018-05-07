@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'vatican/vatican_spec_helper'
 feature "User Browsing", :read_only, js: true do
   scenario 'Load Homepage' do

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # @see https://downey.io/blog/writing-rubocop-linters-for-database-migrations/ for background in creating
 # and implementing custom Rubocop linters
 #
@@ -21,15 +23,15 @@ module RuboCop
         # @example
         #    # good
         #    scenario "jello", :nonprod_only do
-        MSG = 'All scenarios must either have a :nonprod_only or a :read_only tag. Further details see: https://github.com/ndlib/QA_tests#tagging'.freeze
+        MSG = 'All scenarios must either have a :nonprod_only or a :read_only tag. Further details see: https://github.com/ndlib/QA_tests#tagging'
 
         def on_block(node)
           node.each_descendant(:send) do |send_node|
             method = send_node.method_name
-            next unless is_scenario?(method)
+            next unless scenario?(method)
 
             opts = send_node.child_nodes
-            add_offense(send_node, :expression, format(MSG, send_node.type)) unless has_tags?(opts)
+            add_offense(send_node, :expression, format(MSG, send_node.type)) unless tags?(opts)
           end
         end
 
@@ -37,17 +39,16 @@ module RuboCop
           node.child_nodes[1]
         end
 
-        def is_scenario?(method)
+        def scenario?(method)
           method == :scenario
         end
 
-        def has_tags?(opts)
+        def tags?(opts)
           opts.each do |child|
             if child.type == :sym && (child.children[0] == :read_only || child.children[0] == :nonprod_only)
               return true
             end
           end
-          return false
         end
       end
     end
