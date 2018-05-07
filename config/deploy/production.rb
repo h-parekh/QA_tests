@@ -9,7 +9,7 @@
 # server 'example.com', user: 'deploy', roles: %w{app web}, other_property: :other_value
 # server 'db.example.com', user: 'deploy', roles: %w{db}
 set :stage, :production
-server 'testcontroller01.library.nd.edu', roles: %w{bendo buzz classes contentful crawler curate curatebatchingestor dave dec gatekeeper hathitrust hesburghsite honeycomb inquisition microfilms monarchLibguides osf primo rbsc recommendationEngine remix seaside sipity solr usurper usurpercontent vatican viceroy xur}, user: 'app'
+server 'testcontroller01.library.nd.edu', roles: %w{bendo buzz classes contentful crawler curate curatebatchingestor dave dec gatekeeper hathitrust hesburghsite honeycomb inquisition microfilms monarchlibguides osf primo rbsc recommendationengine remix seaside sipity solr usurper usurpercontent vatican viceroy xur}, user: 'app'
 
 # role-based syntax
 # ==================
