@@ -101,6 +101,9 @@ Style/PercentLiteralDelimiters:
   PreferredDelimiters:
     "%w": '{}'
 
+Style/SymbolArray:
+  EnforcedStyle: brackets
+
 Rails:
   Enabled: false
 
