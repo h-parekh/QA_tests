@@ -12,6 +12,7 @@ feature 'Tests for Contentful entries and webhook integrations' do
       expect(entry).not_to be_published
       # Preview the entry just created using Content Preview API
       entry.make_previewable!
+      page.driver.browser.js_errors = false
       visit "/#{entry.slug}?preview=true"
       page_entry_preview = ContentfulTests::Pages::PageEntryPreview.new(contentful_entry: entry)
       expect(page_entry_preview).to be_on_page
@@ -42,6 +43,7 @@ feature 'Tests for Contentful entries and webhook integrations' do
       # At this point the event entry should have been updated in contentful, so we need to refresh it
       entry.refresh_entry
       entry.make_previewable!
+      page.driver.browser.js_errors = false
       visit "/event/#{entry.slug}?preview=true"
       event_entry_preview = ContentfulTests::Pages::EventEntryPreview.new(contentful_entry: entry)
       expect(event_entry_preview).to be_on_page
