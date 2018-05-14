@@ -43,6 +43,7 @@ feature 'User Browsing', js: true do
     visit '/'
     within('.uNavigation') do
       find_by_id('services').trigger('click')
+      page.driver.browser.js_errors = false
       click_on('Reserve a Meeting or Event Space')
     end
     room_reservation_services_tab = Usurper::Pages::RoomReservationServicesTabPage.new
@@ -61,6 +62,7 @@ feature 'User Browsing', js: true do
   scenario 'Technology Lending Button', :read_only, :smoke_test do
     visit '/'
     within('.services.hservices') do
+      page.driver.browser.js_errors = false
       find_link(title: 'Technology Lending').trigger('click')
     end
     technology_lending = Usurper::Pages::TechnologyLendingPage.new
