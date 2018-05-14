@@ -201,8 +201,8 @@ feature 'Logged In User (Account details NOT updated) Browsing', js: true do
     expect(logged_in_home_page).to be_on_page
     logged_in_home_page.open_actions_drawer
     click_on("My Profile")
-    account_details_page = Curate::Pages::AccountDetailsPage.new
-    expect(account_details_page).to be_on_page
+    my_profile_page = Curate::Pages::MyProfilePage.new
+    expect(my_profile_page).to be_on_page
   end
 
   scenario "Visit Deposit New Article page", :read_only do
@@ -594,8 +594,9 @@ feature 'Logged in user changing ORCID settings (Account Details Not Updated):',
     expect(logged_in_home_page).to be_on_page
     logged_in_home_page.open_actions_drawer
     click_on("My Profile")
-    account_details_page = Curate::Pages::AccountDetailsPage.new
-    expect(account_details_page).to be_on_page
+    my_profile_page = Curate::Pages::MyProfilePage.new
+    expect(my_profile_page).to be_on_page
+    find_link('Add a Section to my Profile').trigger('click')
     find_link('ORCID Settings').trigger('click')
     sleep(1)
     orcid_settings_page = Curate::Pages::OrcidSettingsPage.new
