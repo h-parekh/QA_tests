@@ -53,7 +53,8 @@ Metrics/ModuleLength:
   Max: 200
 
 Security/Eval:
-  Enabled: false
+  Exclude:
+    - 'spec/solr/**/*'
 
 Style/AccessorMethodName:
   Enabled: false
