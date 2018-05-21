@@ -47,7 +47,6 @@ RSpec.configure do |config|
     Bunyan.current_logger = @current_logger
     SwaggerHandler.require_swagger_location
     RunIdentifier.set
-    CloudwatchEventHandler.set_aws_config
     new_save_path = ScreenshotsManager.get_screenshots_save_path
     Capybara.save_path = new_save_path
     @current_logger.stop
