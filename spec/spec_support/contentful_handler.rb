@@ -60,7 +60,7 @@ class ContentfulHandler
   private
 
     def read_contentful_tokens
-      cf_key_file = YAML.load_file(File.join(ENV.fetch('HOME'), 'test_data/QA/cf_api_key.yml'))
+      cf_key_file = Psych.load(AwsSsmHandler.get_param_from_parameter_store("/all/qa/cf_api_key"))
       contentful_space = ENV['USE_CONTENTFUL_SPACE']
       qa_key = cf_key_file.fetch(contentful_space)
       @space_id = qa_key.fetch('space_id')

@@ -23,18 +23,15 @@ class LoginPage
     @account_details_updated = account_details_updated
     @terms_of_service_accepted = terms_of_service_accepted
     @current_logger = logger
-    credentials = CSV.read(File.join(ENV.fetch('HOME'), 'test_data/QA/TestCredentials.csv'))
-    # To remove the header (first element in the array) while maintaining array type
-    # so sample method is still available
-    credentials.shift
+    credentials = Psych.load(AwsSsmHandler.get_param_from_parameter_store("/all/qa/testing_netids")).to_a
     # Filtering out items that satisfy the value of @account_details_updated if specified)
     # updated_set will only be nil if test specifies account_details_updated in initialization
     if updated_set.nil?
-      flagged_credentials = credentials.select { |entry| cast_to_boolean(entry[3]) == @account_details_updated }
+      flagged_credentials = credentials.select { |entry| entry[1]["CurateAccountDetailsUpdated"] == @account_details_updated }
       # randomly selecting a value from the remaining entries
       credentials_to_use = flagged_credentials.sample
     elsif accepted.nil?
-      flagged_credentials = credentials.select { |entry| cast_to_boolean(entry[4]) == @terms_of_service_accepted }
+      flagged_credentials = credentials.select { |entry| entry[1]["SipityTermsOfServiceUpdated"] == @terms_of_service_accepted }
       # randomly selecting a value from the remaining entries
       credentials_to_use = flagged_credentials.sample
     else
@@ -42,8 +39,8 @@ class LoginPage
       credentials_to_use = credentials.sample
     end
     @user_name = credentials_to_use[0]
-    @password = credentials_to_use[1]
-    @passcode = credentials_to_use[2]
+    @password = credentials_to_use[1]["Password"]
+    @passcode = credentials_to_use[1]["Passcode"]
   end
 
   def cast_to_boolean(value)

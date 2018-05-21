@@ -103,8 +103,8 @@ class SwaggerHandler
 
     # This is a temporary implementation until I conosildate all configs using Figaro
     def set_access_token_value!
-      git_access_config_file = YAML.load_file(File.join(ENV.fetch('HOME'), 'test_data/QA/git_access.yaml'))
-      @access_token_value = git_access_config_file.fetch("access_token")
+      git_access_config_in_json = Psych.load(AwsSsmHandler.get_param_from_parameter_store("/all/qa/git_access_token"))
+      @access_token_value = git_access_config_in_json.fetch("access_token")
     end
 
     attr_reader :example_variable, :config

@@ -81,6 +81,7 @@ module PathParameterizer
     # @return [String] the random string to use for this key
     # @raise [KeyError] If you request a named parameter that is not defined
     # @raise [RuntimeError] If there are no entries for the given context
+    # @raise [TypeError] If the subdictionary is a type other than Hash or Array
     def find(key:, context: nil)
       subdictionary = dictionary.fetch(key)
       unless context.nil?
@@ -89,19 +90,21 @@ module PathParameterizer
           raise "Unable to find match for: key: #{key}, context: #{context}, application_name_under_test: #{application_name_under_test}"
         end
       end
-      subdictionary.sample.fetch('value')
+      if subdictionary.instance_of?(Hash) # The key has only one value, ex: prep/prod URL endpoints
+        subdictionary.fetch('value')
+      elsif subdictionary.instance_of?(Array) # The key has multiple values possible and we want to pick one of them, ex: systemId
+        subdictionary.sample.fetch('value')
+      else
+        raise "Unable to return value from subdictionary, because its neither an Array or Hash"
+      end
     end
 
     private
 
-      def path_to_parameter_files
-        File.join(ENV.fetch('HOME'), 'test_data/QA/parameters')
-      end
-
       def build_dictionary!
-        shared_dictionary = Psych.load_file(File.join(path_to_parameter_files, 'shared.yml'))
-        application_dictionary = Psych.load_file(File.join(path_to_parameter_files, "#{application_name_under_test}.yml"))
-        @dictionary = shared_dictionary.merge(application_dictionary)
+        shared_dictionary_from_aws = Psych.load(AwsSsmHandler.get_param_from_parameter_store('/all/qa/shared'))
+        application_dictionary_from_aws = Psych.load(AwsSsmHandler.get_param_from_parameter_store("/all/qa/#{application_name_under_test}"))
+        @dictionary = shared_dictionary_from_aws.merge(application_dictionary_from_aws)
       end
   end
 end
