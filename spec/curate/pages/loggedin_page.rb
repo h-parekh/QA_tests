@@ -27,7 +27,6 @@ module Curate
         has_content?("My Groups")
         has_content?("My Profile")
         has_content?("Log Out")
-        has_content?("My Delegates") if account_details_updated?
         find("div.btn-group.my-actions").click
       end
 
