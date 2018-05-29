@@ -27,6 +27,7 @@ spec_path = File.expand_path('../', __FILE__)
 Capybara::Screenshot.prune_strategy = :keep_last_run
 Bunyan.instantiate_all_loggers!(config: ENV, path: spec_path)
 
+AwsSsmHandler.set_ssm_client
 # Gives access to the capybara methods
 RSpec.configure do |config|
   config.include Capybara::DSL
@@ -46,7 +47,6 @@ RSpec.configure do |config|
     Bunyan.current_logger = @current_logger
     SwaggerHandler.require_swagger_location
     RunIdentifier.set
-    CloudwatchEventHandler.set_aws_config
     new_save_path = ScreenshotsManager.get_screenshots_save_path
     Capybara.save_path = new_save_path
     @current_logger.stop

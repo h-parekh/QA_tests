@@ -40,9 +40,9 @@ class RequestBuilder
   end
 
   def get_token
-    # Accesses the file to get the jwt token
-    yaml = YAML.load_file(File.join(ENV.fetch('HOME'), 'test_data/QA/jwt_token.yml'))
-    yaml.fetch('token')
+    # Accesses the secrets from AWS parameter store to get the jwt token
+    jwt_token_in_json = Psych.load(AwsSsmHandler.get_param_from_parameter_store("/all/qa/jwt_token"))
+    jwt_token_in_json.fetch('jwt_token')
   end
 
   def get_security_name

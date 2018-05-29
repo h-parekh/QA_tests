@@ -1,0 +1,21 @@
+{
+    "cluster": "qa-testing-ssh",
+    "taskDefinition": "arn:aws:ecs:${AWS::Region}:${AWS::AccountId}:task-definition/qa_tests_task",
+    "overrides": {
+        "containerOverrides": [
+            {
+                "name": "qa-tests-container",
+                "command": [
+                    "spec/bendo/functional/func_bendo_spec.rb"
+                ],
+                "environment": [
+                  { "name": "ENVIRONMENT", "value": "prod"}
+                ]
+            }
+        ],
+        "taskRoleArn": "arn:aws:iam::${AWS::AccountId}:role/ecsTaskExecutionRole"
+    },
+    "count": 1,
+    "startedBy": "<your_name>",
+    "group": "family:qa_tests_task"
+}
