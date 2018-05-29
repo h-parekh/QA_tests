@@ -361,18 +361,6 @@ feature 'Logged In User (Account details updated) Browsing', js: true do
     expect(profile_page).to be_on_page
   end
 
-  scenario "Visit Manage My Delegates page", :read_only do
-    visit '/'
-    click_on('Log In')
-    login_page.complete_login
-    logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
-    expect(logged_in_home_page).to be_on_page
-    logged_in_home_page.open_actions_drawer
-    click_on("My Delegates")
-    delegates_page = Curate::Pages::MyDelegatesPage.new
-    expect(delegates_page).to be_on_page
-  end
-
   scenario "Visit Deposit New Article page", :read_only do
     visit '/'
     click_on('Log In')
