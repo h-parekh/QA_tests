@@ -7,6 +7,7 @@ module Usurper
       include CapybaraErrorIntel::DSL
 
       def initialize
+        VerifyNetworkTraffic.exclude_uri_from_network_traffic_validation.push('/primo-explore/config_NDUA.js', '/PDSMExlibris.css')
         @one_search_url = 'http://onesearch.library.nd.edu/primo_library/libweb/action/dlSearch.do?bulkSize=10&dym=true&highlight=true&indx=1&institution=NDU&mode=Basic&onCampus=false&pcAvailabiltyMode=true&query=any%2Ccontains%2Cundefined&search_scope=malc_blended&tab=onesearch&vid=NDU&displayField=title&displayField=creator'
         @nd_catlog_search_url = 'http://onesearch.library.nd.edu/primo_library/libweb/action/dlSearch.do?bulkSize=10&dym=true&highlight=true&indx=1&institution=NDU&mode=Basic&onCampus=false&pcAvailabiltyMode=true&query=any%2Ccontains%2Cundefined&search_scope=nd_campus&tab=nd_campus&vid=NDU&displayField=title&displayField=creator'
       end
