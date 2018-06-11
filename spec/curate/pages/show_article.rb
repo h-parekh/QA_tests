@@ -14,16 +14,11 @@ module Curate
 
       def on_page?
         on_valid_url? &&
-          status_response_ok? &&
           valid_page_content?
       end
 
       def on_valid_url?
         current_url.include? 'show'
-      end
-
-      def status_response_ok?
-        status_code == 200
       end
 
       # Not all articles have downloads. Don't fail in a bad way if that is the case

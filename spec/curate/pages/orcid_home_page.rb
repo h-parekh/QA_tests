@@ -8,17 +8,12 @@ module Curate
 
       def on_page?(account_details_updated)
         on_valid_url? &&
-          status_response_ok? &&
           valid_page_content?(account_details_updated) &&
           valid_uri_parameters?
       end
 
       def on_valid_url?
         Capybara.current_host.include?('orcid.org')
-      end
-
-      def status_response_ok?
-        status_code == 200
       end
 
       def valid_page_content?(account_details_updated)

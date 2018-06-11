@@ -8,12 +8,7 @@ module Curate
       include CapybaraErrorIntel::DSL
 
       def on_page?
-        status_response_ok? &&
-          modal_window_visible?
-      end
-
-      def status_response_ok?
-        status_code == 200
+        modal_window_visible?
       end
 
       def modal_window_visible?
