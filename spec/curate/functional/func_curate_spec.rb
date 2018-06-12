@@ -169,14 +169,14 @@ feature 'Logged In User (Account details NOT updated) Browsing', js: true do
     expect(works_page).to be_on_page
   end
 
-  scenario "Visit Manage My Groups page", :read_only do
+  scenario "Visit Manage Group Administration page", :read_only do
     visit '/'
     click_on('Log In')
     login_page.complete_login
     logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
     expect(logged_in_home_page).to be_on_page
     logged_in_home_page.open_actions_drawer
-    click_on("My Groups")
+    click_on("Group Administration")
     account_details_page = Curate::Pages::AccountDetailsPage.new
     expect(account_details_page).to be_on_page
   end
@@ -325,14 +325,14 @@ feature 'Logged In User (Account details updated) Browsing', js: true do
     expect(works_page).to be_on_page
   end
 
-  scenario "Visit Manage My Groups page", :read_only do
+  scenario "Visit Manage Group Administration page", :read_only do
     visit '/'
     click_on('Log In')
     login_page.complete_login
     logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
     expect(logged_in_home_page).to be_on_page
     logged_in_home_page.open_actions_drawer
-    click_on("My Groups")
+    click_on("Group Administration")
     groups_page = Curate::Pages::MyGroupsPage.new
     expect(groups_page).to be_on_page
   end
