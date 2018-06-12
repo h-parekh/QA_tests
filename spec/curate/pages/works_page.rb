@@ -24,7 +24,7 @@ module Curate
         within('div.applied-constraints') do
           has_content?("Work")
         end
-        has_checked_field?('works_mine')
+        has_selector?('li.active-item', text: 'My Works')
       end
     end
   end
