@@ -686,14 +686,17 @@ feature 'Browsing attached files' do
     expect(show_article).to have_pagination("files_page")
 
     # Check that a user can download one of the files
-    download_link = find("article.attached-file a", match: :first)
-    file_name = download_link.text
-    download_link.click
-    last_opened_window = page.driver.browser.window_handles.last
-    page.driver.browser.switch_to_window(last_opened_window)
-    # Can't check the page url, get "about:blank". Have to check that the response header has the right file name.
-    # Doing it this way also tests that the download link (not the button) has the file name as the text for the link
-    expect(page.response_headers['Content-Disposition']).to match(/filename="#{file_name}"/)
-    expect(status_code.to_s).to match(/^20[0,1,6]$/)
+    within('#attached-files') do
+      download_link = find('table.table-striped.related-files').find('td.actions', match: :first).find('a.action.btn')
+      file_name = download_link.text
+      # require 'byebug'; debugger
+      download_link.click
+      last_opened_window = page.driver.browser.window_handles.last
+      page.driver.browser.switch_to_window(last_opened_window)
+      # Can't check the page url, get "about:blank". Have to check that the response header has the right file name.
+      Doing it this way also tests that the download link (not the button) has the file name as the text for the link
+      expect(page.response_headers['Content-Disposition']).to match(/filename="#{file_name}"/)
+      expect(status_code.to_s).to match(/^20[0,1,6]$/)
+    end
   end
 end
