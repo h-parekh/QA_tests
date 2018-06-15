@@ -128,7 +128,7 @@ feature 'Facet Navigation', js: true do
       expect(page).to have_selector('#ajax-modal', visible: true)
       expect(page).to have_content(facet_name)
       within('#ajax-modal') do
-        find('.close').trigger('click')
+        find('.close').click
       end
       expect(page).not_to have_selector("#ajax-modal", visible: true)
     end
@@ -140,7 +140,7 @@ feature 'Facet Navigation', js: true do
     ['Type_of_Work', 'Creator', 'Subject', 'Language', 'Publisher', 'Academic_Status'].shuffle.each do |facet_name|
       current_logger.info(context: "Processing Facet: #{facet_name}")
       expect(page).not_to have_css("ul.facets #collapse_#{facet_name}.in")
-      find("ul.facets a[data-target=\"#collapse_#{facet_name}\"]").trigger('click')
+      find("ul.facets a[data-target=\"#collapse_#{facet_name}\"]").click
       expect(page).to have_css("ul.facets #collapse_#{facet_name}.in .slide-list")
     end
   end
@@ -480,10 +480,10 @@ feature 'Embargo scenarios:', js: true do
     # Since there is no embargo date the url should not change
     expect(current_url).to include('concern/images/new')
     fill_in(id: 'image_embargo_release_date', with: Date.today + 1)
-    find('.btn.btn-primary.require-contributor-agreement').trigger('click')
+    find('.btn.btn-primary.require-contributor-agreement').click
     expect(page).to have_css('.label.label-warning', text: "Under Embargo")
     expect(current_url).not_to include('concern/images/new')
-    find_link('Delete').trigger('click')
+    find_link('Delete').click
   end
 
   scenario "Changing Work Access Rights to Embargo without Filling in Date Should Not Work", :nonprod_only do
@@ -504,16 +504,16 @@ feature 'Embargo scenarios:', js: true do
       choose(id: 'visibility_embargo')
     end
     # To test that the embargo date requirement works
-    find('.btn.btn-primary.require-contributor-agreement').trigger('click')
+    find('.btn.btn-primary.require-contributor-agreement').click
     expect(current_url).not_to include('confirm')
     fill_in(id: 'image_embargo_release_date', with: Date.today + 1)
-    find('.btn.btn-primary.require-contributor-agreement').trigger('click')
+    find('.btn.btn-primary.require-contributor-agreement').click
     expect(page).to have_css('.span12', text: "You've changed this foo to be open_with_embargo_release_date") # Leveraging Capybara::Maleficent.with_sleep_injection
     within('.button_to') do
-      find('.btn.btn-primary').trigger('click')
+      find('.btn.btn-primary').click
     end
     expect(page).to have_css('.label.label-warning', text: "Under Embargo")
-    find_link('Delete').trigger('click')
+    find_link('Delete').click
   end
 
   scenario "Changing Work Access Rights from Embargo to Open", :nonprod_only do
@@ -533,14 +533,14 @@ feature 'Embargo scenarios:', js: true do
     within('#set-access-controls') do
       choose(id: 'visibility_open')
     end
-    find('.btn.btn-primary.require-contributor-agreement').trigger('click')
+    find('.btn.btn-primary.require-contributor-agreement').click
     expect(page).to have_css('.span12', text: "You've changed this foo to be open.") # Leveraging Capybara::Maleficent.with_sleep_injection
     within('.button_to') do
-      find('.btn.btn-primary').trigger('click')
+      find('.btn.btn-primary').click
     end
     # Make sure the Access Control switches to Open
     expect(page).to have_css('.label.label-success', text: "Open Access")
-    find_link('Delete').trigger('click')
+    find_link('Delete').click
   end
 
   scenario "Changing Work Access Rights from Registered to Embargo", :nonprod_only do
@@ -561,13 +561,13 @@ feature 'Embargo scenarios:', js: true do
       choose(id: 'visibility_embargo')
     end
     fill_in(id: 'image_embargo_release_date', with: Date.today + 1)
-    find('.btn.btn-primary.require-contributor-agreement').trigger('click')
+    find('.btn.btn-primary.require-contributor-agreement').click
     expect(page).to have_css('.span12', text: "You've changed this foo to be open_with_embargo_release_date") # Leveraging Capybara::Maleficent.with_sleep_injection
     within('.button_to') do
-      find('.btn.btn-primary').trigger('click')
+      find('.btn.btn-primary').click
     end
     expect(page).to have_css('.label.label-warning', text: "Under Embargo")
-    find_link('Delete').trigger('click')
+    find_link('Delete').click
   end
 end
 
@@ -584,12 +584,12 @@ feature 'Logged in user changing ORCID settings (Account Details Not Updated):',
     click_on("My Profile")
     my_profile_page = Curate::Pages::MyProfilePage.new
     expect(my_profile_page).to be_on_page
-    find_link('Add a Section to my Profile').trigger('click')
-    find_link('ORCID Settings').trigger('click')
+    find_link('Add a Section to my Profile').click
+    find_link('ORCID Settings').click
     sleep(1)
     orcid_settings_page = Curate::Pages::OrcidSettingsPage.new
     expect(orcid_settings_page).to be_on_page
-    find_link('Create or Connect your ORCID iD').trigger('click')
+    find_link('Create or Connect your ORCID iD').click
     sleep(1)
     orcid_home_page = Curate::Pages::OrcidHomePage.new
     expect(orcid_home_page).to be_on_page(login_page.account_details_updated)
@@ -610,11 +610,11 @@ feature 'Logged in user changing ORCID settings (Account Details Updated):', js:
     click_on("Update Personal Information")
     account_details_page = Curate::Pages::AccountDetailsPage.new
     expect(account_details_page).to be_on_page
-    find_link('ORCID Settings').trigger('click')
+    find_link('ORCID Settings').click
     sleep(1)
     orcid_settings_page = Curate::Pages::OrcidSettingsPage.new
     expect(orcid_settings_page).to be_on_page
-    find_link('Create or Connect your ORCID iD').trigger('click')
+    find_link('Create or Connect your ORCID iD').click
     sleep(1)
     orcid_home_page = Curate::Pages::OrcidHomePage.new
     expect(orcid_home_page).to be_on_page(login_page.account_details_updated)
@@ -659,7 +659,7 @@ feature 'Catalog Thumbnail Views:', js: true do
       find("a[data-target='#collapse_Type_of_Work']").click
     end
     within('#collapse_Type_of_Work.accordion-body.in.collapse') do
-      find_link('Show more').trigger('click')
+      find_link('Show more').click
     end
     category_page = Curate::Pages::CatalogPage.new
     category_page.test_facets_list_vs_grid

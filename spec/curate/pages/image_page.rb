@@ -48,8 +48,8 @@ module Curate
             choose(id: 'visbility_open')
           end
         end
-        find('#accept_contributor_agreement').trigger('click')
-        find('.btn.btn-primary.require-contributor-agreement').trigger('click')
+        find('#accept_contributor_agreement').click
+        find('.btn.btn-primary.require-contributor-agreement').click
       end
     end
   end

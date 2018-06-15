@@ -183,7 +183,7 @@ module Curate
         # This logic is because some of the environments(staging9) have only one page of links
         unless first('.disabled.btn', text: 'Next »')
           within('.modal-footer') do
-            find_link('Next').trigger('click')
+            find_link('Next').click
             # Ensures that ajax-modal is now on the second page
             has_link?('Previous')
           end

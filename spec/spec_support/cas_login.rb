@@ -58,7 +58,7 @@ class LoginPage
     page.has_selector?('.form-signin [name=submit]')
     fill_in('username', with: user_name)
     fill_in('password', with: password)
-    find('.form-signin [name=submit]').trigger('click')
+    find('.form-signin [name=submit]').click
     page.has_content?('Welcome to the new Notre Dame login process')
     page.driver.browser.switch_to.frame('duo_iframe')
     find('button.positive.auth-button').click
