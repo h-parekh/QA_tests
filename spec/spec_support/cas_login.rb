@@ -53,8 +53,6 @@ class LoginPage
   end
 
   def complete_login
-    page.has_selector?('#username [name=username]')
-    page.has_selector?("#password [name=password]")
     page.has_selector?('.form-signin [name=submit]')
     fill_in('username', with: user_name)
     fill_in('password', with: password)
@@ -64,7 +62,6 @@ class LoginPage
     find('button.positive.auth-button').click
     page.has_selector?("input[name=passcode]")
     fill_in('passcode', with: passcode)
-    page.has_selector?('button.positive.auth-button', text: 'Log In')
     current_logger.info(context: "Logging in user: #{user_name}")
     find('button.positive.auth-button', text: 'Log In').click
     page.has_no_content?('Welcome to the new Notre Dame login process')
