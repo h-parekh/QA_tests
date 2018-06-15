@@ -13,6 +13,7 @@ Your local machine will need the following setup to be able to run and write tes
 2. [Docker](https://docs.docker.com/install/) version 18 or higher
 3. AWS [CLI](https://aws.amazon.com/cli/)
 4. Configure aws profiles as explained below
+5. Install [VNC viewer](https://www.realvnc.com/en/connect/download/viewer/)
 
 ### Setting up aws profiles
 
@@ -144,12 +145,33 @@ $ cd /path/to/QA_tests
 $ docker-compose run -e SKIP_CLOUDWATCH=true qa-tests-master spec/curate/functional/func_curate_spec.rb
 ```
 ### QA developers: Example for running tests from non-master branch using Docker
+1. Start up Selenium hub and the nodes
 ```console
 $ cd /path/to/QA_tests
+$ docker-compose -f selenium_grid/docker-compose.yml up -d
+```
+2. Verify the cluster is up:
+```console
+$ docker-compose -f selenium_grid/docker-compose.yml ps
+```
+You will see 3 containers in 'Up' state
+```console
+           Name                       Command           State                Ports
+------------------------------------------------------------------------------------------------
+seleniumgrid_chrome_node_1    /opt/bin/entry_point.sh   Up      4578/tcp, 0.0.0.0:4578->5900/tcp
+seleniumgrid_firefox_node_1   /opt/bin/entry_point.sh   Up      4577/tcp, 0.0.0.0:4577->5900/tcp
+seleniumgrid_selenium_hub_1   /opt/bin/entry_point.sh   Up      0.0.0.0:4444->4444/tcp
+```
+3. (Optionally) Open VNC viewer for the node you are testing against:
+For example in this case, to connect to the 'seleniumgrid_chrome_node_1' connect to: `127.0.0.1:4578`
+It will ask you for a password, and the value is 'secret' (literally)
+Once you're connected you will see a blank window with Ubuntu symbol
+
+4. Update specs and run them
+```console
 $ git checkout -b <new_dev_branch>
 $ <do development stuff>
-$ docker-compose build qa-tests-dev
-$ docker-compose run -e SKIP_CLOUDWATCH=true qa-tests-dev spec/curate/functional/func_curate_spec.rb
+$ RUNNING_ON_LOCAL_DEV=true SKIP_CLOUDWATCH=true CHROME_HEADLESS=true bin/run_tests spec/curate/functional/func_curate_spec.rb
 ```
 *  Create a PR your local QA_tests branch to merge into master
 *  Wait for qa-tests:latest to be updated on [Docker hub](https://hub.docker.com/r/ndlib/qa-tests/)
