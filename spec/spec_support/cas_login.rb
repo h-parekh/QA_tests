@@ -60,14 +60,13 @@ class LoginPage
     fill_in('password', with: password)
     find('.form-signin [name=submit]').trigger('click')
     page.has_content?('Welcome to the new Notre Dame login process')
-    page.driver.within_frame('duo_iframe') do
-      find('button.positive.auth-button').trigger('click')
-      page.has_selector?("input[name=passcode]")
-      fill_in('passcode', with: passcode)
-      page.has_selector?('button.positive.auth-button', text: 'Log In')
-      find('button.positive.auth-button', text: 'Log In').trigger('click')
-      current_logger.info(context: "Logging in user: #{user_name}")
-    end
+    page.driver.browser.switch_to.frame('duo_iframe')
+    find('button.positive.auth-button').click
+    page.has_selector?("input[name=passcode]")
+    fill_in('passcode', with: passcode)
+    page.has_selector?('button.positive.auth-button', text: 'Log In')
+    current_logger.info(context: "Logging in user: #{user_name}")
+    find('button.positive.auth-button', text: 'Log In').click
     page.has_no_content?('Welcome to the new Notre Dame login process')
     current_logger.info(context: "Logged in user: #{user_name} SUCCESFULLY")
   end
