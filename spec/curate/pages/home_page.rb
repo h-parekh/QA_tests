@@ -7,8 +7,8 @@ module Curate
       include CapybaraErrorIntel::DSL
 
       def on_page?
-        on_valid_url? &&
-          valid_page_content?
+        valid_page_content? &&
+          on_valid_url?
       end
 
       def on_logged_in_page?
