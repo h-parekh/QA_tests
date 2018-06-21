@@ -24,7 +24,7 @@ module Curate
         find("div.btn-group.my-actions.open")
         has_content?("My Works")
         has_content?("My Collections")
-        has_content?("My Groups")
+        has_content?("Group Administration")
         has_content?("My Profile")
         has_content?("Log Out")
         find("div.btn-group.my-actions").click

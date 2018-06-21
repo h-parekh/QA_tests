@@ -169,14 +169,14 @@ feature 'Logged In User (Account details NOT updated) Browsing', js: true do
     expect(works_page).to be_on_page
   end
 
-  scenario "Visit Manage My Groups page", :read_only do
+  scenario "Visit Manage Group Administration page", :read_only do
     visit '/'
     click_on('Log In')
     login_page.complete_login
     logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
     expect(logged_in_home_page).to be_on_page
     logged_in_home_page.open_actions_drawer
-    click_on("My Groups")
+    click_on("Group Administration")
     account_details_page = Curate::Pages::AccountDetailsPage.new
     expect(account_details_page).to be_on_page
   end
@@ -325,14 +325,14 @@ feature 'Logged In User (Account details updated) Browsing', js: true do
     expect(works_page).to be_on_page
   end
 
-  scenario "Visit Manage My Groups page", :read_only do
+  scenario "Visit Manage Group Administration page", :read_only do
     visit '/'
     click_on('Log In')
     login_page.complete_login
     logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
     expect(logged_in_home_page).to be_on_page
     logged_in_home_page.open_actions_drawer
-    click_on("My Groups")
+    click_on("Group Administration")
     groups_page = Curate::Pages::MyGroupsPage.new
     expect(groups_page).to be_on_page
   end
@@ -686,14 +686,17 @@ feature 'Browsing attached files' do
     expect(show_article).to have_pagination("files_page")
 
     # Check that a user can download one of the files
-    download_link = find("article.attached-file a", match: :first)
-    file_name = download_link.text
-    download_link.click
-    last_opened_window = page.driver.browser.window_handles.last
-    page.driver.browser.switch_to_window(last_opened_window)
-    # Can't check the page url, get "about:blank". Have to check that the response header has the right file name.
-    # Doing it this way also tests that the download link (not the button) has the file name as the text for the link
-    expect(page.response_headers['Content-Disposition']).to match(/filename="#{file_name}"/)
-    expect(status_code.to_s).to match(/^20[0,1,6]$/)
+    within('#attached-files') do
+      download_link = find('table.table-striped.related-files').find('td.actions', match: :first).find('a.action.btn')
+      file_name = download_link.text
+      # require 'byebug'; debugger
+      download_link.click
+      last_opened_window = page.driver.browser.window_handles.last
+      page.driver.browser.switch_to_window(last_opened_window)
+      # Can't check the page url, get "about:blank". Have to check that the response header has the right file name.
+      # Doing it this way also tests that the download link (not the button) has the file name as the text for the link
+      expect(page.response_headers['Content-Disposition']).to match(/filename="#{file_name}"/)
+      expect(status_code.to_s).to match(/^20[0,1,6]$/)
+    end
   end
 end
