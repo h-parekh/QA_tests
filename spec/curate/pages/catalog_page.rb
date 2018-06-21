@@ -12,7 +12,7 @@ module Curate
       attr_reader :search_term, :category, :departmental_link
 
       LOOKUP_CATEGORY_URL = {
-        thesis: "/catalog?f_inclusive[human_readable_type_sim][]=Doctoral+Dissertation&f_inclusive[human_readable_type_sim][]=Master's+Thesis",
+        thesis: "/catalog?f_inclusive[human_readable_type_sim][]=Doctoral+Dissertation&f_inclusive[human_readable_type_sim][]=Master%27s+Thesis",
         article: "/catalog?f%5Bhuman_readable_type_sim%5D%5B%5D=Article",
         dataset: "/catalog?f%5Bhuman_readable_type_sim%5D%5B%5D=Dataset",
         patents: "/catalog?f[library_collections_pathnames_hierarchy_with_titles_sim][]=Notre+Dame+Patents|und%3Azw12z32008t",

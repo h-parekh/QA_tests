@@ -16,7 +16,7 @@ module Curate
       end
 
       def valid_page_content?
-        has_content?("My Groups")
+        has_content?("Group Administration")
         has_selector?(:link_or_button, "Create Group")
       end
     end

@@ -8,7 +8,8 @@ module Curate
 
       def on_page?
         on_valid_url? &&
-          valid_page_content?
+          valid_page_content? &&
+          valid_links
       end
 
       def on_valid_url?
@@ -19,7 +20,14 @@ module Curate
         within('div.applied-constraints') do
           has_content?("Collection")
         end
-        has_checked_field?('works_mine')
+        has_selector?('li.active-item', text: 'My Collections')
+      end
+
+      def valid_links
+        within('.search-query-list') do
+          find_link('My Collections')
+          find_link('All Collections')
+        end
       end
     end
   end
