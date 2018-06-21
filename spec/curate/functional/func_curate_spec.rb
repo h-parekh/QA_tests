@@ -694,7 +694,7 @@ feature 'Browsing attached files' do
       last_opened_window = page.driver.browser.window_handles.last
       page.driver.browser.switch_to_window(last_opened_window)
       # Can't check the page url, get "about:blank". Have to check that the response header has the right file name.
-      Doing it this way also tests that the download link (not the button) has the file name as the text for the link
+      # Doing it this way also tests that the download link (not the button) has the file name as the text for the link
       expect(page.response_headers['Content-Disposition']).to match(/filename="#{file_name}"/)
       expect(status_code.to_s).to match(/^20[0,1,6]$/)
     end
