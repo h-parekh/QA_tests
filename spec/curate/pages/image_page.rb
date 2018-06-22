@@ -14,17 +14,12 @@ module Curate
 
       def on_page?
         on_valid_url? &&
-          status_response_ok? &&
           valid_page_content? &&
           has_input_fields?
       end
 
       def on_valid_url?
         current_url == File.join(Capybara.app_host, 'concern/images/new')
-      end
-
-      def status_response_ok?
-        status_code == 200
       end
 
       def valid_page_content?
@@ -53,8 +48,8 @@ module Curate
             choose(id: 'visbility_open')
           end
         end
-        find('#accept_contributor_agreement').trigger('click')
-        find('.btn.btn-primary.require-contributor-agreement').trigger('click')
+        find('#accept_contributor_agreement').click
+        find('.btn.btn-primary.require-contributor-agreement').click
       end
     end
   end

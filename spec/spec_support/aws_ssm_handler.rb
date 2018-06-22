@@ -5,13 +5,23 @@ require 'aws-sdk'
 module AwsSsmHandler
   def self.set_ssm_client
     if ENV['RUNNING_ON_LOCAL_DEV'] == "true"
-      Aws.config.update(
-        region: ENV['region '].strip,
-        credentials: Aws::Credentials.new(ENV['aws_access_key_id '].strip, ENV['aws_secret_access_key '].strip)
-      )
-      create_sts_client_for_user
-      call_assume_role
-      create_ssm_client_for_assumed_role
+      if !ENV['AWS_SECURITY_TOKEN'].nil?
+        # This means that the user has already set AWS security token using one
+        # of the CLI tools from aws or aws-vault. I can directly create a
+        # credentials object from them
+        call_create_creds_from_credentials
+        create_ssm_client_from_env_variables
+      else
+        # This means that I need to route the user through a `assume role` setup
+        # process based on their personal access keys
+        Aws.config.update(
+          region: ENV['region '].strip,
+          credentials: Aws::Credentials.new(ENV['aws_access_key_id '].strip, ENV['aws_secret_access_key '].strip)
+        )
+        create_sts_client_for_user
+        call_assume_role
+        create_ssm_client_for_assumed_role
+      end
     elsif ENV['RUNNING_ON_LOCAL_DEV'] == "false"
       call_create_creds_in_ecs
       create_ssm_client
@@ -34,6 +44,17 @@ module AwsSsmHandler
   # @see https://docs.aws.amazon.com/sdkforruby/api/Aws/SSM/Client.html
   def self.create_ssm_client_for_assumed_role
     @ssm_client = Aws::SSM::Client.new(region: ENV['region '].strip, credentials: @assumed_role_object)
+  end
+
+  def self.create_ssm_client_from_env_variables
+    @ssm_client = Aws::SSM::Client.new(region: ENV['AWS_REGION'], credentials: @role_credentials)
+  end
+
+  # Creates a credentials object for the assumed role
+  # @return [Aws::Credentials]
+  # @see https://docs.aws.amazon.com/sdkforruby/api/Aws/Credentials.html
+  def self.call_create_creds_from_credentials
+    @role_credentials = Aws::Credentials.new(ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY'], ENV['AWS_SECURITY_TOKEN'])
   end
 
   # Calls the assume_role method of the STSConnection object @sts_client and

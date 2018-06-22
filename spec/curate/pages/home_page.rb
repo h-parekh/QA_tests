@@ -7,9 +7,8 @@ module Curate
       include CapybaraErrorIntel::DSL
 
       def on_page?
-        on_valid_url? &&
-          status_response_ok? &&
-          valid_page_content?
+        valid_page_content? &&
+          on_valid_url?
       end
 
       def on_logged_in_page?
@@ -22,10 +21,6 @@ module Curate
 
       def on_valid_url?
         current_url == Capybara.app_host || current_url == File.join(Capybara.app_host, '/')
-      end
-
-      def status_response_ok?
-        status_code.to_s.match(/^20[0,1,6]$/)
       end
 
       def valid_page_content?

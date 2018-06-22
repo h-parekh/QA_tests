@@ -12,7 +12,7 @@ module Curate
       attr_reader :search_term, :category, :departmental_link
 
       LOOKUP_CATEGORY_URL = {
-        thesis: "/catalog?f_inclusive[human_readable_type_sim][]=Doctoral+Dissertation&f_inclusive[human_readable_type_sim][]=Master's+Thesis",
+        thesis: "/catalog?f_inclusive[human_readable_type_sim][]=Doctoral+Dissertation&f_inclusive[human_readable_type_sim][]=Master%27s+Thesis",
         article: "/catalog?f%5Bhuman_readable_type_sim%5D%5B%5D=Article",
         dataset: "/catalog?f%5Bhuman_readable_type_sim%5D%5B%5D=Dataset",
         patents: "/catalog?f[library_collections_pathnames_hierarchy_with_titles_sim][]=Notre+Dame+Patents|und%3Azw12z32008t",
@@ -55,7 +55,6 @@ module Curate
 
       def on_page?
         on_valid_url? &&
-          status_response_ok? &&
           valid_page_content? &&
           valid_search_constraint? &&
           valid_content_count?
@@ -76,10 +75,6 @@ module Curate
 
       def on_base_url?
         current_url == File.join(Capybara.app_host, 'catalog')
-      end
-
-      def status_response_ok?
-        status_code == 200
       end
 
       def valid_page_content?
@@ -188,7 +183,7 @@ module Curate
         # This logic is because some of the environments(staging9) have only one page of links
         unless first('.disabled.btn', text: 'Next »')
           within('.modal-footer') do
-            find_link('Next').trigger('click')
+            find_link('Next').click
             # Ensures that ajax-modal is now on the second page
             has_link?('Previous')
           end
