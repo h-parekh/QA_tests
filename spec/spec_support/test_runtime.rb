@@ -122,6 +122,9 @@ module InitializeExample
     if ENV['CHROME_HEADLESS']
       initialize_chrome_headless_driver
       @capybara_driver_name = :chrome_headless
+    elsif ENV['FIREFOX_HEADLESS']
+      initialize_firefox_headless_driver
+      @capybara_driver_name = :firefox_headless
     else
       @capybara_driver_name = CAPYBARA_DRIVER_MAP.fetch(@example_variable.application_name_under_test, :poltergeist)
     end
@@ -131,13 +134,43 @@ module InitializeExample
 
   def self.initialize_chrome_headless_driver
     Capybara.register_driver :chrome_headless do |app|
+      options = Selenium::WebDriver::Chrome::Options.new
+      options.add_argument('--no-sandbox')
+      options.add_argument('--headless')
+      options.add_argument('--disable-gpu')
+      prefs = {
+        prompt_for_download: false,
+        directory_upgrade: false
+      }
+      profile = {
+        default_content_settings:
+          {
+            popups: 0
+          }
+      }
+      options.add_preference(:download, prefs)
+      options.add_preference(:profile, profile)
+
       capabilities = Selenium::WebDriver::Remote::Capabilities.chrome(
-        chromeOptions: {
-          args: %w{no-sandbox headless disable-gpu}
-        }
+        chromeOptions: options
       )
       Capybara::Selenium::Driver.new(app,
-                                     browser: :chrome,
+                                     browser: :remote,
+                                     url: "http://localhost:4444/wd/hub",
+                                     desired_capabilities: capabilities)
+    end
+  end
+
+  def self.initialize_firefox_headless_driver
+    Capybara.register_driver :firefox_headless do |app|
+      profile = Selenium::WebDriver::Firefox::Profile.new
+      capabilities = Selenium::WebDriver::Remote::Capabilities.firefox(
+        marionette: true,
+        firefox_options: { profile: profile.as_json.values.first }
+      )
+      Capybara::Selenium::Driver.new(app,
+                                     browser: :remote,
+                                     url: "http://localhost:4444/wd/hub",
                                      desired_capabilities: capabilities)
     end
   end
