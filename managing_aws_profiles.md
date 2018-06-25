@@ -1,4 +1,4 @@
-## Instructions along with an exaplanation on how to leverage aws-vault for setting up profiles on your dev workstation
+## Instructions along with an explanation on how to leverage aws-vault for setting up profiles on your dev workstation
 
 ### Follow these steps to setup your IAM user along with MFA device
 
