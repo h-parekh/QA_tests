@@ -12,7 +12,7 @@ end
 #
 # *****************************************************************************
 
-CONFIG_KEYS = [:ENVIRONMENT, :ENVIRONMENT_CATEGORY, :LOG_LEVEL, :SKIP_CLOUDWATCH, :SKIP_VERIFY_NETWORK_TRAFFIC, :SKIP_MALEFICENT, :ALLOW_ALL_NETWORK_HOSTS, :USE_CONTENTFUL_SPACE, :VERSION_NUMBER, :RELEASE_NUMBER].freeze
+CONFIG_KEYS = [:RUNNING_ON_LOCAL_DEV, :CHROME_HEADLESS, :FIREFOX_HEADLESS, :ENVIRONMENT, :ENVIRONMENT_CATEGORY, :LOG_LEVEL, :SKIP_CLOUDWATCH, :SKIP_VERIFY_NETWORK_TRAFFIC, :SKIP_MALEFICENT, :ALLOW_ALL_NETWORK_HOSTS, :USE_CONTENTFUL_SPACE, :VERSION_NUMBER, :RELEASE_NUMBER].freeze
 
 ENVIRONMENT = ENV.fetch('ENVIRONMENT', Bunyan::DEFAULT_ENVIRONMENT)
 ENVIRONMENT_CATEGORY = ENV.fetch('ENVIRONMENT_CATEGORY', nil)
@@ -24,6 +24,9 @@ ALLOW_ALL_NETWORK_HOSTS = ENV.fetch('ALLOW_ALL_NETWORK_HOSTS', false)
 USE_CONTENTFUL_SPACE = ENV.fetch('USE_CONTENTFUL_SPACE', nil)
 VERSION_NUMBER = ENV.fetch('VERSION_NUMBER', nil)
 RELEASE_NUMBER = ENV.fetch('RELEASE_NUMBER', nil)
+RUNNING_ON_LOCAL_DEV = ENV.fetch('RUNNING_ON_LOCAL_DEV', nil)
+CHROME_HEADLESS = ENV.fetch('CHROME_HEADLESS', nil)
+FIREFOX_HEADLESS = ENV.fetch('FIREFOX_HEADLESS', nil)
 
 # *****************************************************************************
 #
@@ -115,6 +118,22 @@ if ARGV.grep(/-h/i).size == 1
   $stdout.puts ""
   $stdout.puts "Example:"
   $stdout.puts "$ RELEASE_NUMBER=r20170922 ./bin/#{File.basename(__FILE__)}"
+
+  $stdout.puts "RUNNING_ON_LOCAL_DEV: This environment variable tells the AwsSsmHandler module whether its
+  running on a local machine or in AWS ECS"
+  $stdout.puts ""
+  $stdout.puts "Example:"
+  $stdout.puts "$ RUNNING_ON_LOCAL_DEV=true ./bin/#{File.basename(__FILE__)}"
+
+  $stdout.puts "CHROME_HEADLESS: This toggle indicates if you want to run tests using Chrome"
+  $stdout.puts ""
+  $stdout.puts "Example:"
+  $stdout.puts "$ CHROME_HEADLESS=true ./bin/#{File.basename(__FILE__)}"
+
+  $stdout.puts "FIREFOX_HEADLESS: This toggle indicates if you want to run tests using Firefox"
+  $stdout.puts ""
+  $stdout.puts "Example:"
+  $stdout.puts "$ FIREFOX_HEADLESS=true ./bin/#{File.basename(__FILE__)}"
   exit(0)
 end
 
