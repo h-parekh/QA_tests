@@ -51,6 +51,22 @@ module Curate
           first('p')
         end
       end
+
+      def new_doi_minted_article?
+        on_valid_url?
+        has_content?('Your DOI for your work is being requested. It may take a few minutes to generate.')
+        has_content?(@article_title)
+        has_no_content?('Digital Object Identifier')
+        within("table.table.table-striped.attributes") do
+          first('p')
+        end
+      end
+
+      def has_doi?
+        has_content?('Digital Object Identifier')
+        on_valid_url?
+        find_link(href: /http.*:\/\/.*doi.org\/doi:.*\/.*/)
+      end
     end
   end
 end

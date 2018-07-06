@@ -451,6 +451,33 @@ feature 'Logged In User (Account details updated) Browsing', js: true do
     expect(thesis_page).to be_on_page
   end
 
+  scenario "Creates DOI for a new image", :nonprod_only do
+    visit '/'
+    click_on('Log In')
+    login_page.complete_login
+    logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
+    expect(logged_in_home_page).to be_on_page
+    logged_in_home_page.open_add_content_drawer
+    click_on("New Image")
+    image_page = Curate::Pages::ImagePage.new
+    expect(image_page).to be_on_page
+    image_page.create_temp_image(access_rights: 'ndu', assign_doi: 'mint-doi')
+    show_article = Curate::Pages::ShowArticlePage.new(title: 'foo')
+    expect(show_article).to be_new_doi_minted_article
+    # Giving some wait time for the server to mint DOI
+    sleep(3)
+    page.refresh
+    expect(show_article).to have_doi
+    find_link('Edit').click
+    edit_article = Curate::Pages::EditWorkPage.new
+    expect(edit_article).to be_on_page
+    expect(edit_article).to have_editable_doi
+    find('.btn.btn-primary.require-contributor-agreement').click
+    accept_prompt do
+      find_link('Delete').click
+    end
+  end
+
   scenario "Log out", :read_only do
     visit '/'
     click_on('Log In')
