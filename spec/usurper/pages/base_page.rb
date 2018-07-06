@@ -22,16 +22,16 @@ module Usurper
         end
         within('.uNavigation') do
           find_link('Home', href: '/').visible?
-          find_by_id('research').trigger('click')
+          find_by_id('research').click
           menu_drawer_has_content?
-          find_by_id('services').trigger('click')
+          find_by_id('services').click
           menu_drawer_has_content?
-          find_by_id('libraries').trigger('click')
+          find_by_id('libraries').click
           menu_drawer_has_content?
-          find_by_id('about').trigger('click')
+          find_by_id('about').click
           menu_drawer_has_content?
           # need to close 'About' tab or issues randomly pop up
-          find('a', id: 'about').trigger('click')
+          find('a', id: 'about').click
           if @loggedin
             find('.m', text: 'MY ACCOUNT')
           else

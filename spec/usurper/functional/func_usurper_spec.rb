@@ -12,7 +12,7 @@ feature 'User Browsing', js: true do
   scenario 'Find A-Z Databases', :read_only, :smoke_test do
     visit '/'
     within('.uNavigation') do
-      find_by_id('research').trigger('click')
+      find_by_id('research').click
       click_on('Databases A-Z')
     end
     az_databases = Usurper::Pages::AZDatabases.new
@@ -22,7 +22,7 @@ feature 'User Browsing', js: true do
   scenario 'Find A-Z Subjects', :read_only, :smoke_test do
     visit '/'
     within('.uNavigation') do
-      find_by_id('research').trigger('click')
+      find_by_id('research').click
       click_on('Subjects A-Z')
     end
     az_subjects = Usurper::Pages::AZSubjects.new
@@ -32,7 +32,7 @@ feature 'User Browsing', js: true do
   scenario 'Research Guides', :read_only, :smoke_test do
     visit '/'
     within('.uNavigation') do
-      find_by_id('research').trigger('click')
+      find_by_id('research').click
       click_on('Library Guides')
     end
     research_guides = Usurper::Pages::ResearchGuidesPage.new
@@ -42,7 +42,7 @@ feature 'User Browsing', js: true do
   scenario 'Reserve a Room underneath Services Tab', :read_only, :smoke_test do
     visit '/'
     within('.uNavigation') do
-      find_by_id('services').trigger('click')
+      find_by_id('services').click
       click_on('Reserve a Meeting or Event Space')
     end
     room_reservation_services_tab = Usurper::Pages::RoomReservationServicesTabPage.new
@@ -52,7 +52,7 @@ feature 'User Browsing', js: true do
   scenario 'Reserve a Room Button', :read_only, :smoke_test do
     visit '/'
     within('.services.hservices') do
-      find_link(title: 'Reserve a Room', href: "http://nd.libcal.com/#s-lc-box-2749-container-tab1").trigger('click')
+      find_link(title: 'Reserve a Room', href: "http://nd.libcal.com/#s-lc-box-2749-container-tab1").click
     end
     room_reservation = Usurper::Pages::RoomReservationPage.new
     expect(room_reservation).to be_on_page
@@ -61,7 +61,7 @@ feature 'User Browsing', js: true do
   scenario 'Technology Lending Button', :read_only, :smoke_test do
     visit '/'
     within('.services.hservices') do
-      find_link(title: 'Technology Lending').trigger('click')
+      find_link(title: 'Technology Lending').click
     end
     technology_lending = Usurper::Pages::TechnologyLendingPage.new
     expect(technology_lending).to be_on_page
@@ -122,10 +122,10 @@ feature 'User Browsing', js: true do
   scenario 'Go to Workshops page', :read_only do
     visit '/'
     find('#services').click
-    find_link('Workshops', href: '/workshops').trigger('click')
+    find_link('Workshops', href: '/workshops').click
     workshop = Usurper::Pages::WorkshopPage.new
     expect(workshop).to be_on_page
-    find_link('Library Workshop Registration Portal').trigger('click')
+    find_link('Library Workshop Registration Portal').click
     calendar = Usurper::Pages::CalendarPage.new
     expect(calendar).to be_on_page
   end
@@ -140,7 +140,7 @@ feature 'User Browsing', js: true do
   scenario 'Search using OneSearch from HomePage', :read_only do
     visit '/'
 <<<<<<< HEAD
-    find_button('Search').trigger('click')
+    find_button('Search').click
     search = Usurper::Pages::SearchPage.new
     sleep(2)
     expect(search).to be_on_page
@@ -152,7 +152,7 @@ feature 'User Browsing', js: true do
     within('.uSearchOptionList') do
       find('p', text: 'ND Catalog').click
     end
-    find_button('Search').trigger('click')
+    find_button('Search').click
     search = Usurper::Pages::SearchPage.new
     sleep(2)
     expect(search).to be_on_page
@@ -164,7 +164,7 @@ feature 'User Browsing', js: true do
     within('.uSearchOptionList') do
       find('p', text: 'CurateND').click
     end
-    find_button('Search').trigger('click')
+    find_button('Search').click
     sleep(2)
     expect(current_url).to match(/^https:\/\/curate.nd.edu\/catalog./)
   end
@@ -175,7 +175,7 @@ feature 'User Browsing', js: true do
     within('.uSearchOptionList') do
       find('p', text: 'Library Website').click
     end
-    find_button('Search').trigger('click')
+    find_button('Search').click
     sleep(2)
     expect(current_url).to match(/^https:\/\/search.nd.edu\/search\/./)
   end
@@ -223,7 +223,7 @@ feature 'User Navigation', js: true do
   scenario 'Thesis Camps', :read_only, :smoke_test do
     visit '/'
     within('.uNavigation') do
-      find_by_id('services').trigger('click')
+      find_by_id('services').click
       click_on('Thesis and Dissertation Camps')
     end
     thesis_camp = Usurper::Pages::ThesisCampsCheck.new
@@ -233,7 +233,7 @@ feature 'User Navigation', js: true do
   scenario 'Library Page Navigation', :read_only, :smoke_test do
     visit '/'
     within('.uNavigation') do
-      find_by_id('libraries').trigger('click')
+      find_by_id('libraries').click
     end
     librarylist = nil
     within('.col-md-offset-2.col-md-3') do
@@ -255,10 +255,10 @@ feature 'User Navigation', js: true do
       within('.building') do
         find('.map')
       end
-      find_link('Home').trigger('click')
+      find_link('Home').click
       sleep(2)
       within('.uNavigation') do
-        find_by_id('libraries').trigger('click')
+        find_by_id('libraries').click
       end
     end
   end
