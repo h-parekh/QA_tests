@@ -9,7 +9,7 @@ module Usurper
 
       def initialize
         last_opened_window = page.driver.browser.window_handles.last
-        page.driver.browser.switch_to_window(last_opened_window)
+        page.driver.browser.switch_to.window(last_opened_window)
       end
 
       def on_page?

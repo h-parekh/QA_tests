@@ -18,7 +18,7 @@ module Usurper
 
       def on_valid_url?
         last_opened_window = page.driver.browser.window_handles.last
-        page.driver.browser.switch_to_window(last_opened_window)
+        page.driver.browser.switch_to.window(last_opened_window)
         current_url == 'http://librarygiving.nd.edu/'
       end
     end
