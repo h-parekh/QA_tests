@@ -141,7 +141,6 @@ feature 'User Browsing', js: true do
     visit '/'
     find_button('Search').click
     search = Usurper::Pages::SearchPage.new
-    sleep(2)
     expect(search).to be_on_page
   end
 
@@ -153,7 +152,6 @@ feature 'User Browsing', js: true do
     end
     find_button('Search').click
     search = Usurper::Pages::SearchPage.new
-    sleep(2)
     expect(search).to be_on_page
   end
 
