@@ -8,7 +8,7 @@ module Usurper
 
       def initialize
         VerifyNetworkTraffic.exclude_uri_from_network_traffic_validation.push('/primo-explore/config_NDUA.js', '/PDSMExlibris.css')
-        @onesearch_url_regex = /http:\/\/onesearch.library.nd.edu\/primo-explore.*/
+        @onesearch_url_regex = /http.*:\/\/onesearch.*.library.nd.edu\/primo-explore.*/
       end
 
       def on_page?
