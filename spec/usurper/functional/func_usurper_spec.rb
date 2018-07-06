@@ -173,8 +173,8 @@ feature 'User Browsing', js: true do
       find('p', text: 'Library Website').click
     end
     find_button('Search').click
-    sleep(2)
-    expect(current_url).to match(/^https:\/\/search.nd.edu\/search\/./)
+    expect(page).to have_content('Website Search')
+    expect(current_url).to start_with(File.join(Capybara.app_host, '/search?q='))
   end
 end
 
