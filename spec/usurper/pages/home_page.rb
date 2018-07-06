@@ -55,7 +55,7 @@ module Usurper
           find('h2', text: 'News') &&
             all('.news-card', between: 1..3)
           find('h2', text: 'Events') &&
-            all('.event-card', between: 1..3)
+            all('.event-card', between: 1..10)
         end
       end
 

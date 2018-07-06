@@ -9,17 +9,12 @@ module Usurper
 
       def initialize
         last_opened_window = page.driver.browser.window_handles.last
-        page.driver.browser.switch_to_window(last_opened_window)
+        page.driver.browser.switch_to.window(last_opened_window)
       end
 
       def on_page?
         correct_content? &&
-          correct_url? &&
-          status_response_ok?
-      end
-
-      def status_response_ok?
-        status_code == 200
+          correct_url?
       end
 
       def correct_content?
