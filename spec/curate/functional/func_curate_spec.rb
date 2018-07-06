@@ -510,7 +510,9 @@ feature 'Embargo scenarios:', js: true do
     find('.btn.btn-primary.require-contributor-agreement').click
     expect(page).to have_css('.label.label-warning', text: "Under Embargo")
     expect(current_url).not_to include('concern/images/new')
-    find_link('Delete').click
+    accept_prompt do
+      find_link('Delete').click
+    end
   end
 
   scenario "Changing Work Access Rights to Embargo without Filling in Date Should Not Work", :nonprod_only do
@@ -540,7 +542,9 @@ feature 'Embargo scenarios:', js: true do
       find('.btn.btn-primary').click
     end
     expect(page).to have_css('.label.label-warning', text: "Under Embargo")
-    find_link('Delete').click
+    accept_prompt do
+      find_link('Delete').click
+    end
   end
 
   scenario "Changing Work Access Rights from Embargo to Open", :nonprod_only do
@@ -567,7 +571,9 @@ feature 'Embargo scenarios:', js: true do
     end
     # Make sure the Access Control switches to Open
     expect(page).to have_css('.label.label-success', text: "Open Access")
-    find_link('Delete').click
+    accept_prompt do
+      find_link('Delete').click
+    end
   end
 
   scenario "Changing Work Access Rights from Registered to Embargo", :nonprod_only do
@@ -594,7 +600,9 @@ feature 'Embargo scenarios:', js: true do
       find('.btn.btn-primary').click
     end
     expect(page).to have_css('.label.label-warning', text: "Under Embargo")
-    find_link('Delete').click
+    accept_prompt do
+      find_link('Delete').click
+    end
   end
 end
 
