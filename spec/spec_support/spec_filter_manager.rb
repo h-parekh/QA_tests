@@ -21,6 +21,9 @@ module SpecFilterManager
       end
     elsif environment_under_test_is_nonprod?
       puts "'ENVIRONMENT' categorized as 'non-production', no filters, running all specs"
+      RSpec.configure do |c|
+        c.filter_run_excluding :prod_only
+      end
     else
       # I don't want to assume anything based on regex patterns when 'ENVIRONMENT' is a URL
       # Especially in cases such as that of library website when the URLs are cloudfront URLs
