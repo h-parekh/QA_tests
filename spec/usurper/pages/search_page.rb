@@ -8,33 +8,28 @@ module Usurper
 
       def initialize
         VerifyNetworkTraffic.exclude_uri_from_network_traffic_validation.push('/primo-explore/config_NDUA.js', '/PDSMExlibris.css')
-        @one_search_url = 'http://onesearch.library.nd.edu/primo_library/libweb/action/dlSearch.do?bulkSize=10&dym=true&highlight=true&indx=1&institution=NDU&mode=Basic&onCampus=false&pcAvailabiltyMode=true&query=any%2Ccontains%2Cundefined&search_scope=malc_blended&tab=onesearch&vid=NDU&displayField=title&displayField=creator'
-        @nd_catlog_search_url = 'http://onesearch.library.nd.edu/primo_library/libweb/action/dlSearch.do?bulkSize=10&dym=true&highlight=true&indx=1&institution=NDU&mode=Basic&onCampus=false&pcAvailabiltyMode=true&query=any%2Ccontains%2Cundefined&search_scope=nd_campus&tab=nd_campus&vid=NDU&displayField=title&displayField=creator'
+        @onesearch_url_regex = /http:\/\/onesearch.library.nd.edu\/primo-explore.*/
       end
 
       def on_page?
-        sleep(2)
-        valid_url? &&
-          correct_content?
+        correct_content? &&
+          valid_url?
       end
 
+      # If a match is found, the `=~` operator returns index of first match in string, otherwise it returns nil
+      # @see https://ruby-doc.org/core-2.1.1/Regexp.html
       def valid_url?
-        current_url == @one_search_url ||
-          current_url == @nd_catlog_search_url
+        (current_url =~ @onesearch_url_regex).nil? ? false : true
       end
 
       def correct_content?
-        page.has_selector?('#exlidUserAreaRibbon') &&
-          page.has_selector?('#exlidMainMenuRibbon') &&
-          page.has_selector?('.tab.onesearch.EXLSearchTabTitle.EXLSearchTabLABELOneSearch') &&
-          page.has_selector?('.tab.ndcatalog.EXLSearchTabTitle.EXLSearchTabLABELND.Campus') &&
-          page.has_selector?('#goButton') &&
-          if current_url == @nd_catlog_search_url
-            page.has_selector?('#showMoreOptions') &&
-              page.has_selector?('.EXLSearchFieldMaximized.srch-box')
-          else
-            page.has_selector?('.EXLSearchFieldMaximized.long.EXLSearchFieldMaximized.srch-box')
-          end
+        page.has_selector?('#mainResults')
+        within('#facets') do
+          page.has_content?('Sort by')
+          page.has_content?('Availability')
+          page.has_content?('Publication Date')
+          page.has_content?('Resource Type')
+        end
       end
     end
   end
