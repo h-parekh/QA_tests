@@ -139,7 +139,6 @@ feature 'User Browsing', js: true do
 
   scenario 'Search using OneSearch from HomePage', :read_only do
     visit '/'
-<<<<<<< HEAD
     find_button('Search').click
     search = Usurper::Pages::SearchPage.new
     sleep(2)
