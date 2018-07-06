@@ -4,7 +4,6 @@ require 'usurper/usurper_spec_helper'
 
 feature 'User Browsing', js: true do
   scenario 'Load Homepage', :read_only, :smoke_test do
-    page.driver.browser.js_errors = false
     visit '/'
     home_page = Usurper::Pages::HomePage.new
     expect(home_page).to be_on_page
@@ -31,7 +30,6 @@ feature 'User Browsing', js: true do
   end
 
   scenario 'Research Guides', :read_only, :smoke_test do
-    page.driver.browser.js_errors = false
     visit '/'
     within('.uNavigation') do
       find_by_id('research').trigger('click')
@@ -42,11 +40,9 @@ feature 'User Browsing', js: true do
   end
 
   scenario 'Reserve a Room underneath Services Tab', :read_only, :smoke_test do
-    page.driver.browser.js_errors = false
     visit '/'
     within('.uNavigation') do
       find_by_id('services').trigger('click')
-      page.driver.browser.js_errors = false
       click_on('Reserve a Meeting or Event Space')
     end
     room_reservation_services_tab = Usurper::Pages::RoomReservationServicesTabPage.new
@@ -54,7 +50,6 @@ feature 'User Browsing', js: true do
   end
 
   scenario 'Reserve a Room Button', :read_only, :smoke_test do
-    page.driver.browser.js_errors = false
     visit '/'
     within('.services.hservices') do
       find_link(title: 'Reserve a Room', href: "http://nd.libcal.com/#s-lc-box-2749-container-tab1").trigger('click')
@@ -64,10 +59,8 @@ feature 'User Browsing', js: true do
   end
 
   scenario 'Technology Lending Button', :read_only, :smoke_test do
-    page.driver.browser.js_errors = false
     visit '/'
     within('.services.hservices') do
-      page.driver.browser.js_errors = false
       find_link(title: 'Technology Lending').trigger('click')
     end
     technology_lending = Usurper::Pages::TechnologyLendingPage.new
@@ -75,7 +68,6 @@ feature 'User Browsing', js: true do
   end
 
   scenario 'Go to Library Giving Page', :read_only, :smoke_test do
-    page.driver.browser.js_errors = false
     visit '/'
     within('.row.bottom-xs') do
       click_on('Library Giving')
@@ -85,7 +77,6 @@ feature 'User Browsing', js: true do
   end
 
   scenario 'Go to Library Jobs Page', :read_only, :smoke_test do
-    page.driver.browser.js_errors = false
     visit '/'
     within('.row.bottom-xs') do
       click_on('Jobs')
@@ -120,7 +111,6 @@ feature 'User Browsing', js: true do
   end
 
   scenario 'Chat with Librarian via button', :read_only do
-    page.driver.browser.js_errors = false
     visit '/'
     within('#chat.footer-chat') do
       find('.chat-button').click
@@ -130,7 +120,6 @@ feature 'User Browsing', js: true do
   end
 
   scenario 'Go to Workshops page', :read_only do
-    page.driver.browser.js_errors = false
     visit '/'
     find('#services').click
     find_link('Workshops', href: '/workshops').trigger('click')
@@ -142,7 +131,6 @@ feature 'User Browsing', js: true do
   end
 
   scenario 'Go to Hours Page', :read_only do
-    page.driver.browser.js_errors = false
     visit '/'
     find_link('Hours', href: '/hours').click
     hours = Usurper::Pages::HoursPage.new
@@ -150,9 +138,8 @@ feature 'User Browsing', js: true do
   end
 
   scenario 'Search using OneSearch from HomePage', :read_only do
-    page.driver.browser.js_errors = false
     visit '/'
-    page.driver.browser.js_errors = false # Suprressing JS errors from OneSearch site
+<<<<<<< HEAD
     find_button('Search').trigger('click')
     search = Usurper::Pages::SearchPage.new
     sleep(2)
@@ -160,13 +147,11 @@ feature 'User Browsing', js: true do
   end
 
   scenario 'Search using ND Catalog from HomePage', :read_only do
-    page.driver.browser.js_errors = false
     visit '/'
     find('.current-search').click
     within('.uSearchOptionList') do
       find('p', text: 'ND Catalog').click
     end
-    page.driver.browser.js_errors = false # Suprressing JS errors from OneSearch site
     find_button('Search').trigger('click')
     search = Usurper::Pages::SearchPage.new
     sleep(2)
@@ -174,7 +159,6 @@ feature 'User Browsing', js: true do
   end
 
   scenario 'Search using CurateND from HomePage', :read_only do
-    page.driver.browser.js_errors = false
     visit '/'
     find('.current-search').click
     within('.uSearchOptionList') do
@@ -186,7 +170,6 @@ feature 'User Browsing', js: true do
   end
 
   scenario 'Search using Library Website from HomePage', :read_only do
-    page.driver.browser.js_errors = false
     visit '/'
     find('.current-search').click
     within('.uSearchOptionList') do
@@ -202,7 +185,6 @@ feature 'Logged In User Browsing', js: true do
   let(:login) { LoginPage.new(current_logger) }
 
   scenario 'Log In', :read_only, :validates_login do
-    page.driver.browser.js_errors = false
     visit '/'
     click_on('Login')
     login.complete_login
@@ -211,7 +193,6 @@ feature 'Logged In User Browsing', js: true do
   end
 
   scenario 'View Checked Out/Pending Items', :read_only do
-    page.driver.browser.js_errors = false
     visit '/'
     click_on('Login')
     login.complete_login
@@ -222,7 +203,6 @@ feature 'Logged In User Browsing', js: true do
 
   scenario 'View Courses/Instructs', :read_only do
     # Does not run properly do to issues with
-    page.driver.browser.js_errors = false
     visit '/'
     click_on('Login')
     login.complete_login
@@ -235,14 +215,12 @@ end
 
 feature 'User Navigation', js: true do
   scenario 'All Feature in Tab', :read_only, :smoke_test do
-    page.driver.browser.js_errors = false
     visit '/'
     header_all_checks = Usurper::Pages::HeaderAllChecks.new
     expect(header_all_checks).to be_on_page
   end
 
   scenario 'Thesis Camps', :read_only, :smoke_test do
-    page.driver.browser.js_errors = false
     visit '/'
     within('.uNavigation') do
       find_by_id('services').trigger('click')
@@ -253,7 +231,6 @@ feature 'User Navigation', js: true do
   end
 
   scenario 'Library Page Navigation', :read_only, :smoke_test do
-    page.driver.browser.js_errors = false
     visit '/'
     within('.uNavigation') do
       find_by_id('libraries').trigger('click')
