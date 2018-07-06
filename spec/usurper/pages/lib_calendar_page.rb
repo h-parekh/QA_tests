@@ -14,12 +14,7 @@ module Usurper
 
       def on_page?
         correct_content? &&
-          correct_url? &&
-          status_response_ok?
-      end
-
-      def status_response_ok?
-        status_code == 200
+          correct_url?
       end
 
       def correct_content?

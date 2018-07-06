@@ -15,8 +15,7 @@ module Usurper
       def on_page?
         sleep(2)
         valid_url? &&
-          correct_content? &&
-          valid_status?
+          correct_content?
       end
 
       def valid_url?
@@ -36,10 +35,6 @@ module Usurper
           else
             page.has_selector?('.EXLSearchFieldMaximized.long.EXLSearchFieldMaximized.srch-box')
           end
-      end
-
-      def valid_status?
-        status_code == 200
       end
     end
   end

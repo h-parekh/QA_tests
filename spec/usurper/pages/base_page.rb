@@ -11,14 +11,9 @@ module Usurper
       end
 
       def on_page?
-        status_response_ok? &&
-          valid_header? &&
+        valid_header? &&
           valid_footer? &&
           valid_version?
-      end
-
-      def status_response_ok?
-        status_code == 200 || status_code == 304
       end
 
       def valid_header?
