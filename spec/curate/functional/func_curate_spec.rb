@@ -451,33 +451,6 @@ feature 'Logged In User (Account details updated) Browsing', js: true do
     expect(thesis_page).to be_on_page
   end
 
-  scenario "Creates DOI for a new image", :nonprod_only do
-    visit '/'
-    click_on('Log In')
-    login_page.complete_login
-    logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
-    expect(logged_in_home_page).to be_on_page
-    logged_in_home_page.open_add_content_drawer
-    click_on("New Image")
-    image_page = Curate::Pages::ImagePage.new
-    expect(image_page).to be_on_page
-    image_page.create_temp_image(access_rights: 'ndu', assign_doi: 'mint-doi')
-    show_article = Curate::Pages::ShowArticlePage.new(title: 'foo')
-    expect(show_article).to be_new_doi_minted_article
-    # Giving some wait time for the server to mint DOI
-    sleep(3)
-    page.refresh
-    expect(show_article).to have_doi
-    find_link('Edit').click
-    edit_article = Curate::Pages::EditWorkPage.new
-    expect(edit_article).to be_on_page
-    expect(edit_article).to have_editable_doi
-    find('.btn.btn-primary.require-contributor-agreement').click
-    accept_prompt do
-      find_link('Delete').click
-    end
-  end
-
   scenario "Log out", :read_only do
     visit '/'
     click_on('Log In')
@@ -723,6 +696,55 @@ feature 'Browsing attached files' do
     # Check that a user can download one of the files
     within('#attached-files') do
       find('table.table-striped.related-files').find('td.actions', match: :first).find('a.action.btn').click
+    end
+  end
+end
+
+feature 'Digital Object Identifiers:', js: true do
+  let(:login_page) { LoginPage.new(current_logger, account_details_updated: true) }
+
+  scenario "Logged in user can create a DOI for a new image", :nonprod_only do
+    visit '/'
+    click_on('Log In')
+    login_page.complete_login
+    logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
+    expect(logged_in_home_page).to be_on_page
+    logged_in_home_page.open_add_content_drawer
+    click_on("New Image")
+    image_page = Curate::Pages::ImagePage.new
+    expect(image_page).to be_on_page
+    image_page.create_temp_image(access_rights: 'ndu', assign_doi: 'mint-doi')
+    show_article = Curate::Pages::ShowArticlePage.new(title: 'foo')
+    expect(show_article).to be_new_doi_minted_article
+    # Giving some wait time for the server to mint DOI
+    sleep(3)
+    page.refresh
+    expect(show_article).to have_doi
+    find_link('Edit').click
+    edit_article = Curate::Pages::EditWorkPage.new
+    expect(edit_article).to be_on_page
+    expect(edit_article).to have_editable_doi
+    find('.btn.btn-primary.require-contributor-agreement').click
+    accept_prompt do
+      find_link('Delete').click
+    end
+  end
+
+  scenario "Links to the DOI handler will redirect correctly back to the item", :read_only, :prod_only do
+    visit '/'
+    home_page = Curate::Pages::HomePage.new
+    expect(home_page).to be_on_page
+    search_term = "desc_metadata__identifier_tesim:*"
+    fill_in('catalog_search', with: search_term)
+    click_on('Search')
+    item_links = all('a[id^="src_copy_link"]')
+    # This will test a small subset of items on the first page of search results to ensure
+    # their dois correctly redirect
+    item_urls = item_links[0...3].map { |item_link| item_link['href'] }
+    item_urls.each do |item_url|
+      visit item_url
+      find_link('doi:').click
+      expect(current_url).to eq(item_url)
     end
   end
 end

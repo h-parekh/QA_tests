@@ -54,6 +54,7 @@ Here are some we should use consistently across all tests:
 * :smoke_test - checks application and dependent system availability
 * :read_only - will not make add/update to the underlying data (aside from login counts)
 * :nonprod_only - should not be run in production
+* :prod_only - should not be run in non-production
 * :regression_test - covers an important regression test
 * :authentication_required - requires logging into CAS
 
