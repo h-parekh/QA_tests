@@ -59,7 +59,7 @@ class LoginPage
     find('.form-signin [name=submit]').click
     page.has_content?('Welcome to the new Notre Dame login process')
     page.driver.browser.switch_to.frame('duo_iframe')
-    find('button.positive.auth-button').click
+    find('#passcode').click
     page.has_selector?("input[name=passcode]")
     fill_in('passcode', with: passcode)
     current_logger.info(context: "Logging in user: #{user_name}")
