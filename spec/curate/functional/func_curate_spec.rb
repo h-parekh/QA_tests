@@ -146,156 +146,61 @@ feature 'Facet Navigation', js: true do
   end
 end
 
-feature 'Logged In User (Account details NOT updated) Browsing', js: true do
+feature 'Logged In User (Account details NOT updated)', js: true do
   let(:login_page) { LoginPage.new(current_logger, account_details_updated: false) }
 
-  scenario "Log in", :validates_login, :read_only do
+  scenario "Clicks each menu item under 'Manage' and 'Deposit'", :validates_login, :read_only do
     visit '/'
     click_on('Log In')
     login_page.complete_login
     logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
     expect(logged_in_home_page).to be_on_page
-  end
-
-  scenario "Manage My Works", :read_only do
-    visit '/'
-    click_on('Log In')
-    login_page.complete_login
-    logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
-    expect(logged_in_home_page).to be_on_page
+    # Validate 'My works' page works
     logged_in_home_page.open_actions_drawer
     click_on("My Works")
     works_page = Curate::Pages::MyWorksPage.new
     expect(works_page).to be_on_page
-  end
-
-  scenario "Visit Manage Group Administration page", :read_only do
-    visit '/'
-    click_on('Log In')
-    login_page.complete_login
-    logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
-    expect(logged_in_home_page).to be_on_page
+    # Validate 'Group Administration' page works
     logged_in_home_page.open_actions_drawer
     click_on("Group Administration")
     account_details_page = Curate::Pages::AccountDetailsPage.new
     expect(account_details_page).to be_on_page
-  end
-
-  scenario "Visit Manage My Collections page", :read_only do
-    visit '/'
-    click_on('Log In')
-    login_page.complete_login
-    logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
-    expect(logged_in_home_page).to be_on_page
+    # Validate 'My Collections' page works
     logged_in_home_page.open_actions_drawer
     click_on("My Collections")
     account_details_page = Curate::Pages::AccountDetailsPage.new
     expect(account_details_page).to be_on_page
-  end
-
-  scenario "Visit Manage My Profile page", :read_only do
-    visit '/'
-    click_on('Log In')
-    login_page.complete_login
-    logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
-    expect(logged_in_home_page).to be_on_page
+    # Validate 'My Profile' page works
     logged_in_home_page.open_actions_drawer
     click_on("My Profile")
     my_profile_page = Curate::Pages::MyProfilePage.new
     expect(my_profile_page).to be_on_page
-  end
-
-  scenario "Visit Deposit New Article page", :read_only do
-    visit '/'
-    click_on('Log In')
-    login_page.complete_login
-    logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
-    expect(logged_in_home_page).to be_on_page
+    # Validate 'New Article' page works
     logged_in_home_page.open_add_content_drawer
     click_on("New Article")
     account_details_page = Curate::Pages::AccountDetailsPage.new
     expect(account_details_page).to be_on_page
-  end
-
-  scenario "Visit Deposit New Dataset page", :read_only do
-    visit '/'
-    click_on('Log In')
-    login_page.complete_login
-    logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
-    expect(logged_in_home_page).to be_on_page
+    # Validate 'New Dataset' page works
     logged_in_home_page.open_add_content_drawer
     click_on("New Dataset")
     account_details_page = Curate::Pages::AccountDetailsPage.new
     expect(account_details_page).to be_on_page
-  end
-
-  scenario "Visit Deposit New Document page", :read_only do
-    visit '/'
-    click_on('Log In')
-    login_page.complete_login
-    logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
-    expect(logged_in_home_page).to be_on_page
+    # Validate 'New Document' page works
     logged_in_home_page.open_add_content_drawer
     click_on("New Document")
     account_details_page = Curate::Pages::AccountDetailsPage.new
     expect(account_details_page).to be_on_page
-  end
-
-  scenario "Visit Deposit New Image page", :read_only do
-    visit '/'
-    click_on('Log In')
-    login_page.complete_login
-    logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
-    expect(logged_in_home_page).to be_on_page
+    # Validate 'New Image' page works
     logged_in_home_page.open_add_content_drawer
     click_on("New Image")
     account_details_page = Curate::Pages::AccountDetailsPage.new
     expect(account_details_page).to be_on_page
-  end
-
-  scenario "Visit More Options page", :read_only do
-    visit '/'
-    click_on('Log In')
-    login_page.complete_login
-    logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
-    expect(logged_in_home_page).to be_on_page
+    # Validate 'More Options' page works
     logged_in_home_page.open_add_content_drawer
     click_on("More Options")
     account_details_page = Curate::Pages::AccountDetailsPage.new
     expect(account_details_page).to be_on_page
-  end
-
-  scenario "Visit Deposit New Audio page", :read_only do
-    visit '/'
-    click_on('Log In')
-    login_page.complete_login
-    logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
-    expect(logged_in_home_page).to be_on_page
-    logged_in_home_page.open_add_content_drawer
-    click_on("More Options")
-    account_details_page = Curate::Pages::AccountDetailsPage.new
-    expect(account_details_page).to be_on_page
-  end
-
-  scenario "Visit Deposit New Senior Thesis page", :read_only do
-    visit '/'
-    click_on('Log In')
-    login_page.complete_login
-    logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
-    expect(logged_in_home_page).to be_on_page
-    logged_in_home_page.open_add_content_drawer
-    click_on("More Options")
-    account_details_page = Curate::Pages::AccountDetailsPage.new
-    expect(account_details_page).to be_on_page
-  end
-
-  scenario "Log out", :read_only do
-    visit '/'
-    click_on('Log In')
-    login_page.complete_login
-    logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
-    expect(page).not_to have_selector('.form-signin [name=submit]')
-    expect(logged_in_home_page).to be_on_page
+    # Tests log out button works
     logged_in_home_page.open_actions_drawer
     click_on("Log Out")
     login_page.check_login_page
@@ -305,143 +210,63 @@ end
 feature 'Logged In User (Account details updated) Browsing', js: true do
   let(:login_page) { LoginPage.new(current_logger, account_details_updated: true) }
 
-  scenario "Log in", :validates_login, :read_only do
+  scenario "Clicks each menu item under 'Manage' and 'Deposit", :validates_login, :read_only do
     visit '/'
     click_on('Log In')
     login_page.complete_login
     logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
     expect(logged_in_home_page).to be_on_page
-  end
-
-  scenario "Manage My Works", :read_only do
-    visit '/'
-    click_on('Log In')
-    login_page.complete_login
-    logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
-    expect(logged_in_home_page).to be_on_page
+    # Validate 'My Works' page works
     logged_in_home_page.open_actions_drawer
     click_on("My Works")
     works_page = Curate::Pages::MyWorksPage.new
     expect(works_page).to be_on_page
-  end
-
-  scenario "Visit Manage Group Administration page", :read_only do
-    visit '/'
-    click_on('Log In')
-    login_page.complete_login
-    logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
-    expect(logged_in_home_page).to be_on_page
+    # Validate 'Group Administration' page works
     logged_in_home_page.open_actions_drawer
     click_on("Group Administration")
     groups_page = Curate::Pages::MyGroupsPage.new
     expect(groups_page).to be_on_page
-  end
-
-  scenario "Visit Manage My Collections page", :read_only do
-    visit '/'
-    click_on('Log In')
-    login_page.complete_login
-    logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
-    expect(logged_in_home_page).to be_on_page
+    # Validate 'My Collections' page works
     logged_in_home_page.open_actions_drawer
     click_on("My Collections")
     collections_page = Curate::Pages::MyCollectionsPage.new
     expect(collections_page).to be_on_page
-  end
-
-  scenario "Visit Manage My Profile page", :read_only do
-    visit '/'
-    click_on('Log In')
-    login_page.complete_login
-    logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
-    expect(logged_in_home_page).to be_on_page
+    # Validate 'My Profile' page works
     logged_in_home_page.open_actions_drawer
     click_on("My Profile")
     profile_page = Curate::Pages::MyProfilePage.new
     expect(profile_page).to be_on_page
-  end
-
-  scenario "Visit Deposit New Article page", :read_only do
-    visit '/'
-    click_on('Log In')
-    login_page.complete_login
-    logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
-    expect(logged_in_home_page).to be_on_page
+    # Validate 'New Article' page works
     logged_in_home_page.open_add_content_drawer
     click_on("New Article")
     article_page = Curate::Pages::ArticlePage.new
     expect(article_page).to be_on_page
-  end
-
-  scenario "Visit Deposit New Dataset page", :read_only do
-    visit '/'
-    click_on('Log In')
-    login_page.complete_login
-    logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
-    expect(logged_in_home_page).to be_on_page
+    # Validate 'New Dataset' page works
     logged_in_home_page.open_add_content_drawer
     click_on("New Dataset")
     dataset_page = Curate::Pages::DatasetPage.new
     expect(dataset_page).to be_on_page
-  end
-
-  scenario "Visit Deposit New Document page", :read_only do
-    visit '/'
-    click_on('Log In')
-    login_page.complete_login
-    logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
-    expect(logged_in_home_page).to be_on_page
+    # Validate 'New Document' page works
     logged_in_home_page.open_add_content_drawer
     click_on("New Document")
     document_page = Curate::Pages::DocumentPage.new
     expect(document_page).to be_on_page
-  end
-
-  scenario "Visit Deposit New Image page", :read_only do
-    visit '/'
-    click_on('Log In')
-    login_page.complete_login
-    logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
-    expect(logged_in_home_page).to be_on_page
+    # Validate 'New Image' page works
     logged_in_home_page.open_add_content_drawer
     click_on("New Image")
     image_page = Curate::Pages::ImagePage.new
     expect(image_page).to be_on_page
-  end
-
-  scenario "Visit More Options page", :read_only do
-    visit '/'
-    click_on('Log In')
-    login_page.complete_login
-    logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
-    expect(logged_in_home_page).to be_on_page
+    # Validate 'More Options' page works
     logged_in_home_page.open_add_content_drawer
     click_on("More Options")
     options_page = Curate::Pages::StartDepositPage.new
     expect(options_page).to be_on_page
-  end
-
-  scenario "Visit Deposit New Audio page", :read_only do
-    visit '/'
-    click_on('Log In')
-    login_page.complete_login
-    logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
-    expect(logged_in_home_page).to be_on_page
-    logged_in_home_page.open_add_content_drawer
-    click_on("More Options")
-    options_page = Curate::Pages::StartDepositPage.new
+    # Validate 'New Audio' page works
     expect(options_page).to be_on_page
     find('.add-button.btn.btn-primary.add_new_audio').click
     audio_page = Curate::Pages::AudioPage.new
     expect(audio_page).to be_on_page
-  end
-
-  scenario "Visit Deposit New Senior Thesis page", :read_only do
-    visit '/'
-    click_on('Log In')
-    login_page.complete_login
-    logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
-    expect(logged_in_home_page).to be_on_page
+    # Validate 'Thesis' page works
     logged_in_home_page.open_add_content_drawer
     click_on("More Options")
     options_page = Curate::Pages::StartDepositPage.new
@@ -449,14 +274,7 @@ feature 'Logged In User (Account details updated) Browsing', js: true do
     find('.add-button.btn.btn-primary.add_new_senior_thesis').click
     thesis_page = Curate::Pages::ThesisPage.new
     expect(thesis_page).to be_on_page
-  end
-
-  scenario "Log out", :read_only do
-    visit '/'
-    click_on('Log In')
-    login_page.complete_login
-    logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
-    expect(logged_in_home_page).to be_on_page
+    # Validate 'Logout' page works
     logged_in_home_page.open_actions_drawer
     click_on("Log Out")
     login_page.check_login_page
