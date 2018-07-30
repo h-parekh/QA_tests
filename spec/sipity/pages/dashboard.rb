@@ -7,8 +7,8 @@ module Sipity
       include CapybaraErrorIntel::DSL
 
       def on_page?
-        on_valid_url? &&
-          valid_page_content?
+        valid_page_content? &&
+          on_valid_url?
       end
 
       def on_valid_url?
@@ -16,15 +16,15 @@ module Sipity
       end
 
       def valid_page_content?
-        find("select[name='processing_state']")
-        find("input[value='Filter']")
-        find_link('New Deposit')
         table = find("table.table")
         table.has_content?("Title")
         table.has_content?("Creator(s)")
         table.has_content?("Type")
         table.has_content?("Processing State")
         table.has_content?("Date Created")
+        find("select[name='processing_state']")
+        find("input[value='Filter']")
+        find_link('New Deposit')
       end
     end
   end
