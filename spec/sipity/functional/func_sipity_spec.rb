@@ -15,7 +15,7 @@ def sign_in
   casLogin.complete_login
 end
 
-def sign_out
+def sign_out_from_sipity
   find_link("Sign out").click
   expect(casLogin).to be_on_page
 end
@@ -50,7 +50,7 @@ feature 'Returning User', js: true do
     find_link('New Deposit').click
     new_deposit_page = Sipity::Pages::NewDepositPage.new
     expect(new_deposit_page).to be_on_page
-    sign_out
+    sign_out_from_sipity
   end
 
   scenario 'Browse ETD buttons', :read_only, js: true do
@@ -64,6 +64,5 @@ feature 'Returning User', js: true do
     find_link("View Submitted ETDs").click
     submission_page = Sipity::Pages::SubmittedETDPage.new
     expect(submission_page).to be_on_page
-    sign_out
   end
 end
