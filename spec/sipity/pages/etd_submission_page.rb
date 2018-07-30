@@ -8,16 +8,11 @@ module Sipity
 
       def on_page?
         on_valid_url? &&
-          status_response_ok? &&
           valid_page_content?
       end
 
       def on_valid_url?
         current_url == Capybara.app_host + 'areas/etd/start/do/start_a_submission'
-      end
-
-      def status_response_ok?
-        status_code.to_s.match(/^20[0,1,6]$/)
       end
 
       def valid_page_content?
