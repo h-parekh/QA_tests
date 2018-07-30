@@ -16,12 +16,15 @@ module Sipity
       end
 
       def valid_page_content?
-        find('.btn.btn-primary.login').click
-        find("div.btn-group.my-actions").click
-        find("div.btn-group.my-actions.open")
+        # Sipity site behavior is such that user has to click login button
+        # again to logged in after getting redirected to curate
+        within('header.catalog.page-banner') do
+          find('.login').click
+          find("div.btn-group.my-actions").click
+        end
         has_content?("My Works")
         has_content?("My Collections")
-        has_content?("My Groups")
+        has_content?("Group Administration")
         has_content?("My Profile")
         has_content?("Log Out")
       end

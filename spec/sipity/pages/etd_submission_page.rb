@@ -7,12 +7,12 @@ module Sipity
       include CapybaraErrorIntel::DSL
 
       def on_page?
-        on_valid_url? &&
-          valid_page_content?
+        valid_page_content? &&
+          on_valid_url?
       end
 
       def on_valid_url?
-        current_url == Capybara.app_host + 'areas/etd/start/do/start_a_submission'
+        current_url == File.join(Capybara.app_host, 'areas/etd/start/do/start_a_submission')
       end
 
       def valid_page_content?
