@@ -1,6 +1,26 @@
 # frozen_string_literal: true
 
 require 'sipity/sipity_spec_helper'
+def visit_home
+  visit '/'
+  home_page = Sipity::Pages::HomePage.new
+  expect(home_page).to be_on_page
+end
+
+def sign_in
+  visit_home
+  within('div.collapse.navbar-collapse') do
+    find_link('Sign in').click
+  end
+  expect(casLogin).to be_on_page
+  casLogin.complete_login
+end
+
+def returning_user_sign_in
+  sign_in
+  signed_in_page = Sipity::Pages::SignedInPage.new
+  expect(signed_in_page).to be_on_page
+end
 
 feature 'First Time User', js: true do
   let(:casLogin) { LoginPage.new(current_logger, terms_of_service_accepted: false) }
@@ -62,25 +82,4 @@ feature 'User Browsing', js: true do
     find_link("Sign out").click
     expect(casLogin).to be_on_page
   end
-end
-
-def visit_home
-  visit '/'
-  home_page = Sipity::Pages::HomePage.new
-  expect(home_page).to be_on_page
-end
-
-def sign_in
-  visit_home
-  within('div.collapse.navbar-collapse') do
-    find_link('Sign in').click
-  end
-  expect(casLogin).to be_on_page
-  casLogin.complete_login
-end
-
-def returning_user_sign_in
-  sign_in
-  signed_in_page = Sipity::Pages::SignedInPage.new
-  expect(signed_in_page).to be_on_page
 end
