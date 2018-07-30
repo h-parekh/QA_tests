@@ -12,7 +12,7 @@ module Sipity
       end
 
       def on_valid_url?
-        current_url == Capybara.app_host + 'areas/etd/start/do/start_a_submission'
+        current_url == File.join(Capybara.app_host, 'areas/etd/start/do/start_a_submission')
       end
 
       def valid_page_content?
