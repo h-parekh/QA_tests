@@ -448,32 +448,20 @@ feature 'Logged in user changing ORCID settings (Account Details Updated):', js:
 end
 
 feature 'Featured Collections:', js: true do
-  scenario 'Patents', :read_only do
+  featured_collections = {
+    patents: 'Notre Dame Patents',
+    press: 'Notre Dame Press',
+    thesis: 'Graduate School Theses & Dissertations',
+    varieties: 'Varieties of Democracy'
+  }
+  scenario 'View each', :read_only do
     visit '/'
-    click_on('Notre Dame Patents')
-    catalog_page = Curate::Pages::CatalogPage.new(category: :patents)
-    expect(catalog_page).to be_on_page
-  end
-
-  scenario 'Press', :read_only do
-    visit '/'
-    click_on('Notre Dame Press')
-    catalog_page = Curate::Pages::CatalogPage.new(category: :press)
-    expect(catalog_page).to be_on_page
-  end
-
-  scenario 'Thesis & Dissertations', :read_only do
-    visit '/'
-    click_on('Graduate School Theses & Dissertations')
-    catalog_page = Curate::Pages::CatalogPage.new(category: :thesis)
-    expect(catalog_page).to be_on_page
-  end
-
-  scenario 'Varieties of Democracy', :read_only do
-    visit '/'
-    click_on('Varieties of Democracy')
-    catalog_page = Curate::Pages::CatalogPage.new(category: :varieties)
-    expect(catalog_page).to be_on_page
+    featured_collections.each do |key, value|
+      click_on(value.to_s)
+      catalog_page = Curate::Pages::CatalogPage.new(category: key)
+      expect(catalog_page).to be_on_page
+      page.go_back
+    end
   end
 end
 
