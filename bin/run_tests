@@ -12,7 +12,7 @@ end
 #
 # *****************************************************************************
 
-CONFIG_KEYS = [:RUNNING_ON_LOCAL_DEV, :CHROME_HEADLESS, :FIREFOX_HEADLESS, :ENVIRONMENT, :ENVIRONMENT_CATEGORY, :LOG_LEVEL, :SKIP_CLOUDWATCH, :SKIP_VERIFY_NETWORK_TRAFFIC, :SKIP_MALEFICENT, :ALLOW_ALL_NETWORK_HOSTS, :USE_CONTENTFUL_SPACE, :VERSION_NUMBER, :RELEASE_NUMBER].freeze
+CONFIG_KEYS = [:SKIP_AWS_SSM_SETUP, :RUNNING_ON_LOCAL_DEV, :CHROME_HEADLESS, :FIREFOX_HEADLESS, :ENVIRONMENT, :ENVIRONMENT_CATEGORY, :LOG_LEVEL, :SKIP_CLOUDWATCH, :SKIP_VERIFY_NETWORK_TRAFFIC, :SKIP_MALEFICENT, :ALLOW_ALL_NETWORK_HOSTS, :USE_CONTENTFUL_SPACE, :VERSION_NUMBER, :RELEASE_NUMBER].freeze
 
 ENVIRONMENT = ENV.fetch('ENVIRONMENT', Bunyan::DEFAULT_ENVIRONMENT)
 ENVIRONMENT_CATEGORY = ENV.fetch('ENVIRONMENT_CATEGORY', nil)
@@ -27,6 +27,7 @@ RELEASE_NUMBER = ENV.fetch('RELEASE_NUMBER', nil)
 RUNNING_ON_LOCAL_DEV = ENV.fetch('RUNNING_ON_LOCAL_DEV', nil)
 CHROME_HEADLESS = ENV.fetch('CHROME_HEADLESS', nil)
 FIREFOX_HEADLESS = ENV.fetch('FIREFOX_HEADLESS', nil)
+SKIP_AWS_SSM_SETUP = ENV.fetch('SKIP_AWS_SSM_SETUP', nil)
 
 # *****************************************************************************
 #
@@ -124,6 +125,12 @@ if ARGV.grep(/-h/i).size == 1
   $stdout.puts ""
   $stdout.puts "Example:"
   $stdout.puts "$ RUNNING_ON_LOCAL_DEV=true ./bin/#{File.basename(__FILE__)}"
+
+  $stdout.puts "SKIP_AWS_SSM_SETUP: Use this flag to skip setting SSM handlers. Ex: When you don't need to
+  access any values from the AWS parameter store"
+  $stdout.puts ""
+  $stdout.puts "Example:"
+  $stdout.puts "$ SKIP_AWS_SSM_SETUP=true ./bin/#{File.basename(__FILE__)}"
 
   $stdout.puts "CHROME_HEADLESS: This toggle indicates if you want to run tests using Chrome"
   $stdout.puts ""
