@@ -4,6 +4,7 @@ require 'aws-sdk'
 
 module AwsSsmHandler
   def self.set_ssm_client
+    return true if ENV.fetch('SKIP_AWS_SSM_SETUP', false)
     if ENV['RUNNING_ON_LOCAL_DEV'] == "true"
       if !ENV['AWS_SECURITY_TOKEN'].nil?
         # This means that the user has already set AWS security token using one
