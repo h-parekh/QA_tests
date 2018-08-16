@@ -6,9 +6,9 @@ module Curate
       include Capybara::DSL
       include CapybaraErrorIntel::DSL
 
-      def on_page?(account_details_updated)
+      def on_page?
         on_valid_url? &&
-          valid_page_content?(account_details_updated) &&
+          valid_page_content? &&
           valid_uri_parameters?
       end
 
@@ -16,18 +16,10 @@ module Curate
         Capybara.current_host.include?('orcid.org')
       end
 
-      def valid_page_content?(account_details_updated)
+      def valid_page_content?
         page.has_content?("ORCID")
-        if account_details_updated
-          find('#register-form-password')
-          page.has_selector?(:link_or_button, "Sign In")
-          page.has_selector?(:link_or_button, "Register")
-        else
-          find('#userId.form-control.ng-pristine.ng-untouched.ng-valid.ng-empty')
-          find('#password.form-control')
-          page.has_selector?(:link_or_button, "Register now")
-          page.has_selector?(:link_or_button, "Sign into ORCID")
-        end
+        page.has_selector?(:link_or_button, "Sign In")
+        page.has_selector?(:link_or_button, "Register")
       end
 
       def valid_uri_parameters?

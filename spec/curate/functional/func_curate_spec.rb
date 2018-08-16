@@ -397,33 +397,8 @@ feature 'Embargo scenarios:', js: true do
   end
 end
 
-feature 'Logged in user changing ORCID settings (Account Details Not Updated):', js: true do
-  let(:login_page) { LoginPage.new(current_logger, account_details_updated: false) }
-
-  scenario "Go to ORCID.org Signin page", :validates_login, :read_only do
-    visit '/'
-    click_on('Log In')
-    login_page.complete_login
-    logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
-    expect(logged_in_home_page).to be_on_page
-    logged_in_home_page.open_actions_drawer
-    click_on("My Account")
-    my_account_page = Curate::Pages::MyAccountPage.new
-    expect(my_account_page).to be_on_page
-    find_link('Add a Section to my Profile').click
-    find_link('ORCID Settings').click
-    sleep(1)
-    orcid_settings_page = Curate::Pages::OrcidSettingsPage.new
-    expect(orcid_settings_page).to be_on_page
-    find_link('Create or Connect your ORCID iD').click
-    sleep(1)
-    orcid_home_page = Curate::Pages::OrcidHomePage.new
-    expect(orcid_home_page).to be_on_page(login_page.account_details_updated)
-  end
-end
-
-feature 'Logged in user changing ORCID settings (Account Details Updated):', js: true do
-  let(:login_page) { LoginPage.new(current_logger, account_details_updated: true) }
+feature 'Logged in user changing ORCID settings (Any account):', js: true do
+  let(:login_page) { LoginPage.new(current_logger) }
 
   scenario "Go to ORCID.org registration page", :validates_login, :read_only do
     visit '/'
@@ -443,7 +418,7 @@ feature 'Logged in user changing ORCID settings (Account Details Updated):', js:
     find_link('Create or Connect your ORCID iD').click
     sleep(1)
     orcid_home_page = Curate::Pages::OrcidHomePage.new
-    expect(orcid_home_page).to be_on_page(login_page.account_details_updated)
+    expect(orcid_home_page).to be_on_page
   end
 end
 
