@@ -27,7 +27,6 @@ module Curate
       def valid_page_navigation?
         within(".feature-navigation-wrapper") do
           find_link('Help').visible? &&
-            find_link('Getting Started').visible? &&
             find_link('Common Questions').visible?
         end
       end
