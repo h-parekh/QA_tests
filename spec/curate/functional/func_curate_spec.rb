@@ -170,11 +170,11 @@ feature 'Logged In User (Account details NOT updated)', js: true do
     click_on("My Collections")
     account_details_page = Curate::Pages::AccountDetailsPage.new
     expect(account_details_page).to be_on_page
-    # Validate 'My Profile' page works
+    # Validate 'My Account' page works
     logged_in_home_page.open_actions_drawer
-    click_on("My Profile")
-    my_profile_page = Curate::Pages::MyProfilePage.new
-    expect(my_profile_page).to be_on_page
+    click_on("My Account")
+    my_account_page = Curate::Pages::MyAccountPage.new
+    expect(my_account_page).to be_on_page
     # Validate 'New Article' page works
     logged_in_home_page.open_add_content_drawer
     click_on("New Article")
@@ -231,11 +231,11 @@ feature 'Logged In User (Account details updated) Browsing', js: true do
     click_on("My Collections")
     collections_page = Curate::Pages::MyCollectionsPage.new
     expect(collections_page).to be_on_page
-    # Validate 'My Profile' page works
+    # Validate 'My Account' page works
     logged_in_home_page.open_actions_drawer
-    click_on("My Profile")
-    profile_page = Curate::Pages::MyProfilePage.new
-    expect(profile_page).to be_on_page
+    click_on("My Account")
+    account_page = Curate::Pages::MyAccountPage.new
+    expect(account_page).to be_on_page
     # Validate 'New Article' page works
     logged_in_home_page.open_add_content_drawer
     click_on("New Article")
@@ -407,9 +407,9 @@ feature 'Logged in user changing ORCID settings (Account Details Not Updated):',
     logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
     expect(logged_in_home_page).to be_on_page
     logged_in_home_page.open_actions_drawer
-    click_on("My Profile")
-    my_profile_page = Curate::Pages::MyProfilePage.new
-    expect(my_profile_page).to be_on_page
+    click_on("My Account")
+    my_account_page = Curate::Pages::MyAccountPage.new
+    expect(my_account_page).to be_on_page
     find_link('Add a Section to my Profile').click
     find_link('ORCID Settings').click
     sleep(1)
@@ -432,7 +432,7 @@ feature 'Logged in user changing ORCID settings (Account Details Updated):', js:
     logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
     expect(logged_in_home_page).to be_on_page
     logged_in_home_page.open_actions_drawer
-    click_on("My Profile")
+    click_on("My Account")
     click_on("Update Personal Information")
     account_details_page = Curate::Pages::AccountDetailsPage.new
     expect(account_details_page).to be_on_page
