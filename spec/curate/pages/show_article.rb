@@ -65,7 +65,7 @@ module Curate
       def has_doi?
         has_content?('Digital Object Identifier')
         on_valid_url?
-        find_link(href: /http.*:\/\/.*datacite.org\/doi:.*\/.*/)
+        find_link(href: /http.*:\/\/.*doi.org\/doi:.*\/.*/)
       end
     end
   end
