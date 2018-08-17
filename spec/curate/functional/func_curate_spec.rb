@@ -297,7 +297,7 @@ feature 'Embargo scenarios:', js: true do
     image_page.create_temp_image(access_rights: 'embargo', embargo_date: false)
     # Since there is no embargo date the url should not change
     expect(current_url).to include('concern/images/new')
-    fill_in(id: 'image_embargo_release_date', with: Date.today + 1)
+    fill_in(id: 'image_embargo_release_date', with: Date.today + 2)
     find('.btn.btn-primary.require-contributor-agreement').click
     expect(page).to have_css('.label.label-warning', text: "Under Embargo")
     expect(current_url).not_to include('concern/images/new')
@@ -326,7 +326,7 @@ feature 'Embargo scenarios:', js: true do
     # To test that the embargo date requirement works
     find('.btn.btn-primary.require-contributor-agreement').click
     expect(current_url).not_to include('confirm')
-    fill_in(id: 'image_embargo_release_date', with: Date.today + 1)
+    fill_in(id: 'image_embargo_release_date', with: Date.today + 2)
     find('.btn.btn-primary.require-contributor-agreement').click
     expect(page).to have_css('.span12', text: "You've changed this foo to be open_with_embargo_release_date") # Leveraging Capybara::Maleficent.with_sleep_injection
     within('.button_to') do
@@ -384,7 +384,7 @@ feature 'Embargo scenarios:', js: true do
     within('#set-access-controls') do
       choose(id: 'visibility_embargo')
     end
-    fill_in(id: 'image_embargo_release_date', with: Date.today + 1)
+    fill_in(id: 'image_embargo_release_date', with: Date.today + 2)
     find('.btn.btn-primary.require-contributor-agreement').click
     expect(page).to have_css('.span12', text: "You've changed this foo to be open_with_embargo_release_date") # Leveraging Capybara::Maleficent.with_sleep_injection
     within('.button_to') do

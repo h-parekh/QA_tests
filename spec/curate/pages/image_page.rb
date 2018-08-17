@@ -42,7 +42,7 @@ module Curate
           elsif access_rights == 'embargo'
             choose(id: 'visibility_' + access_rights)
             if embargo_date
-              fill_in(id: 'image_embargo_release_date', with: Date.today + 1)
+              fill_in(id: 'image_embargo_release_date', with: Date.today + 2)
             end
           else
             choose(id: 'visbility_open')
