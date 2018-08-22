@@ -42,7 +42,7 @@ module Curate
           elsif access_rights == 'embargo'
             choose(id: 'visibility_' + access_rights)
             if embargo_date
-              fill_in(id: 'image_embargo_release_date', with: Date.today + 1)
+              fill_in(id: 'image_embargo_release_date', with: Date.today + 2)
             end
           else
             choose(id: 'visbility_open')
@@ -64,6 +64,9 @@ module Curate
           end
         end
         fill_in(id: 'publisher', with: 'foo')
+        # Randomly selects a value from the 'Departments and Units' dropdown
+        dropdown = find('.control-group.Image_administrative_unit').find('#image_administrative_unit_')
+        dropdown.all('option')[rand(11)].select_option
         find('#accept_contributor_agreement').click
         find('.btn.btn-primary.require-contributor-agreement').click
       end

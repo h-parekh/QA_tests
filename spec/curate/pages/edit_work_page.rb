@@ -22,7 +22,7 @@ module Curate
       def has_editable_doi?
         within('#doi') do
           has_content?('Digital Object Identifier')
-          find_link(href: /http.*:\/\/.*datacite.org\/doi:.*\/.*/)
+          find_link(href: /http.*:\/\/.*doi.org\/doi:.*\/.*/)
         end
         # Checks if an editable text box exists
         find('#image_doi')

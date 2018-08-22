@@ -2,7 +2,7 @@
 
 module Curate
   module Pages
-    class MyProfilePage
+    class MyAccountPage
       include Capybara::DSL
       include CapybaraErrorIntel::DSL
 
@@ -16,7 +16,6 @@ module Curate
       end
 
       def valid_page_content?
-        has_selector?(:link_or_button, "Add a Section to my Profile")
         has_selector?(:link_or_button, "Update Personal Information")
       end
     end

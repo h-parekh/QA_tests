@@ -170,11 +170,11 @@ feature 'Logged In User (Account details NOT updated)', js: true do
     click_on("My Collections")
     account_details_page = Curate::Pages::AccountDetailsPage.new
     expect(account_details_page).to be_on_page
-    # Validate 'My Profile' page works
+    # Validate 'My Account' page works
     logged_in_home_page.open_actions_drawer
-    click_on("My Profile")
-    my_profile_page = Curate::Pages::MyProfilePage.new
-    expect(my_profile_page).to be_on_page
+    click_on("My Account")
+    my_account_page = Curate::Pages::MyAccountPage.new
+    expect(my_account_page).to be_on_page
     # Validate 'New Article' page works
     logged_in_home_page.open_add_content_drawer
     click_on("New Article")
@@ -231,11 +231,11 @@ feature 'Logged In User (Account details updated) Browsing', js: true do
     click_on("My Collections")
     collections_page = Curate::Pages::MyCollectionsPage.new
     expect(collections_page).to be_on_page
-    # Validate 'My Profile' page works
+    # Validate 'My Account' page works
     logged_in_home_page.open_actions_drawer
-    click_on("My Profile")
-    profile_page = Curate::Pages::MyProfilePage.new
-    expect(profile_page).to be_on_page
+    click_on("My Account")
+    account_page = Curate::Pages::MyAccountPage.new
+    expect(account_page).to be_on_page
     # Validate 'New Article' page works
     logged_in_home_page.open_add_content_drawer
     click_on("New Article")
@@ -297,7 +297,7 @@ feature 'Embargo scenarios:', js: true do
     image_page.create_temp_image(access_rights: 'embargo', embargo_date: false)
     # Since there is no embargo date the url should not change
     expect(current_url).to include('concern/images/new')
-    fill_in(id: 'image_embargo_release_date', with: Date.today + 1)
+    fill_in(id: 'image_embargo_release_date', with: Date.today + 2)
     find('.btn.btn-primary.require-contributor-agreement').click
     expect(page).to have_css('.label.label-warning', text: "Under Embargo")
     expect(current_url).not_to include('concern/images/new')
@@ -326,7 +326,7 @@ feature 'Embargo scenarios:', js: true do
     # To test that the embargo date requirement works
     find('.btn.btn-primary.require-contributor-agreement').click
     expect(current_url).not_to include('confirm')
-    fill_in(id: 'image_embargo_release_date', with: Date.today + 1)
+    fill_in(id: 'image_embargo_release_date', with: Date.today + 2)
     find('.btn.btn-primary.require-contributor-agreement').click
     expect(page).to have_css('.span12', text: "You've changed this foo to be open_with_embargo_release_date") # Leveraging Capybara::Maleficent.with_sleep_injection
     within('.button_to') do
@@ -384,7 +384,7 @@ feature 'Embargo scenarios:', js: true do
     within('#set-access-controls') do
       choose(id: 'visibility_embargo')
     end
-    fill_in(id: 'image_embargo_release_date', with: Date.today + 1)
+    fill_in(id: 'image_embargo_release_date', with: Date.today + 2)
     find('.btn.btn-primary.require-contributor-agreement').click
     expect(page).to have_css('.span12', text: "You've changed this foo to be open_with_embargo_release_date") # Leveraging Capybara::Maleficent.with_sleep_injection
     within('.button_to') do
@@ -397,33 +397,8 @@ feature 'Embargo scenarios:', js: true do
   end
 end
 
-feature 'Logged in user changing ORCID settings (Account Details Not Updated):', js: true do
-  let(:login_page) { LoginPage.new(current_logger, account_details_updated: false) }
-
-  scenario "Go to ORCID.org Signin page", :validates_login, :read_only do
-    visit '/'
-    click_on('Log In')
-    login_page.complete_login
-    logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
-    expect(logged_in_home_page).to be_on_page
-    logged_in_home_page.open_actions_drawer
-    click_on("My Profile")
-    my_profile_page = Curate::Pages::MyProfilePage.new
-    expect(my_profile_page).to be_on_page
-    find_link('Add a Section to my Profile').click
-    find_link('ORCID Settings').click
-    sleep(1)
-    orcid_settings_page = Curate::Pages::OrcidSettingsPage.new
-    expect(orcid_settings_page).to be_on_page
-    find_link('Create or Connect your ORCID iD').click
-    sleep(1)
-    orcid_home_page = Curate::Pages::OrcidHomePage.new
-    expect(orcid_home_page).to be_on_page(login_page.account_details_updated)
-  end
-end
-
-feature 'Logged in user changing ORCID settings (Account Details Updated):', js: true do
-  let(:login_page) { LoginPage.new(current_logger, account_details_updated: true) }
+feature 'Logged in user changing ORCID settings (Any account):', js: true do
+  let(:login_page) { LoginPage.new(current_logger) }
 
   scenario "Go to ORCID.org registration page", :validates_login, :read_only do
     visit '/'
@@ -432,7 +407,7 @@ feature 'Logged in user changing ORCID settings (Account Details Updated):', js:
     logged_in_home_page = Curate::Pages::LoggedInHomePage.new(login_page)
     expect(logged_in_home_page).to be_on_page
     logged_in_home_page.open_actions_drawer
-    click_on("My Profile")
+    click_on("My Account")
     click_on("Update Personal Information")
     account_details_page = Curate::Pages::AccountDetailsPage.new
     expect(account_details_page).to be_on_page
@@ -443,7 +418,7 @@ feature 'Logged in user changing ORCID settings (Account Details Updated):', js:
     find_link('Create or Connect your ORCID iD').click
     sleep(1)
     orcid_home_page = Curate::Pages::OrcidHomePage.new
-    expect(orcid_home_page).to be_on_page(login_page.account_details_updated)
+    expect(orcid_home_page).to be_on_page
   end
 end
 
