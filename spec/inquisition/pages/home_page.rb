@@ -9,16 +9,11 @@ module Inquisition
       include CapybaraErrorIntel::DSL
 
       def on_page?
-        status_response_ok? &&
-          on_valid_url? &&
+        on_valid_url? &&
           valid_top_banner? &&
           valid_bottom_banner? &&
           has_facets? &&
           has_title?
-      end
-
-      def status_response_ok?
-        status_code == 200 || status_code == 304
       end
 
       def on_valid_url?

@@ -17,13 +17,8 @@ module Inquisition
       end
 
       def on_page?
-        status_response_ok? &&
-          has_title? &&
+        has_title? &&
           on_valid_url?
-      end
-
-      def status_response_ok?
-        status_code == error_code
       end
 
       def on_valid_url?
