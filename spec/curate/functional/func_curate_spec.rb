@@ -301,9 +301,6 @@ feature 'Embargo scenarios:', js: true do
     find('.btn.btn-primary.require-contributor-agreement').click
     expect(page).to have_css('.label.label-warning', text: "Under Embargo")
     expect(current_url).not_to include('concern/images/new')
-    accept_prompt do
-      find_link('Delete').click
-    end
   end
 
   scenario "Changing Work Access Rights to Embargo without Filling in Date Should Not Work", :nonprod_only do
@@ -333,9 +330,6 @@ feature 'Embargo scenarios:', js: true do
       find('.btn.btn-primary').click
     end
     expect(page).to have_css('.label.label-warning', text: "Under Embargo")
-    accept_prompt do
-      find_link('Delete').click
-    end
   end
 
   scenario "Changing Work Access Rights from Embargo to Open", :nonprod_only do
@@ -362,9 +356,6 @@ feature 'Embargo scenarios:', js: true do
     end
     # Make sure the Access Control switches to Open
     expect(page).to have_css('.label.label-success', text: "Open Access")
-    accept_prompt do
-      find_link('Delete').click
-    end
   end
 
   scenario "Changing Work Access Rights from Registered to Embargo", :nonprod_only do
@@ -391,9 +382,6 @@ feature 'Embargo scenarios:', js: true do
       find('.btn.btn-primary').click
     end
     expect(page).to have_css('.label.label-warning', text: "Under Embargo")
-    accept_prompt do
-      find_link('Delete').click
-    end
   end
 end
 
@@ -506,9 +494,6 @@ feature 'Digital Object Identifiers:', js: true do
     expect(edit_article).to be_on_page
     expect(edit_article).to have_editable_doi
     find('.btn.btn-primary.require-contributor-agreement').click
-    accept_prompt do
-      find_link('Delete').click
-    end
   end
 
   scenario "Links to the DOI handler will redirect correctly back to the item", :read_only, :prod_only do
