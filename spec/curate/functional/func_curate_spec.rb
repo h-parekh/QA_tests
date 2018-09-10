@@ -165,11 +165,6 @@ feature 'Logged In User (Account details NOT updated)', js: true do
     click_on("Group Administration")
     account_details_page = Curate::Pages::AccountDetailsPage.new
     expect(account_details_page).to be_on_page
-    # Validate 'My Collections' page works
-    logged_in_home_page.open_actions_drawer
-    click_on("My Collections")
-    account_details_page = Curate::Pages::AccountDetailsPage.new
-    expect(account_details_page).to be_on_page
     # Validate 'My Account' page works
     logged_in_home_page.open_actions_drawer
     click_on("My Account")
@@ -226,11 +221,6 @@ feature 'Logged In User (Account details updated) Browsing', js: true do
     click_on("Group Administration")
     groups_page = Curate::Pages::MyGroupsPage.new
     expect(groups_page).to be_on_page
-    # Validate 'My Collections' page works
-    logged_in_home_page.open_actions_drawer
-    click_on("My Collections")
-    collections_page = Curate::Pages::MyCollectionsPage.new
-    expect(collections_page).to be_on_page
     # Validate 'My Account' page works
     logged_in_home_page.open_actions_drawer
     click_on("My Account")
