@@ -345,7 +345,7 @@ feature 'Embargo scenarios:', js: true do
       find('.btn.btn-primary').click
     end
     # Make sure the Access Control switches to Open
-    expect(page).to have_css('.label.label-success', text: "Open Access")
+    expect(page).to have_css('.label.label-success', text: "Public")
   end
 
   scenario "Changing Work Access Rights from Registered to Embargo", :nonprod_only do
