@@ -24,9 +24,9 @@ module Curate
       end
 
       def valid_page_content?
+        has_field?('catalog_search', type: 'search')
         within('.homepage-search') do
-          has_field?('catalog_search', type: 'search') &&
-            find_button('keyword-search-submit').visible?
+          find_button('keyword-search-submit').visible?
         end
       end
     end
