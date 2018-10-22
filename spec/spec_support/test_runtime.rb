@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'fileutils'
+require 'uri'
 
 module RunIdentifier
   # * Provides getter and setter methods to
@@ -133,6 +134,9 @@ module InitializeExample
   end
 
   def self.initialize_chrome_headless_driver
+    sauce_url = URI.join('https://ondemand.saucelabs.com:443/wd/hub')
+    sauce_url.user = ENV['SAUCE_USER']
+    sauce_url.password = ENV['SAUCE_PASS']
     Capybara.register_driver :chrome_headless do |app|
       options = Selenium::WebDriver::Chrome::Options.new
       options.add_argument('--no-sandbox')
@@ -156,7 +160,7 @@ module InitializeExample
       )
       Capybara::Selenium::Driver.new(app,
                                      browser: :remote,
-                                     url: "http://localhost:4444/wd/hub",
+                                     url: sauce_url,
                                      desired_capabilities: capabilities)
     end
   end
