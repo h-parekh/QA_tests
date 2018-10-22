@@ -1,0 +1,7 @@
+.bundle/*
+.byebug_history
+.git
+
+logs/*.log
+tmp/*
+vendor/*
