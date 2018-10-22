@@ -138,8 +138,7 @@ module InitializeExample
     sauce_url.user = ENV['SAUCE_USER']
     sauce_url.password = ENV['SAUCE_PASS']
     Capybara.register_driver :chrome_headless do |app|
-      options = Selenium::WebDriver::Chrome::Options.new
-      capabilities = Selenium::WebDriver::Remote::Capabilities.chrome()
+      capabilities = Selenium::WebDriver::Remote::Capabilities.chrome
       capabilities['platform'] = 'Windows 7'
       capabilities['version'] = '67.0'
       Capybara::Selenium::Driver.new(app,
