@@ -139,25 +139,9 @@ module InitializeExample
     sauce_url.password = ENV['SAUCE_PASS']
     Capybara.register_driver :chrome_headless do |app|
       options = Selenium::WebDriver::Chrome::Options.new
-      options.add_argument('--no-sandbox')
-      options.add_argument('--headless')
-      options.add_argument('--disable-gpu')
-      prefs = {
-        prompt_for_download: false,
-        directory_upgrade: false
-      }
-      profile = {
-        default_content_settings:
-          {
-            popups: 0
-          }
-      }
-      options.add_preference(:download, prefs)
-      options.add_preference(:profile, profile)
-
-      capabilities = Selenium::WebDriver::Remote::Capabilities.chrome(
-        chromeOptions: options
-      )
+      capabilities = Selenium::WebDriver::Remote::Capabilities.chrome()
+      capabilities['platform'] = 'Windows 7'
+      capabilities['version'] = '67.0'
       Capybara::Selenium::Driver.new(app,
                                      browser: :remote,
                                      url: sauce_url,
