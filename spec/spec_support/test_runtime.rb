@@ -141,6 +141,7 @@ module InitializeExample
       capabilities = Selenium::WebDriver::Remote::Capabilities.chrome
       capabilities['platform'] = 'Windows 7'
       capabilities['version'] = '67.0'
+      capabilities['recordVideo'] = false
       Capybara::Selenium::Driver.new(app,
                                      browser: :remote,
                                      url: sauce_url,
