@@ -18,8 +18,6 @@ module Curate
 
       def valid_page_content?
         page.has_content?("ORCID")
-        page.has_selector?(:link_or_button, "Sign In")
-        page.has_selector?(:link_or_button, "Register")
       end
 
       def valid_uri_parameters?

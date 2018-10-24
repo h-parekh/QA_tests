@@ -490,7 +490,9 @@ feature 'Digital Object Identifiers:', js: true do
     visit '/'
     home_page = Curate::Pages::HomePage.new
     expect(home_page).to be_on_page
-    search_term = "desc_metadata__identifier_tesim:*"
+    # This search term returns results for items with ND generated DOIs.
+    # DOIs created from other publishers will not redirect back to the item
+    search_term = "desc_metadata__identifier_tesim:doi:10.7274/r0"
     fill_in('catalog_search', with: search_term)
     click_on('Search')
     item_links = all('a[id^="src_copy_link"]')
