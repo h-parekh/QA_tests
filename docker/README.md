@@ -1,5 +1,5 @@
 # Build
-dockerbuild . -f docker/Dockerfile -t qa_tests
+docker build . -f docker/Dockerfile -t qa_tests
 
 # Running in development
 To run this locally, from the root directory:
