@@ -120,7 +120,7 @@ $ ./bin/run_tests -h
 ```console
 $ cd /path/to/QA_tests
 $ git pull
-$ USE_LOCALHOST_GRID=true SKIP_CLOUDWATCH=true RUNNING_ON_LOCAL_DEV=true bin/run_tests spec/curate/functional/func_curate_spec.rb:6
+$ USE_LOCALHOST_GRID=true SKIP_CLOUDWATCH=true RUNNING_ON_LOCAL_DEV=true bin/run_tests spec/curate/functional/func_curate_spec.rb
 ```
 ### QA developers: Example for running tests from non-master branch using Docker
 ```console
