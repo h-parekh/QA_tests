@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'fileutils'
+require 'uri'
 
 module RunIdentifier
   # * Provides getter and setter methods to
@@ -110,29 +111,22 @@ module InitializeExample
     false
   end
 
-  # Enforce a driver to specific applications here
-  # Example: 'dave' => :poltergeist
-  CAPYBARA_DRIVER_MAP = {
-
-  }.freeze
-
-  DEFAULT_CAPYBARA_DRIVER = :poltergeist
-
   def self.initialize_capybara_drivers!
-    if ENV['CHROME_HEADLESS']
-      initialize_chrome_headless_driver
+    if ENV['USE_LOCALHOST_GRID']
+      initialize_driver_for_localhost
       @capybara_driver_name = :chrome_headless
-    elsif ENV['FIREFOX_HEADLESS']
-      initialize_firefox_headless_driver
-      @capybara_driver_name = :firefox_headless
+      Capybara.current_driver = @capybara_driver_name
+      Capybara.javascript_driver = @capybara_driver_name
+    elsif ENV['USE_SAUCE_GRID']
+      initialize_driver_for_sauce_labs
     else
-      @capybara_driver_name = CAPYBARA_DRIVER_MAP.fetch(@example_variable.application_name_under_test, :poltergeist)
+      puts "Could not determine testing infrastructure"
+      puts "Indicate either USE_LOCALHOST_GRID or USE_SAUCE_GRID in environment variable"
+      exit!
     end
-    Capybara.current_driver = @capybara_driver_name
-    Capybara.javascript_driver = @capybara_driver_name
   end
 
-  def self.initialize_chrome_headless_driver
+  def self.initialize_driver_for_localhost
     Capybara.register_driver :chrome_headless do |app|
       options = Selenium::WebDriver::Chrome::Options.new
       options.add_argument('--no-sandbox')
@@ -161,17 +155,23 @@ module InitializeExample
     end
   end
 
-  def self.initialize_firefox_headless_driver
-    Capybara.register_driver :firefox_headless do |app|
-      profile = Selenium::WebDriver::Firefox::Profile.new
-      capabilities = Selenium::WebDriver::Remote::Capabilities.firefox(
-        marionette: true,
-        firefox_options: { profile: profile.as_json.values.first }
-      )
+  def self.initialize_driver_for_sauce_labs
+    sauce_url = URI.join('https://ondemand.saucelabs.com:443/wd/hub')
+    sauce_url.user = ENV['SAUCE_USER']
+    sauce_url.password = ENV['SAUCE_PASS']
+    Capybara.register_driver :selenium do |app|
+      caps = {
+        platform: ENV['PLATFORM'] || 'Windows 10',
+        browserName: ENV['BROWSER_NAME'] || 'Chrome',
+        version: ENV['BROWSER_VERSION'] || '70.0',
+        recordVideo: ENV['RECORD_VIDEO'] || true,
+        recordScreenshots: ENV['RECORD_SCREENSHOTS'] || true,
+        screenResolution: ENV['SCREEN_RESOLUTION'] || '1024x768'
+      }
       Capybara::Selenium::Driver.new(app,
                                      browser: :remote,
-                                     url: "http://localhost:4444/wd/hub",
-                                     desired_capabilities: capabilities)
+                                     url: sauce_url,
+                                     desired_capabilities: caps)
     end
   end
 

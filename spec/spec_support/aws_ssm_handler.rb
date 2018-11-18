@@ -24,7 +24,6 @@ module AwsSsmHandler
         create_ssm_client_for_assumed_role
       end
     elsif ENV['RUNNING_ON_LOCAL_DEV'] == "false"
-      call_create_creds_in_ecs
       create_ssm_client
     else
       puts "Missing RUNNING_ON_LOCAL_DEV in ENV"
@@ -78,10 +77,13 @@ module AwsSsmHandler
   end
 
   # Creates SSM client for AWS ECS
+  # When the ECS task is running with FARGATE, this method will will see that
+  # the AWS_CONTAINER_CREDENTIALS_RELATIVE_URI variable is available, and it
+  # will use the provided credentials to make calls to the AWS APIs
   # @return [Aws::SSM::Client]
-  # @see https://docs.aws.amazon.com/sdkforruby/api/Aws/SSM/Client.html
+  # @see https://docs.aws.amazon.com/sdk-for-ruby/v3/api/Aws/SSM/Client.html
   def self.create_ssm_client
-    @ssm_client = Aws::SSM::Client.new(region: ENV['AWS_REGION'], credentials: @role_credentials)
+    @ssm_client = Aws::SSM::Client.new
   end
 
   # Creates a credentials object for the ECS executing role in AWS

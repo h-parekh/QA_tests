@@ -120,13 +120,13 @@ $ ./bin/run_tests -h
 ```console
 $ cd /path/to/QA_tests
 $ git pull
-$ CHROME_HEADLESS=true SKIP_CLOUDWATCH=true RUNNING_ON_LOCAL_DEV=true bin/run_tests spec/curate/functional/func_curate_spec.rb
+$ USE_LOCALHOST_GRID=true SKIP_CLOUDWATCH=true RUNNING_ON_LOCAL_DEV=true bin/run_tests spec/curate/functional/func_curate_spec.rb
 ```
 ### QA developers: Example for running tests from non-master branch using Docker
 ```console
 $ git checkout -b <new_dev_branch>
 $ <do development stuff>
-$ CHROME_HEADLESS=true SKIP_CLOUDWATCH=true RUNNING_ON_LOCAL_DEV=true bin/run_tests spec/curate/functional/func_curate_spec.rb
+$ USE_LOCALHOST_GRID=true SKIP_CLOUDWATCH=true RUNNING_ON_LOCAL_DEV=true bin/run_tests spec/curate/functional/func_curate_spec.rb
 ```
 *  Create a PR your local QA_tests branch to merge into master
 *  Wait for qa-tests:latest to be updated on [Docker hub](https://hub.docker.com/r/ndlib/qa-tests/)
