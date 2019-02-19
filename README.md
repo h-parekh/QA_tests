@@ -12,7 +12,7 @@ Your local machine will need the following setup to be able to run and write tes
 1. Git for version control
 2. [Docker](https://docs.docker.com/install/) version 18 or higher
 3. AWS [CLI](https://aws.amazon.com/cli/)
-4. Configure ENV variables with assumed IAM role ecsTaskExecutionRole in testlibnd account. See [guidance](managing_aws_profiles.md) if needed.
+4. Configure ENV variables with an IAM role that can read parameters from parameter store in testlibnd account. See [guidance](managing_aws_profiles.md) if needed.
 5. Optional - Install [VNC viewer](https://www.realvnc.com/en/connect/download/viewer/)
 
 ## Writing Tests
@@ -120,7 +120,7 @@ $ ./bin/run_tests -h
 ```console
 $ cd /path/to/QA_tests
 $ git pull
-$ USE_LOCALHOST_GRID=true SKIP_CLOUDWATCH=true RUNNING_ON_LOCAL_DEV=true bin/run_tests spec/curate/functional/func_curate_spec.rb
+$ USE_LOCALHOST_GRID=true CHROME_HEADLESS=true ENVIRONMENT=pprd SKIP_CLOUDWATCH=true RUNNING_ON_LOCAL_DEV=true bin/run_tests spec/curate/functional/func_curate_spec.rb
 ```
 ### QA developers: Example for running tests from non-master branch using Docker
 ```console
@@ -131,6 +131,17 @@ $ USE_LOCALHOST_GRID=true SKIP_CLOUDWATCH=true RUNNING_ON_LOCAL_DEV=true bin/run
 *  Create a PR your local QA_tests branch to merge into master
 *  Wait for qa-tests:latest to be updated on [Docker hub](https://hub.docker.com/r/ndlib/qa-tests/)
 *  You can now use new specs with docker-compose as described in previous section
+
+#### Stop docker containers
+1. Run this command to stop docker nodes
+```console
+$ cd /path/to/QA_tests
+$ docker-compose -f selenium_grid/docker-compose.yml stop
+```
+2. Verify the cluster is down:
+```console
+$ docker-compose -f selenium_grid/docker-compose.yml ps
+```
 
 ### Testing on AWS
 

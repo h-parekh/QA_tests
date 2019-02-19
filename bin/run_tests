@@ -119,28 +119,33 @@ if ARGV.grep(/-h/i).size == 1
   $stdout.puts ""
   $stdout.puts "Example:"
   $stdout.puts "$ RELEASE_NUMBER=r20170922 ./bin/#{File.basename(__FILE__)}"
+  $stdout.puts ""
 
   $stdout.puts "RUNNING_ON_LOCAL_DEV: This environment variable tells the AwsSsmHandler module whether its
   running on a local machine or in AWS ECS"
   $stdout.puts ""
   $stdout.puts "Example:"
   $stdout.puts "$ RUNNING_ON_LOCAL_DEV=true ./bin/#{File.basename(__FILE__)}"
+  $stdout.puts ""
 
   $stdout.puts "SKIP_AWS_SSM_SETUP: Use this flag to skip setting SSM handlers. Ex: When you don't need to
   access any values from the AWS parameter store"
   $stdout.puts ""
   $stdout.puts "Example:"
   $stdout.puts "$ SKIP_AWS_SSM_SETUP=true ./bin/#{File.basename(__FILE__)}"
+  $stdout.puts ""
 
-  $stdout.puts "USE_LOCALHOST_GRID: This toggle indicates if you want to run tests using Chrome on localhost"
+  $stdout.puts "USE_LOCALHOST_GRID: This toggle indicates if you want to run tests using Selenium Grid on localhost"
   $stdout.puts ""
   $stdout.puts "Example:"
   $stdout.puts "$ USE_LOCALHOST_GRID=true ./bin/#{File.basename(__FILE__)}"
+  $stdout.puts ""
 
   $stdout.puts "FIREFOX_HEADLESS: This toggle indicates if you want to run tests using Firefox"
   $stdout.puts ""
   $stdout.puts "Example:"
   $stdout.puts "$ FIREFOX_HEADLESS=true ./bin/#{File.basename(__FILE__)}"
+  $stdout.puts ""
   exit(0)
 end
 
