@@ -132,6 +132,17 @@ $ USE_LOCALHOST_GRID=true SKIP_CLOUDWATCH=true RUNNING_ON_LOCAL_DEV=true bin/run
 *  Wait for qa-tests:latest to be updated on [Docker hub](https://hub.docker.com/r/ndlib/qa-tests/)
 *  You can now use new specs with docker-compose as described in previous section
 
+#### Stop docker containers
+1. Run this command to stop docker nodes
+```console
+$ cd /path/to/QA_tests
+$ docker-compose -f selenium_grid/docker-compose.yml stop
+```
+2. Verify the cluster is down:
+```console
+$ docker-compose -f selenium_grid/docker-compose.yml ps
+```
+
 ### Testing on AWS
 
 #### Update the trigger file 'data/aws_ecs_trigger.json' and call the ECS task definition
