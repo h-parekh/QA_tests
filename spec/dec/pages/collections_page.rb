@@ -19,11 +19,14 @@ module Dec
       end
 
       def valid_page_content?
+        within('.brand-bar') do
+          find('a', exact_text: 'UNIVERSITY of NOTRE DAME')
+        end
         first('h1') &&
-          first('div', text: 'About', visible: true) &&
           first('span', text: 'arrow_forward') &&
           first('span', text: 'menu') &&
-          first('span', text: 'search')
+          first('span', text: 'search') &&
+          !find_all('div.collection-site-path-card').empty?
       end
 
       def click_forward_arrow
