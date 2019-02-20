@@ -7,7 +7,8 @@ feature 'Institutional Login', js: true do
 
   scenario 'Sign in by institution (Notre Dame)', :validates_login, :read_only do
     visit '/'
-    find('#login-button').trigger('click')
+    find('#login-button').click
+    find('#idp').find(:option, 'University of Notre Dame').select_option
     find('.button.continue').click
     login_page.complete_login
     expect(page).to have_link('My Collections')
