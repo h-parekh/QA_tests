@@ -22,16 +22,6 @@ module Primo
       def valid_page_content?
         find_field(id: 'searchBar')
       end
-
-      def onesearch_tab_activated?
-        # Check if the onesearch tab is selected
-        find('a.active.tab.onesearch.EXLSearchTabTitle.EXLSearchTabLABELOneSearch')
-      end
-
-      def ndcatalog_tab_activated?
-        # Check if the NDcatalog tab is selected
-        find('a.active.tab.ndcatalog.EXLSearchTabTitle.EXLSearchTabLABELND.Campus')
-      end
     end
   end
 end
