@@ -14,12 +14,8 @@ module Dec
       def on_valid_url?
         # urls are in the format /somehash/some-hyphenated-words
         # we use a regex here to match that and return true
-        str = Capybara.app_host.gsub("\.", "\\.") + '[A-z0-9]{10}/[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*$'
-        %r{#{str}}.match(current_url)
-      end
-
-      def status_response_ok?
-        status_code == 200
+        str = Capybara.app_host + '/[A-z0-9]{10}/[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*$'
+        %r{#{str}}.match(current_url).is_a?(MatchData)
       end
 
       def valid_page_content?
@@ -31,7 +27,7 @@ module Dec
       end
 
       def click_forward_arrow
-        first('span', text: 'arrow_forward').trigger('click')
+        first('span', text: 'arrow_forward').click
       end
     end
   end
