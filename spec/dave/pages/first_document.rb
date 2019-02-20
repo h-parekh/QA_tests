@@ -9,18 +9,12 @@ module Dave
 
       def on_page?
         on_valid_url? &&
-          status_response_ok? &&
           valid_page_content?
       end
 
       def on_valid_url?
         site = DaveSite.new
         current_url == site.current_url_for_view_type
-      end
-
-      def status_response_ok?
-        true
-        # status_code == [0 || 200]
       end
 
       def valid_page_content?
