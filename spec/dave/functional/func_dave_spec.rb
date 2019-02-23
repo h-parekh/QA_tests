@@ -8,7 +8,7 @@ class DaveSite
   # changes in the url resulting from site navigation.
   include Capybara::DSL
   include CapybaraErrorIntel::DSL
-  DEFAULT_DOCUMENT_SLUG = 'MSN-COL_9101'
+  DEFAULT_DOCUMENT_SLUG = 'MSN-COL_9101-1-B'
   DEFUALT_SITE_URL = "http://testlibnd-dave.s3-website-us-east-1.amazonaws.com"
   attr_accessor :document_slug
   attr_reader :site_url
@@ -92,11 +92,10 @@ feature 'View DAVE Artifact', js: true do
   end
   scenario 'Select Specific Page', :read_only do
     visit_home
-    last_page = find_last_page
-    page_number = Random.rand(1..last_page)
+    page_number = Random.rand(1..5)
     node = find('div[class^="Drawer__wrapper"]')
     within(node) do
-      all("a")[page_number].trigger('click')
+      all("div[class^='Artifact__wrapper']")[page_number].click
     end
     check_image_selection(imageNumber: page_number)
   end
@@ -114,7 +113,7 @@ feature 'View DAVE Artifact', js: true do
     visit_home
     two_page_view_url = site.button_link_url(view_type: :two_page)
     within(bottom_document_navbar) do
-      find("a[href='#{two_page_view_url}']").click
+      find("a[href='/#{two_page_view_url}']").click
     end
     expect(page.current_url).to eq(site.current_url_for_view_type(view_type: :two_page))
     last_page = find_last_page
@@ -132,7 +131,7 @@ feature 'View DAVE Artifact', js: true do
     visit_home
     grid_url = site.button_link_url(view_type: :grid)
     within(bottom_document_navbar) do
-      find("a[href='#{grid_url}']").click
+      find("a[href='/#{grid_url}']").click
     end
     expect(page.current_url).to eq(site.current_url_for_view_type(view_type: :grid))
   end
@@ -143,22 +142,20 @@ feature 'View DAVE Artifact', js: true do
     page_number = Random.rand(1..last_page)
     grid_url = site.button_link_url(view_type: :grid)
     within(bottom_document_navbar) do
-      find("a[href='#{grid_url}']").click
+      find("a[href='/#{grid_url}']").click
     end
     expect(page.current_url).to eq(site.current_url_for_view_type(view_type: :grid))
     grid_url = site.button_link_url(view_type: :grid, page: page_number)
     detail_grid_url = grid_url + "/detail"
-    grid_view = find('div[class^="grid_view__grid_view"]')
+    grid_view = find('div[class^="GridView__gridview"]')
     within(grid_view) do
-      find("a[href='#{detail_grid_url}']").trigger('click')
+      find("a[href='/#{detail_grid_url}']").click
     end
+    first_doc = Dave::Pages::FirstDocument.new
+    expect(first_doc).to be_detail_view
     grid_url = site.current_url_for_view_type(view_type: :grid, page: page_number)
     grid_url += "/detail"
     expect(page.current_url).to eq(grid_url)
-    first_doc = Dave::Pages::FirstDocument.new
-    using_wait_time 50 do
-      expect(first_doc).to be_detail_view
-    end
   end
   scenario 'Visit Page from Current Document', :read_only do
     site.visit_from_current_document(page: 1)
@@ -182,7 +179,7 @@ end
 def visit_new_page(page: 0)
   url = site.button_link_url(page: page)
   within(bottom_document_navbar) do
-    find("a[href='#{url}']").click
+    find("a[href='/#{url}']").click
   end
 end
 

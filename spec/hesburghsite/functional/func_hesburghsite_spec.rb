@@ -21,7 +21,6 @@ feature 'User Browsing', js: true do
   end
 
   scenario 'Test 2: Visit Story Index', :read_only do
-    page.driver.browser.js_errors = false # JS erors on some of the pages
     visit '/'
     click_on('Story Index')
     within('.signup') do
@@ -43,7 +42,6 @@ feature 'User Browsing', js: true do
   end
 
   scenario 'Test 3: Click on chapter on Story Index page', :read_only do
-    page.driver.browser.js_errors = false
     visit '/'
     click_on('Story Index')
     click_on('a', text: 'The Early Years')
@@ -73,7 +71,6 @@ feature 'User Browsing', js: true do
     end
   end
   scenario 'Test 4: Click specific story on Story Index page', :read_only do
-    page.driver.browser.js_errors = false
     visit '/'
     click_on('Story Index')
     click_on('Birth and Family')
@@ -99,7 +96,6 @@ feature 'User Browsing', js: true do
     end
   end
   scenario 'Test 5: Visit the Media Gallery page', :read_only do
-    # page.driver.browser.js_errors = false
     visit '/'
     click_on('Media Gallery')
     within('.signup') do
@@ -134,7 +130,6 @@ feature 'User Browsing', js: true do
     end
   end
   scenario 'Test 8: Visit the About page', :read_only do
-    page.driver.browser.js_errors = false
     visit '/'
     click_on('About')
     within('.signup') do
