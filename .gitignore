@@ -3,3 +3,4 @@ logs/*.log
 .bundle/*
 vendor/*
 .byebug_history
+.vscode
