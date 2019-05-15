@@ -1,5 +1,11 @@
 FROM ruby:2.3.1
-RUN apt-get update -qq && apt-get install -y build-essential
+
+RUN echo "deb [check-valid-until=no] http://cdn-fastly.deb.debian.org/debian jessie main" > /etc/apt/sources.list.d/jessie.list
+RUN echo "deb [check-valid-until=no] http://archive.debian.org/debian jessie-backports main" > /etc/apt/sources.list.d/jessie-backports.list
+RUN sed -i '/deb http:\/\/deb.debian.org\/debian jessie-updates main/d' /etc/apt/sources.list
+RUN apt-get -o Acquire::Check-Valid-Until=false update
+
+RUN apt-get install -y build-essential
 
 # Install chamber to get secrets from parameter store
 RUN curl https://github.com/segmentio/chamber/releases/download/v2.2.0/chamber_v2.2.0_amd64.deb --output chamber.deb -L
