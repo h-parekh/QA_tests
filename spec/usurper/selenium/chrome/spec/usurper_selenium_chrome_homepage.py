@@ -1,6 +1,5 @@
 import unittest
 import os
-import time
 import sys
 from selenium import webdriver
 from selenium.webdriver import Chrome
@@ -8,11 +7,6 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support import expected_conditions as expected
 from selenium.webdriver.support.wait import WebDriverWait
-
-# In order to run this in a python3 environment, you'll need to do the following
-# apt-get install python3-pip
-# python3 -m pip install -U selenium
-# run script as: python3 /path/to/script
 
 BaseURL = os.environ.get('BaseURL')
 
@@ -27,13 +21,14 @@ class Usurper_Tests(unittest.TestCase):
 
     def test_homepage(self):
         driver = self.driver
+        driver.implicitly_wait(10)
         driver.get("https://" + BaseURL)
-        # print("Page Title Is: ") + driver.title
         print(''.join(['Page Title is: ',driver.title]))
         self.assertEqual(driver.title, "Hesburgh Libraries")
 
     def test_check_News_link(self):
         driver = self.driver
+        driver.implicitly_wait(10)
         driver.get("https://" + BaseURL)
         news = driver.find_element_by_link_text("News")
         news.click()
@@ -42,6 +37,7 @@ class Usurper_Tests(unittest.TestCase):
 
     def test_check_Events_link(self):
         driver = self.driver
+        driver.implicitly_wait(10)
         driver.get("https://" + BaseURL)
         events = driver.find_element_by_link_text("Events")
         events.click()
