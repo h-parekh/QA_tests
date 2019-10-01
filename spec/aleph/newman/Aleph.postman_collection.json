@@ -334,7 +334,7 @@
 							"    pm.expect(pm.response.responseTime).to.be.below(1000);",
 							"});",
 							"pm.test(\"Body matches string\", function () {",
-							"    pm.expect(pm.response.text()).to.include(\"LF 509\");",
+							"    pm.expect(pm.response.text()).to.include(\"<div class=\\\"library_college\\\">University of Notre Dame</div>\");",
 							"});"
 						],
 						"type": "text/javascript"
@@ -345,14 +345,14 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "https://{{AlephURL}}/F/1Q3EMSL9NCKB6P19QU5QRKMCY4QNLBDCUTADR3LJS7YL33JEK5-08833?func=direct&doc_number=000123456",
+					"raw": "https://{{AlephURL}}/F/{{$guid}}?func=direct&doc_number=000123456",
 					"protocol": "https",
 					"host": [
 						"{{AlephURL}}"
 					],
 					"path": [
 						"F",
-						"1Q3EMSL9NCKB6P19QU5QRKMCY4QNLBDCUTADR3LJS7YL33JEK5-08833"
+						"{{$guid}}"
 					],
 					"query": [
 						{
