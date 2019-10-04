@@ -1,0 +1,373 @@
+{
+	"info": {
+		"_postman_id": "643f1b11-08eb-4855-9761-eae16bbed0c0",
+		"name": "Aleph",
+		"description": "## QA - Aleph API Calls\n\nTests designed to make calls against the Aleph API to determine functionality of system. Additional calls can be added later once need is discovered.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get Item Information",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "09f59499-3342-49ee-aa5a-2bf76213ee79",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Response time is less than 1000ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(1000);",
+							"});",
+							"pm.test(\"Body matches string\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"Item could not been found based on item barcode:\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://{{AlephURL}}/X?op=read-item&library=ndu50&item_barcode={{$guid}}",
+					"protocol": "https",
+					"host": [
+						"{{AlephURL}}"
+					],
+					"path": [
+						"X"
+					],
+					"query": [
+						{
+							"key": "op",
+							"value": "read-item"
+						},
+						{
+							"key": "library",
+							"value": "ndu50"
+						},
+						{
+							"key": "item_barcode",
+							"value": "{{$guid}}"
+						}
+					]
+				},
+				"description": "### Item Information\n\nCall will return specific item information based upon Library and Barcode variables."
+			},
+			"response": []
+		},
+		{
+			"name": "Get Patron Information",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "3765fe9a-38d0-443d-ab06-6a5f27baef1a",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Response time is less than 1000ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(1000);",
+							"});",
+							"pm.test(\"Body matches string\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"<error>Error retrieving Patron System Key</error>\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://{{AlephURL}}/X?op=bor-info&bor_id={{$guid}}&library=NDU50&loans=N&cash=N",
+					"protocol": "https",
+					"host": [
+						"{{AlephURL}}"
+					],
+					"path": [
+						"X"
+					],
+					"query": [
+						{
+							"key": "op",
+							"value": "bor-info"
+						},
+						{
+							"key": "bor_id",
+							"value": "{{$guid}}"
+						},
+						{
+							"key": "library",
+							"value": "NDU50"
+						},
+						{
+							"key": "loans",
+							"value": "N"
+						},
+						{
+							"key": "cash",
+							"value": "N"
+						}
+					]
+				},
+				"description": "### Patron Information\n\nRetrieves specific information based upon netID"
+			},
+			"response": []
+		},
+		{
+			"name": "Patron Auth API",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "d257437a-c4a3-45b4-88c8-e1eff857eadd",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Response time is less than 1000ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(1000);",
+							"});",
+							"pm.test(\"Body matches string\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"<error>Error in Verification</error>\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://{{AlephURL}}/X?op=bor-auth&library=ndu50&bor_id={{$guid}}&verification={{$guid}}&sub_library=aleph",
+					"protocol": "https",
+					"host": [
+						"{{AlephURL}}"
+					],
+					"path": [
+						"X"
+					],
+					"query": [
+						{
+							"key": "op",
+							"value": "bor-auth"
+						},
+						{
+							"key": "library",
+							"value": "ndu50"
+						},
+						{
+							"key": "bor_id",
+							"value": "{{$guid}}"
+						},
+						{
+							"key": "verification",
+							"value": "{{$guid}}"
+						},
+						{
+							"key": "sub_library",
+							"value": "aleph"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "RESTFul Item Information",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "4f2fb415-0ed7-4acd-94b4-4798b6741c9d",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Response time is less than 1000ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(1000);",
+							"});",
+							"pm.test(\"Body matches string\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"<reply-text>Record does not exist</reply-text>\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{AlephURL}}:1891/rest-dlf/record/{{$guid}}/items?view=full",
+					"protocol": "http",
+					"host": [
+						"{{AlephURL}}"
+					],
+					"port": "1891",
+					"path": [
+						"rest-dlf",
+						"record",
+						"{{$guid}}",
+						"items"
+					],
+					"query": [
+						{
+							"key": "view",
+							"value": "full"
+						}
+					]
+				},
+				"description": "RESTFul Item Information"
+			},
+			"response": []
+		},
+		{
+			"name": "RESTFul Patron Information",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "09f59d30-de67-4010-876b-3c70111da195",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Response time is less than 1000ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(1000);",
+							"});",
+							"pm.test(\"Body matches string\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"<reply-text>The patron ID is invalid</reply-text>\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{AlephURL}}:1891/rest-dlf/patron/{{$randomInt}}",
+					"protocol": "http",
+					"host": [
+						"{{AlephURL}}"
+					],
+					"port": "1891",
+					"path": [
+						"rest-dlf",
+						"patron",
+						"{{$randomInt}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Check OPAC",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "e77b37a0-6d95-4688-8aff-d1e7ffc12893",
+						"exec": [
+							"pm.test(\"Response time is less than 1000ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(1000);",
+							"});",
+							"pm.test(\"Response time is less than 200ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(200);",
+							"});",
+							"pm.test(\"Body matches string\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"ND Full Catalog\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://{{AlephURL}}/F/?func=find-b-0&local_base=ndu01pub",
+					"protocol": "https",
+					"host": [
+						"{{AlephURL}}"
+					],
+					"path": [
+						"F",
+						""
+					],
+					"query": [
+						{
+							"key": "func",
+							"value": "find-b-0"
+						},
+						{
+							"key": "local_base",
+							"value": "ndu01pub"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Check for OPAC Record",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "e5ebb3e5-f206-49be-aa77-a246f4155c48",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Response time is less than 1000ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(1000);",
+							"});",
+							"pm.test(\"Body matches string\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"<div class=\\\"library_college\\\">University of Notre Dame</div>\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://{{AlephURL}}/F/{{$guid}}?func=direct&doc_number=000123456",
+					"protocol": "https",
+					"host": [
+						"{{AlephURL}}"
+					],
+					"path": [
+						"F",
+						"{{$guid}}"
+					],
+					"query": [
+						{
+							"key": "func",
+							"value": "direct"
+						},
+						{
+							"key": "doc_number",
+							"value": "000123456"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
