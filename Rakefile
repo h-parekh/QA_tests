@@ -23,19 +23,19 @@ namespace :webRennovation do
         version = stdout.read.strip
         major_version = version.split('.').first
         if major_version != EXPECTED_LIGHTHOUSE_MAJOR_VERSION
-          $stderr.puts "Expected lighthouse major version to be #{EXPECTED_LIGHTHOUSE_MAJOR_VERSION}, got #{major_version}"
+          warn "Expected lighthouse major version to be #{EXPECTED_LIGHTHOUSE_MAJOR_VERSION}, got #{major_version}"
           exit(1)
         end
       rescue Errno::ENOENT
-        $stderr.puts "Unable to find lighthouse command in your $PATH"
-        $stderr.puts "See https://github.com/GoogleChrome/lighthouse for details on installation"
+        warn "Unable to find lighthouse command in your $PATH"
+        warn "See https://github.com/GoogleChrome/lighthouse for details on installation"
         exit(2)
       end
     end
     desc 'Configuration variables'
     task :config do
       WEB_RENNOVATION_URL = "https://alpha.library.nd.edu"
-      PROJECT_PATH = Pathname.new(File.expand_path('../', __FILE__))
+      PROJECT_PATH = Pathname.new(File.expand_path(__dir__))
       PATH_FOR_JSON_REPORTS = PROJECT_PATH.join('tmp/web-rennovation-accessibility-json')
       DATE_SUFFIX = Time.now.strftime('--on-%Y-%m-%d-at-%H-%M')
       CONTENTFUL_CSV_FILENAME = PROJECT_PATH.join("tmp/contentful_slugs.csv").to_s
@@ -63,6 +63,7 @@ namespace :webRennovation do
         csv << ['SLUG', 'URL']
         client.content_types.each do |content_type|
           next unless content_type.fields.map(&:id).include?('slug')
+
           dirname = begin
             case content_type.id
             when /^floor$/i
@@ -108,10 +109,12 @@ namespace :webRennovation do
             # A Short circuit because there won't be any meaningful failures in this category
             # NOTE: We are storing the JSON documents locally with the full output
             next if report_category.fetch("score") >= 100
+
             report_category.fetch("audits").each do |audit|
               # A Short circuit because there won't be any meaningful failures
               # NOTE: We are storing the JSON documents locally with the full output
               next if audit.fetch('score') >= 100
+
               audit_id = audit.fetch('id').strip
               audit_result = audit.fetch('result')
               audit_help = audit_result.fetch('helpText')

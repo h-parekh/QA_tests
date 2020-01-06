@@ -22,7 +22,7 @@ Lint/ImplicitStringConcatenation:
   Exclude:
     - 'lib/generators/sufia/**/*'
 
-Metrics/LineLength:
+Layout/LineLength:
   Max: 180
   Enabled: false
 
@@ -56,11 +56,11 @@ Security/Eval:
   Exclude:
     - 'spec/solr/**/*'
 
-Style/AccessorMethodName:
+Naming/AccessorMethodName:
   Enabled: false
 
-Layout/IndentationConsistency:
-  EnforcedStyle: rails
+# Layout/IndentationConsistency:
+#   EnforcedStyle: indented_internal_records
 
 Style/CollectionMethods:
   PreferredMethods:
@@ -88,7 +88,7 @@ Style/Documentation:
 Style/SingleLineBlockParams:
   Enabled: false
 
-Style/FileName:
+Naming/FileName:
   Exclude:
     - Capfile
     - Gemfile
@@ -137,5 +137,5 @@ RSpec/LeadingSubject:
 RSpec/RepeatedExample:
   Enabled: false
 
-Performance/StartWith:
-  Enabled: false
+# Performance/StartWith:
+#   Enabled: false

@@ -1,4 +1,4 @@
-FROM ruby:2.3.1
+FROM ruby:2.6.5
 RUN apt-get update -qq && apt-get install -y build-essential
 
 # Install chamber to get secrets from parameter store
@@ -11,18 +11,26 @@ ARG DEFAULT_ENV_SSM_PATH="all/qa/ecs-task-env/prod"
 ENV ENV_SSM_PATH=$DEFAULT_ENV_SSM_PATH
 
 ENV APP_HOME /app_root
+# ENV GEM_PATH=/usr/local/lib/ruby/gems/2.6.0
+# ENV GEM_HOME=/usr/local/lib/ruby/gems/2.6.0
 RUN mkdir $APP_HOME
 WORKDIR $APP_HOME
 
-RUN gem install bundler
-COPY Gemfile* $APP_HOME/
+COPY ./ $APP_HOME
+WORKDIR $APP_HOME
+
+# Create a non-root user to resolve issues with bundler, gems
+RUN useradd -ms /bin/bash qauser
+RUN chown qauser $APP_HOME/docker/entry.sh
+USER qauser
+
+RUN gem install bundler -v 2.1.2
+# # COPY Gemfile* $APP_HOME/
 ENV BUNDLE_GEMFILE=$APP_HOME/Gemfile \
   BUNDLE_JOBS=4 \
-  BUNDLE_PATH=/bundle
+  BUNDLE_PATH=~/vendor/bundle
 RUN bundle install --without test development
 
-COPY . $APP_HOME
-WORKDIR $APP_HOME
 RUN chmod u+x docker/entry.sh
 
 ENV SKIP_CLOUDWATCH=true
