@@ -20,4 +20,4 @@ jobs:
         docker build --no-cache -t qatests:latest .
     - name: Test Build for CVE Vulnerabilities
       run:
-        trivy --ignore-unfixed --exit-code 1 --severity CRITICAL,HIGH QA_tests:latest
+        trivy --ignore-unfixed --exit-code 1 --severity CRITICAL,HIGH qatests:latest
