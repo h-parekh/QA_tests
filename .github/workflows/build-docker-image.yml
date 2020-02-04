@@ -1,0 +1,23 @@
+name: Build Docker Image
+
+on: [push, pull_request]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Add Trivy Repo
+      run: 
+         sudo apt-get install wget apt-transport-https gnupg lsb-release && wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | sudo apt-key add - && echo deb https://aquasecurity.github.io/trivy-repo/deb $(lsb_release -sc) main | sudo tee -a /etc/apt/sources.list.d/trivy.list
+    - name: Install Trivy
+      run:
+        sudo apt-get update && sudo apt-get install trivy
+    - name: Build Docker Image
+      run:
+        docker build --no-cache -t QA_tests:latest .
+    - name: Test Build for CVE Vulnerabilities
+      run:
+        trivy --ignore-unfixed --exit-code 1 --severity CRITICAL,HIGH QA_tests:latest
