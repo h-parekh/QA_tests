@@ -17,7 +17,7 @@ jobs:
         sudo apt-get update && sudo apt-get install trivy
     - name: Build Docker Image
       run:
-        docker build --no-cache -t QA_tests:latest .
+        docker build --no-cache -t qatests:latest .
     - name: Test Build for CVE Vulnerabilities
       run:
         trivy --ignore-unfixed --exit-code 1 --severity CRITICAL,HIGH QA_tests:latest
