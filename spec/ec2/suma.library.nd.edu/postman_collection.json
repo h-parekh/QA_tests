@@ -11,10 +11,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "https://suma.library.nd.edu",
+					"raw": "https://{{URL}}",
 					"protocol": "https",
 					"host": [
-						"suma.library.nd.edu"
+						"{{URL}}"
 					]
 				}
 			},
