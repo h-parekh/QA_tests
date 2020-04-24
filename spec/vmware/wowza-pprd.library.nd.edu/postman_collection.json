@@ -1,27 +1,51 @@
 {
 	"info": {
-		"_postman_id": "2a09ab65-3730-4fb9-89c3-481c10e3f007",
-		"name": "vmware",
+		"_postman_id": "130f7506-fc3b-48e4-abf2-7ab86cdaf343",
+		"name": "Apache Websites",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
-			"name": "wowza-pprd.library.nd.edu",
+			"name": "Subsite Website Smoke Test",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "https://wowza-pprd.library.nd.edu",
+					"raw": "https://{{URL}}",
 					"protocol": "https",
 					"host": [
-						"wowza-pprd",
-						"library",
-						"nd",
-						"edu"
+						"{{URL}}"
 					]
 				}
 			},
 			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "8e5eb9f5-247e-4eb3-8d77-5d3ae0fa7366",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "6489c6fd-e2f4-4863-8a76-017ffc8ee699",
+				"type": "text/javascript",
+				"exec": [
+					"pm.test(\"Response time is less than 1000ms\", function () {",
+					"    pm.expect(pm.response.responseTime).to.be.below(1000);",
+					"});",
+					"pm.test(\"Status code is 200\", function () {",
+					"    pm.response.to.have.status(200);",
+					"});"
+				]
+			}
 		}
 	],
 	"protocolProfileBehavior": {}
