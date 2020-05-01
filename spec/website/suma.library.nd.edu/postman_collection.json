@@ -123,8 +123,8 @@
 				"description": "### Import page."
 			},
 			"response": []			
-		},
-	]
+		}
+	],
 	"event": [
 		{
 			"listen": "prerequest",
