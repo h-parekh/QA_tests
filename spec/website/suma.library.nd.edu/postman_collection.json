@@ -117,12 +117,13 @@
 						"{{URL}}"
 					],
 					"path": [
-						"import-sampler"
-					],					
-				}
+						"import-sample"
+					]
+				},
+				"description": "### Import page."
 			},
-			"response": []
-		}
+			"response": []			
+		},
 	],
 	"event": [
 		{
