@@ -6,7 +6,7 @@
 	},
 	"item": [
 		{
-			"name": "Website Smoke Test",
+			"name": "Base URL Smoke Test",
 			"event": [
 				{
 					"listen": "test",
@@ -39,34 +39,79 @@
 				}
 			},
 			"response": []
-		}
-	],
-	"event": [
-		{
-			"listen": "prerequest",
-			"script": {
-				"id": "8e5eb9f5-247e-4eb3-8d77-5d3ae0fa7366",
-				"type": "text/javascript",
-				"exec": [
-					""
-				]
-			}
 		},
 		{
-			"listen": "test",
-			"script": {
-				"id": "6489c6fd-e2f4-4863-8a76-017ffc8ee699",
-				"type": "text/javascript",
-				"exec": [
-					"pm.test(\"Response time is less than 1000ms\", function () {",
-					"    pm.expect(pm.response.responseTime).to.be.below(1000);",
-					"});",
-					"pm.test(\"Status code is 200\", function () {",
-					"    pm.response.to.have.status(200);",
-					"});"
-				]
-			}
+			"name": "Website Session Manager Smoke Test",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "d96167a1-4b7d-4343-b896-d1752e5c8cd1",
+						"exec": [
+							"pm.test(\"Response time is less than 1000ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(1000);",
+							"});",
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://{{URL}}/sm-sample/",
+					"protocol": "https",
+					"host": [
+						"{{URL}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Website Import Smoke Test",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "d96167a1-4b7d-4343-b896-d1752e5c8cd1",
+						"exec": [
+							"pm.test(\"Response time is less than 1000ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(1000);",
+							"});",
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://{{URL}}/import-sample/",
+					"protocol": "https",
+					"host": [
+						"{{URL}}"
+					]
+				}
+			},
+			"response": []
 		}
+
+
 	],
 	"protocolProfileBehavior": {}
 }
