@@ -115,7 +115,10 @@
 					"protocol": "https",
 					"host": [
 						"{{URL}}"
-					]
+					],
+					"path": [
+						"import-sampler"
+					],					
 				}
 			},
 			"response": []
