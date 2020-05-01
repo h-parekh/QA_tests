@@ -124,7 +124,7 @@
 			},
 			"response": []			
 		},
-	],
+	]
 	"event": [
 		{
 			"listen": "prerequest",
