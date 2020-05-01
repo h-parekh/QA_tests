@@ -66,14 +66,24 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "https://{{URL}}/sm-sample/",
+					"raw": "https://{{URL}}/sm-sample/?set_init=1",
 					"protocol": "https",
 					"host": [
 						"{{URL}}"
+					],
+					"path": [
+						"sm-sample"
+					],
+					"query": [
+						{
+							"key": "set_init",
+							"value": "1"
+						}
 					]
-				}
+				},
+				"description": "### Session Manger\n\nCall will return listed items."
 			},
-			"response": []
+			"response": []			
 		},
 		{
 			"name": "Website Import Smoke Test",
@@ -110,8 +120,34 @@
 			},
 			"response": []
 		}
-
-
 	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "8e5eb9f5-247e-4eb3-8d77-5d3ae0fa7366",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "6489c6fd-e2f4-4863-8a76-017ffc8ee699",
+				"type": "text/javascript",
+				"exec": [
+					"pm.test(\"Response time is less than 1000ms\", function () {",
+					"    pm.expect(pm.response.responseTime).to.be.below(1000);",
+					"});",
+					"pm.test(\"Status code is 200\", function () {",
+					"    pm.response.to.have.status(200);",
+					"});"
+				]
+			}
+		}
+	],
+	
 	"protocolProfileBehavior": {}
 }
