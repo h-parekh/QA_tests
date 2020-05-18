@@ -1,0 +1,57 @@
+{
+	"info": {
+		"_postman_id": "a6235955-b679-4b87-b605-ef696c504540",
+		"name": "Kiosk",
+		"description": "# Tests for Kiosk Application",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Smoke",
+			"item": [
+				{
+					"name": "Get Root",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": ""
+						},
+						"description": "Get the root of the Kiosk application"
+					},
+					"response": []
+				}
+			],
+			"description": "## Smoke Tests for Kiosk",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "5615ffec-0a84-490b-996f-839fb06ee47c",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "1d555ea4-b6da-4a6b-892a-bc6983cb7cb4",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Response time is less than 1000ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(1000);",
+							"});"
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"protocolProfileBehavior": {}
+}
