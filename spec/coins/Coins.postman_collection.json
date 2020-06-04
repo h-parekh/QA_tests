@@ -1,0 +1,88 @@
+{
+	"info": {
+		"_postman_id": "51d1e644-e9f5-4ef6-92d6-933ea218fd5e",
+		"name": "Coins",
+		"description": "# Specs for the Numismatics (coins) service of the Hesburgh Libraries",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Smoke",
+			"item": [
+				{
+					"name": "Get Root",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BaseURL}}",
+							"host": [
+								"{{BaseURL}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Graphical Title Root",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "b5f89afb-28a2-49b2-83f5-5180e51266be",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BaseURL}}/title.html",
+							"host": [
+								"{{BaseURL}}"
+							],
+							"path": [
+								"title.html"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "## Smoke Tests for the coins (numismatics) service of the Hesburgh Libraries",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "c19230a3-cd76-47d7-ba3e-77e0c6acbb31",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "cae73038-3cca-4105-a212-be7322cfa159",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Response time is less than 1000ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(1000);",
+							"});"
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"protocolProfileBehavior": {}
+}
