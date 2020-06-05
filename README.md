@@ -18,7 +18,6 @@ Your local machine will need the following setup to be able to run and write tes
 ## Writing Tests
 
 ### Logging
-
 Many of the events are already logged to the appropriate location (e.g. when you click a link, visit a page, submit a form).
 [See ExampleLogging for examples](./spec/spec_support/example_logging.rb).
 
