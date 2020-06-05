@@ -1,0 +1,66 @@
+{
+	"info": {
+		"_postman_id": "46ac3d3d-b11f-42af-aed9-3b651331b2fb",
+		"name": "Solr",
+		"description": "# Tests for the standalone Solr install of the Hesburgh Libraries",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Smoke",
+			"item": [
+				{
+					"name": "Get Root",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{BaseURL}}:{{Port}}/solr/#/",
+							"protocol": "https",
+							"host": [
+								"{{BaseURL}}"
+							],
+							"port": "{{Port}}",
+							"path": [
+								"solr",
+								""
+							],
+							"hash": "/"
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "## Smoke Tests for the standalone Solr install of the Hesburgh Libraries",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "5923afba-6b70-445e-b883-6f7986b1d3b9",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "aa247cec-331b-45a6-99de-f431d2d58c6e",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Response time is less than 1000ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(1000);",
+							"});",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"protocolProfileBehavior": {}
+}
