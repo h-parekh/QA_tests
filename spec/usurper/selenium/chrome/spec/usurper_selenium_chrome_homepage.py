@@ -18,31 +18,31 @@ class Usurper_Tests(unittest.TestCase):
         options.add_argument('--disable-dev-shm-usage')
         options.add_argument('--no-sandbox')
         self.driver = Chrome(options=options)
+        self.driver.implicitly_wait(10)
+
 
     def test_homepage(self):
         driver = self.driver
-        driver.implicitly_wait(10)
         driver.get("https://" + BaseURL)
         print(''.join(['Page Title is: ',driver.title]))
         self.assertEqual(driver.title, "Hesburgh Libraries")
 
     def test_check_News_link(self):
         driver = self.driver
-        driver.implicitly_wait(10)
         driver.get("https://" + BaseURL)
-        news = driver.find_element_by_link_text("News")
-        news.click()
+        news = driver.find_element_by_link_text("News").click()
         print(''.join(['Page Title Is: ', driver.title]))
         self.assertEqual(driver.title, "News | Hesburgh Libraries")
 
     def test_check_Events_link(self):
         driver = self.driver
-        driver.implicitly_wait(10)
         driver.get("https://" + BaseURL)
-        events = driver.find_element_by_link_text("Events")
-        events.click()
+        driver.find_element_by_link_text("Events").click()
+        WebDriverWait(driver, 10).until(
+            expected.presence_of_element_located((By.ID,"main-page-title"))
+        )      
         print(''.join(['Page Title Is: ', driver.title]))
-        self.assertEqual(driver.title, "Current and Upcoming Events | Hesburgh Libraries")
+        self.assertEqual(driver.title, "Current Events | Hesburgh Libraries")
 
 suite = unittest.TestLoader().loadTestsFromTestCase(Usurper_Tests)
 result = unittest.TextTestRunner(verbosity=2).run(suite)
