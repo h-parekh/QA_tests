@@ -4,3 +4,4 @@ logs/*.log
 vendor/*
 .byebug_history
 .vscode
+node_modules/
