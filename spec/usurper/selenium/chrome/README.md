@@ -1,6 +1,7 @@
 # QA Tests for Usurper (Library Website)
 
 ## Variables Needed
+
 Variable Name | Variable Value
 ------------- | ---------------
 BaseURL | The URL to test against. *ex*: **library.example.com**
