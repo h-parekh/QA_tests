@@ -11,15 +11,15 @@ BaseURL | The URL to test against. *ex*: **https://library.example.com**
 TEST_USERNAME | The netid to test with. *ex*: **test_user**
 TEST_PASSWORD | The password for the netid you are testing with. *ex*: **test_password**
 
-## Running Puppeteer Tests in Docker
+## Running Puppeteer Tests
 
 ## Current Coverage
 
 ### Chrome Coverage
 
 1. The homepage loads.
-1. The "News" link is available, can be clicked on, and the resulting page has the proper header.
-1. The "Events" link is available, can be clicked on, and the resulting page has the proper header.
+1. There is a "Log In" button that takes the user to a sign in page.
+1. If a user is properly authorized, they can sign in and return to the main homepage.
 
 ### Prerequisites
 
