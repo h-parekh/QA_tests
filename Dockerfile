@@ -1,5 +1,7 @@
-FROM ruby:2.6.5
-RUN apt-get update -qq && apt-get install -y build-essential linux-libc-dev
+FROM ruby:2.6.7
+RUN apt-get update -qq && \
+  apt-get install --no-install-recommends -y build-essential linux-libc-dev && \
+  rm -rf /var/lib/apt/lists/*
 
 # Install chamber to get secrets from parameter store
 RUN curl https://github.com/segmentio/chamber/releases/download/v2.2.0/chamber_v2.2.0_amd64.deb --output chamber.deb -L
