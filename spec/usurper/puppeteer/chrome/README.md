@@ -18,14 +18,8 @@ TEST_PASSWORD | The password for the netid you are testing with. *ex*: **test_pa
 ### Chrome Coverage
 
 1. The homepage loads.
-1. The "Search" link exists on the homepage and clicking on the link takes the user to the search page.
-1. The "How To Use the Database" link exists on the homepage and clicking on the link takes the user to the instructional page.
-1. The "Index of Documents" link exists on the homepage and clicking on the link takes the user to an index page.
-1. The modal boxes can be clicked and return content on the search page.
-1. The "Clear" button refreshes the modal selections on the search page.
-1. Search results are divided into two columns for comparison.
-1. A user can search for and ultimately load an entire document, while accessing a list of topics within the returned document.
-1. A user can use the "Sort" modal to change the order of returned documents. 
+1. There is a "Log In" button that takes the user to a sign in page.
+1. If a user is properly authorized, they can sign in and return to the main homepage.
 
 ### Prerequisites
 
