@@ -17,9 +17,27 @@ TEST_PASSWORD | The password for the netid you are testing with. *ex*: **test_pa
 
 ### Chrome Coverage
 
+#### spec/login.test.js
+
 1. The homepage loads.
 1. There is a "Log In" button that takes the user to a sign in page.
 1. If a user is properly authorized, they can sign in and return to the main homepage.
+
+#### spec/navigation.test.js
+
+1. The homepage loads.
+1. Clicking "Research" and then "Databases" loads the Databases page.
+1. Clicking "Research" and then "View More Research" loads the Research landing page.
+1. Clicking "Research" and then "Library Guides" loads LibGuides.
+1. Clicking "Research" and then "CurateND" loads the Curate homepage.
+1. Clicking "Research" and then "JSTOR" loads the JSTOR database page.
+1. Clicking "Services" and then "Find a Study Space" loads the Study Space reservation page.
+1. Clicking "Services" and then "Interlibrary Loan and Document Delivery" loads the Illiad homepage.
+1. Clicking "Services" and then "View More Services" loads the Services landing page.
+1. Clicking "Libraries" and then "Rare Books & Special Collections" loads the RBSC homepage.
+1. Clicking "About" and then "Faculty and Staff Directory" loads the Library Directory homepage.
+1. Clicking "About" and then "Employment" loads the Job Postings page.
+1. Clicking "Hours" loads the Library hours page.
 
 ### Prerequisites
 
