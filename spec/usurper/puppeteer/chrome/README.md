@@ -47,6 +47,15 @@ TEST_PASSWORD | The password for the netid you are testing with. *ex*: **test_pa
 1. A user can navigate to the Current Events page by clicking on the "Events" header, and then navigate to the
   Past Events page by clicking on the "Past Events" button, and type a filter term in the search bar, where it will appear in the title.
 
+#### spec/drop-downs.test.js
+
+1. The homepage loads.
+1. The "Research" navigation window appears when the "Research" link is clicked.
+1. The "Services" navigation window appears when the "Services" link is clicked.
+1. The "Libraries" navigation window appears when the "Libraries" link is clicked.
+1. The "About" navigation window appears when the "About" link is clicked.
+1. Clicking the magnifying glass in the main navigation bar makes the Search field disappear.
+
 ### Prerequisites
 
 In order to run this suite of tests locally, it is recommended to have [Docker](https://www.docker.com) installed on your local system. The built containers will have all of the requisites to build the tests and run the suite of tests.
