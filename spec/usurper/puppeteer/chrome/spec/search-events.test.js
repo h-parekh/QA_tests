@@ -16,7 +16,6 @@ describe('Search Events', () => {
       page = await browser.newPage();
       jest.setTimeout(50000);
     });
-    // Close the headless browser after all tests, regardless of outcome
   
     afterAll( async () => {
       await browser.close()
