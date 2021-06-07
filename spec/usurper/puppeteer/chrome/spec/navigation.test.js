@@ -39,7 +39,7 @@ describe("Website Navigation Checks", () => {
 
     beforeEach(async () => {
         page = await browser.newPage();
-        jest.setTimeout(20000);
+        jest.setTimeout(50000);
       });
     
     afterEach(async () => {

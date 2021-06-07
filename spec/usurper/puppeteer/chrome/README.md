@@ -39,6 +39,14 @@ TEST_PASSWORD | The password for the netid you are testing with. *ex*: **test_pa
 1. Clicking "About" and then "Employment" loads the Job Postings page.
 1. Clicking "Hours" loads the Library hours page.
 
+#### spec/search-events.test.js
+
+1. The homepage loads.
+1. A user can navigate to the Current Events page by clicking on the "Events" header, and type a filter term
+  in the search bar, where it will appear in the title.
+1. A user can navigate to the Current Events page by clicking on the "Events" header, and then navigate to the
+  Past Events page by clicking on the "Past Events" button, and type a filter term in the search bar, where it will appear in the title.
+
 ### Prerequisites
 
 In order to run this suite of tests locally, it is recommended to have [Docker](https://www.docker.com) installed on your local system. The built containers will have all of the requisites to build the tests and run the suite of tests.

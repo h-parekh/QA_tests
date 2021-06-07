@@ -41,9 +41,6 @@ describe('Website End to End Tests', () => {
   })
 
     describe('Login End-to-End Tests', () => {
-      beforeEach(() => {
-        jest.setTimeout(30000)
-      });
       test('Valid users are logged in', async () => {
         // const browser = await puppeteer.launch();
         // const page = await browser.newPage();
